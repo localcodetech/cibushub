@@ -1,0 +1,10 @@
+.env
+.env.local
+.env.production
+dist
+build
+*logs
+npm-debug.log*
+coverage
+.vscode
+.idea
