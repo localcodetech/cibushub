@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "food delivery app",
   "private": true,
-  "main": "server.js",
+  "main": "src/index.js",
   "scripts": {
     "dev": "node --watch ./src/index.js"
   },
@@ -11,5 +11,10 @@
   "author": "",
   "license": "ISC",
   "type": "module",
-  "engines": {"node": "^24"}
+  "engines": {
+    "node": "24"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
 }
