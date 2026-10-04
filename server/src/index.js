@@ -1,15 +1,19 @@
-import express from "express";
-// import {config} from "dotenv"
-const app = express();
-
-
+import app from "./app.js";
 
 
 const PORT = Number(process.env.PORT)
 
 
 
-app.listen(PORT, "0.0.0.0", (error)=>{
+
+
+const main = () =>{
+
+  app.listen(PORT, "0.0.0.0", (error)=>{
   if (error)throw error;
-  console.log(`CibusHub APi is running on ${PORT}`);
+  console.log(`CibusHub APi is  running on ${PORT}`);
 });
+
+}
+
+main()
