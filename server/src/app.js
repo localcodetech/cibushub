@@ -7,6 +7,9 @@ import logger from "./config/logger.js";
 import {randomUUID} from "node:crypto";
 import notFound from "./middlewares/notFound.js";
 import errorHandler from "./middlewares/errorHandler.js";
+import healthRoutes from "./routes/health.routes.js";
+
+
 
 const app = express();
 
@@ -21,9 +24,7 @@ app.use(express.json({limit: "100kb"}));
 
 
 
-app.get("/", (req, res)=>{
-  res.status(200).json({message: "ok"})
-})
+app.use("/api/health", healthRoutes);
 
 app.use(notFound);
 
