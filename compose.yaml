@@ -11,6 +11,9 @@ services:
       - ./server:/app
       - /app/node_modules
     init: true
+    depends_on:
+      mysql:
+        condition: service_healthy
   client:
     build:
       context: ./client
@@ -23,3 +26,20 @@ services:
       - ./client:/app
       - /app/node_modules
     init: true
+  mysql:
+    image: mysql:8.4
+    env_file:
+      - ./server/.env
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_0900_ai_ci
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  mysql_data:
