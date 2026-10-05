@@ -12,7 +12,7 @@ Two documents drive all work. Read the relevant sections before you implement an
 - [plan.md](plan.md): a 15-step build plan. Each step lists the criteria it covers, its build order and its "Done when" checks. Only work on the step currently marked IN PROGRESS; don't build ahead into later steps.
 - [docs/plan-review.md](docs/plan-review.md): a systems review of the plan. It holds the locked decisions (npm workspaces with `packages/shared`, VPS behind Caddy with same-site `app.`/`api.` domains, a separate worker process, every [COULD] item in scope), the production failure gaps C1–C16, and patch lists to fold into each step.
 
-The user builds this project to learn. Don't write code unless they have tried and are stuck, and explain every line of any code you do write.
+The user builds this project to learn, on a deadline of about 3 months. Claude writes the code one small feature at a time and explains every line in plain language.
 
 ## Repository layout
 
