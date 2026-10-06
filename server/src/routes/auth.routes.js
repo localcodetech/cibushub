@@ -7,6 +7,7 @@ import {
   verifyPhoneSchema,
 } from "../validators/auth/registration/verifyPhone.validator.js";
 import { loginSchema } from "../validators/auth/session/login.validator.js";
+import { forgotPasswordSchema } from "../validators/auth/password/forgotPassword.validator.js";
 import { register } from "../controllers/auth/registration/register.controller.js";
 import {
   resendOtp,
@@ -16,6 +17,7 @@ import { login } from "../controllers/auth/session/login.controller.js";
 import { refresh } from "../controllers/auth/session/refresh.controller.js";
 import { logout } from "../controllers/auth/session/logout.controller.js";
 import { getMe } from "../controllers/auth/session/me.controller.js";
+import { forgotPassword } from "../controllers/auth/password/forgotPassword.controller.js";
 
 const router = Router();
 
@@ -53,5 +55,10 @@ router.post("/logout", logout);
 // Get the logged-in user's profile
 // ─────────────────────────────────────────────
 router.get("/me", authenticate, getMe);
+
+// ─────────────────────────────────────────────
+// Forgot password: text a reset code (same reply whether or not the account exists)
+// ─────────────────────────────────────────────
+router.post("/forgot-password", validate(forgotPasswordSchema), forgotPassword);
 
 export default router;

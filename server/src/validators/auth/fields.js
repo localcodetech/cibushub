@@ -20,3 +20,16 @@ export const passwordField = z
   .max(72, "Password must be at most 72 characters")
   .regex(/[A-Za-z]/, "Password must contain at least one letter")
   .regex(/[0-9]/, "Password must contain at least one number");
+
+export const identifierField = z
+  .string()
+  .trim()
+  .min(1, "Enter your email or phone number")
+  .transform((value) => {
+    if (value.includes("@")) {
+      return value.toLowerCase();
+    }
+    return normalizeGhanaPhone(value) || value;
+  });
+
+export const otpCodeField = z.string().regex(/^\d{6}$/, "Code must be 6 digits");

@@ -1,10 +1,10 @@
 import { z } from "zod";
-import { phoneField } from "../fields.js";
+import { otpCodeField, phoneField } from "../fields.js";
 
 export const verifyPhoneSchema = z
   .object({
     phone: phoneField,
-    code: z.string().regex(/^\d{6}$/, "Code must be 6 digits"),
+    code: otpCodeField,
   })
   .strict();
 
