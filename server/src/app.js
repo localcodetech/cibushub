@@ -13,7 +13,9 @@ import authRoutes from "./routes/auth.routes.js";
 
 const app = express();
 
+// ─────────────────────────────────────────────
 // Log every request on one line, with a unique request ID
+// ─────────────────────────────────────────────
 app.use(
   pinoHttp({
     logger,
@@ -30,28 +32,44 @@ app.use(
   }),
 );
 
+// ─────────────────────────────────────────────
 // Security headers
+// ─────────────────────────────────────────────
 app.use(helmet());
 
+// ─────────────────────────────────────────────
 // Allow only the React app to call the API, with cookies
+// ─────────────────────────────────────────────
 app.use(cors({ origin: env.CLIENT_URL, credentials: true }));
 
+// ─────────────────────────────────────────────
 // Read JSON request bodies (max 100 kb)
+// ─────────────────────────────────────────────
 app.use(express.json({ limit: "100kb" }));
 
+// ─────────────────────────────────────────────
 // Read cookies sent by the browser
+// ─────────────────────────────────────────────
 app.use(cookieParser());
 
+// ─────────────────────────────────────────────
 // Health check
+// ─────────────────────────────────────────────
 app.use("/api/health", healthRoutes);
 
-// Auth: register, verify phone, login
+// ─────────────────────────────────────────────
+// Auth: register, verify phone, login, refresh, logout
+// ─────────────────────────────────────────────
 app.use("/api/v1/auth", authRoutes);
 
+// ─────────────────────────────────────────────
 // Unknown routes → 404
+// ─────────────────────────────────────────────
 app.use(notFound);
 
+// ─────────────────────────────────────────────
 // Turn every error into the standard error response (must stay last)
+// ─────────────────────────────────────────────
 app.use(errorHandler);
 
 export default app;

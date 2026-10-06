@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import { RefreshToken } from "../models/index.js";
 
 export const saveRefreshToken = (data, transaction) => {
@@ -8,8 +9,25 @@ export const findRefreshTokenByHash = (tokenHash) => {
   return RefreshToken.findOne({ where: { tokenHash } });
 };
 
-export const markRefreshTokenUsed = (token, transaction) => {
-  return token.update({ usedAt: new Date() }, { transaction });
+export const markRefreshTokenUsed = async (tokenId, transaction) => {
+  const [rowsChanged] = await RefreshToken.update(
+    { usedAt: new Date() },
+    { where: { id: tokenId, usedAt: null }, transaction },
+  );
+
+  return rowsChanged === 1;
+};
+
+export const findLiveTokensNewestFirst = (userId) => {
+  return RefreshToken.findAll({
+    where: {
+      userId,
+      usedAt: null,
+      revokedAt: null,
+      expiresAt: { [Op.gt]: new Date() },
+    },
+    order: [["createdAt", "DESC"]],
+  });
 };
 
 export const revokeTokenFamily = (familyId) => {
