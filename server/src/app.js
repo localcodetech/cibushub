@@ -10,6 +10,7 @@ import notFound from "./middlewares/notFound.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import healthRoutes from "./routes/health.routes.js";
 import authRoutes from "./routes/auth.routes.js";
+import { globalLimiter } from "./middlewares/rateLimit/globalLimiter.js";
 
 const app = express();
 
@@ -46,6 +47,11 @@ app.use(helmet());
 // Allow only the React app to call the API, with cookies
 // ─────────────────────────────────────────────
 app.use(cors({ origin: env.CLIENT_URL, credentials: true }));
+
+// ─────────────────────────────────────────────
+// At most 100 requests per minute from one IP
+// ─────────────────────────────────────────────
+app.use(globalLimiter);
 
 // ─────────────────────────────────────────────
 // Read JSON request bodies (max 100 kb)

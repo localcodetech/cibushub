@@ -1,6 +1,12 @@
 import { Router } from "express";
 import validate from "../middlewares/validate.js";
 import authenticate from "../middlewares/authenticate.js";
+import {
+  loginAccountLimiter,
+  loginIpLimiter,
+  otpLimiter,
+  registerLimiter,
+} from "../middlewares/rateLimit/authLimiters.js";
 import { registerSchema } from "../validators/auth/registration/register.validator.js";
 import {
   resendOtpSchema,
@@ -28,22 +34,22 @@ const router = Router();
 // ─────────────────────────────────────────────
 // Register a new customer, restaurant owner or rider
 // ─────────────────────────────────────────────
-router.post("/register", validate(registerSchema), register);
+router.post("/register", validate(registerSchema), registerLimiter, register);
 
 // ─────────────────────────────────────────────
 // Verify phone number with the OTP code
 // ─────────────────────────────────────────────
-router.post("/verify-phone", validate(verifyPhoneSchema), verifyPhoneNumber);
+router.post("/verify-phone", validate(verifyPhoneSchema), otpLimiter, verifyPhoneNumber);
 
 // ─────────────────────────────────────────────
 // Send a new OTP code
 // ─────────────────────────────────────────────
-router.post("/resend-otp", validate(resendOtpSchema), resendOtp);
+router.post("/resend-otp", validate(resendOtpSchema), otpLimiter, resendOtp);
 
 // ─────────────────────────────────────────────
 // Log in with email or phone and password
 // ─────────────────────────────────────────────
-router.post("/login", validate(loginSchema), login);
+router.post("/login", validate(loginSchema), loginIpLimiter, loginAccountLimiter, login);
 
 // ─────────────────────────────────────────────
 // Swap the refresh cookie for a new pair of tokens
@@ -63,12 +69,12 @@ router.get("/me", authenticate, getMe);
 // ─────────────────────────────────────────────
 // Forgot password: text a reset code (same reply whether or not the account exists)
 // ─────────────────────────────────────────────
-router.post("/forgot-password", validate(forgotPasswordSchema), forgotPassword);
+router.post("/forgot-password", validate(forgotPasswordSchema), otpLimiter, forgotPassword);
 
 // ─────────────────────────────────────────────
 // Reset password with the code, then log out every device
 // ─────────────────────────────────────────────
-router.post("/reset-password", validate(resetPasswordSchema), resetPassword);
+router.post("/reset-password", validate(resetPasswordSchema), otpLimiter, resetPassword);
 
 // ─────────────────────────────────────────────
 // Change password while logged in (keeps this device logged in)
