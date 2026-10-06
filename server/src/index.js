@@ -1,6 +1,8 @@
 import app from "./app.js";
 import env from "./config/env/env.js";
 import logger from "./config/logger.js";
+import sequelize from "./config/database.js";
+import redis from "./config/redis.js";
 
 const server = app.listen(env.PORT, "0.0.0.0", (error) => {
   if (error) throw error;
@@ -10,8 +12,15 @@ const server = app.listen(env.PORT, "0.0.0.0", (error) => {
 const shutdown = (signal) => {
   logger.info(`${signal} received, shutting down`);
 
-  server.close(() => {
+  server.close(async () => {
     logger.info("Server closed");
+
+    await sequelize.close();
+    logger.info("MySQL connection closed");
+
+    await redis.quit();
+    logger.info("Redis connection closed");
+
     process.exit(0);
   });
 
