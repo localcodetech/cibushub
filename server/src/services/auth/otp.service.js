@@ -1,9 +1,20 @@
-import redis from "../config/redis.js";
-import AppError from "../utils/AppError.js";
-import { generateOtp, hashOtp, otpMatches } from "../utils/otp.js";
-import { sendSms } from "./sms.service.js";
+import redis from "../../config/redis.js";
+import AppError from "../../utils/AppError.js";
+import { generateOtp, hashOtp, otpMatches } from "../../utils/auth/otp.js";
+import { sendSms } from "../notifications/sms.service.js";
 
-const CODE_LIFETIME_SECONDS = 5 * 60;
+const OTP_PURPOSES = {
+  verify: {
+    lifetimeSeconds: 5 * 60,
+    message: (code) => `Your CibusHub code is ${code}. It expires in 5 minutes.`,
+  },
+  reset: {
+    lifetimeSeconds: 15 * 60,
+    message: (code) =>
+      `Your CibusHub password reset code is ${code}. It expires in 15 minutes. Ignore this if you did not ask.`,
+  },
+};
+
 const RESEND_WAIT_SECONDS = 60;
 const MAX_CODES_PER_HOUR = 5;
 const MAX_WRONG_ATTEMPTS = 5;
@@ -18,6 +29,11 @@ const otpKeys = (purpose, phone) => {
 };
 
 export const sendOtp = async (phone, purpose = "verify") => {
+  const settings = OTP_PURPOSES[purpose];
+  if (!settings) {
+    throw new Error(`Unknown OTP purpose: ${purpose}`);
+  }
+
   const keys = otpKeys(purpose, phone);
 
   const secondsToWait = await redis.ttl(keys.cooldown);
@@ -40,11 +56,11 @@ export const sendOtp = async (phone, purpose = "verify") => {
 
   const code = generateOtp();
 
-  await redis.set(keys.code, hashOtp(code), "EX", CODE_LIFETIME_SECONDS);
+  await redis.set(keys.code, hashOtp(code), "EX", settings.lifetimeSeconds);
   await redis.del(keys.attempts);
   await redis.set(keys.cooldown, "1", "EX", RESEND_WAIT_SECONDS);
 
-  await sendSms(phone, `Your CibusHub code is ${code}. It expires in 5 minutes.`);
+  await sendSms(phone, settings.message(code));
 };
 
 export const verifyOtp = async (phone, code, purpose = "verify") => {

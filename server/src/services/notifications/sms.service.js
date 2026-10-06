@@ -1,5 +1,5 @@
-import env from "../config/env/env.js";
-import logger from "../config/logger.js";
+import env from "../../config/env/env.js";
+import logger from "../../config/logger.js";
 
 const maskPhone = (phone) => {
   return `${phone.slice(0, 4)}*****${phone.slice(-4)}`;

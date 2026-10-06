@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { emailField, passwordField, phoneField } from "./fields.js";
+import { emailField, passwordField, phoneField } from "../fields.js";
 
 export const registerSchema = z
   .object({

@@ -1,8 +1,8 @@
-import { hashRefreshToken } from "../../utils/tokens.js";
+import { hashRefreshToken } from "../../../utils/auth/tokens.js";
 import {
   findRefreshTokenByHash,
   revokeTokenFamily,
-} from "../../repositories/refreshToken.repository.js";
+} from "../../../repositories/refreshToken.repository.js";
 
 export const logoutSession = async (rawRefreshToken) => {
   if (!rawRefreshToken) {

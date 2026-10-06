@@ -1,15 +1,21 @@
 import { Router } from "express";
 import validate from "../middlewares/validate.js";
 import authenticate from "../middlewares/authenticate.js";
-import { registerSchema } from "../validators/auth/register.validator.js";
-import { resendOtpSchema, verifyPhoneSchema } from "../validators/auth/verifyPhone.validator.js";
-import { loginSchema } from "../validators/auth/login.validator.js";
-import { register } from "../controllers/auth/register.controller.js";
-import { resendOtp, verifyPhoneNumber } from "../controllers/auth/verifyPhone.controller.js";
-import { login } from "../controllers/auth/login.controller.js";
-import { refresh } from "../controllers/auth/refresh.controller.js";
-import { logout } from "../controllers/auth/logout.controller.js";
-import { getMe } from "../controllers/auth/me.controller.js";
+import { registerSchema } from "../validators/auth/registration/register.validator.js";
+import {
+  resendOtpSchema,
+  verifyPhoneSchema,
+} from "../validators/auth/registration/verifyPhone.validator.js";
+import { loginSchema } from "../validators/auth/session/login.validator.js";
+import { register } from "../controllers/auth/registration/register.controller.js";
+import {
+  resendOtp,
+  verifyPhoneNumber,
+} from "../controllers/auth/registration/verifyPhone.controller.js";
+import { login } from "../controllers/auth/session/login.controller.js";
+import { refresh } from "../controllers/auth/session/refresh.controller.js";
+import { logout } from "../controllers/auth/session/logout.controller.js";
+import { getMe } from "../controllers/auth/session/me.controller.js";
 
 const router = Router();
 

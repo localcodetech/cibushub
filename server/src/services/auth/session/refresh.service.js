@@ -1,13 +1,13 @@
-import AppError from "../../utils/AppError.js";
-import { hashRefreshToken } from "../../utils/tokens.js";
-import { findUserById } from "../../repositories/user.repository.js";
+import AppError from "../../../utils/AppError.js";
+import { hashRefreshToken } from "../../../utils/auth/tokens.js";
+import { findUserById } from "../../../repositories/user.repository.js";
 import {
   findRefreshTokenByHash,
   markRefreshTokenUsed,
   revokeAllUserTokens,
   revokeTokenFamily,
-} from "../../repositories/refreshToken.repository.js";
-import { createSession } from "./session.service.js";
+} from "../../../repositories/refreshToken.repository.js";
+import { createSession } from "../createSession.service.js";
 
 const sessionEnded = () => {
   return new AppError(401, "UNAUTHENTICATED", "Your session has ended. Please log in again");

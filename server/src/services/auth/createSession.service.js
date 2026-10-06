@@ -4,7 +4,7 @@ import {
   hashRefreshToken,
   REFRESH_TOKEN_LIFETIME_SECONDS,
   signAccessToken,
-} from "../../utils/tokens.js";
+} from "../../utils/auth/tokens.js";
 import { saveRefreshToken } from "../../repositories/refreshToken.repository.js";
 
 export const createSession = async (user, device, familyId = randomUUID()) => {

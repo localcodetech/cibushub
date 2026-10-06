@@ -1,6 +1,6 @@
-import { loginUser } from "../../services/auth/login.service.js";
-import { setAuthCookies } from "../../utils/cookies.js";
-import { sendSuccess } from "../../utils/response.js";
+import { loginUser } from "../../../services/auth/session/login.service.js";
+import { setAuthCookies } from "../../../utils/auth/cookies.js";
+import { sendSuccess } from "../../../utils/response.js";
 
 export const login = async (req, res) => {
   const { identifier, password } = req.validated.body;

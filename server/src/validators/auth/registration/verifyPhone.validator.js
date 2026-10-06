@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { phoneField } from "./fields.js";
+import { phoneField } from "../fields.js";
 
 export const verifyPhoneSchema = z
   .object({

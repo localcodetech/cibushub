@@ -1,7 +1,11 @@
-import AppError from "../../utils/AppError.js";
-import { verifyPassword } from "../../utils/password.js";
-import { findUserById, findUserForLogin, updateUser } from "../../repositories/user.repository.js";
-import { createSession } from "./session.service.js";
+import AppError from "../../../utils/AppError.js";
+import { verifyPassword } from "../../../utils/auth/password.js";
+import {
+  findUserById,
+  findUserForLogin,
+  updateUser,
+} from "../../../repositories/user.repository.js";
+import { createSession } from "../createSession.service.js";
 
 const DUMMY_PASSWORD_HASH = "$2b$12$OUOm2EihBmFu5FN.MEVdaOp3U9QRmi9SWFMXaLzXHEXxf/dd3rGfK";
 

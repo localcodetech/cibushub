@@ -1,5 +1,5 @@
-import AppError from "../../utils/AppError.js";
-import { findUserByPhone, updateUser } from "../../repositories/user.repository.js";
+import AppError from "../../../utils/AppError.js";
+import { findUserByPhone, updateUser } from "../../../repositories/user.repository.js";
 import { sendOtp, verifyOtp } from "../otp.service.js";
 
 export const verifyPhone = async (phone, code) => {

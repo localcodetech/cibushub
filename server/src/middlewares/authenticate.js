@@ -1,6 +1,6 @@
 import AppError from "../utils/AppError.js";
-import { ACCESS_COOKIE } from "../utils/cookies.js";
-import { verifyAccessToken } from "../utils/tokens.js";
+import { ACCESS_COOKIE } from "../utils/auth/cookies.js";
+import { verifyAccessToken } from "../utils/auth/tokens.js";
 import { findUserById } from "../repositories/user.repository.js";
 
 const notLoggedIn = () => {

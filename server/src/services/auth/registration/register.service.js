@@ -1,10 +1,10 @@
-import AppError from "../../utils/AppError.js";
-import { hashPassword } from "../../utils/password.js";
+import AppError from "../../../utils/AppError.js";
+import { hashPassword } from "../../../utils/auth/password.js";
 import {
   createUser,
   findUserByEmailOrPhone,
   findUserById,
-} from "../../repositories/user.repository.js";
+} from "../../../repositories/user.repository.js";
 import { sendOtp } from "../otp.service.js";
 
 export const registerUser = async (data) => {

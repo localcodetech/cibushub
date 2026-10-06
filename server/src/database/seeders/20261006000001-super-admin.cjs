@@ -2,7 +2,7 @@
 
 const { randomUUID } = require("node:crypto");
 const { default: env } = require("../../config/env/env.js");
-const { hashPassword } = require("../../utils/password.js");
+const { hashPassword } = require("../../utils/auth/password.js");
 
 module.exports = {
   async up(queryInterface, Sequelize) {

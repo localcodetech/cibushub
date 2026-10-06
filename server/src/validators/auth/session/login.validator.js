@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { normalizeGhanaPhone } from "../../utils/phone.js";
+import { normalizeGhanaPhone } from "../../../utils/phone.js";
 
 export const loginSchema = z
   .object({

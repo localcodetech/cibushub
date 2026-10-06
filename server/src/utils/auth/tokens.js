@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { createHash, randomBytes } from "node:crypto";
-import env from "../config/env/env.js";
+import env from "../../config/env/env.js";
 
 export const ACCESS_TOKEN_LIFETIME_SECONDS = 15 * 60;
 export const REFRESH_TOKEN_LIFETIME_SECONDS = 7 * 24 * 60 * 60;

@@ -1,5 +1,8 @@
-import { resendVerificationOtp, verifyPhone } from "../../services/auth/verifyPhone.service.js";
-import { sendSuccess } from "../../utils/response.js";
+import {
+  resendVerificationOtp,
+  verifyPhone,
+} from "../../../services/auth/registration/verifyPhone.service.js";
+import { sendSuccess } from "../../../utils/response.js";
 
 export const verifyPhoneNumber = async (req, res) => {
   const { phone, code } = req.validated.body;

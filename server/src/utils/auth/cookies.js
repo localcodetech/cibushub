@@ -1,4 +1,4 @@
-import env from "../config/env/env.js";
+import env from "../../config/env/env.js";
 import { ACCESS_TOKEN_LIFETIME_SECONDS, REFRESH_TOKEN_LIFETIME_SECONDS } from "./tokens.js";
 
 export const ACCESS_COOKIE = "access_token";

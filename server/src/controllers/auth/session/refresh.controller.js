@@ -1,6 +1,6 @@
-import { refreshSession } from "../../services/auth/refresh.service.js";
-import { clearAuthCookies, REFRESH_COOKIE, setAuthCookies } from "../../utils/cookies.js";
-import { sendSuccess } from "../../utils/response.js";
+import { refreshSession } from "../../../services/auth/session/refresh.service.js";
+import { clearAuthCookies, REFRESH_COOKIE, setAuthCookies } from "../../../utils/auth/cookies.js";
+import { sendSuccess } from "../../../utils/response.js";
 
 export const refresh = async (req, res) => {
   const rawRefreshToken = req.cookies[REFRESH_COOKIE];
