@@ -8,6 +8,7 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 
 | Step | Middleware | Fails with |
 |---|---|---|
+| 0. Same site? (all POST/PUT/PATCH/DELETE, in `app.js`) | `checkOrigin` | `403 FORBIDDEN` when the browser's `Origin` is not the React app or the API itself ([AC-SEC-03](../CibusHub_Acceptance_Criteria.md)) |
 | 1. Who are you? | `authenticate` | `401 UNAUTHENTICATED` (no, expired or forged token) · `403 ACCOUNT_SUSPENDED` |
 | 2. Is the account ready? | `requireActive` | `403 ACCOUNT_NOT_VERIFIED` · `403 ACCOUNT_PENDING_APPROVAL` |
 | 3. Is the role allowed? | `authorize(...roles)` | `403 FORBIDDEN` |

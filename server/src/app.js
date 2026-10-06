@@ -11,6 +11,7 @@ import errorHandler from "./middlewares/errorHandler.js";
 import healthRoutes from "./routes/health.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import { globalLimiter } from "./middlewares/rateLimit/globalLimiter.js";
+import checkOrigin from "./middlewares/checkOrigin.js";
 import swaggerUi from "swagger-ui-express";
 import { openApiDocument } from "./openapi/document.js";
 
@@ -54,6 +55,11 @@ app.use(cors({ origin: env.CLIENT_URL, credentials: true }));
 // At most 100 requests per minute from one IP
 // ─────────────────────────────────────────────
 app.use(globalLimiter);
+
+// ─────────────────────────────────────────────
+// Block changes (POST, PUT, PATCH, DELETE) sent from other websites (CSRF)
+// ─────────────────────────────────────────────
+app.use(checkOrigin);
 
 // ─────────────────────────────────────────────
 // Read JSON request bodies (max 100 kb)
