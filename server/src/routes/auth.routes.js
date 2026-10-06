@@ -6,6 +6,7 @@ import { loginSchema } from "../validators/auth/login.validator.js";
 import { register } from "../controllers/auth/register.controller.js";
 import { resendOtp, verifyPhoneNumber } from "../controllers/auth/verifyPhone.controller.js";
 import { login } from "../controllers/auth/login.controller.js";
+import { refresh } from "../controllers/auth/refresh.controller.js";
 
 const router = Router();
 
@@ -28,5 +29,10 @@ router.post("/resend-otp", validate(resendOtpSchema), resendOtp);
 // Log in with email or phone and password
 // ─────────────────────────────────────────────
 router.post("/login", validate(loginSchema), login);
+
+// ─────────────────────────────────────────────
+// Swap the refresh cookie for a new pair of tokens
+// ─────────────────────────────────────────────
+router.post("/refresh", refresh);
 
 export default router;
