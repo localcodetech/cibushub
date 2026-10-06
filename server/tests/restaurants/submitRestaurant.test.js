@@ -4,35 +4,7 @@ import app from "../../src/app.js";
 import { OpeningHours, Restaurant } from "../../src/models/index.js";
 import { signAccessToken } from "../../src/utils/auth/tokens.js";
 import { createTestUser } from "../helpers/users.js";
-
-const fullWeek = [0, 1, 2, 3, 4, 5, 6].map((dayOfWeek) => ({
-  dayOfWeek,
-  isClosed: dayOfWeek === 0,
-  opensAt: dayOfWeek === 0 ? null : "08:00",
-  closesAt: dayOfWeek === 0 ? null : "22:00",
-}));
-
-const validRestaurant = {
-  name: "Auntie Esi's Kitchen",
-  legalName: "Esi Foods Ltd",
-  description: "Home-style waakye and jollof",
-  phone: "0241234567",
-  cuisineTags: ["Ghanaian", "Rice"],
-  addressLine: "12 Prempeh II Street",
-  area: "Adum",
-  latitude: 6.6885,
-  longitude: -1.6244,
-  openingHours: fullWeek,
-};
-
-const createOwner = (overrides = {}) => {
-  return createTestUser({
-    role: "RESTAURANT_OWNER",
-    status: "PENDING_APPROVAL",
-    phoneVerifiedAt: new Date(),
-    ...overrides,
-  });
-};
+import { createOwner, fullWeek, validRestaurant } from "../helpers/restaurants.js";
 
 const submit = (user, body) => {
   return request(app)
