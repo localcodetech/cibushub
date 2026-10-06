@@ -12,7 +12,9 @@
     "db:migrate": "sequelize-cli db:migrate",
     "db:migrate:undo": "sequelize-cli db:migrate:undo",
     "db:migrate:status": "sequelize-cli db:migrate:status",
-    "db:seed": "sequelize-cli db:seed:all"
+    "db:seed": "sequelize-cli db:seed:all",
+    "test": "NODE_ENV=test MYSQL_DATABASE=cibushub_test REDIS_URL=redis://redis:6379/1 npm run test:run",
+    "test:run": "sequelize-cli db:migrate && vitest run"
   },
   "keywords": [],
   "author": "",
@@ -44,6 +46,8 @@
     "globals": "^17.13.0",
     "pino-pretty": "^13.2.0",
     "prettier": "^3.9.9",
-    "sequelize-cli": "^6.6.5"
+    "sequelize-cli": "^6.6.5",
+    "supertest": "^7.3.1",
+    "vitest": "^5.0.3"
   }
 }
