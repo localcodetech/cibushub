@@ -22,9 +22,12 @@ export const sendOtp = async (phone, purpose = "verify") => {
 
   const secondsToWait = await redis.ttl(keys.cooldown);
   if (secondsToWait > 0) {
-    throw new AppError(429, "RATE_LIMITED", `Please wait ${secondsToWait} seconds before requesting a new code`, [
-      { retryAfterSeconds: secondsToWait },
-    ]);
+    throw new AppError(
+      429,
+      "RATE_LIMITED",
+      `Please wait ${secondsToWait} seconds before requesting a new code`,
+      [{ retryAfterSeconds: secondsToWait }],
+    );
   }
 
   const codesSentThisHour = await redis.incr(keys.hourly);
@@ -49,7 +52,11 @@ export const verifyOtp = async (phone, code, purpose = "verify") => {
 
   const wrongAttempts = Number(await redis.get(keys.attempts));
   if (wrongAttempts >= MAX_WRONG_ATTEMPTS) {
-    throw new AppError(429, "OTP_ATTEMPTS_EXCEEDED", "Too many wrong attempts. Please request a new code");
+    throw new AppError(
+      429,
+      "OTP_ATTEMPTS_EXCEEDED",
+      "Too many wrong attempts. Please request a new code",
+    );
   }
 
   const savedHash = await redis.get(keys.code);
@@ -63,7 +70,11 @@ export const verifyOtp = async (phone, code, purpose = "verify") => {
 
     if (attemptsSoFar >= MAX_WRONG_ATTEMPTS) {
       await redis.del(keys.code);
-      throw new AppError(429, "OTP_ATTEMPTS_EXCEEDED", "Too many wrong attempts. Please request a new code");
+      throw new AppError(
+        429,
+        "OTP_ATTEMPTS_EXCEEDED",
+        "Too many wrong attempts. Please request a new code",
+      );
     }
 
     const attemptsLeft = MAX_WRONG_ATTEMPTS - attemptsSoFar;

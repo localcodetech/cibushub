@@ -1,6 +1,3 @@
-
-
-
 export const normalizeGhanaPhone = (input) => {
   if (typeof input !== "string") {
     return null;

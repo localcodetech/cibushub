@@ -13,15 +13,9 @@ export const markRefreshTokenUsed = (token, transaction) => {
 };
 
 export const revokeTokenFamily = (familyId) => {
-  return RefreshToken.update(
-    { revokedAt: new Date() },
-    { where: { familyId, revokedAt: null } },
-  );
+  return RefreshToken.update({ revokedAt: new Date() }, { where: { familyId, revokedAt: null } });
 };
 
 export const revokeAllUserTokens = (userId) => {
-  return RefreshToken.update(
-    { revokedAt: new Date() },
-    { where: { userId, revokedAt: null } },
-  );
+  return RefreshToken.update({ revokedAt: new Date() }, { where: { userId, revokedAt: null } });
 };
