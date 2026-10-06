@@ -1,5 +1,25 @@
 import { z } from "zod";
 
+export const nameField = z.string().trim().min(2, "Name is too short").max(120, "Name is too long");
+
+export const legalNameField = z
+  .string()
+  .trim()
+  .min(2, "Legal name is too short")
+  .max(160, "Legal name is too long");
+
+export const descriptionField = z.string().trim().max(1000, "Description is too long");
+
+export const addressLineField = z
+  .string()
+  .trim()
+  .min(3, "Address is too short")
+  .max(255, "Address is too long");
+
+export const areaField = z.string().trim().min(2, "Area is too short").max(80, "Area is too long");
+
+export const cityField = z.string().trim().min(2, "City is too short").max(80, "City is too long");
+
 // 24-hour time like "08:00" or "23:30"
 const timeField = z
   .string()

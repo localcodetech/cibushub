@@ -1,29 +1,31 @@
 import { z } from "zod";
 import { phoneField } from "../auth/fields.js";
 import {
+  addressLineField,
+  areaField,
+  cityField,
   cuisineTagsField,
   deliveryRadiusKmField,
+  descriptionField,
   latitudeField,
+  legalNameField,
   longitudeField,
   minOrderPesewasField,
+  nameField,
   openingHoursField,
   prepTimeMinutesField,
 } from "./fields.js";
 
 export const createRestaurantSchema = z
   .object({
-    name: z.string().trim().min(2, "Name is too short").max(120, "Name is too long"),
-    legalName: z
-      .string()
-      .trim()
-      .min(2, "Legal name is too short")
-      .max(160, "Legal name is too long"),
-    description: z.string().trim().max(1000, "Description is too long").optional(),
+    name: nameField,
+    legalName: legalNameField,
+    description: descriptionField.optional(),
     phone: phoneField,
     cuisineTags: cuisineTagsField,
-    addressLine: z.string().trim().min(3, "Address is too short").max(255, "Address is too long"),
-    area: z.string().trim().min(2, "Area is too short").max(80, "Area is too long"),
-    city: z.string().trim().min(2).max(80).default("Kumasi"),
+    addressLine: addressLineField,
+    area: areaField,
+    city: cityField.default("Kumasi"),
     latitude: latitudeField,
     longitude: longitudeField,
     openingHours: openingHoursField,
