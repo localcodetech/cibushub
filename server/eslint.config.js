@@ -15,5 +15,13 @@ export default [
       "no-unused-vars": ["error", { argsIgnorePattern: "^_|^next$" }],
     },
   },
+  {
+    files: ["**/*.cjs", ".sequelizerc"],
+    languageOptions: {
+      ecmaVersion: "latest",
+      sourceType: "commonjs",
+      globals: globals.node,
+    },
+  },
   prettier,
 ];

@@ -25,6 +25,7 @@ Errors are created with `new AppError(statusCode, code, message, details)` from 
 | `PAYLOAD_TOO_LARGE` | 413 | Body over the 100 kb limit |
 | `RATE_LIMITED` | 429 | Too many requests; try again later |
 | `INTERNAL_ERROR` | 500 | Unexpected bug. In production the message is always "Something went wrong" |
+| `SERVICE_UNAVAILABLE` | 503 | MySQL or Redis is down (health check) |
 
 ## Feature codes
 
