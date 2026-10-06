@@ -11,6 +11,7 @@ import errorHandler from "./middlewares/errorHandler.js";
 import healthRoutes from "./routes/health.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import ownerRestaurantRoutes from "./routes/owner/restaurant.routes.js";
+import ownerMenuRoutes from "./routes/owner/menu.routes.js";
 import authenticate from "./middlewares/authenticate.js";
 import authorize from "./middlewares/authorize.js";
 import requireActive from "./middlewares/requireActive.js";
@@ -95,6 +96,11 @@ app.use("/api/v1/owner", authenticate, authorize("RESTAURANT_OWNER"));
 // Owner's restaurants: submit, list, edit, hours
 // ─────────────────────────────────────────────
 app.use("/api/v1/owner/restaurants", ownerRestaurantRoutes);
+
+// ─────────────────────────────────────────────
+// Owner's menus: categories, items, option groups, sold-out switches
+// ─────────────────────────────────────────────
+app.use("/api/v1/owner/restaurants/:restaurantId/menu", ownerMenuRoutes);
 
 // ─────────────────────────────────────────────
 // Every admin route: must be logged in as an active admin or super admin

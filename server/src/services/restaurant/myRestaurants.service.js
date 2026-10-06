@@ -18,3 +18,18 @@ export const getMyRestaurant = async (restaurantId, ownerId) => {
 
   return restaurant;
 };
+
+// For changes: my restaurant, and not frozen by a suspension
+export const getMyEditableRestaurant = async (restaurantId, ownerId) => {
+  const restaurant = await getMyRestaurant(restaurantId, ownerId);
+
+  if (restaurant.status === "SUSPENDED") {
+    throw new AppError(
+      403,
+      "FORBIDDEN",
+      "This restaurant is suspended and cannot be edited. Please contact support",
+    );
+  }
+
+  return restaurant;
+};
