@@ -6,6 +6,10 @@ import Address from "./address.model.js";
 import RefreshToken from "./refreshToken.model.js";
 import Restaurant from "./restaurant/restaurant.model.js";
 import OpeningHours from "./restaurant/openingHours.model.js";
+import MenuCategory from "./menu/menuCategory.model.js";
+import MenuItem from "./menu/menuItem.model.js";
+import OptionGroup from "./menu/optionGroup.model.js";
+import Option from "./menu/option.model.js";
 
 // ─────────────────────────────────────────────
 // A user has many saved delivery addresses
@@ -31,4 +35,44 @@ Restaurant.belongsTo(User, { foreignKey: "ownerId", as: "owner" });
 Restaurant.hasMany(OpeningHours, { foreignKey: "restaurantId", as: "openingHours" });
 OpeningHours.belongsTo(Restaurant, { foreignKey: "restaurantId", as: "restaurant" });
 
-export { User, Address, RefreshToken, Restaurant, OpeningHours };
+// ─────────────────────────────────────────────
+// A restaurant's menu has categories ("Rice Dishes", "Drinks")
+// ─────────────────────────────────────────────
+Restaurant.hasMany(MenuCategory, { foreignKey: "restaurantId", as: "menuCategories" });
+MenuCategory.belongsTo(Restaurant, { foreignKey: "restaurantId", as: "restaurant" });
+
+// ─────────────────────────────────────────────
+// A restaurant has many menu items (kept here too for quick ownership checks and search)
+// ─────────────────────────────────────────────
+Restaurant.hasMany(MenuItem, { foreignKey: "restaurantId", as: "menuItems" });
+MenuItem.belongsTo(Restaurant, { foreignKey: "restaurantId", as: "restaurant" });
+
+// ─────────────────────────────────────────────
+// A category holds many items
+// ─────────────────────────────────────────────
+MenuCategory.hasMany(MenuItem, { foreignKey: "categoryId", as: "items" });
+MenuItem.belongsTo(MenuCategory, { foreignKey: "categoryId", as: "category" });
+
+// ─────────────────────────────────────────────
+// An item has option groups ("Protein", "Extras")
+// ─────────────────────────────────────────────
+MenuItem.hasMany(OptionGroup, { foreignKey: "menuItemId", as: "optionGroups" });
+OptionGroup.belongsTo(MenuItem, { foreignKey: "menuItemId", as: "menuItem" });
+
+// ─────────────────────────────────────────────
+// An option group has options ("Chicken", "Fish")
+// ─────────────────────────────────────────────
+OptionGroup.hasMany(Option, { foreignKey: "optionGroupId", as: "options" });
+Option.belongsTo(OptionGroup, { foreignKey: "optionGroupId", as: "optionGroup" });
+
+export {
+  User,
+  Address,
+  RefreshToken,
+  Restaurant,
+  OpeningHours,
+  MenuCategory,
+  MenuItem,
+  OptionGroup,
+  Option,
+};
