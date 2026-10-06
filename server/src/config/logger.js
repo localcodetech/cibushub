@@ -2,7 +2,7 @@ import pino from "pino";
 import env from "./env/env.js";
 
 const logger = pino({
-  level: "info",
+  level: env.NODE_ENV === "test" ? "silent" : "info",
   transport:
     env.NODE_ENV === "development"
       ? {
