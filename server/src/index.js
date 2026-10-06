@@ -4,11 +4,17 @@ import logger from "./config/logger.js";
 import sequelize from "./config/database.js";
 import redis from "./config/redis.js";
 
+// ─────────────────────────────────────────────
+// Start the API on the port from .env
+// ─────────────────────────────────────────────
 const server = app.listen(env.PORT, "0.0.0.0", (error) => {
   if (error) throw error;
   logger.info(`CibusHub API is running on ${env.PORT}`);
 });
 
+// ─────────────────────────────────────────────
+// Graceful shutdown: finish requests, then close MySQL and Redis
+// ─────────────────────────────────────────────
 const shutdown = (signal) => {
   logger.info(`${signal} received, shutting down`);
 
@@ -30,5 +36,8 @@ const shutdown = (signal) => {
   }, 8000).unref();
 };
 
+// ─────────────────────────────────────────────
+// Docker stop (SIGTERM) or Ctrl+C (SIGINT) → shut down gracefully
+// ─────────────────────────────────────────────
 process.on("SIGTERM", () => shutdown("SIGTERM"));
 process.on("SIGINT", () => shutdown("SIGINT"));

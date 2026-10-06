@@ -13,6 +13,8 @@ import authRoutes from "./routes/auth.routes.js";
 import ownerRestaurantRoutes from "./routes/owner/restaurant.routes.js";
 import authenticate from "./middlewares/authenticate.js";
 import authorize from "./middlewares/authorize.js";
+import requireActive from "./middlewares/requireActive.js";
+import adminRestaurantRoutes from "./routes/admin/restaurant.routes.js";
 import { globalLimiter } from "./middlewares/rateLimit/globalLimiter.js";
 import checkOrigin from "./middlewares/checkOrigin.js";
 import swaggerUi from "swagger-ui-express";
@@ -93,6 +95,16 @@ app.use("/api/v1/owner", authenticate, authorize("RESTAURANT_OWNER"));
 // Owner's restaurants: submit, list, edit, hours
 // ─────────────────────────────────────────────
 app.use("/api/v1/owner/restaurants", ownerRestaurantRoutes);
+
+// ─────────────────────────────────────────────
+// Every admin route: must be logged in as an active admin or super admin
+// ─────────────────────────────────────────────
+app.use("/api/v1/admin", authenticate, requireActive, authorize("ADMIN", "SUPER_ADMIN"));
+
+// ─────────────────────────────────────────────
+// Admin: approve, reject, suspend restaurants
+// ─────────────────────────────────────────────
+app.use("/api/v1/admin/restaurants", adminRestaurantRoutes);
 
 // ─────────────────────────────────────────────
 // Interactive API docs (turned off in production)

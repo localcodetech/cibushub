@@ -1,3 +1,5 @@
+
+
 import { OpeningHours, Restaurant } from "../models/index.js";
 
 const WITH_OPENING_HOURS = {
@@ -12,6 +14,10 @@ export const createRestaurant = (data, transaction) => {
 export const createOpeningHours = (restaurantId, days, transaction) => {
   const rows = days.map((day) => ({ ...day, restaurantId }));
   return OpeningHours.bulkCreate(rows, { transaction });
+};
+
+export const updateRestaurant = (restaurant, changes, transaction) => {
+  return restaurant.update(changes, { transaction });
 };
 
 export const findRestaurantById = (id, transaction) => {
