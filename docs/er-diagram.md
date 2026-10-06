@@ -5,6 +5,7 @@ The database tables and how they connect ([AC-DB-05](../CibusHub_Acceptance_Crit
 ```mermaid
 erDiagram
     users ||--o{ addresses : "has"
+    users ||--o{ refresh_tokens : "has sessions"
 
     users {
         uuid id PK
@@ -37,6 +38,20 @@ erDiagram
         datetime created_at
         datetime updated_at
     }
+
+    refresh_tokens {
+        uuid id PK
+        uuid user_id FK "users.id, ON DELETE CASCADE"
+        varchar token_hash UK "SHA-256 of the cookie value"
+        uuid family_id "same for every rotation of one login"
+        datetime expires_at "7 days after creation"
+        datetime used_at "set when rotated"
+        datetime revoked_at "set on logout, reset, suspension or reuse"
+        varchar user_agent
+        varchar ip_address
+        datetime created_at
+        datetime updated_at
+    }
 ```
 
 ## Conventions
@@ -52,3 +67,4 @@ erDiagram
 | From | To | Type | On delete |
 |---|---|---|---|
 | `addresses.user_id` | `users.id` | many addresses belong to one user | CASCADE |
+| `refresh_tokens.user_id` | `users.id` | many sessions belong to one user | CASCADE |
