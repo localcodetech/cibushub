@@ -1,13 +1,9 @@
 import { Op } from "sequelize";
-import User from "../models/user.model.js";
-
-
+import { User } from "../models/index.js";
 
 export const findUserById = (id) => {
   return User.findByPk(id);
 };
-
-
 
 export const findUserByEmailOrPhone = (email, phone) => {
   return User.findOne({
@@ -17,8 +13,6 @@ export const findUserByEmailOrPhone = (email, phone) => {
   });
 };
 
-
-
 export const findUserForLogin = (identifier) => {
   return User.scope("withPassword").findOne({
     where: {
@@ -26,8 +20,6 @@ export const findUserForLogin = (identifier) => {
     },
   });
 };
-
-
 
 export const createUser = (data, transaction) => {
   return User.create(data, { transaction });
