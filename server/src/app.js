@@ -14,6 +14,11 @@ import authRoutes from "./routes/auth.routes.js";
 const app = express();
 
 // ─────────────────────────────────────────────
+// How many proxies (e.g. Caddy) sit in front of the API: 0 locally, 1 in production
+// ─────────────────────────────────────────────
+app.set("trust proxy", env.TRUST_PROXY);
+
+// ─────────────────────────────────────────────
 // Log every request on one line, with a unique request ID
 // ─────────────────────────────────────────────
 app.use(

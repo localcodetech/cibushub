@@ -4,6 +4,7 @@ export const envSchema = zod.object({
   PORT: zod.coerce.number().int().positive(),
   NODE_ENV: zod.enum(["development", "test", "production"]),
   CLIENT_URL: zod.url(),
+  TRUST_PROXY: zod.coerce.number().int().min(0).default(0),
 
   DB_HOST: zod.string().min(1),
   DB_PORT: zod.coerce.number().int().positive().default(3306),
