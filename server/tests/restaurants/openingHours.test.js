@@ -7,7 +7,12 @@ const FRIDAY = 5;
 const SATURDAY = 6;
 const SUNDAY = 0;
 
-const openDay = (dayOfWeek, opensAt, closesAt) => ({ dayOfWeek, isClosed: false, opensAt, closesAt });
+const openDay = (dayOfWeek, opensAt, closesAt) => ({
+  dayOfWeek,
+  isClosed: false,
+  opensAt,
+  closesAt,
+});
 const closedDay = (dayOfWeek) => ({ dayOfWeek, isClosed: true, opensAt: null, closesAt: null });
 
 describe("Opening hours [AC-REST-05, AC-DISC-04]", () => {

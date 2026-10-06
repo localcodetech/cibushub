@@ -10,6 +10,9 @@ import notFound from "./middlewares/notFound.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import healthRoutes from "./routes/health.routes.js";
 import authRoutes from "./routes/auth.routes.js";
+import ownerRestaurantRoutes from "./routes/owner/restaurant.routes.js";
+import authenticate from "./middlewares/authenticate.js";
+import authorize from "./middlewares/authorize.js";
 import { globalLimiter } from "./middlewares/rateLimit/globalLimiter.js";
 import checkOrigin from "./middlewares/checkOrigin.js";
 import swaggerUi from "swagger-ui-express";
@@ -80,6 +83,16 @@ app.use("/api/health", healthRoutes);
 // Auth: register, verify phone, login, refresh, logout, passwords
 // ─────────────────────────────────────────────
 app.use("/api/v1/auth", authRoutes);
+
+// ─────────────────────────────────────────────
+// Every owner route: must be logged in as a restaurant owner
+// ─────────────────────────────────────────────
+app.use("/api/v1/owner", authenticate, authorize("RESTAURANT_OWNER"));
+
+// ─────────────────────────────────────────────
+// Owner's restaurants: submit, list, edit, hours
+// ─────────────────────────────────────────────
+app.use("/api/v1/owner/restaurants", ownerRestaurantRoutes);
 
 // ─────────────────────────────────────────────
 // Interactive API docs (turned off in production)
