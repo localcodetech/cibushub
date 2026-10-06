@@ -7,6 +7,7 @@ import { register } from "../controllers/auth/register.controller.js";
 import { resendOtp, verifyPhoneNumber } from "../controllers/auth/verifyPhone.controller.js";
 import { login } from "../controllers/auth/login.controller.js";
 import { refresh } from "../controllers/auth/refresh.controller.js";
+import { logout } from "../controllers/auth/logout.controller.js";
 
 const router = Router();
 
@@ -34,5 +35,10 @@ router.post("/login", validate(loginSchema), login);
 // Swap the refresh cookie for a new pair of tokens
 // ─────────────────────────────────────────────
 router.post("/refresh", refresh);
+
+// ─────────────────────────────────────────────
+// Log out this device: cancel its session and clear cookies
+// ─────────────────────────────────────────────
+router.post("/logout", logout);
 
 export default router;
