@@ -6,6 +6,8 @@ import {
   findUserById,
 } from "../repositories/user.repository.js";
 
+
+
 export const registerUser = async (data) => {
   const existing = await findUserByEmailOrPhone(data.email, data.phone);
 
@@ -34,5 +36,5 @@ export const registerUser = async (data) => {
     throw error;
   }
 
-  return findUserById(user.id);
+  return await findUserById(user.id);
 };
