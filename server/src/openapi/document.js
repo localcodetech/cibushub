@@ -1,0 +1,45 @@
+import pkg from "../../package.json" with { type: "json" };
+import { authPaths } from "./paths/auth.paths.js";
+import { successResponse, errorResponse } from "./helpers.js";
+
+export const openApiDocument = {
+  openapi: "3.1.0",
+  info: {
+    title: "CibusHub API",
+    version: pkg.version,
+    description:
+      "Food ordering and delivery API. Login uses HttpOnly cookies: call /api/v1/auth/login first, and the browser sends the cookies automatically.",
+  },
+  servers: [{ url: "/" }],
+  components: {
+    securitySchemes: {
+      cookieAuth: {
+        type: "apiKey",
+        in: "cookie",
+        name: "access_token",
+      },
+    },
+  },
+  paths: {
+    "/api/health": {
+      get: {
+        tags: ["Health"],
+        summary: "Check the API, MySQL and Redis",
+        responses: {
+          200: successResponse("Everything is up", {
+            status: "ok",
+            version: pkg.version,
+            uptime: 42,
+            services: { mysql: "up", redis: "up" },
+          }),
+          503: errorResponse(
+            "MySQL or Redis is down",
+            "SERVICE_UNAVAILABLE",
+            "One or more services are unavailable",
+          ),
+        },
+      },
+    },
+    ...authPaths,
+  },
+};

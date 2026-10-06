@@ -11,6 +11,8 @@ import errorHandler from "./middlewares/errorHandler.js";
 import healthRoutes from "./routes/health.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import { globalLimiter } from "./middlewares/rateLimit/globalLimiter.js";
+import swaggerUi from "swagger-ui-express";
+import { openApiDocument } from "./openapi/document.js";
 
 const app = express();
 
@@ -69,9 +71,16 @@ app.use(cookieParser());
 app.use("/api/health", healthRoutes);
 
 // ─────────────────────────────────────────────
-// Auth: register, verify phone, login, refresh, logout
+// Auth: register, verify phone, login, refresh, logout, passwords
 // ─────────────────────────────────────────────
 app.use("/api/v1/auth", authRoutes);
+
+// ─────────────────────────────────────────────
+// Interactive API docs (turned off in production)
+// ─────────────────────────────────────────────
+if (env.NODE_ENV !== "production") {
+  app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(openApiDocument));
+}
 
 // ─────────────────────────────────────────────
 // Unknown routes → 404
