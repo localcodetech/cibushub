@@ -12,7 +12,21 @@ import authRoutes from "./routes/auth.routes.js";
 
 const app = express();
 
-app.use(pinoHttp({ logger, genReqId: () => randomUUID() }));
+app.use(
+  pinoHttp({
+    logger,
+    genReqId: () => randomUUID(),
+    serializers: {
+      req: (req) => ({ id: req.id, method: req.method, url: req.url }),
+      res: (res) => ({ statusCode: res.statusCode }),
+    },
+    customLogLevel: (req, res, error) => {
+      if (error || res.statusCode >= 500) return "error";
+      if (res.statusCode >= 400) return "warn";
+      return "info";
+    },
+  }),
+);
 
 app.use(helmet());
 
