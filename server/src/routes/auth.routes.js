@@ -5,7 +5,8 @@ import {
   resendOtpSchema,
   verifyPhoneSchema,
 } from "../validators/auth.validator.js";
-import { register, resendOtp, verifyPhoneNumber } from "../controllers/auth.controller.js";
+import { register } from "../controllers/auth/register.controller.js";
+import { resendOtp, verifyPhoneNumber } from "../controllers/auth/verifyPhone.controller.js";
 
 const router = Router();
 

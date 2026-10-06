@@ -1,11 +1,5 @@
-import { registerUser, resendVerificationOtp, verifyPhone } from "../services/auth.service.js";
-import { sendSuccess } from "../utils/response.js";
-
-export const register = async (req, res) => {
-  const user = await registerUser(req.validated.body);
-
-  return sendSuccess(res, user, 201);
-};
+import { resendVerificationOtp, verifyPhone } from "../../services/auth/verifyPhone.service.js";
+import { sendSuccess } from "../../utils/response.js";
 
 export const verifyPhoneNumber = async (req, res) => {
   const { phone, code } = req.validated.body;
