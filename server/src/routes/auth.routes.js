@@ -9,9 +9,25 @@ import { login } from "../controllers/auth/login.controller.js";
 
 const router = Router();
 
+// Register a new customer, restaurant owner or rider
 router.post("/register", validate(registerSchema), register);
+
+
+
+
+// Verify phone number with the OTP code
 router.post("/verify-phone", validate(verifyPhoneSchema), verifyPhoneNumber);
+
+
+
+
+// Send a new OTP code
 router.post("/resend-otp", validate(resendOtpSchema), resendOtp);
+
+
+
+
+// Log in with email or phone and password
 router.post("/login", validate(loginSchema), login);
 
 export default router;
