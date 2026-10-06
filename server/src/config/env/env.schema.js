@@ -14,6 +14,7 @@ export const envSchema = zod.object({
   REDIS_URL: zod.url(),
 
   OTP_SECRET: zod.string().min(32),
+  JWT_ACCESS_SECRET: zod.string().min(32),
 
   SUPER_ADMIN_NAME: zod.string().min(1).optional(),
   SUPER_ADMIN_EMAIL: zod.email().optional(),
