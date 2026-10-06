@@ -1,4 +1,4 @@
-import { OpeningHours, Restaurant } from "../models/index.js";
+import { OpeningHours, Restaurant, User } from "../models/index.js";
 
 const WITH_OPENING_HOURS = {
   include: [{ model: OpeningHours, as: "openingHours" }],
@@ -39,5 +39,16 @@ export const findRestaurantsByOwner = (ownerId) => {
       ["createdAt", "DESC"],
       [{ model: OpeningHours, as: "openingHours" }, "dayOfWeek", "ASC"],
     ],
+  });
+};
+
+// The admin's review queue: oldest first, so nobody waits forever
+export const findRestaurantsForAdmin = ({ status, limit, offset }) => {
+  return Restaurant.findAndCountAll({
+    where: status ? { status } : {},
+    include: [{ model: User, as: "owner", attributes: ["id", "fullName", "email", "phone"] }],
+    order: [["createdAt", "ASC"]],
+    limit,
+    offset,
   });
 };
