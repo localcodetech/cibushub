@@ -25,6 +25,10 @@ export const findUserForLogin = (identifier) => {
   });
 };
 
+export const findUserByIdWithPassword = (id) => {
+  return User.scope("withPassword").findByPk(id);
+};
+
 export const createUser = (data, transaction) => {
   return User.create(data, { transaction });
 };

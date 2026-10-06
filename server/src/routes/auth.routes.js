@@ -9,6 +9,7 @@ import {
 import { loginSchema } from "../validators/auth/session/login.validator.js";
 import { forgotPasswordSchema } from "../validators/auth/password/forgotPassword.validator.js";
 import { resetPasswordSchema } from "../validators/auth/password/resetPassword.validator.js";
+import { changePasswordSchema } from "../validators/auth/password/changePassword.validator.js";
 import { register } from "../controllers/auth/registration/register.controller.js";
 import {
   resendOtp,
@@ -20,6 +21,7 @@ import { logout } from "../controllers/auth/session/logout.controller.js";
 import { getMe } from "../controllers/auth/session/me.controller.js";
 import { forgotPassword } from "../controllers/auth/password/forgotPassword.controller.js";
 import { resetPassword } from "../controllers/auth/password/resetPassword.controller.js";
+import { changePassword } from "../controllers/auth/password/changePassword.controller.js";
 
 const router = Router();
 
@@ -67,5 +69,10 @@ router.post("/forgot-password", validate(forgotPasswordSchema), forgotPassword);
 // Reset password with the code, then log out every device
 // ─────────────────────────────────────────────
 router.post("/reset-password", validate(resetPasswordSchema), resetPassword);
+
+// ─────────────────────────────────────────────
+// Change password while logged in (keeps this device logged in)
+// ─────────────────────────────────────────────
+router.post("/change-password", authenticate, validate(changePasswordSchema), changePassword);
 
 export default router;
