@@ -5,6 +5,10 @@ export const findUserById = (id) => {
   return User.findByPk(id);
 };
 
+export const findUserByPhone = (phone) => {
+  return User.findOne({ where: { phone } });
+};
+
 export const findUserByEmailOrPhone = (email, phone) => {
   return User.findOne({
     where: {
@@ -23,4 +27,8 @@ export const findUserForLogin = (identifier) => {
 
 export const createUser = (data, transaction) => {
   return User.create(data, { transaction });
+};
+
+export const updateUser = (user, changes, transaction) => {
+  return user.update(changes, { transaction });
 };

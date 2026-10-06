@@ -4,9 +4,10 @@ import {
   createUser,
   findUserByEmailOrPhone,
   findUserById,
+  findUserByPhone,
+  updateUser,
 } from "../repositories/user.repository.js";
-
-
+import { sendOtp, verifyOtp } from "./otp.service.js";
 
 export const registerUser = async (data) => {
   const existing = await findUserByEmailOrPhone(data.email, data.phone);
@@ -36,5 +37,34 @@ export const registerUser = async (data) => {
     throw error;
   }
 
+  await sendOtp(user.phone);
+
   return await findUserById(user.id);
+};
+
+export const verifyPhone = async (phone, code) => {
+  await verifyOtp(phone, code);
+
+  const user = await findUserByPhone(phone);
+  if (!user) {
+    throw new AppError(404, "NOT_FOUND", "Account not found");
+  }
+
+  const changes = { phoneVerifiedAt: new Date() };
+
+  if (user.status === "PENDING_VERIFICATION") {
+    changes.status = "ACTIVE";
+  }
+
+  return await updateUser(user, changes);
+};
+
+export const resendVerificationOtp = async (phone) => {
+  const user = await findUserByPhone(phone);
+
+  if (!user || user.phoneVerifiedAt) {
+    return;
+  }
+
+  await sendOtp(phone);
 };
