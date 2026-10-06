@@ -43,3 +43,7 @@ Add a row here in the same commit that introduces a new code.
 | `OTP_ATTEMPTS_EXCEEDED` | 429 | 5 wrong attempts; a new code must be requested | AC-AUTH-09 |
 
 | `INVALID_CREDENTIALS` | 401 | Wrong email/phone or password (always the same message) | AC-AUTH-12 |
+
+| `ACCOUNT_NOT_VERIFIED` | 403 | Logged in, but phone not verified yet; feature blocked | AC-AUTH-08 |
+| `ACCOUNT_PENDING_APPROVAL` | 403 | Restaurant owner or rider waiting for admin approval | AC-AUTH-05 |
+

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import validate from "../middlewares/validate.js";
+import authenticate from "../middlewares/authenticate.js";
 import { registerSchema } from "../validators/auth/register.validator.js";
 import { resendOtpSchema, verifyPhoneSchema } from "../validators/auth/verifyPhone.validator.js";
 import { loginSchema } from "../validators/auth/login.validator.js";
@@ -8,6 +9,7 @@ import { resendOtp, verifyPhoneNumber } from "../controllers/auth/verifyPhone.co
 import { login } from "../controllers/auth/login.controller.js";
 import { refresh } from "../controllers/auth/refresh.controller.js";
 import { logout } from "../controllers/auth/logout.controller.js";
+import { getMe } from "../controllers/auth/me.controller.js";
 
 const router = Router();
 
@@ -40,5 +42,10 @@ router.post("/refresh", refresh);
 // Log out this device: cancel its session and clear cookies
 // ─────────────────────────────────────────────
 router.post("/logout", logout);
+
+// ─────────────────────────────────────────────
+// Get the logged-in user's profile
+// ─────────────────────────────────────────────
+router.get("/me", authenticate, getMe);
 
 export default router;
