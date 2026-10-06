@@ -4,6 +4,7 @@ import logger from "./logger.js";
 
 const redis = new Redis(env.REDIS_URL, {
   maxRetriesPerRequest: 3,
+  enableOfflineQueue: false,
 });
 
 redis.on("connect", () => logger.info("Redis connected"));

@@ -4,28 +4,21 @@ import redis from "../config/redis.js";
 import AppError from "../utils/AppError.js";
 import { sendSuccess } from "../utils/response.js";
 
-const withTimeout = (promise, ms) =>
-  Promise.race([
-    promise,
-    new Promise((_, reject) => setTimeout(() => reject(new Error("Timed out")), ms)),
-  ]);
-
-const checkService = async (check) => {
-  try {
-    await withTimeout(check(), 2000);
-    return "up";
-  } catch {
-    return "down";
-  }
-};
-
 export const getHealth = async (req, res) => {
-  const [mysqlStatus, redisStatus] = await Promise.all([
-    checkService(() => sequelize.authenticate()),
-    checkService(() => redis.ping()),
-  ]);
+  let mysqlStatus = "up";
+  let redisStatus = "up";
 
-  const services = { mysql: mysqlStatus, redis: redisStatus };
+  try {
+    await sequelize.authenticate();
+  } catch {
+    mysqlStatus = "down";
+  }
+
+  try {
+    await redis.ping();
+  } catch {
+    redisStatus = "down";
+  }
 
   if (mysqlStatus === "down" || redisStatus === "down") {
     throw new AppError(503, "SERVICE_UNAVAILABLE", "One or more services are unavailable", [
@@ -38,6 +31,6 @@ export const getHealth = async (req, res) => {
     status: "ok",
     version: pkg.version,
     uptime: Math.floor(process.uptime()),
-    services,
+    services: { mysql: mysqlStatus, redis: redisStatus },
   });
 };
