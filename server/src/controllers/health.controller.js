@@ -14,10 +14,14 @@ export const getHealth = async (req, res) => {
     mysqlStatus = "down";
   }
 
-  try {
-    await redis.ping();
-  } catch {
+  if (redis.status !== "ready") {
     redisStatus = "down";
+  } else {
+    try {
+      await redis.ping();
+    } catch {
+      redisStatus = "down";
+    }
   }
 
   if (mysqlStatus === "down" || redisStatus === "down") {
