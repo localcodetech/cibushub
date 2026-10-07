@@ -3,6 +3,20 @@ import { formatGhs } from "../../utils/money.js";
 import { findSuccessfulPayment } from "../../repositories/payment.repository.js";
 import { createRefundRecord, sumActiveRefunds } from "../../repositories/refund.repository.js";
 
+// How much of an order's payment has not been promised back yet (0 if it was never paid)
+export const refundableAmount = async (order, transaction) => {
+  if (!["PAID", "PARTIALLY_REFUNDED"].includes(order.paymentStatus)) {
+    return 0;
+  }
+
+  const payment = await findSuccessfulPayment(order.id, transaction);
+  if (!payment) {
+    return 0;
+  }
+
+  return payment.amountPesewas - (await sumActiveRefunds(order.id, transaction));
+};
+
 // Writes a refund "to-do note" (PENDING). A background job sends it to Paystack.
 // The caller must have LOCKED the order in `transaction`, so two refunds for one order
 // are checked one after the other, never at the same time [AC-CANC-04, AC-CANC-05]

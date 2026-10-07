@@ -4,6 +4,7 @@ import {
   OrderItem,
   OrderItemOption,
   OrderStatusHistory,
+  Refund,
   Restaurant,
 } from "../models/index.js";
 
@@ -16,6 +17,11 @@ const WITH_DETAILS = {
       include: [{ model: OrderItemOption, as: "options" }],
     },
     { model: OrderStatusHistory, as: "statusHistory" },
+    {
+      model: Refund,
+      as: "refunds",
+      attributes: ["id", "amountPesewas", "status", "reason", "createdAt", "processedAt"],
+    },
   ],
   order: [[{ model: OrderStatusHistory, as: "statusHistory" }, "createdAt", "ASC"]],
 };

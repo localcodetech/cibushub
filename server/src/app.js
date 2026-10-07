@@ -17,6 +17,7 @@ import authenticate from "./middlewares/authenticate.js";
 import authorize from "./middlewares/authorize.js";
 import requireActive from "./middlewares/requireActive.js";
 import adminRestaurantRoutes from "./routes/admin/restaurant.routes.js";
+import adminOrderRoutes from "./routes/admin/order.routes.js";
 import customerAddressRoutes from "./routes/customer/address.routes.js";
 import customerCheckoutRoutes from "./routes/customer/checkout.routes.js";
 import customerOrderRoutes from "./routes/customer/order.routes.js";
@@ -158,6 +159,11 @@ app.use("/api/v1/admin", authenticate, requireActive, authorize("ADMIN", "SUPER_
 // Admin: approve, reject, suspend restaurants
 // ─────────────────────────────────────────────
 app.use("/api/v1/admin/restaurants", adminRestaurantRoutes);
+
+// ─────────────────────────────────────────────
+// Admin: cancel orders with a refund choice
+// ─────────────────────────────────────────────
+app.use("/api/v1/admin/orders", adminOrderRoutes);
 
 // ─────────────────────────────────────────────
 // Interactive API docs (turned off in production)
