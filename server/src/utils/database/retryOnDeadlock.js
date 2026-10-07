@@ -1,4 +1,4 @@
-onst MAX_ATTEMPTS = 3;
+const MAX_ATTEMPTS = 3;
 
 // MySQL's names for "two transactions blocked each other" and "waited too long for a lock"
 const RETRYABLE_MYSQL_ERRORS = ["ER_LOCK_DEADLOCK", "ER_LOCK_WAIT_TIMEOUT"];
