@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { emailField, passwordField, phoneField } from "../fields.js";
+import { emailField, fullNameField, passwordField, phoneField } from "../fields.js";
 
 export const registerSchema = z
   .object({
-    fullName: z.string().trim().min(2, "Name is too short").max(100, "Name is too long"),
+    fullName: fullNameField,
     email: emailField,
     phone: phoneField,
     password: passwordField,
