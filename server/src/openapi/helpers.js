@@ -65,3 +65,19 @@ export const listResponse = (description, exampleItem, meta) => ({
     },
   },
 });
+
+// A form with one file in it (logo, dish photo, document) → a file picker in Swagger
+export const fileBody = (fieldName, description) => ({
+  required: true,
+  content: {
+    "multipart/form-data": {
+      schema: {
+        type: "object",
+        required: [fieldName],
+        properties: {
+          [fieldName]: { type: "string", format: "binary", description },
+        },
+      },
+    },
+  },
+});
