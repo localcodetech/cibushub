@@ -3,6 +3,7 @@ import { authPaths } from "./paths/auth.paths.js";
 import { restaurantPaths } from "./paths/restaurant.paths.js";
 import { ownerRestaurantPaths } from "./paths/ownerRestaurant.paths.js";
 import { ownerMenuPaths } from "./paths/ownerMenu.paths.js";
+import { adminRestaurantPaths } from "./paths/adminRestaurant.paths.js";
 import { successResponse, errorResponse } from "./helpers.js";
 
 export const openApiDocument = {
@@ -47,5 +48,6 @@ export const openApiDocument = {
     ...restaurantPaths,
     ...ownerRestaurantPaths,
     ...ownerMenuPaths,
+    ...adminRestaurantPaths,
   },
 };
