@@ -92,6 +92,40 @@ export const customerOrderPaths = {
       },
     },
   },
+  "/api/v1/customer/orders/{orderId}/payments": {
+    post: {
+      tags,
+      summary: "Pay for my order with Paystack (card or mobile money)",
+      description: [
+        "Starts a Paystack checkout for the order's stored total in GHS; open authorizationUrl to pay.",
+        "Calling again within 10 minutes returns the same checkout; after a failed payment it starts a new attempt.",
+        "Coming back from Paystack does NOT mean paid: wait until the order's paymentStatus is PAID.",
+      ].join(" "),
+      security: loggedIn,
+      parameters: [orderId],
+      responses: {
+        200: successResponse("Checkout ready", {
+          paymentId: "1b2c3d4e-5f6a-4b7c-8d9e-0f1a2b3c4d5e",
+          reference: "CH-261009-482193-9F3A1C",
+          amountPesewas: 7072,
+          currency: "GHS",
+          authorizationUrl: "https://checkout.paystack.com/abc123",
+          accessCode: "abc123",
+        }),
+        404: notFound,
+        409: errorResponse(
+          "Not waiting for payment",
+          "ORDER_NOT_PAYABLE",
+          "An order that is PAID cannot be paid",
+        ),
+        502: errorResponse(
+          "Paystack did not answer",
+          "PAYMENT_PROVIDER_ERROR",
+          "Payment service is not responding. Please try again",
+        ),
+      },
+    },
+  },
 };
 
 // The list lives on the same URL as "place order", so it is merged in document.js

@@ -21,6 +21,7 @@ erDiagram
     order_items ||--o{ order_item_options : "with"
     orders ||--|{ order_status_history : "moves through"
     menu_items |o--o{ order_items : "copied into"
+    orders ||--o{ payments : "paid by"
 
     users {
         uuid id PK
@@ -248,6 +249,24 @@ erDiagram
         datetime created_at
         datetime updated_at
     }
+
+    payments {
+        uuid id PK
+        uuid order_id FK "orders.id, ON DELETE RESTRICT"
+        enum provider "PAYSTACK"
+        varchar reference UK "e.g. CH-261009-482193-9F3A1C"
+        int amount_pesewas
+        varchar currency "GHS"
+        enum status "PENDING, SUCCESS, FAILED, ABANDONED, AMOUNT_MISMATCH"
+        varchar channel "card or mobile_money"
+        varchar authorization_url
+        varchar access_code
+        varchar provider_transaction_id
+        varchar gateway_response
+        datetime paid_at
+        datetime created_at
+        datetime updated_at
+    }
 ```
 
 ## Conventions
@@ -281,3 +300,4 @@ erDiagram
 | `order_item_options.option_id` | `menu_options.id` | pointer only | SET NULL |
 | `order_status_history.order_id` | `orders.id` | every status change | CASCADE |
 | `order_status_history.actor_user_id` | `users.id` | who made the change | SET NULL |
+| `payments.order_id` | `orders.id` | one row per payment attempt | RESTRICT |
