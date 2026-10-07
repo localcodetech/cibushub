@@ -4,6 +4,7 @@ import {
   reconcileStuckPayments,
   sweepUnpaidOrders,
 } from "../services/payment/paymentJobs.service.js";
+import { processPendingRefunds, processRefund } from "../services/refund/processRefund.service.js";
 
 // Job name → what it does. Each one re-checks the current state before acting [AC-JOB-03]
 export const PROCESSORS = {
@@ -11,6 +12,8 @@ export const PROCESSORS = {
   sweepUnpaidOrders: () => sweepUnpaidOrders(),
   reconcilePayments: () => reconcileStuckPayments(),
   cleanupExpiredTokens: () => cleanupExpiredTokens(),
+  processRefund: (job) => processRefund(job.data.refundId),
+  processPendingRefunds: () => processPendingRefunds(),
 };
 
 // One function for every queue: find the job's processor by its name

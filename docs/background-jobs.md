@@ -6,7 +6,7 @@ Work that must happen later or on a timer runs in a separate **worker** process 
 
 | Queue | Used for |
 |---|---|
-| `payments` | unpaid-order expiry, payment reconciliation, refunds (next) |
+| `payments` | unpaid-order expiry, payment reconciliation, refunds |
 | `maintenance` | sweepers and clean-up |
 | `notifications` | SMS, email, push (notifications step) |
 | `assignment` | rider offers (riders step) |
@@ -18,6 +18,8 @@ Work that must happen later or on a timer runs in a separate **worker** process 
 | `expireUnpaidOrder` | payments | 30 min after an order is placed (delayed) | Asks Paystack about any pending payment; if still unpaid, cancels with reason `PAYMENT_TIMEOUT` and returns stock |
 | `sweepUnpaidOrders` | maintenance | every minute | Safety net: expires overdue unpaid orders even if Redis lost their delayed job |
 | `reconcilePayments` | payments | every 10 minutes | Verifies payments still PENDING after 10 min with Paystack (missed webhooks) |
+| `processRefund` | payments | right after a refund is asked for | Moves one refund a step: send to Paystack, or check if it finished |
+| `processPendingRefunds` | payments | every 5 minutes | Moves every PENDING refund a step (also catches lost `processRefund` jobs) |
 | `cleanupExpiredTokens` | maintenance | daily 03:00 Accra | Deletes expired login sessions |
 
 ## Rules

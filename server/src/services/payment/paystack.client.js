@@ -80,3 +80,21 @@ export const verifyTransaction = async (reference) => {
     paidAt: data.paid_at ? new Date(data.paid_at) : null,
   };
 };
+
+// Asks Paystack to send money back for one paid transaction [AC-CANC-04]
+export const createRefund = async ({ reference, amountPesewas, note }) => {
+  const data = await callPaystack("POST", "/refund", {
+    transaction: reference,
+    amount: amountPesewas,
+    merchant_note: note,
+  });
+
+  return { providerRefundId: String(data.id), status: data.status };
+};
+
+// Where a refund is now: "pending", "processing", "processed" or "failed"
+export const fetchRefund = async (providerRefundId) => {
+  const data = await callPaystack("GET", `/refund/${encodeURIComponent(providerRefundId)}`);
+
+  return { status: data.status };
+};

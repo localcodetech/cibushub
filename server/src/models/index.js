@@ -17,6 +17,7 @@ import OrderItem from "./order/orderItem.model.js";
 import OrderItemOption from "./order/orderItemOption.model.js";
 import OrderStatusHistory from "./order/orderStatusHistory.model.js";
 import Payment from "./order/payment.model.js";
+import Refund from "./order/refund.model.js";
 
 // ─────────────────────────────────────────────
 // A user has many saved delivery addresses
@@ -113,6 +114,14 @@ OrderStatusHistory.belongsTo(User, { foreignKey: "actorUserId", as: "actor" });
 Order.hasMany(Payment, { foreignKey: "orderId", as: "payments" });
 Payment.belongsTo(Order, { foreignKey: "orderId", as: "order" });
 
+// ─────────────────────────────────────────────
+// An order can have refunds, each paid back to one successful payment [AC-CANC-04]
+// ─────────────────────────────────────────────
+Order.hasMany(Refund, { foreignKey: "orderId", as: "refunds" });
+Refund.belongsTo(Order, { foreignKey: "orderId", as: "order" });
+Payment.hasMany(Refund, { foreignKey: "paymentId", as: "refunds" });
+Refund.belongsTo(Payment, { foreignKey: "paymentId", as: "payment" });
+
 export {
   User,
   Address,
@@ -130,4 +139,5 @@ export {
   OrderItemOption,
   OrderStatusHistory,
   Payment,
+  Refund,
 };

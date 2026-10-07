@@ -42,3 +42,8 @@ export const findStuckPendingPayments = (startedBefore, limit) => {
     limit,
   });
 };
+
+// The payment that actually took the customer's money
+export const findSuccessfulPayment = (orderId, transaction) => {
+  return Payment.findOne({ where: { orderId, status: "SUCCESS" }, transaction });
+};

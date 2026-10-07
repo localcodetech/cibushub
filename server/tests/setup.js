@@ -28,6 +28,9 @@ vi.mock("../src/jobs/enqueue.js", async () => {
     scheduleUnpaidOrderExpiry: async (orderId) => {
       list.push({ name: "expireUnpaidOrder", orderId });
     },
+    scheduleRefund: async (refundId) => {
+      list.push({ name: "processRefund", refundId });
+    },
   };
 });
 

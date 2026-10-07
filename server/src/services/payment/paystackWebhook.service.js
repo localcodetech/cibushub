@@ -5,6 +5,7 @@ import { verifyTransaction } from "./paystack.client.js";
 import { changeOrderStatus } from "../order/changeOrderStatus.service.js";
 import { lockOrder, updateOrder } from "../../repositories/order.repository.js";
 import { lockPaymentByReference, updatePayment } from "../../repositories/payment.repository.js";
+import { requestRefund } from "../refund/requestRefund.service.js";
 
 const SYSTEM = { userId: null, role: "SYSTEM" };
 
@@ -91,11 +92,19 @@ const applyVerification = async (reference, verified, transaction) => {
   }
 
   // Money arrived for an order that was already cancelled (e.g. paid after the 30-minute expiry).
-  // The money is recorded, so it can be refunded; the order is NOT brought back.
+  // The order is NOT brought back; the money is recorded and fully refunded automatically.
+  // The every-5-minutes refund sweep sends it to Paystack.
   await updateOrder(order, { paymentStatus: "PAID" }, transaction);
-  logger.error(
-    { alert: "PAID_AFTER_CLOSE", reference, orderId: order.id, orderStatus: order.status },
-    "Payment received for an order that is no longer waiting for payment; needs a refund",
+  await requestRefund({
+    order,
+    amountPesewas: verified.amountPesewas,
+    reason: "Payment arrived after the order was closed",
+    actor: SYSTEM,
+    transaction,
+  });
+  logger.warn(
+    { reference, orderId: order.id, orderStatus: order.status },
+    "Payment received for a closed order; full refund started",
   );
   return "PAID_AFTER_CLOSE";
 };

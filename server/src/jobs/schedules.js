@@ -16,6 +16,12 @@ const SCHEDULES = [
     repeat: { every: 10 * 60 * 1000 }, // every 10 minutes
   },
   {
+    id: "process-pending-refunds",
+    queue: QUEUE_NAMES.payments,
+    name: "processPendingRefunds",
+    repeat: { every: 5 * 60 * 1000 }, // every 5 minutes
+  },
+  {
     id: "cleanup-expired-tokens",
     queue: QUEUE_NAMES.maintenance,
     name: "cleanupExpiredTokens",

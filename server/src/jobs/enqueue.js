@@ -20,3 +20,19 @@ export const scheduleUnpaidOrderExpiry = async (orderId) => {
     );
   }
 };
+
+// Send a refund to Paystack right away. If this fails, the every-5-minutes refund sweep sends it.
+export const scheduleRefund = async (refundId) => {
+  try {
+    await getQueue(QUEUE_NAMES.payments).add(
+      "processRefund",
+      { refundId },
+      { jobId: `refund-${refundId}` },
+    );
+  } catch (error) {
+    logger.error(
+      { err: error, refundId },
+      "Could not schedule refund; the refund sweep will send it",
+    );
+  }
+};

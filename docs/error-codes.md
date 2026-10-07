@@ -52,3 +52,5 @@ Add a row here in the same commit that introduces a new code.
 | `ORDER_NOT_PAYABLE` | 409 | Starting a payment for an order that is not `PENDING_PAYMENT` (already paid, cancelled...) | AC-PAY-01 |
 | `PAYMENT_PROVIDER_ERROR` | 502 | Paystack did not answer or refused the request; safe to try again | AC-PAY-01 |
 | `INVALID_SIGNATURE` | 401 | A payment webhook whose `x-paystack-signature` does not match the body; nothing is processed | AC-PAY-04 |
+| `NOTHING_TO_REFUND` | 409 | A refund was asked for an order that has no successful payment | AC-CANC-04 |
+| `REFUND_EXCEEDS_PAID` | 409 | The refund would make the total refunded larger than the amount paid; the message says how much is left | AC-CANC-05 |
