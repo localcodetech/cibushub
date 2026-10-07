@@ -18,6 +18,7 @@ import authorize from "./middlewares/authorize.js";
 import requireActive from "./middlewares/requireActive.js";
 import adminRestaurantRoutes from "./routes/admin/restaurant.routes.js";
 import customerAddressRoutes from "./routes/customer/address.routes.js";
+import profileRoutes from "./routes/profile.routes.js";
 import { globalLimiter } from "./middlewares/rateLimit/globalLimiter.js";
 import checkOrigin from "./middlewares/checkOrigin.js";
 import swaggerUi from "swagger-ui-express";
@@ -93,6 +94,11 @@ app.use("/api/v1/auth", authRoutes);
 // Public: browse, search and view restaurants (guests too)
 // ─────────────────────────────────────────────
 app.use("/api/v1/restaurants", publicRestaurantRoutes);
+
+// ─────────────────────────────────────────────
+// My profile (any role): change name, upload photo
+// ─────────────────────────────────────────────
+app.use("/api/v1/profile", authenticate, requireActive, profileRoutes);
 
 // ─────────────────────────────────────────────
 // Every customer route: must be logged in as an active customer
