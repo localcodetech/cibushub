@@ -43,6 +43,7 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | `POST /auth/change-password` | — | 🔒⏳ | 🔒⏳ | 🔒⏳ | 🔒 | 🔒 | authenticate, validate |
 | `GET /restaurants` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | validate (query) |
 | `GET /restaurants/:id` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | — (404 unless approved) |
+| `POST /cart/check` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | validate (read-only, no login) |
 | `POST /owner/restaurants` | — | — | 🔒⏳ | — | — | — | authenticate, authorize, requireVerifiedPhone, validate |
 | `GET /owner/restaurants`, `GET /owner/restaurants/:id` | — | — | 🔒⏳ | — | — | — | authenticate, authorize, requireVerifiedPhone |
 | `PATCH /owner/restaurants/:id` | — | — | 🔒⏳ | — | — | — | authenticate, authorize, requireVerifiedPhone, validate |
@@ -57,6 +58,11 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | `GET /admin/restaurants/:id/documents` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize |
 | `POST /admin/restaurants/:id/approve` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize; audit logged |
 | `POST /admin/restaurants/:id/reject`, `/suspend` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; audit logged |
+| `GET`, `POST /customer/addresses` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate |
+| `PATCH`, `DELETE /customer/addresses/:id` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate |
+| `PATCH /profile` | — | 🔒 | 🔒 | 🔒 | 🔒 | 🔒 | authenticate, requireActive, validate |
+| `PUT /profile/avatar` | — | 🔒 | 🔒 | 🔒 | 🔒 | 🔒 | authenticate, requireActive, upload |
+| `POST /profile/phone`, `/phone/confirm`, `/email`, `/email/confirm` | — | 🔒 | 🔒 | 🔒 | 🔒 | 🔒 | authenticate, requireActive, validate, otpLimiter |
 
 Notes:
 

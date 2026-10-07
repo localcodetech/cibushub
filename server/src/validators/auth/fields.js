@@ -1,6 +1,12 @@
 import { z } from "zod";
 import { normalizeGhanaPhone } from "../../utils/phone.js";
 
+export const fullNameField = z
+  .string()
+  .trim()
+  .min(2, "Name is too short")
+  .max(100, "Name is too long");
+
 export const emailField = z.string().trim().toLowerCase().pipe(z.email("Enter a valid email"));
 
 export const phoneField = z.string().transform((value, ctx) => {

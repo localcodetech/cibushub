@@ -2,6 +2,7 @@ import redis from "../../config/redis.js";
 import AppError from "../../utils/AppError.js";
 import { generateOtp, hashOtp, otpMatches } from "../../utils/auth/otp.js";
 import { sendSms } from "../notifications/sms.service.js";
+import { sendEmail } from "../notifications/email.service.js";
 
 const OTP_PURPOSES = {
   verify: {
@@ -13,28 +14,43 @@ const OTP_PURPOSES = {
     message: (code) =>
       `Your CibusHub password reset code is ${code}. It expires in 15 minutes. Ignore this if you did not ask.`,
   },
+  // Sent to the NEW phone number, to prove the user owns it [AC-CUST-02]
+  changePhone: {
+    lifetimeSeconds: 5 * 60,
+    message: (code) =>
+      `Your CibusHub code is ${code}. Use it to confirm your new phone number. It expires in 5 minutes.`,
+  },
+  // Sent to the NEW email address [AC-CUST-02]
+  changeEmail: {
+    channel: "email",
+    lifetimeSeconds: 15 * 60,
+    subject: "Confirm your new CibusHub email",
+    message: (code) =>
+      `Your CibusHub code is ${code}. Use it to confirm your new email address. It expires in 15 minutes.`,
+  },
 };
 
 const RESEND_WAIT_SECONDS = 60;
 const MAX_CODES_PER_HOUR = 5;
 const MAX_WRONG_ATTEMPTS = 5;
 
-const otpKeys = (purpose, phone) => {
+// destination is a phone number, or an email address for the "changeEmail" purpose
+const otpKeys = (purpose, destination) => {
   return {
-    code: `otp:${purpose}:${phone}:code`,
-    attempts: `otp:${purpose}:${phone}:attempts`,
-    cooldown: `otp:${purpose}:${phone}:cooldown`,
-    hourly: `otp:${purpose}:${phone}:hourly`,
+    code: `otp:${purpose}:${destination}:code`,
+    attempts: `otp:${purpose}:${destination}:attempts`,
+    cooldown: `otp:${purpose}:${destination}:cooldown`,
+    hourly: `otp:${purpose}:${destination}:hourly`,
   };
 };
 
-export const sendOtp = async (phone, purpose = "verify") => {
+export const sendOtp = async (destination, purpose = "verify") => {
   const settings = OTP_PURPOSES[purpose];
   if (!settings) {
     throw new Error(`Unknown OTP purpose: ${purpose}`);
   }
 
-  const keys = otpKeys(purpose, phone);
+  const keys = otpKeys(purpose, destination);
 
   const secondsToWait = await redis.ttl(keys.cooldown);
   if (secondsToWait > 0) {
@@ -60,11 +76,15 @@ export const sendOtp = async (phone, purpose = "verify") => {
   await redis.del(keys.attempts);
   await redis.set(keys.cooldown, "1", "EX", RESEND_WAIT_SECONDS);
 
-  await sendSms(phone, settings.message(code));
+  if (settings.channel === "email") {
+    await sendEmail(destination, settings.subject, settings.message(code));
+  } else {
+    await sendSms(destination, settings.message(code));
+  }
 };
 
-export const verifyOtp = async (phone, code, purpose = "verify") => {
-  const keys = otpKeys(purpose, phone);
+export const verifyOtp = async (destination, code, purpose = "verify") => {
+  const keys = otpKeys(purpose, destination);
 
   const wrongAttempts = Number(await redis.get(keys.attempts));
   if (wrongAttempts >= MAX_WRONG_ATTEMPTS) {

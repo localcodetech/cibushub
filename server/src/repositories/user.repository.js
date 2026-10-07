@@ -9,6 +9,10 @@ export const findUserByPhone = (phone) => {
   return User.findOne({ where: { phone } });
 };
 
+export const findUserByEmail = (email) => {
+  return User.findOne({ where: { email } });
+};
+
 export const findUserByEmailOrPhone = (email, phone) => {
   return User.findOne({
     where: {
