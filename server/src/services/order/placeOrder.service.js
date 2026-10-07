@@ -4,6 +4,7 @@ import { retryOnDeadlock } from "../../utils/database/retryOnDeadlock.js";
 import { generateOrderNumber } from "../../utils/order/orderNumber.js";
 import { buildQuote } from "../checkout/quote.service.js";
 import { clearCachedMenu } from "../menu/menuCache.service.js";
+import { scheduleUnpaidOrderExpiry } from "../../jobs/enqueue.js";
 import { decreaseStock, lockItemsForOrder } from "../../repositories/menu.repository.js";
 import {
   addStatusHistory,
@@ -158,6 +159,9 @@ export const placeOrder = async (customerId, checkout, idempotencyKey) => {
       if (created.stockChanged) {
         await clearCachedMenu(created.restaurantId);
       }
+
+      // Cancel it in 30 minutes if it is still unpaid
+      await scheduleUnpaidOrderExpiry(created.orderId);
 
       return { order: await findOrderWithDetails(created.orderId), isNew: true };
     } catch (error) {

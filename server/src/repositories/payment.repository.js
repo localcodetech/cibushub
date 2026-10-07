@@ -29,3 +29,16 @@ export const updatePayment = (payment, changes, transaction) => {
 export const lockPaymentByReference = (reference, transaction) => {
   return Payment.findOne({ where: { reference }, lock: transaction.LOCK.UPDATE, transaction });
 };
+
+export const findPendingPaymentsForOrder = (orderId) => {
+  return Payment.findAll({ where: { orderId, status: "PENDING" } });
+};
+
+// Payments still PENDING that were started before a moment: their webhook may have been missed
+export const findStuckPendingPayments = (startedBefore, limit) => {
+  return Payment.findAll({
+    where: { status: "PENDING", createdAt: { [Op.lt]: startedBefore } },
+    order: [["createdAt", "ASC"]],
+    limit,
+  });
+};

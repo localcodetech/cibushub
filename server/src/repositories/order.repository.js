@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import {
   Order,
   OrderItem,
@@ -68,4 +69,18 @@ export const updateOrder = (order, changes, transaction) => {
 
 export const findOrderItems = (orderId, transaction) => {
   return OrderItem.findAll({ where: { orderId }, transaction });
+};
+
+export const findOrderById = (orderId) => {
+  return Order.findByPk(orderId);
+};
+
+// Orders still waiting for payment that were placed before a moment, oldest first (the sweeper)
+export const findOverdueUnpaidOrders = (placedBefore, limit) => {
+  return Order.findAll({
+    where: { status: "PENDING_PAYMENT", createdAt: { [Op.lt]: placedBefore } },
+    attributes: ["id"],
+    order: [["createdAt", "ASC"]],
+    limit,
+  });
 };

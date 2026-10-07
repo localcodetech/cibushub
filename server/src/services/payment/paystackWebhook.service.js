@@ -8,7 +8,8 @@ import { lockPaymentByReference, updatePayment } from "../../repositories/paymen
 
 const SYSTEM = { userId: null, role: "SYSTEM" };
 
-// Paystack's words for an attempt that did not go through
+// Paystack's words for an attempt that did not go through. Anything else that is not "success"
+// (ongoing, pending, processing, queued: e.g. a MoMo prompt still on the phone) stays PENDING.
 const FAILED_STATUSES = { failed: "FAILED", abandoned: "ABANDONED", reversed: "FAILED" };
 
 // What to do with one verified answer from Paystack, inside one transaction
@@ -27,12 +28,14 @@ const applyVerification = async (reference, verified, transaction) => {
   }
 
   if (verified.status !== "success") {
+    const failedStatus = FAILED_STATUSES[verified.status];
+    if (!failedStatus) {
+      return "STILL_PENDING";
+    }
+
     await updatePayment(
       payment,
-      {
-        status: FAILED_STATUSES[verified.status] || "FAILED",
-        gatewayResponse: verified.gatewayResponse,
-      },
+      { status: failedStatus, gatewayResponse: verified.gatewayResponse },
       transaction,
     );
     return "NOT_PAID";
@@ -97,6 +100,16 @@ const applyVerification = async (reference, verified, transaction) => {
   return "PAID_AFTER_CLOSE";
 };
 
+// Asks Paystack about one payment and records the answer. Used by the webhook, the
+// reconciliation job and the unpaid-order expiry job [AC-PAY-05, AC-PAY-12]
+export const reconcilePayment = async (reference) => {
+  const verified = await verifyTransaction(reference);
+
+  return retryOnDeadlock(() =>
+    sequelize.transaction((transaction) => applyVerification(reference, verified, transaction)),
+  );
+};
+
 // Handles one webhook event whose signature was already checked [AC-PAY-05, AC-PAY-07]
 export const handlePaystackEvent = async (event) => {
   // Other events (transfers, subscriptions...) do not concern orders
@@ -110,9 +123,5 @@ export const handlePaystackEvent = async (event) => {
   }
 
   // Never trust the webhook's own numbers: ask Paystack directly
-  const verified = await verifyTransaction(reference);
-
-  return retryOnDeadlock(() =>
-    sequelize.transaction((transaction) => applyVerification(reference, verified, transaction)),
-  );
+  return reconcilePayment(reference);
 };

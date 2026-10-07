@@ -3,6 +3,7 @@ import env from "../src/config/env/env.js";
 import sequelize from "../src/config/database.js";
 import redis from "../src/config/redis.js";
 import { sentSms } from "./helpers/fakeSms.js";
+import { scheduledJobs } from "./helpers/fakeJobs.js";
 
 if (env.NODE_ENV !== "test" || !env.MYSQL_DATABASE.endsWith("_test")) {
   throw new Error("Tests must run with NODE_ENV=test on a *_test database. Use: npm test");
@@ -14,6 +15,18 @@ vi.mock("../src/services/notifications/sms.service.js", async () => {
   return {
     sendSms: async (phone, message) => {
       inbox.push({ phone, message });
+    },
+  };
+});
+
+// Scheduling a background job is only recorded in tests; job logic is tested by calling it directly
+vi.mock("../src/jobs/enqueue.js", async () => {
+  const { scheduledJobs: list } = await import("./helpers/fakeJobs.js");
+
+  return {
+    UNPAID_ORDER_MINUTES: 30,
+    scheduleUnpaidOrderExpiry: async (orderId) => {
+      list.push({ name: "expireUnpaidOrder", orderId });
     },
   };
 });
@@ -34,6 +47,7 @@ const emptyAllTables = async () => {
 
 beforeEach(async () => {
   sentSms.length = 0;
+  scheduledJobs.length = 0;
   await redis.flushdb();
   await emptyAllTables();
 });

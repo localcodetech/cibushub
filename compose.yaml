@@ -16,6 +16,23 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+  # Background jobs (expiry, reconciliation, clean-up): same code as the server, different start command
+  worker:
+    build:
+      context: ./server
+      target: dev
+    command: npm run worker
+    env_file:
+      - ./server/.env
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    init: true
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
   client:
     build:
       context: ./client
