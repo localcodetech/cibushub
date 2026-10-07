@@ -3,7 +3,7 @@ import { z } from "zod";
 const MAX_LINES = 50;
 
 // One line of the cart, as the browser remembers it
-const cartLineSchema = z
+export const cartLineSchema = z
   .object({
     menuItemId: z.uuid("Invalid menu item"),
     quantity: z

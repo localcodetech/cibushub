@@ -7,6 +7,7 @@ import { adminRestaurantPaths } from "./paths/adminRestaurant.paths.js";
 import { customerAddressPaths } from "./paths/customerAddress.paths.js";
 import { profilePaths } from "./paths/profile.paths.js";
 import { cartPaths } from "./paths/cart.paths.js";
+import { checkoutPaths } from "./paths/checkout.paths.js";
 import { successResponse, errorResponse } from "./helpers.js";
 
 export const openApiDocument = {
@@ -55,5 +56,6 @@ export const openApiDocument = {
     ...customerAddressPaths,
     ...profilePaths,
     ...cartPaths,
+    ...checkoutPaths,
   },
 };

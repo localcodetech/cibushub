@@ -153,6 +153,10 @@ export const checkCart = async ({ restaurantId, items }) => {
       name: restaurant.name,
       openStatus: getOpenStatus(restaurant, now),
       minOrderPesewas: restaurant.minOrderPesewas,
+      // Needed by checkout for the delivery fee and radius (already public on the restaurant page)
+      latitude: restaurant.latitude,
+      longitude: restaurant.longitude,
+      deliveryRadiusKm: restaurant.deliveryRadiusKm,
     },
     lines,
     subtotalPesewas,
