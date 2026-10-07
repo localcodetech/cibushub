@@ -30,6 +30,7 @@ const checkOptions = (item, optionIds, problems) => {
 
     chosenOptions.push({
       id: option.id,
+      groupName: group.name,
       name: option.name,
       extraPricePesewas: option.extraPricePesewas,
     });
@@ -90,6 +91,7 @@ const checkLine = (line, item) => {
   return {
     menuItemId: item.id,
     name: item.name,
+    basePricePesewas: item.pricePesewas,
     quantity: line.quantity,
     optionIds: line.optionIds,
     options: chosenOptions,
@@ -104,8 +106,9 @@ const canBeOrdered = (line) => {
 };
 
 // [AC-CART-07]
-export const checkCart = async ({ restaurantId, items }) => {
-  const restaurant = await findRestaurantById(restaurantId);
+// transaction is optional: placing an order passes one so it reads the locked rows
+export const checkCart = async ({ restaurantId, items }, transaction) => {
+  const restaurant = await findRestaurantById(restaurantId, transaction);
 
   // Gone, suspended or never approved: nothing in the cart can be ordered
   if (!restaurant || restaurant.status !== "APPROVED") {
@@ -127,7 +130,7 @@ export const checkCart = async ({ restaurantId, items }) => {
   }
 
   const itemIds = items.map((line) => line.menuItemId);
-  const menuItems = await findItemsForCart(restaurantId, itemIds);
+  const menuItems = await findItemsForCart(restaurantId, itemIds, transaction);
 
   const lines = items.map((line) => {
     const item = menuItems.find((candidate) => candidate.id === line.menuItemId);
@@ -153,6 +156,10 @@ export const checkCart = async ({ restaurantId, items }) => {
       name: restaurant.name,
       openStatus: getOpenStatus(restaurant, now),
       minOrderPesewas: restaurant.minOrderPesewas,
+      // Needed by checkout for the delivery fee and radius (already public on the restaurant page)
+      latitude: restaurant.latitude,
+      longitude: restaurant.longitude,
+      deliveryRadiusKm: restaurant.deliveryRadiusKm,
     },
     lines,
     subtotalPesewas,

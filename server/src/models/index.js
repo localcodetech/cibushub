@@ -12,6 +12,10 @@ import MenuItem from "./menu/menuItem.model.js";
 import OptionGroup from "./menu/optionGroup.model.js";
 import Option from "./menu/option.model.js";
 import AuditLog from "./auditLog.model.js";
+import Order from "./order/order.model.js";
+import OrderItem from "./order/orderItem.model.js";
+import OrderItemOption from "./order/orderItemOption.model.js";
+import OrderStatusHistory from "./order/orderStatusHistory.model.js";
 
 // ─────────────────────────────────────────────
 // A user has many saved delivery addresses
@@ -79,6 +83,29 @@ Option.belongsTo(OptionGroup, { foreignKey: "optionGroupId", as: "optionGroup" }
 User.hasMany(AuditLog, { foreignKey: "actorId", as: "auditLogs" });
 AuditLog.belongsTo(User, { foreignKey: "actorId", as: "actor" });
 
+// ─────────────────────────────────────────────
+// A customer places many orders; a restaurant receives many orders
+// ─────────────────────────────────────────────
+User.hasMany(Order, { foreignKey: "customerId", as: "orders" });
+Order.belongsTo(User, { foreignKey: "customerId", as: "customer" });
+Restaurant.hasMany(Order, { foreignKey: "restaurantId", as: "orders" });
+Order.belongsTo(Restaurant, { foreignKey: "restaurantId", as: "restaurant" });
+
+// ─────────────────────────────────────────────
+// An order holds frozen copies of its items, and each item of its chosen options
+// ─────────────────────────────────────────────
+Order.hasMany(OrderItem, { foreignKey: "orderId", as: "items" });
+OrderItem.belongsTo(Order, { foreignKey: "orderId", as: "order" });
+OrderItem.hasMany(OrderItemOption, { foreignKey: "orderItemId", as: "options" });
+OrderItemOption.belongsTo(OrderItem, { foreignKey: "orderItemId", as: "orderItem" });
+
+// ─────────────────────────────────────────────
+// An order keeps a history of every status change [AC-ORD-04]
+// ─────────────────────────────────────────────
+Order.hasMany(OrderStatusHistory, { foreignKey: "orderId", as: "statusHistory" });
+OrderStatusHistory.belongsTo(Order, { foreignKey: "orderId", as: "order" });
+OrderStatusHistory.belongsTo(User, { foreignKey: "actorUserId", as: "actor" });
+
 export {
   User,
   Address,
@@ -91,4 +118,8 @@ export {
   OptionGroup,
   Option,
   AuditLog,
+  Order,
+  OrderItem,
+  OrderItemOption,
+  OrderStatusHistory,
 };

@@ -18,6 +18,8 @@ import authorize from "./middlewares/authorize.js";
 import requireActive from "./middlewares/requireActive.js";
 import adminRestaurantRoutes from "./routes/admin/restaurant.routes.js";
 import customerAddressRoutes from "./routes/customer/address.routes.js";
+import customerCheckoutRoutes from "./routes/customer/checkout.routes.js";
+import customerOrderRoutes from "./routes/customer/order.routes.js";
 import profileRoutes from "./routes/profile.routes.js";
 import cartRoutes from "./routes/cart.routes.js";
 import { globalLimiter } from "./middlewares/rateLimit/globalLimiter.js";
@@ -115,6 +117,16 @@ app.use("/api/v1/customer", authenticate, requireActive, authorize("CUSTOMER"));
 // Customer's saved delivery addresses
 // ─────────────────────────────────────────────
 app.use("/api/v1/customer/addresses", customerAddressRoutes);
+
+// ─────────────────────────────────────────────
+// Customer checkout: quote now, place order next
+// ─────────────────────────────────────────────
+app.use("/api/v1/customer/checkout", customerCheckoutRoutes);
+
+// ─────────────────────────────────────────────
+// Customer orders: place, list, view, cancel
+// ─────────────────────────────────────────────
+app.use("/api/v1/customer/orders", customerOrderRoutes);
 
 // ─────────────────────────────────────────────
 // Every owner route: must be logged in as a restaurant owner

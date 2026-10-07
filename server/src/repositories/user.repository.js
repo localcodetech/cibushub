@@ -1,8 +1,8 @@
 import { Op } from "sequelize";
 import { User } from "../models/index.js";
 
-export const findUserById = (id) => {
-  return User.findByPk(id);
+export const findUserById = (id, transaction) => {
+  return User.findByPk(id, { transaction });
 };
 
 export const findUserByPhone = (phone) => {
