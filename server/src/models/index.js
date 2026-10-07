@@ -10,6 +10,7 @@ import MenuCategory from "./menu/menuCategory.model.js";
 import MenuItem from "./menu/menuItem.model.js";
 import OptionGroup from "./menu/optionGroup.model.js";
 import Option from "./menu/option.model.js";
+import AuditLog from "./auditLog.model.js";
 
 // ─────────────────────────────────────────────
 // A user has many saved delivery addresses
@@ -65,6 +66,12 @@ OptionGroup.belongsTo(MenuItem, { foreignKey: "menuItemId", as: "menuItem" });
 OptionGroup.hasMany(Option, { foreignKey: "optionGroupId", as: "options" });
 Option.belongsTo(OptionGroup, { foreignKey: "optionGroupId", as: "optionGroup" });
 
+// ─────────────────────────────────────────────
+// An admin has many audit log rows (who did what) [AC-ADM-07]
+// ─────────────────────────────────────────────
+User.hasMany(AuditLog, { foreignKey: "actorId", as: "auditLogs" });
+AuditLog.belongsTo(User, { foreignKey: "actorId", as: "actor" });
+
 export {
   User,
   Address,
@@ -75,4 +82,5 @@ export {
   MenuItem,
   OptionGroup,
   Option,
+  AuditLog,
 };
