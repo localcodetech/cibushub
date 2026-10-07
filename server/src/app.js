@@ -124,7 +124,7 @@ app.use("/api/v1/customer/addresses", customerAddressRoutes);
 app.use("/api/v1/customer/checkout", customerCheckoutRoutes);
 
 // ─────────────────────────────────────────────
-// Customer orders: place an order
+// Customer orders: place, list, view, cancel
 // ─────────────────────────────────────────────
 app.use("/api/v1/customer/orders", customerOrderRoutes);
 

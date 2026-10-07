@@ -1,4 +1,10 @@
-import { Order, OrderItem, OrderItemOption, OrderStatusHistory } from "../models/index.js";
+import {
+  Order,
+  OrderItem,
+  OrderItemOption,
+  OrderStatusHistory,
+  Restaurant,
+} from "../models/index.js";
 
 // An order with its frozen items, their options, and its status history in time order
 const WITH_DETAILS = {
@@ -33,4 +39,33 @@ export const createOrderWithItems = (data, transaction) => {
 
 export const addStatusHistory = (data, transaction) => {
   return OrderStatusHistory.create(data, { transaction });
+};
+
+// One page of a customer's orders, newest first, with the restaurant's name and logo [AC-CUST-09]
+export const findOrdersByCustomer = ({ customerId, status, limit, offset }) => {
+  const where = { customerId };
+  if (status) {
+    where.status = status;
+  }
+
+  return Order.findAndCountAll({
+    where,
+    include: [{ model: Restaurant, as: "restaurant", attributes: ["id", "name", "logoUrl"] }],
+    order: [["createdAt", "DESC"]],
+    limit,
+    offset,
+  });
+};
+
+// Locks one order row until the transaction ends, so two people cannot change it at once [AC-ORD-05]
+export const lockOrder = (orderId, transaction) => {
+  return Order.findByPk(orderId, { lock: transaction.LOCK.UPDATE, transaction });
+};
+
+export const updateOrder = (order, changes, transaction) => {
+  return order.update(changes, { transaction });
+};
+
+export const findOrderItems = (orderId, transaction) => {
+  return OrderItem.findAll({ where: { orderId }, transaction });
 };

@@ -8,6 +8,7 @@ import { customerAddressPaths } from "./paths/customerAddress.paths.js";
 import { profilePaths } from "./paths/profile.paths.js";
 import { cartPaths } from "./paths/cart.paths.js";
 import { checkoutPaths } from "./paths/checkout.paths.js";
+import { customerOrderListOperation, customerOrderPaths } from "./paths/customerOrder.paths.js";
 import { successResponse, errorResponse } from "./helpers.js";
 
 export const openApiDocument = {
@@ -57,5 +58,11 @@ export const openApiDocument = {
     ...profilePaths,
     ...cartPaths,
     ...checkoutPaths,
+    // GET (my orders) and POST (place order) share one URL, so the two are joined here
+    "/api/v1/customer/orders": {
+      ...checkoutPaths["/api/v1/customer/orders"],
+      get: customerOrderListOperation,
+    },
+    ...customerOrderPaths,
   },
 };

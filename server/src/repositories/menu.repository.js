@@ -122,6 +122,18 @@ export const lockItemsForOrder = (itemIds, transaction) => {
   });
 };
 
+// Gives stock back when an order is cancelled or rejected; untracked dishes are left alone [AC-CANC-06]
+export const increaseStock = (itemId, quantity, transaction) => {
+  return MenuItem.update(
+    { stockRemaining: sequelize.literal(`stock_remaining + ${Number(quantity)}`) },
+    {
+      where: { id: itemId, stockRemaining: { [Op.ne]: null } },
+      paranoid: false,
+      transaction,
+    },
+  );
+};
+
 // Takes stock only if enough is left; returns false if not [AC-MENU-07]
 export const decreaseStock = async (itemId, quantity, transaction) => {
   const [rowsChanged] = await MenuItem.update(
