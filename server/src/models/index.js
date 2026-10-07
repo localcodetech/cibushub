@@ -1,11 +1,94 @@
+// ─────────────────────────────────────────────
+// Load every model (always import models from this file, so the links below exist)
+// ─────────────────────────────────────────────
 import User from "./user.model.js";
 import Address from "./address.model.js";
 import RefreshToken from "./refreshToken.model.js";
+import Restaurant from "./restaurant/restaurant.model.js";
+import OpeningHours from "./restaurant/openingHours.model.js";
+import RestaurantDocument from "./restaurant/restaurantDocument.model.js";
+import MenuCategory from "./menu/menuCategory.model.js";
+import MenuItem from "./menu/menuItem.model.js";
+import OptionGroup from "./menu/optionGroup.model.js";
+import Option from "./menu/option.model.js";
+import AuditLog from "./auditLog.model.js";
 
+// ─────────────────────────────────────────────
+// A user has many saved delivery addresses
+// ─────────────────────────────────────────────
 User.hasMany(Address, { foreignKey: "userId", as: "addresses" });
 Address.belongsTo(User, { foreignKey: "userId", as: "user" });
 
+// ─────────────────────────────────────────────
+// A user has many login sessions (one refresh token per device)
+// ─────────────────────────────────────────────
 User.hasMany(RefreshToken, { foreignKey: "userId", as: "refreshTokens" });
 RefreshToken.belongsTo(User, { foreignKey: "userId", as: "user" });
 
-export { User, Address, RefreshToken };
+// ─────────────────────────────────────────────
+// An owner has many restaurants
+// ─────────────────────────────────────────────
+User.hasMany(Restaurant, { foreignKey: "ownerId", as: "restaurants" });
+Restaurant.belongsTo(User, { foreignKey: "ownerId", as: "owner" });
+
+// ─────────────────────────────────────────────
+// A restaurant has opening hours for each day of the week
+// ─────────────────────────────────────────────
+Restaurant.hasMany(OpeningHours, { foreignKey: "restaurantId", as: "openingHours" });
+OpeningHours.belongsTo(Restaurant, { foreignKey: "restaurantId", as: "restaurant" });
+
+// ─────────────────────────────────────────────
+// A restaurant has private verification documents (FDA certificate, Ghana Card...)
+// ─────────────────────────────────────────────
+Restaurant.hasMany(RestaurantDocument, { foreignKey: "restaurantId", as: "documents" });
+RestaurantDocument.belongsTo(Restaurant, { foreignKey: "restaurantId", as: "restaurant" });
+
+// ─────────────────────────────────────────────
+// A restaurant's menu has categories ("Rice Dishes", "Drinks")
+// ─────────────────────────────────────────────
+Restaurant.hasMany(MenuCategory, { foreignKey: "restaurantId", as: "menuCategories" });
+MenuCategory.belongsTo(Restaurant, { foreignKey: "restaurantId", as: "restaurant" });
+
+// ─────────────────────────────────────────────
+// A restaurant has many menu items (kept here too for quick ownership checks and search)
+// ─────────────────────────────────────────────
+Restaurant.hasMany(MenuItem, { foreignKey: "restaurantId", as: "menuItems" });
+MenuItem.belongsTo(Restaurant, { foreignKey: "restaurantId", as: "restaurant" });
+
+// ─────────────────────────────────────────────
+// A category holds many items
+// ─────────────────────────────────────────────
+MenuCategory.hasMany(MenuItem, { foreignKey: "categoryId", as: "items" });
+MenuItem.belongsTo(MenuCategory, { foreignKey: "categoryId", as: "category" });
+
+// ─────────────────────────────────────────────
+// An item has option groups ("Protein", "Extras")
+// ─────────────────────────────────────────────
+MenuItem.hasMany(OptionGroup, { foreignKey: "menuItemId", as: "optionGroups" });
+OptionGroup.belongsTo(MenuItem, { foreignKey: "menuItemId", as: "menuItem" });
+
+// ─────────────────────────────────────────────
+// An option group has options ("Chicken", "Fish")
+// ─────────────────────────────────────────────
+OptionGroup.hasMany(Option, { foreignKey: "optionGroupId", as: "options" });
+Option.belongsTo(OptionGroup, { foreignKey: "optionGroupId", as: "optionGroup" });
+
+// ─────────────────────────────────────────────
+// An admin has many audit log rows (who did what) [AC-ADM-07]
+// ─────────────────────────────────────────────
+User.hasMany(AuditLog, { foreignKey: "actorId", as: "auditLogs" });
+AuditLog.belongsTo(User, { foreignKey: "actorId", as: "actor" });
+
+export {
+  User,
+  Address,
+  RefreshToken,
+  Restaurant,
+  OpeningHours,
+  RestaurantDocument,
+  MenuCategory,
+  MenuItem,
+  OptionGroup,
+  Option,
+  AuditLog,
+};

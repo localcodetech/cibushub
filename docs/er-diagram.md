@@ -6,6 +6,15 @@ The database tables and how they connect ([AC-DB-05](../CibusHub_Acceptance_Crit
 erDiagram
     users ||--o{ addresses : "has"
     users ||--o{ refresh_tokens : "has sessions"
+    users ||--o{ restaurants : "owns"
+    users ||--o{ audit_logs : "acts (admin)"
+    restaurants ||--o{ restaurant_opening_hours : "open on"
+    restaurants ||--o{ restaurant_documents : "verified by"
+    restaurants ||--o{ menu_categories : "has"
+    restaurants ||--o{ menu_items : "sells"
+    menu_categories ||--o{ menu_items : "groups"
+    menu_items ||--o{ menu_option_groups : "has"
+    menu_option_groups ||--o{ menu_options : "has"
 
     users {
         uuid id PK
@@ -52,6 +61,121 @@ erDiagram
         datetime created_at
         datetime updated_at
     }
+
+    restaurants {
+        uuid id PK
+        uuid owner_id FK "users.id, ON DELETE RESTRICT"
+        varchar name "FULLTEXT with description"
+        varchar legal_name "never shown publicly"
+        text description
+        varchar phone "E.164"
+        json cuisine_tags
+        varchar address_line
+        varchar area
+        varchar city "default Kumasi"
+        decimal latitude
+        decimal longitude
+        varchar logo_url
+        varchar logo_public_id "Cloudinary ID, to delete on replace"
+        varchar cover_image_url
+        varchar cover_image_public_id
+        enum status "PENDING_APPROVAL, APPROVED, REJECTED, SUSPENDED"
+        text rejection_reason
+        boolean is_accepting_orders
+        int min_order_pesewas
+        decimal delivery_radius_km
+        int prep_time_minutes
+        datetime approved_at
+        datetime created_at
+        datetime updated_at
+        datetime deleted_at "soft delete"
+    }
+
+    restaurant_opening_hours {
+        uuid id PK
+        uuid restaurant_id FK "restaurants.id, ON DELETE CASCADE"
+        tinyint day_of_week "0 = Sunday; unique per restaurant"
+        boolean is_closed
+        time opens_at "Africa/Accra"
+        time closes_at "may be after midnight"
+        datetime created_at
+        datetime updated_at
+    }
+
+    restaurant_documents {
+        uuid id PK
+        uuid restaurant_id FK "restaurants.id, ON DELETE CASCADE"
+        enum document_type "BUSINESS_REGISTRATION, FDA_CERTIFICATE, GHANA_CARD, OPERATING_LICENCE; unique per restaurant"
+        varchar public_id "private Cloudinary asset"
+        varchar format "pdf, jpg, png, webp"
+        datetime created_at
+        datetime updated_at
+    }
+
+    menu_categories {
+        uuid id PK
+        uuid restaurant_id FK "restaurants.id, ON DELETE CASCADE"
+        varchar name
+        int display_order
+        datetime created_at
+        datetime updated_at
+        datetime deleted_at "soft delete"
+    }
+
+    menu_items {
+        uuid id PK
+        uuid restaurant_id FK "restaurants.id, ON DELETE CASCADE"
+        uuid category_id FK "menu_categories.id, ON DELETE RESTRICT"
+        varchar name "FULLTEXT with description"
+        text description
+        int price_pesewas "at least 1"
+        varchar image_url
+        varchar image_public_id
+        json tags
+        boolean is_available "sold-out switch"
+        int daily_stock "null = unlimited"
+        int stock_remaining
+        int display_order
+        datetime created_at
+        datetime updated_at
+        datetime deleted_at "soft delete, kept for old orders"
+    }
+
+    menu_option_groups {
+        uuid id PK
+        uuid menu_item_id FK "menu_items.id, ON DELETE CASCADE"
+        varchar name "e.g. Protein"
+        int min_select
+        int max_select
+        int display_order
+        datetime created_at
+        datetime updated_at
+    }
+
+    menu_options {
+        uuid id PK
+        uuid option_group_id FK "menu_option_groups.id, ON DELETE CASCADE"
+        varchar name "e.g. Fried fish"
+        int extra_price_pesewas
+        boolean is_available
+        int display_order
+        datetime created_at
+        datetime updated_at
+    }
+
+    audit_logs {
+        uuid id PK
+        uuid actor_id FK "users.id, ON DELETE RESTRICT"
+        varchar action "e.g. RESTAURANT_APPROVED"
+        varchar target_type "e.g. restaurant"
+        uuid target_id "no FK: may point at any table"
+        json before
+        json after
+        text reason
+        varchar ip_address
+        datetime created_at "append-only: never updated or deleted"
+        datetime updated_at
+    }
 ```
 
 ## Conventions
@@ -68,3 +192,12 @@ erDiagram
 |---|---|---|---|
 | `addresses.user_id` | `users.id` | many addresses belong to one user | CASCADE |
 | `refresh_tokens.user_id` | `users.id` | many sessions belong to one user | CASCADE |
+| `restaurants.owner_id` | `users.id` | an owner has many restaurants | RESTRICT |
+| `restaurant_opening_hours.restaurant_id` | `restaurants.id` | one row per weekday | CASCADE |
+| `restaurant_documents.restaurant_id` | `restaurants.id` | one document per type | CASCADE |
+| `menu_categories.restaurant_id` | `restaurants.id` | a menu has many categories | CASCADE |
+| `menu_items.restaurant_id` | `restaurants.id` | kept for quick ownership checks and search | CASCADE |
+| `menu_items.category_id` | `menu_categories.id` | a category holds many items | RESTRICT |
+| `menu_option_groups.menu_item_id` | `menu_items.id` | an item has option groups | CASCADE |
+| `menu_options.option_group_id` | `menu_option_groups.id` | a group has options | CASCADE |
+| `audit_logs.actor_id` | `users.id` | the admin who acted | RESTRICT |

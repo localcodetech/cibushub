@@ -41,12 +41,30 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | `POST /auth/forgot-password` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | validate, otpLimiter |
 | `POST /auth/reset-password` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | validate, otpLimiter |
 | `POST /auth/change-password` | — | 🔒⏳ | 🔒⏳ | 🔒⏳ | 🔒 | 🔒 | authenticate, validate |
+| `GET /restaurants` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | validate (query) |
+| `GET /restaurants/:id` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | — (404 unless approved) |
+| `POST /owner/restaurants` | — | — | 🔒⏳ | — | — | — | authenticate, authorize, requireVerifiedPhone, validate |
+| `GET /owner/restaurants`, `GET /owner/restaurants/:id` | — | — | 🔒⏳ | — | — | — | authenticate, authorize, requireVerifiedPhone |
+| `PATCH /owner/restaurants/:id` | — | — | 🔒⏳ | — | — | — | authenticate, authorize, requireVerifiedPhone, validate |
+| `PUT /owner/restaurants/:id/opening-hours` | — | — | 🔒⏳ | — | — | — | authenticate, authorize, requireVerifiedPhone, validate |
+| `PATCH /owner/restaurants/:id/accepting-orders` | — | — | 🔒 | — | — | — | authenticate, authorize, requireActive, validate |
+| `POST /owner/restaurants/:id/resubmit` | — | — | 🔒⏳ | — | — | — | authenticate, authorize, requireVerifiedPhone |
+| `PUT /owner/restaurants/:id/logo`, `/cover` | — | — | 🔒⏳ | — | — | — | authenticate, authorize, requireVerifiedPhone, upload |
+| `GET /owner/restaurants/:id/documents` | — | — | 🔒⏳ | — | — | — | authenticate, authorize, requireVerifiedPhone |
+| `PUT /owner/restaurants/:id/documents/:type` | — | — | 🔒⏳ | — | — | — | authenticate, authorize, requireVerifiedPhone, validate (params), upload |
+| `/owner/restaurants/:id/menu/**` (all menu endpoints) | — | — | 🔒 | — | — | — | authenticate, authorize, requireActive, validate (photo: upload) |
+| `GET /admin/restaurants`, `GET /admin/restaurants/:id` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate (query) |
+| `GET /admin/restaurants/:id/documents` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize |
+| `POST /admin/restaurants/:id/approve` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize; audit logged |
+| `POST /admin/restaurants/:id/reject`, `/suspend` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; audit logged |
 
 Notes:
 
 - "Register" is guest-only in practice: an existing account gets `409 ACCOUNT_EXISTS`. Admin roles can never be registered ([AC-AUTH-06](../CibusHub_Acceptance_Criteria.md)); admins are created by a super admin.
 - `/me` and `change-password` work for unverified and pending accounts on purpose, so the app can show "verify your phone" or "waiting for approval" and the user can still secure their account.
 - Every feature added from Step 5 onward uses `authenticate, requireActive, authorize(...)` and gets a row here.
+- Owner onboarding routes use `requireVerifiedPhone` instead of `requireActive`, so an owner still `PENDING_APPROVAL` can submit, edit and upload documents. Running the business (menu, accepting orders) needs `requireActive`.
+- Another owner's restaurant, item or document returns `404 NOT_FOUND`, never `403`, so IDs cannot be probed ([AC-RBAC-04](../CibusHub_Acceptance_Criteria.md)).
 
 ## Planned (from the acceptance criteria, filled in as each step is built)
 

@@ -17,6 +17,10 @@ export const envSchema = zod.object({
   OTP_SECRET: zod.string().min(32),
   JWT_ACCESS_SECRET: zod.string().min(32),
 
+  CLOUDINARY_CLOUD_NAME: zod.string().min(1),
+  CLOUDINARY_API_KEY: zod.string().min(1),
+  CLOUDINARY_API_SECRET: zod.string().min(1),
+
   SUPER_ADMIN_NAME: zod.string().min(1).optional(),
   SUPER_ADMIN_EMAIL: zod.email().optional(),
   SUPER_ADMIN_PHONE: zod.string().min(1).optional(),
