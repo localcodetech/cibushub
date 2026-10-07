@@ -54,3 +54,4 @@ Add a row here in the same commit that introduces a new code.
 | `INVALID_SIGNATURE` | 401 | A payment webhook whose `x-paystack-signature` does not match the body; nothing is processed | AC-PAY-04 |
 | `NOTHING_TO_REFUND` | 409 | A refund was asked for an order that has no successful payment | AC-CANC-04 |
 | `REFUND_EXCEEDS_PAID` | 409 | The refund would make the total refunded larger than the amount paid; the message says how much is left | AC-CANC-05 |
+| `RECEIPT_NOT_AVAILABLE` | 409 | Asking for the receipt of an order that has not been paid | AC-PAY-15 |

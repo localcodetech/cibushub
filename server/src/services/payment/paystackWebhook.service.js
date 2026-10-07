@@ -4,8 +4,13 @@ import { retryOnDeadlock } from "../../utils/database/retryOnDeadlock.js";
 import { verifyTransaction } from "./paystack.client.js";
 import { changeOrderStatus } from "../order/changeOrderStatus.service.js";
 import { lockOrder, updateOrder } from "../../repositories/order.repository.js";
-import { lockPaymentByReference, updatePayment } from "../../repositories/payment.repository.js";
+import {
+  findPaymentByReference,
+  lockPaymentByReference,
+  updatePayment,
+} from "../../repositories/payment.repository.js";
 import { requestRefund } from "../refund/requestRefund.service.js";
+import { emailReceipt } from "../notifications/receiptEmail.service.js";
 
 const SYSTEM = { userId: null, role: "SYSTEM" };
 
@@ -114,9 +119,17 @@ const applyVerification = async (reference, verified, transaction) => {
 export const reconcilePayment = async (reference) => {
   const verified = await verifyTransaction(reference);
 
-  return retryOnDeadlock(() =>
+  const outcome = await retryOnDeadlock(() =>
     sequelize.transaction((transaction) => applyVerification(reference, verified, transaction)),
   );
+
+  // Only the delivery that actually marked it PAID sends the receipt, so it is sent once
+  if (outcome === "ORDER_PAID") {
+    const payment = await findPaymentByReference(reference);
+    await emailReceipt(payment.orderId);
+  }
+
+  return outcome;
 };
 
 // Handles one webhook event whose signature was already checked [AC-PAY-05, AC-PAY-07]

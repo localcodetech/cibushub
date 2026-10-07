@@ -126,6 +126,45 @@ export const customerOrderPaths = {
       },
     },
   },
+
+  "/api/v1/customer/orders/{orderId}/receipt": {
+    get: {
+      tags,
+      summary: "The receipt of one of my paid orders",
+      description: "Also emailed once when the order is paid. Built from the order's frozen copy.",
+      security: loggedIn,
+      parameters: [orderId],
+      responses: {
+        200: successResponse("The receipt", {
+          orderNumber: "CH-261009-482193",
+          restaurantName: "Auntie Akos Kitchen",
+          paidAt: "2026-10-09T12:05:00.000Z",
+          paymentMethod: "Mobile money",
+          paymentReference: "CH-261009-482193-9F3A1C",
+          items: [
+            {
+              name: "Waakye",
+              quantity: 2,
+              options: [],
+              unitPricePesewas: 3000,
+              lineTotalPesewas: 6000,
+            },
+          ],
+          subtotalPesewas: 6000,
+          deliveryFeePesewas: 1072,
+          serviceFeePesewas: 0,
+          discountPesewas: 0,
+          totalPesewas: 7072,
+        }),
+        404: notFound,
+        409: errorResponse(
+          "Not paid yet",
+          "RECEIPT_NOT_AVAILABLE",
+          "This order has not been paid yet",
+        ),
+      },
+    },
+  },
 };
 
 // The list lives on the same URL as "place order", so it is merged in document.js

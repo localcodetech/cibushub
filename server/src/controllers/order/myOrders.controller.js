@@ -1,4 +1,5 @@
 import { cancelMyOrder, getMyOrder, listMyOrders } from "../../services/order/myOrders.service.js";
+import { getMyReceipt } from "../../services/order/receipt.service.js";
 import { sendSuccess } from "../../utils/response.js";
 
 export const listOrders = async (req, res) => {
@@ -17,4 +18,10 @@ export const cancelOrder = async (req, res) => {
   const order = await cancelMyOrder(req.user.id, req.params.orderId, req.validated.body.reason);
 
   return sendSuccess(res, order);
+};
+
+export const getReceipt = async (req, res) => {
+  const receipt = await getMyReceipt(req.user.id, req.params.orderId);
+
+  return sendSuccess(res, receipt);
 };
