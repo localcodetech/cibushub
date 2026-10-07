@@ -46,6 +46,9 @@ const User = sequelize.define(
     avatarUrl: {
       type: DataTypes.STRING(500),
     },
+    avatarPublicId: {
+      type: DataTypes.STRING(255),
+    },
     lastLoginAt: {
       type: DataTypes.DATE,
     },
