@@ -14,15 +14,15 @@ const DISCOUNT_PESEWAS = 0; // promo codes come later
 
 // Everything the checkout page shows, worked out from the database only.
 // Placing the order uses this same function, so what is shown is what is charged [AC-CHK-01, AC-CHK-03]
-export const buildQuote = async (customerId, { restaurantId, addressId, items }) => {
-  const address = await findOwnedAddress(addressId, customerId);
+export const buildQuote = async (customerId, { restaurantId, addressId, items }, transaction) => {
+  const address = await findOwnedAddress(addressId, customerId, transaction);
 
   if (!address) {
     throw new AppError(404, "NOT_FOUND", "Address not found");
   }
 
-  const customer = await findUserById(customerId);
-  const cart = await checkCart({ restaurantId, items });
+  const customer = await findUserById(customerId, transaction);
+  const cart = await checkCart({ restaurantId, items }, transaction);
   const problems = [...cart.problems];
 
   let delivery = null;

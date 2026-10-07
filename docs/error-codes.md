@@ -48,3 +48,4 @@ Add a row here in the same commit that introduces a new code.
 | `FILE_TOO_LARGE` | 400 | An uploaded file is over 5 MB | AC-IMG-01 |
 | `INVALID_UPLOAD` | 400 | More than one file, or a file in the wrong form field | AC-IMG-01 |
 | `UNSUPPORTED_FILE_TYPE` | 400 | The file's real content (magic bytes) is not an allowed type: JPEG, PNG, WebP, or PDF for documents | AC-IMG-01 |
+| `CHECKOUT_BLOCKED` | 409 | Placing an order failed because something changed or is wrong (closed, sold out, not enough stock, price changed, out of range). `details` lists every problem, with `menuItemId` for item problems. Nothing is saved | AC-CHK-05, AC-CART-07 |

@@ -1,3 +1,5 @@
+import { Op } from "sequelize";
+import sequelize from "../config/database.js";
 import { MenuCategory, MenuItem, Option, OptionGroup } from "../models/index.js";
 
 // An item with its option groups and their options, all in display order
@@ -100,11 +102,37 @@ export const deleteOptionGroups = (menuItemId, transaction) => {
 // The full menu: categories → items → option groups → options
 // ─────────────────────────────────────────────
 // The items in a cart, with their options; deleted items are simply not found
-export const findItemsForCart = (restaurantId, itemIds) => {
+export const findItemsForCart = (restaurantId, itemIds, transaction) => {
   return MenuItem.findAll({
     where: { restaurantId, id: itemIds },
     ...WITH_OPTION_GROUPS,
+    transaction,
   });
+};
+
+// Locks the cart's dishes until the order is saved, always in ID order so two
+// checkouts can never wait on each other in a circle (a deadlock) [AC-CHK-06]
+export const lockItemsForOrder = (itemIds, transaction) => {
+  return MenuItem.findAll({
+    where: { id: itemIds },
+    attributes: ["id", "stockRemaining"],
+    order: [["id", "ASC"]],
+    lock: transaction.LOCK.UPDATE,
+    transaction,
+  });
+};
+
+// Takes stock only if enough is left; returns false if not [AC-MENU-07]
+export const decreaseStock = async (itemId, quantity, transaction) => {
+  const [rowsChanged] = await MenuItem.update(
+    { stockRemaining: sequelize.literal(`stock_remaining - ${Number(quantity)}`) },
+    {
+      where: { id: itemId, stockRemaining: { [Op.gte]: quantity } },
+      transaction,
+    },
+  );
+
+  return rowsChanged === 1;
 };
 
 export const findFullMenu = (restaurantId) => {

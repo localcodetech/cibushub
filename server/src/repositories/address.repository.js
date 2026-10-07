@@ -12,8 +12,8 @@ export const findAddressesByUser = (userId) => {
 };
 
 // Only finds the address if it belongs to this user
-export const findOwnedAddress = (id, userId) => {
-  return Address.findOne({ where: { id, userId } });
+export const findOwnedAddress = (id, userId, transaction) => {
+  return Address.findOne({ where: { id, userId }, transaction });
 };
 
 export const createAddress = (data) => {
