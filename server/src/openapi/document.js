@@ -1,5 +1,6 @@
 import pkg from "../../package.json" with { type: "json" };
 import { authPaths } from "./paths/auth.paths.js";
+import { restaurantPaths } from "./paths/restaurant.paths.js";
 import { successResponse, errorResponse } from "./helpers.js";
 
 export const openApiDocument = {
@@ -41,5 +42,6 @@ export const openApiDocument = {
       },
     },
     ...authPaths,
+    ...restaurantPaths,
   },
 };
