@@ -647,6 +647,12 @@ Non-behavioural requirements (security, performance, quality) are written as che
 **AC-PAY-16 — Secondary provider** `[COULD]`
 - If Flutterwave is implemented, payment logic sits behind a common provider interface so the order flow does not depend on a specific provider.
 
+**AC-PAY-17 — PDF receipt** `[SHOULD]`
+- Given an order is paid
+- Then the receipt email includes the receipt as a PDF attachment
+- And the in-app receipt page has a "Download PDF" button that saves a print-friendly version of the receipt.
+- (Added 2026-10-09 at the project owner's request. The in-app button uses the browser's print-to-PDF and is built with the receipt screen; the email attachment arrives with the real email provider in the notifications step.)
+
 ---
 
 ## 12. Order Lifecycle & State Machine

@@ -1,7 +1,11 @@
 import AppError from "../../utils/AppError.js";
 import { buildPageMeta, toLimitAndOffset } from "../../utils/pagination.js";
 import { nextStatusesFor } from "../../utils/order/orderStateMachine.js";
+import sequelize from "../../config/database.js";
+import { retryOnDeadlock } from "../../utils/database/retryOnDeadlock.js";
+import { scheduleRefund } from "../../jobs/enqueue.js";
 import { changeOrderStatus } from "./changeOrderStatus.service.js";
+import { refundableAmount, requestRefund } from "../refund/requestRefund.service.js";
 import { findOrderWithDetails, findOrdersByCustomer } from "../../repositories/order.repository.js";
 
 // [AC-CUST-09]
@@ -41,15 +45,34 @@ export const getMyOrder = async (customerId, orderId) => {
 };
 
 // Only before the restaurant accepts; the state machine refuses later ones [AC-CANC-01, AC-CANC-02]
-// A paid order's refund starts here once payments are built (Step 9)
+// If it was paid, a full refund is written in the SAME transaction: cancelled always means refunded
 export const cancelMyOrder = async (customerId, orderId, reason) => {
-  await changeOrderStatus({
-    orderId,
-    toStatus: "CANCELLED",
-    actor: { userId: customerId, role: "CUSTOMER" },
-    reason,
-    isAllowedFor: (order) => order.customerId === customerId,
-  });
+  const actor = { userId: customerId, role: "CUSTOMER" };
+
+  const refund = await retryOnDeadlock(() =>
+    sequelize.transaction(async (transaction) => {
+      const order = await changeOrderStatus({
+        orderId,
+        toStatus: "CANCELLED",
+        actor,
+        reason,
+        isAllowedFor: (found) => found.customerId === customerId,
+        transaction,
+      });
+
+      const amountPesewas = await refundableAmount(order, transaction);
+      if (amountPesewas === 0) {
+        return null; // never paid: nothing to give back
+      }
+
+      return requestRefund({ order, amountPesewas, reason, actor, transaction });
+    }),
+  );
+
+  // Send it to Paystack now (the every-5-minutes sweep is the safety net)
+  if (refund) {
+    await scheduleRefund(refund.id);
+  }
 
   return getMyOrder(customerId, orderId);
 };

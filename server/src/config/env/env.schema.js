@@ -21,6 +21,10 @@ export const envSchema = zod.object({
   CLOUDINARY_API_KEY: zod.string().min(1),
   CLOUDINARY_API_SECRET: zod.string().min(1),
 
+  // Server only, never sent to the browser [AC-PAY-03]
+  PAYSTACK_SECRET_KEY: zod.string().startsWith("sk_", "PAYSTACK_SECRET_KEY must start with sk_"),
+  PAYSTACK_BASE_URL: zod.url().default("https://api.paystack.co"),
+
   SUPER_ADMIN_NAME: zod.string().min(1).optional(),
   SUPER_ADMIN_EMAIL: zod.email().optional(),
   SUPER_ADMIN_PHONE: zod.string().min(1).optional(),

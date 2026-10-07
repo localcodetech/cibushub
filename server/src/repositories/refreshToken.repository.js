@@ -37,3 +37,8 @@ export const revokeTokenFamily = (familyId) => {
 export const revokeAllUserTokens = (userId) => {
   return RefreshToken.update({ revokedAt: new Date() }, { where: { userId, revokedAt: null } });
 };
+
+// Login sessions that ended (expired) before a moment can never be used again [AC-JOB-02]
+export const deleteExpiredTokens = (expiredBefore) => {
+  return RefreshToken.destroy({ where: { expiresAt: { [Op.lt]: expiredBefore } } });
+};

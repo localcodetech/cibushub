@@ -7,7 +7,13 @@ import {
   listMyOrdersSchema,
 } from "../../validators/order/myOrders.validator.js";
 import { createOrder } from "../../controllers/order/placeOrder.controller.js";
-import { cancelOrder, getOrder, listOrders } from "../../controllers/order/myOrders.controller.js";
+import {
+  cancelOrder,
+  getOrder,
+  getReceipt,
+  listOrders,
+} from "../../controllers/order/myOrders.controller.js";
+import { payForOrder } from "../../controllers/payment/startPayment.controller.js";
 
 const router = Router();
 
@@ -35,5 +41,15 @@ router.get("/:orderId", getOrder);
 // Cancel one of my orders (only before the restaurant accepts)
 // ─────────────────────────────────────────────
 router.post("/:orderId/cancel", validate(cancelOrderSchema), cancelOrder);
+
+// ─────────────────────────────────────────────
+// Pay for my order with Paystack (card or mobile money); call again to retry after a failure
+// ─────────────────────────────────────────────
+router.post("/:orderId/payments", payForOrder);
+
+// ─────────────────────────────────────────────
+// The receipt of one of my paid orders
+// ─────────────────────────────────────────────
+router.get("/:orderId/receipt", getReceipt);
 
 export default router;

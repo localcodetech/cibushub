@@ -92,6 +92,79 @@ export const customerOrderPaths = {
       },
     },
   },
+  "/api/v1/customer/orders/{orderId}/payments": {
+    post: {
+      tags,
+      summary: "Pay for my order with Paystack (card or mobile money)",
+      description: [
+        "Starts a Paystack checkout for the order's stored total in GHS; open authorizationUrl to pay.",
+        "Calling again within 10 minutes returns the same checkout; after a failed payment it starts a new attempt.",
+        "Coming back from Paystack does NOT mean paid: wait until the order's paymentStatus is PAID.",
+      ].join(" "),
+      security: loggedIn,
+      parameters: [orderId],
+      responses: {
+        200: successResponse("Checkout ready", {
+          paymentId: "1b2c3d4e-5f6a-4b7c-8d9e-0f1a2b3c4d5e",
+          reference: "CH-261009-482193-9F3A1C",
+          amountPesewas: 7072,
+          currency: "GHS",
+          authorizationUrl: "https://checkout.paystack.com/abc123",
+          accessCode: "abc123",
+        }),
+        404: notFound,
+        409: errorResponse(
+          "Not waiting for payment",
+          "ORDER_NOT_PAYABLE",
+          "An order that is PAID cannot be paid",
+        ),
+        502: errorResponse(
+          "Paystack did not answer",
+          "PAYMENT_PROVIDER_ERROR",
+          "Payment service is not responding. Please try again",
+        ),
+      },
+    },
+  },
+
+  "/api/v1/customer/orders/{orderId}/receipt": {
+    get: {
+      tags,
+      summary: "The receipt of one of my paid orders",
+      description: "Also emailed once when the order is paid. Built from the order's frozen copy.",
+      security: loggedIn,
+      parameters: [orderId],
+      responses: {
+        200: successResponse("The receipt", {
+          orderNumber: "CH-261009-482193",
+          restaurantName: "Auntie Akos Kitchen",
+          paidAt: "2026-10-09T12:05:00.000Z",
+          paymentMethod: "Mobile money",
+          paymentReference: "CH-261009-482193-9F3A1C",
+          items: [
+            {
+              name: "Waakye",
+              quantity: 2,
+              options: [],
+              unitPricePesewas: 3000,
+              lineTotalPesewas: 6000,
+            },
+          ],
+          subtotalPesewas: 6000,
+          deliveryFeePesewas: 1072,
+          serviceFeePesewas: 0,
+          discountPesewas: 0,
+          totalPesewas: 7072,
+        }),
+        404: notFound,
+        409: errorResponse(
+          "Not paid yet",
+          "RECEIPT_NOT_AVAILABLE",
+          "This order has not been paid yet",
+        ),
+      },
+    },
+  },
 };
 
 // The list lives on the same URL as "place order", so it is merged in document.js

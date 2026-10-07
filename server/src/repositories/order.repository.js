@@ -1,8 +1,10 @@
+import { Op } from "sequelize";
 import {
   Order,
   OrderItem,
   OrderItemOption,
   OrderStatusHistory,
+  Refund,
   Restaurant,
 } from "../models/index.js";
 
@@ -15,6 +17,11 @@ const WITH_DETAILS = {
       include: [{ model: OrderItemOption, as: "options" }],
     },
     { model: OrderStatusHistory, as: "statusHistory" },
+    {
+      model: Refund,
+      as: "refunds",
+      attributes: ["id", "amountPesewas", "status", "reason", "createdAt", "processedAt"],
+    },
   ],
   order: [[{ model: OrderStatusHistory, as: "statusHistory" }, "createdAt", "ASC"]],
 };
@@ -68,4 +75,18 @@ export const updateOrder = (order, changes, transaction) => {
 
 export const findOrderItems = (orderId, transaction) => {
   return OrderItem.findAll({ where: { orderId }, transaction });
+};
+
+export const findOrderById = (orderId) => {
+  return Order.findByPk(orderId);
+};
+
+// Orders still waiting for payment that were placed before a moment, oldest first (the sweeper)
+export const findOverdueUnpaidOrders = (placedBefore, limit) => {
+  return Order.findAll({
+    where: { status: "PENDING_PAYMENT", createdAt: { [Op.lt]: placedBefore } },
+    attributes: ["id"],
+    order: [["createdAt", "ASC"]],
+    limit,
+  });
 };
