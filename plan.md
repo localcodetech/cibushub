@@ -54,6 +54,7 @@ Each step contains:
 
 | Status | Meaning |
 |---|---|
+| ✅ DONE | Built, reviewed and merged to main |
 | 🟢 IN PROGRESS | Currently being built |
 | 🔵 NEXT | Starts once the current step passes review |
 | ⚪ PLANNED | Later; details may be refined as earlier steps teach us more |
@@ -64,13 +65,13 @@ Each step contains:
 
 | Step | Title | Main acceptance criteria | Status |
 |---|---|---|---|
-| 1 | **Workspace Foundation** | AC-OPS-01, AC-SEC-09, AC-OPS-07, AC-DLV-01 | 🟢 IN PROGRESS |
-| 2 | **Backend Architecture** | AC-GLOBAL-01, AC-GLOBAL-02, AC-GLOBAL-05, AC-API-01, AC-API-05 … | 🔵 NEXT |
-| 3 | **Database and Redis** | AC-OPS-01, AC-API-05, AC-DB-01, AC-DB-03, AC-DB-07 … | ⚪ PLANNED |
-| 4 | **Authentication and Role-Based Access** | AC-AUTH-01 to 20, AC-RBAC-01 to 06, AC-RBAC-09, AC-GLOBAL-03, AC-SEC-03 … | ⚪ PLANNED |
-| 5 | **Restaurants and Menus (Backend)** | AC-REST-01 to 08, AC-MENU-01 to 10, AC-DISC-01, 02, 04, 05, 07, 08, 10, AC-IMG-01 to 04, AC-ADM-03 … | ⚪ PLANNED |
+| 1 | **Workspace Foundation** | AC-OPS-01, AC-SEC-09, AC-OPS-07, AC-DLV-01 | ✅ DONE |
+| 2 | **Backend Architecture** | AC-GLOBAL-01, AC-GLOBAL-02, AC-GLOBAL-05, AC-API-01, AC-API-05 … | ✅ DONE |
+| 3 | **Database and Redis** | AC-OPS-01, AC-API-05, AC-DB-01, AC-DB-03, AC-DB-07 … | ✅ DONE |
+| 4 | **Authentication and Role-Based Access** | AC-AUTH-01 to 20, AC-RBAC-01 to 06, AC-RBAC-09, AC-GLOBAL-03, AC-SEC-03 … | ✅ DONE |
+| 5 | **Restaurants and Menus (Backend)** | AC-REST-01 to 08, AC-MENU-01 to 10, AC-DISC-01, 02, 04, 05, 07, 08, 10, AC-IMG-01 to 04, AC-ADM-03 … | 🟢 IN PROGRESS |
 | 6 | **Frontend Foundation** | AC-RBAC-07, 08, AC-AUTH-03, 14, 16, AC-GLOBAL-05, AC-UX-01 to 05, AC-UX-09, 12 … | ⚪ PLANNED |
-| 7 | **Customer Browsing, Addresses and Cart** | AC-CUST-01 to 08, 11, AC-DISC-01 to 10, AC-CART-01 to 08, AC-MAP-01, 02, 04, AC-IMG-05 … | ⚪ PLANNED |
+| 7 | **Customer Browsing, Addresses and Cart** | AC-CUST-01 to 08, 11, AC-DISC-01 to 10, AC-CART-01 to 08, AC-MAP-01, 02, 04, AC-IMG-05 … | 🔵 NEXT (backend first) |
 | 8 | **Checkout and the Order Engine** | AC-CHK-01 to 12, AC-ORD-01 to 07, AC-CUST-09, 10, AC-MAP-06 | ⚪ PLANNED |
 | 9 | **Payments, Cancellations and Refunds** | AC-PAY-01 to 16, AC-CANC-01 to 07, AC-JOB-01, 03, 04, AC-JOB-02, AC-OPS-06 | ⚪ PLANNED |
 | 10 | **Restaurant Dashboard and Real-Time Updates** | AC-RORD-01 to 07, AC-RT-01, 02, 03, 07, 08, AC-RT-10, AC-JOB-02, AC-UX-06, 07 | ⚪ PLANNED |
@@ -118,7 +119,7 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 ## Step 1 — Workspace Foundation
 
-**Status:** 🟢 IN PROGRESS
+**Status:** ✅ DONE
 
 > **Goal.** One **cibushub** repository with independent **client** and **server** apps, running together in Docker with live reload. No features yet.
 >
@@ -181,7 +182,7 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 ## Step 2 — Backend Architecture
 
-**Status:** 🔵 NEXT
+**Status:** ✅ DONE
 
 > **Goal.** Turn the single smoke-test file into a layered Express architecture that can carry the whole system, with one consistent way of handling configuration, errors, responses and logging.
 >
@@ -247,7 +248,7 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 ## Step 3 — Database and Redis
 
-**Status:** ⚪ PLANNED
+**Status:** ✅ DONE
 
 > **Goal.** Add MySQL and Redis to the Docker environment, connect Sequelize, and establish migrations, seeders and data conventions that every later step relies on.
 >
@@ -311,7 +312,7 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 ## Step 4 — Authentication and Role-Based Access
 
-**Status:** ⚪ PLANNED
+**Status:** ✅ DONE
 
 > **Goal.** Secure registration, verification, login, sessions and permissions for all five roles, proven by automated tests.
 >
@@ -369,7 +370,7 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 ## Step 5 — Restaurants and Menus (Backend)
 
-**Status:** ⚪ PLANNED
+**Status:** 🟢 IN PROGRESS
 
 > **Goal.** Restaurants can onboard, be approved by admins, and manage menus; the public can browse and search approved restaurants.
 >
@@ -406,10 +407,10 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 ### Done when
 
-- [ ] Pending, rejected and suspended restaurants never appear publicly and return 404 by URL
-- [ ] A search for a seeded dish returns matching restaurants quickly
-- [ ] Owner A cannot modify owner B's restaurant or menu (test)
-- [ ] Zero, negative and decimal prices are rejected
+- [x] Pending, rejected and suspended restaurants never appear publicly and return 404 by URL
+- [x] A search for a seeded dish returns matching restaurants quickly
+- [x] Owner A cannot modify owner B's restaurant or menu (test)
+- [x] Zero, negative and decimal prices are rejected
 - [ ] A deleted item still renders correctly where referenced historically
 
 ### Send for review
@@ -423,7 +424,7 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 ## Step 6 — Frontend Foundation
 
-**Status:** ⚪ PLANNED
+**Status:** ⚪ PLANNED (after the backend MUSTs)
 
 > **Goal.** A professional React foundation: design system, routing per role, data fetching, authentication screens and guards, with every screen handling loading, empty and error states.
 >
@@ -473,7 +474,7 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 ## Step 7 — Customer Browsing, Addresses and Cart
 
-**Status:** ⚪ PLANNED
+**Status:** 🔵 NEXT (backend first)
 
 > **Goal.** Customers find restaurants, save precise delivery addresses on a map, and build a reliable cart.
 >
