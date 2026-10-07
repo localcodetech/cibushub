@@ -10,6 +10,7 @@ import notFound from "./middlewares/notFound.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import healthRoutes from "./routes/health.routes.js";
 import authRoutes from "./routes/auth.routes.js";
+import publicRestaurantRoutes from "./routes/restaurant.routes.js";
 import ownerRestaurantRoutes from "./routes/owner/restaurant.routes.js";
 import ownerMenuRoutes from "./routes/owner/menu.routes.js";
 import authenticate from "./middlewares/authenticate.js";
@@ -86,6 +87,11 @@ app.use("/api/health", healthRoutes);
 // Auth: register, verify phone, login, refresh, logout, passwords
 // ─────────────────────────────────────────────
 app.use("/api/v1/auth", authRoutes);
+
+// ─────────────────────────────────────────────
+// Public: browse, search and view restaurants (guests too)
+// ─────────────────────────────────────────────
+app.use("/api/v1/restaurants", publicRestaurantRoutes);
 
 // ─────────────────────────────────────────────
 // Every owner route: must be logged in as a restaurant owner

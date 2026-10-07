@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { isRestaurantOpen, isWithinOpeningHours } from "../../src/utils/restaurant/openingHours.js";
+import {
+  getOpenStatus,
+  isRestaurantOpen,
+  isWithinOpeningHours,
+} from "../../src/utils/restaurant/openingHours.js";
 
 // Ghana time is the same as UTC, so "2026-10-09T12:00:00Z" is 12:00 noon in Kumasi.
 // 2026-10-09 is a Friday, 2026-10-10 a Saturday, 2026-10-11 a Sunday.
@@ -76,5 +80,33 @@ describe("Accepting orders switch [AC-REST-06]", () => {
     };
 
     expect(isRestaurantOpen(restaurant, new Date("2026-10-09T12:00:00Z"))).toBe(true);
+  });
+});
+
+describe("Open status label [AC-DISC-04]", () => {
+  const eveningPlace = {
+    isAcceptingOrders: true,
+    openingHours: [openDay(FRIDAY, "18:00:00", "02:00:00")],
+  };
+
+  it("says when it opens later today", () => {
+    expect(getOpenStatus(eveningPlace, new Date("2026-10-09T12:00:00Z"))).toEqual({
+      isOpen: false,
+      label: "Opens at 18:00",
+    });
+  });
+
+  it("says Open inside opening hours", () => {
+    expect(getOpenStatus(eveningPlace, new Date("2026-10-09T20:00:00Z")).label).toBe("Open");
+  });
+
+  it("says Closed after closing time", () => {
+    expect(getOpenStatus(eveningPlace, new Date("2026-10-10T03:00:00Z")).label).toBe("Closed");
+  });
+
+  it("says Closed when the owner switched off orders, even inside hours", () => {
+    const switchedOff = { ...eveningPlace, isAcceptingOrders: false };
+
+    expect(getOpenStatus(switchedOff, new Date("2026-10-09T20:00:00Z")).label).toBe("Closed");
   });
 });

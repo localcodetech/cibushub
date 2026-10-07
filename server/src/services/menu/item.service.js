@@ -1,6 +1,7 @@
 import sequelize from "../../config/database.js";
 import AppError from "../../utils/AppError.js";
 import { getMyEditableRestaurant } from "../restaurant/myRestaurants.service.js";
+import { clearCachedMenu } from "./menuCache.service.js";
 import {
   createItem,
   createOptionGroups,
@@ -57,6 +58,7 @@ export const addItem = async (restaurantId, ownerId, data) => {
     await createOptionGroups(item.id, optionGroups, transaction);
     return item.id;
   });
+  await clearCachedMenu(restaurantId);
 
   return findItemInRestaurant(itemId, restaurantId);
 };
@@ -86,6 +88,7 @@ export const editItem = async (restaurantId, itemId, ownerId, changes) => {
       await createOptionGroups(item.id, optionGroups, transaction);
     }
   });
+  await clearCachedMenu(restaurantId);
 
   return findItemInRestaurant(itemId, restaurantId);
 };
@@ -95,6 +98,7 @@ export const removeItem = async (restaurantId, itemId, ownerId) => {
   const item = await getMyItem(restaurantId, itemId, ownerId);
 
   await deleteItem(item);
+  await clearCachedMenu(restaurantId);
 };
 
 // "Sold out" switch [AC-MENU-05]
@@ -102,6 +106,7 @@ export const setItemAvailability = async (restaurantId, itemId, ownerId, isAvail
   const item = await getMyItem(restaurantId, itemId, ownerId);
 
   await updateItem(item, { isAvailable });
+  await clearCachedMenu(restaurantId);
 
   return findItemInRestaurant(itemId, restaurantId);
 };

@@ -1,4 +1,3 @@
-
 // page 3 with pageSize 20 → skip the first 40 rows, take the next 20
 export const toLimitAndOffset = ({ page, pageSize }) => {
   return {

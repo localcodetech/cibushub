@@ -1,5 +1,3 @@
-
-
 const GHANA_TIME_ZONE = "Africa/Accra";
 const WEEKDAY_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -68,4 +66,27 @@ export const isRestaurantOpen = (restaurant, moment = new Date()) => {
   }
 
   return isWithinOpeningHours(restaurant.openingHours || [], moment);
+};
+
+// What customers see: "Open", "Opens at 18:00" or "Closed" [AC-DISC-04]
+export const getOpenStatus = (restaurant, moment = new Date()) => {
+  if (isRestaurantOpen(restaurant, moment)) {
+    return { isOpen: true, label: "Open" };
+  }
+
+  // The owner's "temporarily closed" switch beats the hours
+  if (!restaurant.isAcceptingOrders) {
+    return { isOpen: false, label: "Closed" };
+  }
+
+  // Not open yet today, but opening later today
+  const { dayOfWeek, minutesNow } = getGhanaDayAndTime(moment);
+  const todayHours = (restaurant.openingHours || []).find((day) => day.dayOfWeek === dayOfWeek);
+
+  if (todayHours && !todayHours.isClosed && minutesNow < timeToMinutes(todayHours.opensAt)) {
+    const opensAt = todayHours.opensAt.slice(0, 5);
+    return { isOpen: false, label: `Opens at ${opensAt}` };
+  }
+
+  return { isOpen: false, label: "Closed" };
 };

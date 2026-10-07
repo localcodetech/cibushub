@@ -1,5 +1,6 @@
 import AppError from "../../utils/AppError.js";
 import { getMyEditableRestaurant } from "../restaurant/myRestaurants.service.js";
+import { clearCachedMenu } from "./menuCache.service.js";
 import {
   countItemsInCategory,
   createCategory,
@@ -33,13 +34,19 @@ export const addCategory = async (restaurantId, ownerId, data) => {
     displayOrder = highestOrder === null ? 0 : highestOrder + 1;
   }
 
-  return createCategory({ restaurantId, name: data.name, displayOrder });
+  const category = await createCategory({ restaurantId, name: data.name, displayOrder });
+  await clearCachedMenu(restaurantId);
+
+  return category;
 };
 
 export const editCategory = async (restaurantId, categoryId, ownerId, changes) => {
   const category = await getMyCategory(restaurantId, categoryId, ownerId);
 
-  return updateCategory(category, changes);
+  const updatedCategory = await updateCategory(category, changes);
+  await clearCachedMenu(restaurantId);
+
+  return updatedCategory;
 };
 
 export const removeCategory = async (restaurantId, categoryId, ownerId) => {
@@ -56,12 +63,14 @@ export const removeCategory = async (restaurantId, categoryId, ownerId) => {
   }
 
   await deleteCategory(category);
+  await clearCachedMenu(restaurantId);
 };
 
 export const setCategoryAvailability = async (restaurantId, categoryId, ownerId, isAvailable) => {
   await getMyCategory(restaurantId, categoryId, ownerId);
 
   const [itemsChanged] = await setAvailabilityForCategory(categoryId, isAvailable);
+  await clearCachedMenu(restaurantId);
 
   return { itemsChanged };
 };
