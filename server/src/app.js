@@ -22,6 +22,7 @@ import customerCheckoutRoutes from "./routes/customer/checkout.routes.js";
 import customerOrderRoutes from "./routes/customer/order.routes.js";
 import profileRoutes from "./routes/profile.routes.js";
 import cartRoutes from "./routes/cart.routes.js";
+import webhookRoutes from "./routes/webhook.routes.js";
 import { globalLimiter } from "./middlewares/rateLimit/globalLimiter.js";
 import checkOrigin from "./middlewares/checkOrigin.js";
 import swaggerUi from "swagger-ui-express";
@@ -72,6 +73,11 @@ app.use(globalLimiter);
 // Block changes (POST, PUT, PATCH, DELETE) sent from other websites (CSRF)
 // ─────────────────────────────────────────────
 app.use(checkOrigin);
+
+// ─────────────────────────────────────────────
+// Payment webhooks: BEFORE the JSON reader, because the signature is checked on the raw bytes
+// ─────────────────────────────────────────────
+app.use("/api/v1/webhooks", webhookRoutes);
 
 // ─────────────────────────────────────────────
 // Read JSON request bodies (max 100 kb)

@@ -49,3 +49,6 @@ Add a row here in the same commit that introduces a new code.
 | `INVALID_UPLOAD` | 400 | More than one file, or a file in the wrong form field | AC-IMG-01 |
 | `UNSUPPORTED_FILE_TYPE` | 400 | The file's real content (magic bytes) is not an allowed type: JPEG, PNG, WebP, or PDF for documents | AC-IMG-01 |
 | `CHECKOUT_BLOCKED` | 409 | Placing an order failed because something changed or is wrong (closed, sold out, not enough stock, price changed, out of range). `details` lists every problem, with `menuItemId` for item problems. Nothing is saved | AC-CHK-05, AC-CART-07 |
+| `ORDER_NOT_PAYABLE` | 409 | Starting a payment for an order that is not `PENDING_PAYMENT` (already paid, cancelled...) | AC-PAY-01 |
+| `PAYMENT_PROVIDER_ERROR` | 502 | Paystack did not answer or refused the request; safe to try again | AC-PAY-01 |
+| `INVALID_SIGNATURE` | 401 | A payment webhook whose `x-paystack-signature` does not match the body; nothing is processed | AC-PAY-04 |
