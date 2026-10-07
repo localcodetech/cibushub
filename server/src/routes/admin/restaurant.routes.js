@@ -14,6 +14,7 @@ import {
   reject,
   suspend,
 } from "../../controllers/restaurant/reviewRestaurant.controller.js";
+import { listDocumentsAsAdmin } from "../../controllers/restaurant/restaurantUploads.controller.js";
 
 const router = Router();
 
@@ -26,6 +27,11 @@ router.get("/", validate(adminListRestaurantsSchema, "query"), listAllRestaurant
 // View any restaurant with its opening hours
 // ─────────────────────────────────────────────
 router.get("/:restaurantId", getAnyRestaurant);
+
+// ─────────────────────────────────────────────
+// A restaurant's verification documents, each with a 5-minute link
+// ─────────────────────────────────────────────
+router.get("/:restaurantId/documents", listDocumentsAsAdmin);
 
 // ─────────────────────────────────────────────
 // Approve a pending restaurant, or reinstate a suspended one

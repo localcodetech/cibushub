@@ -1,6 +1,7 @@
 import { Router } from "express";
 import requireActive from "../../middlewares/requireActive.js";
 import validate from "../../middlewares/validate.js";
+import uploadOneFile from "../../middlewares/upload.js";
 import {
   categoryAvailabilitySchema,
   createCategorySchema,
@@ -23,6 +24,7 @@ import {
   deleteItem,
   updateItem,
   updateItemAvailability,
+  uploadItemImage,
 } from "../../controllers/menu/item.controller.js";
 
 // mergeParams: lets these routes read :restaurantId from the path in app.js
@@ -85,5 +87,10 @@ router.patch(
   validate(itemAvailabilitySchema),
   updateItemAvailability,
 );
+
+// ─────────────────────────────────────────────
+// Upload or replace a dish photo (form field "image")
+// ─────────────────────────────────────────────
+router.put("/items/:itemId/image", uploadOneFile("image"), uploadItemImage);
 
 export default router;

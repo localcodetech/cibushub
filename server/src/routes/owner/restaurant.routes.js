@@ -2,10 +2,12 @@ import { Router } from "express";
 import requireVerifiedPhone from "../../middlewares/requireVerifiedPhone.js";
 import requireActive from "../../middlewares/requireActive.js";
 import validate from "../../middlewares/validate.js";
+import uploadOneFile from "../../middlewares/upload.js";
 import { createRestaurantSchema } from "../../validators/restaurant/createRestaurant.validator.js";
 import { updateRestaurantSchema } from "../../validators/restaurant/updateRestaurant.validator.js";
 import { updateOpeningHoursSchema } from "../../validators/restaurant/updateOpeningHours.validator.js";
 import { acceptingOrdersSchema } from "../../validators/restaurant/acceptingOrders.validator.js";
+import { documentTypeParamsSchema } from "../../validators/restaurant/document.validator.js";
 import { createRestaurant } from "../../controllers/restaurant/createRestaurant.controller.js";
 import {
   getRestaurant,
@@ -17,6 +19,12 @@ import {
   updateOpeningHours,
   updateRestaurant,
 } from "../../controllers/restaurant/manageRestaurant.controller.js";
+import {
+  listMyDocuments,
+  uploadCover,
+  uploadDocument,
+  uploadLogo,
+} from "../../controllers/restaurant/restaurantUploads.controller.js";
 
 const router = Router();
 
@@ -69,5 +77,23 @@ router.patch(
 // Send a rejected restaurant back for approval
 // ─────────────────────────────────────────────
 router.post("/:restaurantId/resubmit", requireVerifiedPhone, resubmit);
+
+// ─────────────────────────────────────────────
+// Upload or replace the logo / cover image (form field "image")
+// ─────────────────────────────────────────────
+router.put("/:restaurantId/logo", requireVerifiedPhone, uploadOneFile("image"), uploadLogo);
+router.put("/:restaurantId/cover", requireVerifiedPhone, uploadOneFile("image"), uploadCover);
+
+// ─────────────────────────────────────────────
+// Private verification documents (form field "file"); owners never get a link back
+// ─────────────────────────────────────────────
+router.get("/:restaurantId/documents", requireVerifiedPhone, listMyDocuments);
+router.put(
+  "/:restaurantId/documents/:documentType",
+  requireVerifiedPhone,
+  validate(documentTypeParamsSchema, "params"),
+  uploadOneFile("file"),
+  uploadDocument,
+);
 
 export default router;

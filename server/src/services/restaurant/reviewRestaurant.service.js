@@ -102,7 +102,7 @@ export const rejectRestaurant = async (restaurantId, reason, admin) => {
 
 export const suspendRestaurant = async (restaurantId, reason, admin) => {
   const restaurant = await loadRestaurantForReview(restaurantId, "SUSPENDED");
-  
+
   const owner = await findUserById(restaurant.ownerId);
   const previousStatus = restaurant.status;
 

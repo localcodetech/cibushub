@@ -65,8 +65,14 @@ const Restaurant = sequelize.define(
     logoUrl: {
       type: DataTypes.STRING(500),
     },
+    logoPublicId: {
+      type: DataTypes.STRING(255),
+    },
     coverImageUrl: {
       type: DataTypes.STRING(500),
+    },
+    coverImagePublicId: {
+      type: DataTypes.STRING(255),
     },
     status: {
       type: DataTypes.ENUM(...RESTAURANT_STATUSES),

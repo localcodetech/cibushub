@@ -36,6 +36,9 @@ const MenuItem = sequelize.define(
     imageUrl: {
       type: DataTypes.STRING(500),
     },
+    imagePublicId: {
+      type: DataTypes.STRING(255),
+    },
     tags: {
       type: DataTypes.JSON,
       allowNull: false,

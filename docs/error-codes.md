@@ -44,3 +44,7 @@ Add a row here in the same commit that introduces a new code.
 | `ACCOUNT_PENDING_APPROVAL` | 403 | Restaurant owner or rider waiting for admin approval | AC-AUTH-05 |
 | `CATEGORY_NOT_EMPTY` | 409 | Deleting a menu category that still has items; move or delete them first | AC-MENU-02 |
 
+| `FILE_REQUIRED` | 400 | An upload request arrived without a file in the expected form field | AC-IMG-01 |
+| `FILE_TOO_LARGE` | 400 | An uploaded file is over 5 MB | AC-IMG-01 |
+| `INVALID_UPLOAD` | 400 | More than one file, or a file in the wrong form field | AC-IMG-01 |
+| `UNSUPPORTED_FILE_TYPE` | 400 | The file's real content (magic bytes) is not an allowed type: JPEG, PNG, WebP, or PDF for documents | AC-IMG-01 |

@@ -6,6 +6,7 @@ import Address from "./address.model.js";
 import RefreshToken from "./refreshToken.model.js";
 import Restaurant from "./restaurant/restaurant.model.js";
 import OpeningHours from "./restaurant/openingHours.model.js";
+import RestaurantDocument from "./restaurant/restaurantDocument.model.js";
 import MenuCategory from "./menu/menuCategory.model.js";
 import MenuItem from "./menu/menuItem.model.js";
 import OptionGroup from "./menu/optionGroup.model.js";
@@ -35,6 +36,12 @@ Restaurant.belongsTo(User, { foreignKey: "ownerId", as: "owner" });
 // ─────────────────────────────────────────────
 Restaurant.hasMany(OpeningHours, { foreignKey: "restaurantId", as: "openingHours" });
 OpeningHours.belongsTo(Restaurant, { foreignKey: "restaurantId", as: "restaurant" });
+
+// ─────────────────────────────────────────────
+// A restaurant has private verification documents (FDA certificate, Ghana Card...)
+// ─────────────────────────────────────────────
+Restaurant.hasMany(RestaurantDocument, { foreignKey: "restaurantId", as: "documents" });
+RestaurantDocument.belongsTo(Restaurant, { foreignKey: "restaurantId", as: "restaurant" });
 
 // ─────────────────────────────────────────────
 // A restaurant's menu has categories ("Rice Dishes", "Drinks")
@@ -78,6 +85,7 @@ export {
   RefreshToken,
   Restaurant,
   OpeningHours,
+  RestaurantDocument,
   MenuCategory,
   MenuItem,
   OptionGroup,

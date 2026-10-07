@@ -1,3 +1,4 @@
+import { replaceItemImage } from "../../services/menu/itemImage.service.js";
 import {
   addItem,
   editItem,
@@ -35,6 +36,17 @@ export const updateItemAvailability = async (req, res) => {
     req.params.itemId,
     req.user.id,
     req.validated.body.isAvailable,
+  );
+
+  return sendSuccess(res, item);
+};
+
+export const uploadItemImage = async (req, res) => {
+  const item = await replaceItemImage(
+    req.params.restaurantId,
+    req.params.itemId,
+    req.user.id,
+    req.file,
   );
 
   return sendSuccess(res, item);

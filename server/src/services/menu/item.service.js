@@ -14,7 +14,7 @@ import {
 } from "../../repositories/menu.repository.js";
 
 // Finds an item only inside the owner's own restaurant
-const getMyItem = async (restaurantId, itemId, ownerId) => {
+export const getMyItem = async (restaurantId, itemId, ownerId) => {
   await getMyEditableRestaurant(restaurantId, ownerId);
 
   const item = await findItemInRestaurant(itemId, restaurantId);
