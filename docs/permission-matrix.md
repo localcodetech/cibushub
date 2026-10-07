@@ -43,6 +43,7 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | `POST /auth/change-password` | — | 🔒⏳ | 🔒⏳ | 🔒⏳ | 🔒 | 🔒 | authenticate, validate |
 | `GET /restaurants` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | validate (query) |
 | `GET /restaurants/:id` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | — (404 unless approved) |
+| `POST /cart/check` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | validate (read-only, no login) |
 | `POST /owner/restaurants` | — | — | 🔒⏳ | — | — | — | authenticate, authorize, requireVerifiedPhone, validate |
 | `GET /owner/restaurants`, `GET /owner/restaurants/:id` | — | — | 🔒⏳ | — | — | — | authenticate, authorize, requireVerifiedPhone |
 | `PATCH /owner/restaurants/:id` | — | — | 🔒⏳ | — | — | — | authenticate, authorize, requireVerifiedPhone, validate |

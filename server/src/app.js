@@ -19,6 +19,7 @@ import requireActive from "./middlewares/requireActive.js";
 import adminRestaurantRoutes from "./routes/admin/restaurant.routes.js";
 import customerAddressRoutes from "./routes/customer/address.routes.js";
 import profileRoutes from "./routes/profile.routes.js";
+import cartRoutes from "./routes/cart.routes.js";
 import { globalLimiter } from "./middlewares/rateLimit/globalLimiter.js";
 import checkOrigin from "./middlewares/checkOrigin.js";
 import swaggerUi from "swagger-ui-express";
@@ -94,6 +95,11 @@ app.use("/api/v1/auth", authRoutes);
 // Public: browse, search and view restaurants (guests too)
 // ─────────────────────────────────────────────
 app.use("/api/v1/restaurants", publicRestaurantRoutes);
+
+// ─────────────────────────────────────────────
+// Cart check (guests too): the server is the source of truth for prices
+// ─────────────────────────────────────────────
+app.use("/api/v1/cart", cartRoutes);
 
 // ─────────────────────────────────────────────
 // My profile (any role): change name, upload photo

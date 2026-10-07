@@ -99,6 +99,14 @@ export const deleteOptionGroups = (menuItemId, transaction) => {
 // ─────────────────────────────────────────────
 // The full menu: categories → items → option groups → options
 // ─────────────────────────────────────────────
+// The items in a cart, with their options; deleted items are simply not found
+export const findItemsForCart = (restaurantId, itemIds) => {
+  return MenuItem.findAll({
+    where: { restaurantId, id: itemIds },
+    ...WITH_OPTION_GROUPS,
+  });
+};
+
 export const findFullMenu = (restaurantId) => {
   return MenuCategory.findAll({
     where: { restaurantId },
