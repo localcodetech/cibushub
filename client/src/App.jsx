@@ -10,6 +10,7 @@ import AdminDashboardPage from "@/pages/admin/AdminDashboardPage";
 import NotFoundPage from "@/pages/NotFoundPage";
 import ForbiddenPage from "@/pages/ForbiddenPage";
 import FullPageLoader from "@/components/common/FullPageLoader";
+import RequireRole from "@/components/auth/RequireRole";
 import { useAuthStore } from "@/store/authStore";
 
 // The map of the app: which page shows for which address.
@@ -24,11 +25,39 @@ const router = createBrowserRouter([
       { path: "login", element: <LoginPage /> },
       { path: "register", element: <RegisterPage /> },
 
-      // One home per role (guards that keep other roles out come next)
-      { path: "customer", element: <CustomerHomePage /> },
-      { path: "owner", element: <OwnerDashboardPage /> },
-      { path: "rider", element: <RiderHomePage /> },
-      { path: "admin", element: <AdminDashboardPage /> },
+      // One home per role. RequireRole keeps every other role out [AC-RBAC-07]
+      {
+        path: "customer",
+        element: (
+          <RequireRole allowedRoles={["CUSTOMER"]}>
+            <CustomerHomePage />
+          </RequireRole>
+        ),
+      },
+      {
+        path: "owner",
+        element: (
+          <RequireRole allowedRoles={["RESTAURANT_OWNER"]}>
+            <OwnerDashboardPage />
+          </RequireRole>
+        ),
+      },
+      {
+        path: "rider",
+        element: (
+          <RequireRole allowedRoles={["RIDER"]}>
+            <RiderHomePage />
+          </RequireRole>
+        ),
+      },
+      {
+        path: "admin",
+        element: (
+          <RequireRole allowedRoles={["ADMIN", "SUPER_ADMIN"]}>
+            <AdminDashboardPage />
+          </RequireRole>
+        ),
+      },
 
       // Shown when a role opens a page that is not theirs
       { path: "403", element: <ForbiddenPage /> },
