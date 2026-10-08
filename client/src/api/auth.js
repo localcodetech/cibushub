@@ -46,3 +46,14 @@ export const verifyPhoneRequest = async (phone, code) => {
 export const resendOtpRequest = async (phone) => {
   await api.post("/auth/resend-otp", { phone });
 };
+
+// Texts a password reset code if the account exists.
+// The answer is the same either way, so no one can test which accounts exist [AC-AUTH-18]
+export const forgotPasswordRequest = async (identifier) => {
+  await api.post("/auth/forgot-password", { identifier });
+};
+
+// Sets the new password with the code. The server then logs out every device [AC-AUTH-19]
+export const resetPasswordRequest = async (identifier, code, newPassword) => {
+  await api.post("/auth/reset-password", { identifier, code, newPassword });
+};
