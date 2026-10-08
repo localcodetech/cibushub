@@ -738,6 +738,7 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 4. In-app notifications stored in MySQL and pushed by Socket.IO; unread counts and mark-as-read.
 5. Notification log with masked recipients.
 6. Receipt email with the receipt attached as a PDF, generated on the server (AC-PAY-17).
+7. Email verification after sign-up: send a 6-digit code to the email (reuse the "changeEmail" OTP flow in `otp.service.js`), fill `users.email_verified_at` when it is entered, add a client screen after phone verification, and mark addresses the provider reports as bouncing (AC-AUTH-01 "verification link by email"). Until then only the email's format is checked; the phone is the proven contact.
 
 ### Advisor tips
 
