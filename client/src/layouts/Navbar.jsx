@@ -1,0 +1,55 @@
+import { useState } from "react";
+import { Link } from "react-router";
+import { Menu, X } from "lucide-react";
+import { guestLinks } from "@/data/navigation";
+import Container from "./Container";
+import MobileMenu from "./MobileMenu";
+
+const Navbar = () => {
+  // true when the phone menu is open, false when it is closed
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
+  return (
+    <header className="bg-primary text-primary-foreground">
+      <Container>
+        <div className="flex h-16 items-center justify-between">
+          <Link to="/" onClick={closeMenu} className="font-heading text-2xl font-extrabold">
+            CibusHub
+          </Link>
+
+          {/* Big screens: the links sit in the bar */}
+          <nav aria-label="Main" className="hidden items-center gap-6 md:flex">
+            {guestLinks.map((link) => (
+              <Link key={link.to} to={link.to} className="font-bold hover:underline">
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Phones: one button that opens and closes the menu */}
+          <button
+            type="button"
+            onClick={toggleMenu}
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMenuOpen}
+            className="flex size-11 items-center justify-center rounded-md md:hidden"
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+      </Container>
+
+      <MobileMenu isOpen={isMenuOpen} onClose={closeMenu} />
+    </header>
+  );
+};
+
+export default Navbar;

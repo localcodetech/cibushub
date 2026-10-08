@@ -19,5 +19,12 @@ export default defineConfig([
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
   },
+  {
+    // shadcn/ui files export a component and its style list together, which is fine here
+    files: ["src/components/ui/**/*.jsx"],
+    rules: {
+      "react-refresh/only-export-components": "off",
+    },
+  },
   prettier,
 ]);
