@@ -2,7 +2,8 @@ import { Link } from "react-router";
 
 // The menu that drops down under the navbar on phones.
 // links: the list to show. isOpen: should the menu show? onClose: the function that hides it.
-const MobileMenu = ({ links, isOpen, onClose }) => {
+// isLoggedIn: show the "Log out" button? onLogout: the function that logs out.
+const MobileMenu = ({ links, isOpen, onClose, isLoggedIn, onLogout }) => {
   if (!isOpen) {
     return null;
   }
@@ -21,6 +22,18 @@ const MobileMenu = ({ links, isOpen, onClose }) => {
             </Link>
           </li>
         ))}
+
+        {isLoggedIn && (
+          <li>
+            <button
+              type="button"
+              onClick={onLogout}
+              className="flex min-h-11 w-full items-center font-bold text-foreground"
+            >
+              Log out
+            </button>
+          </li>
+        )}
       </ul>
     </nav>
   );

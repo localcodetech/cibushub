@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import { getMeRequest, refreshRequest } from "@/api/auth";
+import { getMeRequest, logoutRequest, refreshRequest } from "@/api/auth";
+import { queryClient } from "@/lib/queryClient";
 
 // Remembers who is logged in, for every page to read.
 // Only the user's details live here. The login tokens stay in HttpOnly cookies,
@@ -20,6 +21,21 @@ export const useAuthStore = create((set) => ({
 
   // After logout, or when the session has ended
   clearUser: () => {
+    set({ user: null });
+  },
+
+  // Logs out everywhere in the app [AC-AUTH-16]:
+  // 1. The server cancels the refresh token and clears the cookies.
+  // 2. Saved server data is thrown away, so the next person on this phone sees none of it.
+  // 3. The user is forgotten, so the guards send them out of private pages.
+  logout: async () => {
+    try {
+      await logoutRequest();
+    } catch {
+      // Even if the server can't be reached, still log out on this device
+    }
+
+    queryClient.clear();
     set({ user: null });
   },
 

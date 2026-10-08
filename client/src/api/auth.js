@@ -21,3 +21,8 @@ export const refreshRequest = async () => {
   const result = await api.post("/auth/refresh");
   return result.data;
 };
+
+// Ends the session: the server cancels the refresh token and clears both cookies [AC-AUTH-16]
+export const logoutRequest = async () => {
+  await api.post("/auth/logout");
+};

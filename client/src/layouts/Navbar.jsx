@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Menu, X } from "lucide-react";
 import { guestLinks } from "@/data/navigation";
 import { useAuthStore } from "@/store/authStore";
@@ -11,6 +11,8 @@ const Navbar = () => {
   // true when the phone menu is open, false when it is closed
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const user = useAuthStore((state) => state.user);
+  const logout = useAuthStore((state) => state.logout);
+  const navigate = useNavigate();
 
   // Guests see "Log in" and "Sign up"; a logged-in user sees a link to their own home
   let links = guestLinks;
@@ -24,6 +26,12 @@ const Navbar = () => {
 
   const closeMenu = () => {
     setIsMenuOpen(false);
+  };
+
+  const handleLogout = async () => {
+    closeMenu();
+    await logout();
+    navigate("/login");
   };
 
   return (
@@ -41,6 +49,13 @@ const Navbar = () => {
                 {link.label}
               </Link>
             ))}
+
+            {/* Only a logged-in user can log out */}
+            {user && (
+              <button type="button" onClick={handleLogout} className="font-bold hover:underline">
+                Log out
+              </button>
+            )}
           </nav>
 
           {/* Phones: one button that opens and closes the menu */}
@@ -56,7 +71,13 @@ const Navbar = () => {
         </div>
       </Container>
 
-      <MobileMenu links={links} isOpen={isMenuOpen} onClose={closeMenu} />
+      <MobileMenu
+        links={links}
+        isOpen={isMenuOpen}
+        onClose={closeMenu}
+        isLoggedIn={Boolean(user)}
+        onLogout={handleLogout}
+      />
     </header>
   );
 };
