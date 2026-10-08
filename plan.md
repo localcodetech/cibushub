@@ -5,7 +5,7 @@ Food Ordering & Delivery System · Restaurants, menus, orders, riders, tracking
 
 | | |
 |---|---|
-| **Stack** | React · Express.js 5 · Sequelize · MySQL, with Redis, BullMQ, Socket.IO, Paystack, Hubtel/Arkesel, Resend/SendGrid, Google Maps and Cloudinary |
+| **Stack** | React · Express.js 5 · Sequelize · MySQL, with Redis, BullMQ, Socket.IO, Paystack, Nalo Solutions (SMS), Resend/SendGrid, Google Maps and Cloudinary |
 | **Environment** | Ubuntu · Docker Desktop · Node 24 LTS · JavaScript (ES Modules) · npm |
 | **Source of truth** | CibusHub Acceptance Criteria v1.0. Every step names the criteria it must satisfy, by ID. |
 | **Working model** | You build, step by step; your senior advisor reviews each step like a pull request before you move on. |
@@ -348,7 +348,7 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 - Write the IDOR tests (customer A versus customer B) now; they become AC-SEC-13 later.
 - Generic messages protect users: never reveal whether an email or phone exists.
-- Keep an SMS provider interface so Hubtel or Arkesel can be plugged in at Step 12 without touching auth logic.
+- Keep an SMS provider interface so Nalo Solutions can be plugged in at Step 12 without touching auth logic.
 - Cookies with Secure require HTTPS; make the Secure flag depend on the environment for local development.
 
 ### Done when
@@ -732,7 +732,7 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 ### Build
 
-1. Email provider adapter (Resend, SendGrid or SES) and SMS adapter (Hubtel or Arkesel) behind interfaces.
+1. Email provider adapter (Resend, SendGrid or SES) and SMS adapter (Nalo Solutions) behind interfaces.
 2. Notification queue with retries and exponential backoff; deterministic job IDs.
 3. Branded HTML and plain-text templates for each event in AC-NOTIF-01.
 4. In-app notifications stored in MySQL and pushed by Socket.IO; unread counts and mark-as-read.

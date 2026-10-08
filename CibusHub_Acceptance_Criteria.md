@@ -3,7 +3,7 @@
 **Project:** CibusHub — Food Ordering & Delivery System
 **Scope:** Restaurants, menus, cart, orders, payments, riders, live tracking, notifications, administration
 **Required stack:** React.js · Express.js · Sequelize · MySQL
-**Supporting services:** Redis, BullMQ, Socket.IO, Paystack, Hubtel/Arkesel, Resend/SendGrid, Google Maps Platform, Cloudinary
+**Supporting services:** Redis, BullMQ, Socket.IO, Paystack, Nalo Solutions (SMS), Resend/SendGrid, Google Maps Platform, Cloudinary
 **Document version:** 1.0
 
 ---

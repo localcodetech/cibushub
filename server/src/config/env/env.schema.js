@@ -25,6 +25,10 @@ export const envSchema = zod.object({
   PAYSTACK_SECRET_KEY: zod.string().startsWith("sk_", "PAYSTACK_SECRET_KEY must start with sk_"),
   PAYSTACK_BASE_URL: zod.url().default("https://api.paystack.co"),
 
+  // SMS through Nalo Solutions. Without a key, messages are only printed (development)
+  NALO_API_KEY: zod.string().optional(),
+  NALO_SENDER_ID: zod.string().max(11, "NALO_SENDER_ID can be at most 11 characters").optional(),
+
   SUPER_ADMIN_NAME: zod.string().min(1).optional(),
   SUPER_ADMIN_EMAIL: zod.email().optional(),
   SUPER_ADMIN_PHONE: zod.string().min(1).optional(),
