@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400;1,700&amp;family=Epilogue:ital,wght@0,600;0,700;0,800;1,600;1,700;1,800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-surface-variant": "#414943", "on-secondary-fixed": "#261900", "on-secondary-container": "#755400", "on-primary-fixed-variant": "#264e3b", "surface-dim": "#e9d7c8", "secondary-container": "#fcca66", "surface": "#fff8f5", "surface-container": "#feeadc", "inverse-on-surface": "#ffeee1", "surface-tint": "#3e6752", "inverse-primary": "#a4d0b7", "surface-container-high": "#f8e5d6", "error": "#ba1a1a", "on-primary": "#ffffff", "tertiary-fixed": "#ffdad2", "error-container": "#ffdad6", "secondary": "#7b5900", "on-secondary": "#ffffff", "on-tertiary-fixed": "#3c0700", "surface-container-lowest": "#ffffff", "on-background": "#231a11", "surface-container-low": "#fff1e8", "background": "#fff8f5", "on-primary-fixed": "#002113", "on-error-container": "#93000a", "on-surface": "#231a11", "inverse-surface": "#392e25", "surface-container-highest": "#f2dfd1", "on-tertiary-container": "#ec7f63", "surface-variant": "#f2dfd1", "outline-variant": "#c1c8c2", "tertiary": "#430900", "on-secondary-fixed-variant": "#5d4200", "primary-container": "#123c2a", "on-tertiary": "#ffffff", "secondary-fixed": "#ffdea4", "primary-fixed-dim": "#a4d0b7", "primary": "#002517", "on-error": "#ffffff", "surface-bright": "#fff8f5", "tertiary-fixed-dim": "#ffb4a2", "tertiary-container": "#651a06", "on-tertiary-fixed-variant": "#7e2b16", "primary-fixed": "#c0edd2", "secondary-fixed-dim": "#f0bf5c", "on-primary-container": "#7ca78f", "outline": "#717973" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "margin": "1rem", "margin-desktop": "2.5rem", "gutter-desktop": "1.5rem", "gutter": "1rem", "space-lg": "1.5rem", "space-md": "1rem", "space-sm": "0.5rem", "space-xs": "0.25rem", "space-xl": "2rem", "margin-tablet": "1.5rem" }, "fontFamily": { "headline-xl": [ "Epilogue" ], "label-sm": [ "Atkinson Hyperlegible Next" ], "price-md": [ "Atkinson Hyperlegible Next" ], "body-md": [ "Atkinson Hyperlegible Next" ], "headline-lg": [ "Epilogue" ], "headline-sm": [ "Epilogue" ], "body-md-bold": [ "Atkinson Hyperlegible Next" ], "body-sm": [ "Atkinson Hyperlegible Next" ], "body-lg": [ "Atkinson Hyperlegible Next" ], "headline-md": [ "Epilogue" ], "label-md": [ "Atkinson Hyperlegible Next" ], "headline-lg-mobile": [ "Epilogue" ], "headline-xl-mobile": [ "Epilogue" ], "price-lg": [ "Atkinson Hyperlegible Next" ], "body-sm-bold": [ "Atkinson Hyperlegible Next" ] }, "fontSize": { "headline-xl": [ "36px", { "lineHeight": "44px", "fontWeight": "800" } ], "label-sm": [ "12px", { "lineHeight": "16px", "fontWeight": "700" } ], "price-md": [ "16px", { "lineHeight": "20px", "fontWeight": "700" } ], "body-md": [ "16px", { "lineHeight": "24px", "fontWeight": "400" } ], "headline-lg": [ "28px", { "lineHeight": "36px", "fontWeight": "700" } ], "headline-sm": [ "18px", { "lineHeight": "24px", "fontWeight": "600" } ], "body-md-bold": [ "16px", { "lineHeight": "24px", "fontWeight": "700" } ], "body-sm": [ "14px", { "lineHeight": "20px", "fontWeight": "400" } ], "body-lg": [ "18px", { "lineHeight": "28px", "fontWeight": "400" } ], "headline-md": [ "22px", { "lineHeight": "28px", "fontWeight": "700" } ], "label-md": [ "14px", { "lineHeight": "18px", "fontWeight": "700" } ], "headline-lg-mobile": [ "24px", { "lineHeight": "32px", "fontWeight": "700" } ], "headline-xl-mobile": [ "28px", { "lineHeight": "36px", "fontWeight": "800" } ], "price-lg": [ "20px", { "lineHeight": "24px", "fontWeight": "700" } ], "body-sm-bold": [ "14px", { "lineHeight": "20px", "fontWeight": "700" } ] } } } };</script></head><body class="bg-surface font-body-md text-body-md text-on-surface"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col justify-between py-6 px-4 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col gap-6"><div class="flex items-center gap-3 px-3"><div class="w-10 h-10 rounded-xl bg-primary-container text-primary-fixed flex items-center justify-center font-headline-sm text-headline-sm"><span class="material-symbols-outlined text-[24px]">storefront</span></div><div class="flex flex-col min-w-0"><div class="flex items-center gap-1.5"><span class="font-headline-sm text-headline-sm text-primary font-bold truncate">CibusHub</span><span class="bg-secondary-container text-on-secondary-container font-label-sm text-label-sm px-1.5 py-0.5 rounded-full uppercase">Partner</span></div><span class="font-label-sm text-label-sm text-on-surface-variant truncate">Merchant Operations</span></div></div><div class="px-3 py-2.5 rounded-xl bg-surface-container flex items-center justify-between"><div class="flex flex-col min-w-0"><span class="font-body-sm-bold text-body-sm-bold text-on-surface truncate">Auntie Muni Kitchen</span><span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px] text-primary">pin_drop</span>East Legon, GA-492-3810</span></div><span class="material-symbols-outlined text-primary text-[20px] shrink-0">verified</span></div><nav class="flex flex-col gap-1.5" data-active-classes="bg-primary-container text-on-primary-container font-body-md-bold text-body-md-bold rounded-xl"><a aria-current="page" class="flex items-center justify-between px-3.5 py-3 transition-colors bg-primary-container text-on-primary-container font-body-md-bold text-body-md-bold rounded-xl" data-path="live-order-board" href="#"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span class="font-body-md text-body-md">Live Order Board</span></div><span class="bg-secondary-container text-on-secondary-container font-label-sm text-label-sm px-2 py-0.5 rounded-full font-bold">5</span></a><a class="flex items-center gap-3 px-3.5 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="menu-management" href="#"><span class="material-symbols-outlined text-[20px]">restaurant_menu</span><span class="font-body-md text-body-md">Menu Management</span></a><a class="flex items-center gap-3 px-3.5 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="operating-hours-and-schedules" href="#"><span class="material-symbols-outlined text-[20px]">schedule</span><span class="font-body-md text-body-md">Operating Hours</span></a><a class="flex items-center gap-3 px-3.5 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="daily-business-summary-and-analytics" href="#"><span class="material-symbols-outlined text-[20px]">insights</span><span class="font-body-md text-body-md">Analytics &amp; Summary</span></a><a class="flex items-center justify-between px-3.5 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="kitchen-display" href="#"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px]">soup_kitchen</span><span class="font-body-md text-body-md">Kitchen Display (KDS)</span></div><span class="material-symbols-outlined text-[16px] text-on-surface-variant">arrow_outward</span></a><a class="flex items-center gap-3 px-3.5 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="settings-and-momo-payouts" href="#"><span class="material-symbols-outlined text-[20px]">account_balance_wallet</span><span class="font-body-md text-body-md">Settings &amp; MoMo</span></a></nav></div><div class="flex flex-col gap-3 px-3"><div class="p-3 rounded-xl bg-surface-container-high flex flex-col gap-1.5"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-[18px]">support_agent</span><span class="font-label-md text-label-md text-on-surface">Accra Dispatch Hub</span></div><span class="font-body-sm text-body-sm text-on-surface-variant">Priority kitchen partner line:</span><a class="font-body-md-bold text-body-md-bold text-primary hover:underline" href="tel:+233302004567">+233 30 200 4567</a></div><div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm px-1"><span>Hub Core v2.4</span><span>CibusHub GH</span></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-20 bg-surface/90 backdrop-blur-xl z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 w-full px-6 flex items-center justify-between gap-4"><div class="flex items-center gap-4"><div class="flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-surface-container-low"><div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-primary-tint animate-pulse"></span><span class="font-label-md text-label-md text-on-surface">Accepting Orders</span></div><div class="h-4 w-[1px] bg-outline-variant"></div><div class="flex items-center gap-1 font-label-sm text-label-sm"><span class="px-2 py-0.5 rounded-full bg-primary-container text-on-primary-container font-bold">OPEN</span><span class="px-2 py-0.5 rounded-full text-on-surface-variant hover:bg-surface-container cursor-pointer transition-colors">Rush Pause</span><span class="px-2 py-0.5 rounded-full text-on-surface-variant hover:bg-surface-container cursor-pointer transition-colors">Closed</span></div></div><button class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface" type="button"><span class="material-symbols-outlined text-[18px] text-secondary">notifications_active</span><span class="font-label-sm text-label-sm text-on-surface font-bold">Sound Alerts ON</span></button></div><div class="hidden xl:flex items-center gap-4 px-4 py-2 rounded-xl bg-surface-container"><div class="flex flex-col"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Today's Revenue</span><span class="font-price-md text-price-md text-primary font-bold">GHS 2,840.00</span></div><div class="h-6 w-[1px] bg-outline-variant"></div><div class="flex flex-col"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Orders</span><span class="font-price-md text-price-md text-on-surface font-bold">38</span></div><div class="h-6 w-[1px] bg-outline-variant"></div><div class="flex flex-col"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Active Riders</span><div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary"></span><span class="font-price-md text-price-md text-on-surface font-bold">4 Dispatched</span></div></div></div><div class="flex items-center gap-3.5"><button aria-label="Notifications" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-surface-container-high transition-colors relative" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-error"></span></button><div class="flex items-center gap-3 pl-2 border-l border-outline-variant"><div class="flex flex-col text-right"><span class="font-body-sm-bold text-body-sm-bold text-on-surface leading-tight">Madam Muni</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-tight">Head Operator</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><main class="w-full pt-20 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Interactive Audio Mock for chime testing -->
+<audio id="orderPingChime" preload="auto">
+<source src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" type="audio/mpeg"/>
+</audio>
+<!-- Top Operational Controls Ribbon -->
+<div class="px-6 py-5 bg-surface-container-low flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+<!-- Left: Title, Live Status & Sound Engine Control -->
+<div class="flex flex-wrap items-center gap-4">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h1 class="font-headline-md text-headline-md text-on-surface">Live Order Board</h1>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-secondary animate-ping"></span>
+            SYNC LIVE
+          </span>
+</div>
+<p class="font-body-sm-bold text-body-sm-bold text-on-surface-variant">
+          34 Orders Processed Today <span class="mx-1 font-body-sm text-body-sm text-outline">•</span>
+<span class="text-primary font-bold">4 Active in Kitchen Line</span>
+</p>
+</div>
+<div class="hidden sm:block h-9 w-px bg-surface-container-highest"></div>
+<!-- High-Visibility Sound Alert Pill & Chime Trigger -->
+<div class="flex items-center gap-3 px-3.5 py-2 rounded-xl bg-surface-container shadow-sm">
+<div class="relative flex items-center justify-center">
+<span class="absolute w-7 h-7 rounded-full bg-secondary/20 animate-ping"></span>
+<div class="relative w-7 h-7 rounded-full bg-secondary text-surface flex items-center justify-center">
+<span class="material-symbols-outlined text-[17px]">volume_up</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface flex items-center gap-1">
+            Sound Chimes Active
+            <span class="text-secondary font-bold text-[10px] tracking-wider uppercase">85dB</span>
+</span>
+<span class="font-label-sm text-[11px] text-on-surface-variant">Auto-replays every 15s</span>
+</div>
+<button class="ml-1 px-2.5 py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-dim active:scale-95 transition-all text-on-surface font-label-sm text-label-sm flex items-center gap-1.5" id="chimeTestBtn" onclick="testPingAudio()" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary">music_note</span>
+<span>Test Chime</span>
+</button>
+</div>
+<!-- Auto-Accept Status Chip -->
+<div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] text-outline">tune</span>
+<span>Auto-accept: <strong class="text-error">OFF</strong></span>
+</div>
+</div>
+<!-- Right: Master Kitchen State Switch & Search -->
+<div class="flex flex-wrap items-center gap-3">
+<!-- Search Input -->
+<div class="relative min-w-[220px] max-w-xs">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-on-surface-variant">search</span>
+<input class="w-full h-11 pl-9 pr-3 rounded-xl bg-surface text-on-surface font-body-sm text-body-sm placeholder:text-on-surface-variant/70 focus:outline-none focus:ring-2 focus:ring-primary-container shadow-sm" placeholder="Search order #, customer..." type="text"/>
+</div>
+<!-- Rush Pause Quick Action -->
+<button class="h-11 px-3.5 rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface font-label-sm text-label-sm flex items-center gap-2" onclick="toggleRushModal()" type="button">
+<span class="material-symbols-outlined text-[18px] text-secondary">hourglass_top</span>
+<span>Pause 15m (Rush)</span>
+</button>
+<!-- Master Kitchen Status Pill -->
+<div class="h-11 px-4 rounded-xl bg-primary-container text-on-primary-container flex items-center gap-2.5 shadow-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-primary-fixed-dim animate-pulse"></span>
+<span class="font-label-md text-label-md tracking-wide">ACCEPTING ORDERS</span>
+<span class="material-symbols-outlined text-[18px]">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Primary Workspace: 5-Column Kanban Board + Canonical Detail Drawer -->
+<div class="flex-1 flex flex-col 2xl:flex-row gap-0 overflow-hidden bg-surface">
+<!-- Kanban Columns Wrapper -->
+<div class="flex-1 overflow-x-auto p-6">
+<div class="min-w-[1360px] grid grid-cols-5 gap-5">
+<!-- COLUMN 1: NEW ORDERS (Urgent Pulse) -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between px-3 py-2 rounded-xl bg-secondary-container/40">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary animate-ping"></span>
+<span class="font-headline-sm text-headline-sm text-on-secondary-container">New</span>
+<span class="w-5 h-5 rounded-full bg-secondary text-surface font-label-sm text-label-sm flex items-center justify-center">2</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-secondary-container font-bold">Action Needed</span>
+</div>
+<!-- Alert Active Order Card: #CB-8496 Kwame Owusu -->
+<div class="rounded-2xl p-4 bg-surface-container-lowest shadow-md flex flex-col gap-3 relative overflow-hidden transition-all duration-200 hover:-translate-y-0.5">
+<div class="absolute top-0 left-0 right-0 h-1.5 bg-secondary animate-pulse"></div>
+<!-- Pulsating chime banner -->
+<div class="flex items-center justify-between px-2.5 py-1 rounded-lg bg-secondary-container text-on-secondary-container">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] animate-bounce">notifications_active</span>
+<span class="font-label-sm text-[11px] uppercase tracking-wider font-bold">Incoming Chime Ringing</span>
+</div>
+<span class="font-label-sm text-[11px] font-bold">45s ago</span>
+</div>
+<div class="flex items-start justify-between">
+<div>
+<span class="font-headline-sm text-headline-sm text-primary font-bold">#CB-8496</span>
+<h3 class="font-body-md-bold text-body-md-bold text-on-surface">Kwame Owusu</h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">East Legon Residential</span>
+</div>
+<div class="text-right">
+<span class="font-price-md text-price-md text-on-surface">GHS 114.00</span>
+<div class="flex items-center justify-end gap-1 text-[11px] font-label-sm text-on-primary-fixed-variant">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+                  MTN MoMo
+                </div>
+</div>
+</div>
+<div class="p-2.5 rounded-xl bg-surface-container flex flex-col gap-1 text-on-surface">
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<span>1x Special Red-Red &amp; Fried Plantain</span>
+<span class="font-body-sm-bold text-body-sm-bold">x1</span>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<span>1x Goat Light Soup + Fufu</span>
+<span class="font-body-sm-bold text-body-sm-bold">x1</span>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<span>1x Fresh Sobolo Jug 1L</span>
+<span class="font-body-sm-bold text-body-sm-bold">x1</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 pt-1">
+<button class="h-11 rounded-xl bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-all" onclick="openPrepTimeModal('CB-8496', 'Kwame Owusu')" type="button">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+<span>Accept</span>
+</button>
+<button class="h-11 rounded-xl bg-surface-container hover:bg-error-container hover:text-on-error-container text-on-surface-variant font-label-md text-label-md flex items-center justify-center gap-1.5 transition-all" onclick="openRejectModal('CB-8496')" type="button">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+<span>Reject</span>
+</button>
+</div>
+</div>
+<!-- Order Card: #CB-8495 Kofi Boateng -->
+<div class="rounded-2xl p-4 bg-surface-container-lowest shadow-sm flex flex-col gap-3 transition-all duration-200 hover:-translate-y-0.5">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-primary font-bold">#CB-8495</span>
+<span class="font-label-sm text-label-sm text-on-secondary-container bg-secondary-container/50 px-2 py-0.5 rounded-full font-bold">3 mins ago</span>
+</div>
+<div>
+<h3 class="font-body-md-bold text-body-md-bold text-on-surface">Kofi Boateng</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Shiashie, near Mensvic Hotel</p>
+</div>
+<div class="p-2.5 rounded-xl bg-surface-container flex flex-col gap-1 text-on-surface">
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<span>1x Assorted Jollof Combo</span>
+<span class="font-body-sm-bold text-body-sm-bold">x1</span>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<span>1x Spicy Grilled Tilapia (Med)</span>
+<span class="font-body-sm-bold text-body-sm-bold">x1</span>
+</div>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm pt-1">
+<span class="text-on-surface-variant">2 items • Paid MoMo</span>
+<span class="font-price-md text-price-md text-on-surface">GHS 78.00</span>
+</div>
+<div class="grid grid-cols-2 gap-2 pt-1">
+<button class="h-11 rounded-xl bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center gap-1 shadow-sm active:scale-95 transition-all" onclick="openPrepTimeModal('CB-8495', 'Kofi Boateng')" type="button">
+<span class="material-symbols-outlined text-[18px]">check</span>
+<span>Accept (20m)</span>
+</button>
+<button class="h-11 rounded-xl bg-surface-container hover:bg-error-container hover:text-on-error-container text-on-surface-variant font-label-md text-label-md flex items-center justify-center gap-1 transition-all" onclick="openRejectModal('CB-8495')" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+<span>Reject</span>
+</button>
+</div>
+</div>
+</div>
+<!-- COLUMN 2: PREPARING (Cooking status & Timers) -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between px-3 py-2 rounded-xl bg-primary-fixed/40">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-primary-container"></span>
+<span class="font-headline-sm text-headline-sm text-primary">Preparing</span>
+<span class="w-5 h-5 rounded-full bg-primary-container text-primary-fixed font-label-sm text-label-sm flex items-center justify-center">3</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary-container font-bold">In-Pot</span>
+</div>
+<!-- Active Canonical Card: #CB-8492 Kwame Mensah -->
+<div class="rounded-2xl p-4 bg-surface-container-high shadow-md ring-2 ring-primary-container flex flex-col gap-3 relative cursor-pointer" onclick="selectOrder('CB-8492')">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm text-primary font-bold">#CB-8492</span>
+<span class="px-2 py-0.5 rounded-full bg-primary-container text-primary-fixed font-label-sm text-[11px] font-bold uppercase">SELECTED</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">timer</span>
+                12m elapsed
+              </span>
+</div>
+<div>
+<h3 class="font-body-md-bold text-body-md-bold text-on-surface">Kwame Mensah</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Special Waakye Combo + Sobolo</p>
+</div>
+<!-- Prep Target Bar -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-sm text-[11px] text-on-surface-variant">
+<span>Cooking Progress</span>
+<span class="font-bold text-primary">12 / 25 min</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-primary-container rounded-full" style="width: 52%"></div>
+</div>
+</div>
+<!-- Courier proximity badge -->
+<div class="p-2.5 rounded-xl bg-surface-container flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">two_wheeler</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface font-bold">Kofi Mensah (Royal 125cc)</span>
+<span class="font-label-sm text-[11px] text-secondary font-bold">Rider 4 mins away</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">arrow_forward_ios</span>
+</div>
+<button class="h-11 rounded-xl bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center gap-2 shadow-sm active:scale-95 transition-all" onclick="event.stopPropagation(); markOrderReady('CB-8492');" type="button">
+<span class="material-symbols-outlined text-[18px]">soup_kitchen</span>
+<span>Mark Ready</span>
+</button>
+</div>
+<!-- Preparing Card: #CB-8490 Ama Serwaa -->
+<div class="rounded-2xl p-4 bg-surface-container-lowest shadow-sm flex flex-col gap-3 transition-all duration-200 hover:-translate-y-0.5 cursor-pointer" onclick="selectOrder('CB-8490')">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-primary font-bold">#CB-8490</span>
+<span class="font-label-sm text-label-sm text-error font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">timer</span>
+                18m elapsed (Rush)
+              </span>
+</div>
+<div>
+<h3 class="font-body-md-bold text-body-md-bold text-on-surface">Ama Serwaa</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">1x Smoked Beef Jollof Pack</p>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-sm text-[11px] text-on-surface-variant">
+<span>Cooking Progress</span>
+<span class="font-bold text-error">18 / 20 min</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-error rounded-full" style="width: 90%"></div>
+</div>
+</div>
+<div class="p-2.5 rounded-xl bg-surface-container flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">person_pin_circle</span>
+<span class="font-label-sm text-label-sm">Rider Daniel A. assigned</span>
+</div>
+<button class="h-11 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center justify-center gap-2 transition-all" onclick="event.stopPropagation(); markOrderReady('CB-8490');" type="button">
+<span class="material-symbols-outlined text-[18px]">done</span>
+<span>Mark Ready</span>
+</button>
+</div>
+<!-- Preparing Card: #CB-8491 Yaw Darko -->
+<div class="rounded-2xl p-4 bg-surface-container-lowest shadow-sm flex flex-col gap-3 transition-all duration-200 hover:-translate-y-0.5 cursor-pointer">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-primary font-bold">#CB-8491</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">5m elapsed</span>
+</div>
+<div>
+<h3 class="font-body-md-bold text-body-md-bold text-on-surface">Yaw Darko</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">2x Special Gari Foto + Fried Snapper</p>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 25%"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Awaiting courier ping</span>
+</div>
+</div>
+<!-- COLUMN 3: READY FOR PICKUP (Shelf Allocated) -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between px-3 py-2 rounded-xl bg-surface-container-high">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Ready Pickup</span>
+<span class="w-5 h-5 rounded-full bg-surface-container-highest text-on-surface font-label-sm text-label-sm flex items-center justify-center">2</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold">Shelved</span>
+</div>
+<!-- Order Card: #CB-8488 Shelf 01 -->
+<div class="rounded-2xl p-4 bg-surface-container-lowest shadow-sm flex flex-col gap-3 transition-all duration-200 hover:-translate-y-0.5">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-primary font-bold">#CB-8488</span>
+<span class="px-2.5 py-1 rounded-lg bg-secondary-container text-on-secondary-container font-price-md text-price-md font-bold">
+                SHELF #01
+              </span>
+</div>
+<div>
+<h3 class="font-body-md-bold text-body-md-bold text-on-surface">Ebenezer Tagoe</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Packed in Hot Thermal Bag</p>
+</div>
+<!-- Rider Status Alert -->
+<div class="p-2.5 rounded-xl bg-primary-fixed/60 text-on-primary-fixed flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-primary-container">sports_motorsports</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm font-bold">Rider arrived at gate</span>
+<span class="font-label-sm text-[11px]">Samuel Antwi (KTM 150)</span>
+</div>
+</div>
+<div class="p-2.5 rounded-xl bg-surface-container text-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Handover Verification Code</span>
+<div class="font-headline-sm text-headline-sm text-primary tracking-widest font-bold">6 8 2 1</div>
+</div>
+</div>
+<!-- Order Card: #CB-8489 Shelf 02 -->
+<div class="rounded-2xl p-4 bg-surface-container-lowest shadow-sm flex flex-col gap-3 transition-all duration-200 hover:-translate-y-0.5">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-primary font-bold">#CB-8489</span>
+<span class="px-2.5 py-1 rounded-lg bg-surface-container-high text-on-surface font-price-md text-price-md font-bold">
+                SHELF #02
+              </span>
+</div>
+<div>
+<h3 class="font-body-md-bold text-body-md-bold text-on-surface">Naa Adoley</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">2x Sobolo + Spicy Kelewele Box</p>
+</div>
+<div class="p-2.5 rounded-xl bg-surface-container flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px] text-secondary">two_wheeler</span>
+<span class="font-label-sm text-label-sm">Rider en route (2 min away)</span>
+</div>
+<div class="p-2.5 rounded-xl bg-surface-container text-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Handover Verification Code</span>
+<div class="font-headline-sm text-headline-sm text-primary tracking-widest font-bold">4 1 0 9</div>
+</div>
+</div>
+</div>
+<!-- COLUMN 4: OUT FOR DELIVERY -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between px-3 py-2 rounded-xl bg-surface-container">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-outline"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Out on Road</span>
+<span class="w-5 h-5 rounded-full bg-surface-container-highest text-on-surface font-label-sm text-label-sm flex items-center justify-center">4</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold">Transit</span>
+</div>
+<!-- Card #CB-8485 -->
+<div class="rounded-2xl p-4 bg-surface-container-lowest shadow-sm flex flex-col gap-2.5 transition-all duration-200 hover:-translate-y-0.5">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">#CB-8485</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">ETA 8m</span>
+</div>
+<h3 class="font-body-md-bold text-body-md-bold text-on-surface">Grace Addo</h3>
+<div class="flex items-center gap-1.5 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-primary">navigation</span>
+<span class="truncate">Boundary Rd, East Legon</span>
+</div>
+<div class="p-2 rounded-xl bg-surface-container flex items-center justify-between text-[11px] font-label-sm text-on-surface-variant">
+<span>Courier: Prince O.</span>
+<span class="text-primary font-bold">Dispatched 12:44 PM</span>
+</div>
+</div>
+<!-- Card #CB-8483 -->
+<div class="rounded-2xl p-4 bg-surface-container-lowest shadow-sm flex flex-col gap-2.5 transition-all duration-200 hover:-translate-y-0.5">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">#CB-8483</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">ETA 3m</span>
+</div>
+<h3 class="font-body-md-bold text-body-md-bold text-on-surface">Dr. Joseph Nunoo</h3>
+<div class="flex items-center gap-1.5 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-primary">navigation</span>
+<span class="truncate">Near American House Traffic</span>
+</div>
+<div class="p-2 rounded-xl bg-surface-container flex items-center justify-between text-[11px] font-label-sm text-on-surface-variant">
+<span>Courier: Bright T.</span>
+<span class="text-primary font-bold">Dispatched 12:38 PM</span>
+</div>
+</div>
+<!-- Card #CB-8481 -->
+<div class="rounded-2xl p-4 bg-surface-container-lowest shadow-sm flex flex-col gap-2.5">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">#CB-8481</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">ETA 14m</span>
+</div>
+<h3 class="font-body-md-bold text-body-md-bold text-on-surface">Serah Mensah</h3>
+<div class="flex items-center gap-1.5 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-primary">navigation</span>
+<span class="truncate">Airport Residential Area</span>
+</div>
+</div>
+</div>
+<!-- COLUMN 5: COMPLETED TODAY -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between px-3 py-2 rounded-xl bg-surface-container-low">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Delivered</span>
+<span class="w-6 h-5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm flex items-center justify-center">23</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Settled</span>
+</div>
+<!-- Settled Summary KPI Card -->
+<div class="rounded-2xl p-4 bg-surface-container-lowest shadow-sm flex flex-col gap-3">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold">Completed Metric</span>
+<div class="flex items-baseline justify-between">
+<span class="font-headline-lg text-headline-lg text-primary font-bold">23</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">100% on-time</span>
+</div>
+<div class="p-2.5 rounded-xl bg-surface-container flex flex-col gap-1">
+<span class="font-label-sm text-[11px] text-on-surface-variant">Average Kitchen Prep Time</span>
+<span class="font-price-md text-price-md text-on-surface">16.4 minutes</span>
+</div>
+<button class="w-full py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm transition-colors text-center" type="button">
+              View Archived Receipts
+            </button>
+</div>
+<!-- Mini recent completed log -->
+<div class="rounded-2xl p-3.5 bg-surface-container-lowest/70 flex flex-col gap-2">
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-[11px]">
+<span class="font-bold text-on-surface">#CB-8480 • GHS 95.00</span>
+<span>12:31 PM</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface truncate">Esi Quaye • Delivered</span>
+</div>
+<div class="rounded-2xl p-3.5 bg-surface-container-lowest/70 flex flex-col gap-2">
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-[11px]">
+<span class="font-bold text-on-surface">#CB-8479 • GHS 140.00</span>
+<span>12:22 PM</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface truncate">Kojo Annan • Delivered</span>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT EXPANDED DRAWER: Canonical Order #CB-8492 Detail Workspace -->
+<div class="w-full 2xl:w-[460px] bg-surface-container-lowest shadow-xl flex flex-col justify-between p-6 overflow-y-auto">
+<div class="flex flex-col gap-5">
+<!-- Header & Fast Close / Quick Actions -->
+<div class="flex items-start justify-between pb-3">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-lg text-headline-lg text-primary font-bold">#CB-8492</span>
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-bold">PREPARING</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Kwame Mensah</h2>
+<div class="flex items-center gap-1.5 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-primary">call</span>
+<a class="hover:underline font-bold text-on-surface" href="tel:+233244123456">+233 24 412 3456</a>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button aria-label="Print Ticket" class="w-10 h-10 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center transition-colors" onclick="printKDSTicket()" type="button">
+<span class="material-symbols-outlined text-[20px]">print</span>
+</button>
+<button aria-label="More Options" class="w-10 h-10 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Elapsed Timer Meter with Visual Progress -->
+<div class="p-4 rounded-2xl bg-surface-container flex flex-col gap-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 text-primary font-body-md-bold text-body-md-bold">
+<span class="material-symbols-outlined text-[20px]">schedule</span>
+<span>12m 40s Elapsed</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Target Kitchen Prep: <strong>25m</strong></span>
+</div>
+<div class="w-full h-2.5 rounded-full bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-primary-container rounded-full" style="width: 51%"></div>
+</div>
+<div class="flex justify-between font-label-sm text-[11px] text-on-surface-variant">
+<span>Accepted 12:41 PM</span>
+<span>Est. Ready: 1:06 PM (12m remaining)</span>
+</div>
+</div>
+<!-- Financial & MoMo Transaction Webhook Verified Stamp -->
+<div class="flex items-center justify-between p-3.5 rounded-xl bg-surface-container-low">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Payment Summary</span>
+<span class="font-price-lg text-price-lg text-on-surface font-bold">GHS 89.00</span>
+</div>
+<!-- Nyame Dua / Confirmed MoMo Verification Stamp -->
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-highest text-on-surface">
+<span class="material-symbols-outlined text-[20px] text-primary">verified_user</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm font-bold text-primary">MTN MoMo Verified</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">Paystack ID: PST-9941829</span>
+</div>
+</div>
+</div>
+<!-- Itemized Kitchen Assembly List -->
+<div class="flex flex-col gap-3">
+<span class="font-label-md text-label-md text-on-surface uppercase tracking-wide">Order Assembly (2 Items)</span>
+<!-- Dish Item 1: Waakye -->
+<div class="p-4 rounded-2xl bg-surface-container flex flex-col gap-2.5">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-md bg-primary-container text-primary-fixed flex items-center justify-center font-bold font-label-sm text-label-sm">1</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Special Waakye Combo</span>
+</div>
+<span class="font-price-md text-price-md text-on-surface">GHS 57.00</span>
+</div>
+<!-- Customization Chips -->
+<div class="pl-8 flex flex-col gap-1.5 text-on-surface">
+<div class="flex items-center gap-2 font-body-sm text-body-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span><strong>Protein:</strong> Stewed Beef Cuts</span>
+</div>
+<div class="flex items-center gap-2 font-body-sm text-body-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span><strong>Sides:</strong> Kelewele (+GHS 8.00), Farm Boiled Egg (+GHS 4.00)</span>
+</div>
+<div class="flex items-center gap-2 font-body-sm text-body-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span><strong>Pepper:</strong> Regular Spicy Shito</span>
+</div>
+<div class="flex items-center gap-2 font-body-sm text-body-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="inline-flex items-center gap-1 text-primary-container font-body-sm-bold text-body-sm-bold">
+<span class="material-symbols-outlined text-[15px]">eco</span>
+                  Packaging: Eco Banana Leaf
+                </span>
+</div>
+</div>
+</div>
+<!-- Dish Item 2: Sobolo -->
+<div class="p-4 rounded-2xl bg-surface-container flex flex-col gap-2">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-md bg-primary-container text-primary-fixed flex items-center justify-center font-bold font-label-sm text-label-sm">1</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Fresh Chilled Sobolo (500ml)</span>
+</div>
+<span class="font-price-md text-price-md text-on-surface">GHS 12.00</span>
+</div>
+<div class="pl-8 font-body-sm text-body-sm text-on-surface-variant">
+<span>Standard Sweetness • Infused with Fresh Ginger &amp; Cloves</span>
+</div>
+</div>
+</div>
+<!-- Specific Operational Notes (Kitchen & Rider) -->
+<div class="flex flex-col gap-3">
+<!-- Customer Note for Kitchen -->
+<div class="p-3.5 rounded-xl bg-secondary-container/40 flex flex-col gap-1">
+<div class="flex items-center gap-1.5 font-label-sm text-label-sm text-on-secondary-container">
+<span class="material-symbols-outlined text-[16px]">restaurant</span>
+<span>KITCHEN NOTE FROM CUSTOMER:</span>
+</div>
+<p class="font-body-md-bold text-body-md-bold text-on-secondary-container italic">
+              "Pack shito in separate leaf pouch please"
+            </p>
+</div>
+<!-- Rider Note for Delivery -->
+<div class="p-3.5 rounded-xl bg-surface-container flex flex-col gap-1">
+<div class="flex items-center gap-1.5 font-label-sm text-label-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">pin_drop</span>
+<span>RIDER DISPATCH NOTE:</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">
+              Opposite Shell filling station, behind Papaye, black gate with gold bell.
+            </p>
+</div>
+</div>
+<!-- Assigned Rider Details Card (Courier Handshake) -->
+<div class="p-4 rounded-2xl bg-surface-container-high flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold">Assigned Dispatch Rider</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary text-surface font-label-sm text-[11px] font-bold">En Route (4m away)</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-xl bg-primary-container text-primary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">sports_motorsports</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Kofi Mensah</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Royal 125cc • GE-4819-22</span>
+</div>
+</div>
+<a class="h-10 px-3.5 rounded-xl bg-surface-container hover:bg-surface text-primary font-body-sm-bold text-body-sm-bold flex items-center gap-1.5 shadow-sm transition-colors" href="tel:0553829102">
+<span class="material-symbols-outlined text-[18px]">call</span>
+<span>055 382 9102</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Drawer Bottom Execution Bar -->
+<div class="pt-6 flex flex-col gap-2.5">
+<button class="w-full h-13 py-3 rounded-xl bg-primary-container hover:bg-primary text-on-primary font-headline-sm text-headline-sm flex items-center justify-center gap-2 shadow-md active:scale-[0.98] transition-all" onclick="markOrderReady('CB-8492')" type="button">
+<span class="material-symbols-outlined text-[22px]">shelves</span>
+<span>Mark Ready for Pickup (Shelf Allocation)</span>
+</button>
+<div class="grid grid-cols-2 gap-2">
+<button class="h-11 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center justify-center gap-2 transition-colors" onclick="printKDSTicket()" type="button">
+<span class="material-symbols-outlined text-[18px]">print</span>
+<span>Print KDS Ticket</span>
+</button>
+<button class="h-11 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center justify-center gap-2 transition-colors" onclick="contactDispatch()" type="button">
+<span class="material-symbols-outlined text-[18px]">support_agent</span>
+<span>Contact Dispatch</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- MODAL 1: ACCEPT ORDER WITH PREP TIME DIALOG -->
+<div class="fixed inset-0 z-50 bg-[#2B2118]/60 flex items-center justify-center p-4 hidden" id="prepTimeModal">
+<div class="w-full max-w-md rounded-2xl bg-surface-container-lowest p-6 shadow-2xl flex flex-col gap-5">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-primary font-bold uppercase">Accept Order</span>
+<h3 class="font-headline-md text-headline-md text-on-surface" id="prepModalTitle">Select Prep Duration</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant" id="prepModalSubtitle">Order #CB-8496 • Kwame Owusu</p>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high" onclick="closePrepTimeModal()" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">
+        How many minutes will kitchen take to prepare and pack this order?
+      </p>
+<!-- Time Pills Radio Grid -->
+<div class="grid grid-cols-5 gap-2" id="prepTimeSelector">
+<button class="prep-pill py-3 rounded-xl bg-surface-container text-on-surface font-headline-sm text-headline-sm hover:bg-surface-container-high flex flex-col items-center justify-center transition-all" onclick="selectPrepOption(this, '15m')" type="button">
+<span>15</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">MIN</span>
+</button>
+<button class="prep-pill py-3 rounded-xl bg-primary-container text-on-primary font-headline-sm text-headline-sm flex flex-col items-center justify-center ring-2 ring-primary-container transition-all" onclick="selectPrepOption(this, '20m')" type="button">
+<span>20</span>
+<span class="font-label-sm text-[10px] text-primary-fixed">MIN</span>
+</button>
+<button class="prep-pill py-3 rounded-xl bg-surface-container text-on-surface font-headline-sm text-headline-sm hover:bg-surface-container-high flex flex-col items-center justify-center transition-all" onclick="selectPrepOption(this, '25m')" type="button">
+<span>25</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">MIN</span>
+</button>
+<button class="prep-pill py-3 rounded-xl bg-surface-container text-on-surface font-headline-sm text-headline-sm hover:bg-surface-container-high flex flex-col items-center justify-center transition-all" onclick="selectPrepOption(this, '35m')" type="button">
+<span>35</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">MIN</span>
+</button>
+<button class="prep-pill py-3 rounded-xl bg-surface-container text-on-surface font-headline-sm text-headline-sm hover:bg-surface-container-high flex flex-col items-center justify-center transition-all" onclick="selectPrepOption(this, '45m')" type="button">
+<span>45</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">MIN</span>
+</button>
+</div>
+<div class="p-3 rounded-xl bg-surface-container text-on-surface-variant font-label-sm text-label-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary">info</span>
+<span>Once confirmed, courier dispatch is scheduled with customer countdown.</span>
+</div>
+<div class="grid grid-cols-2 gap-3 pt-2">
+<button class="h-12 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md" onclick="closePrepTimeModal()" type="button">
+          Cancel
+        </button>
+<button class="h-12 rounded-xl bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md shadow-md" onclick="confirmAcceptOrder()" type="button">
+          Confirm Accept
+        </button>
+</div>
+</div>
+</div>
+<!-- MODAL 2: REJECT ORDER DIALOG WITH MANDATORY REASON & MOMO REFUND WARNING -->
+<div class="fixed inset-0 z-50 bg-[#2B2118]/60 flex items-center justify-center p-4 hidden" id="rejectModal">
+<div class="w-full max-w-md rounded-2xl bg-surface-container-lowest p-6 shadow-2xl flex flex-col gap-4">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-10 h-10 rounded-xl bg-error-container text-on-error-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">warning</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface" id="rejectOrderHeading">Reject Order #CB-8495?</h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Action cannot be reversed</span>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high" onclick="closeRejectModal()" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Financial MoMo Paystack Refund Notice -->
+<div class="p-3.5 rounded-xl bg-error-container text-on-error-container flex flex-col gap-1">
+<div class="flex items-center gap-1.5 font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[18px]">currency_exchange</span>
+<span>AUTOMATIC INSTANT MOMO REFUND</span>
+</div>
+<p class="font-body-sm text-body-sm">
+          Triggering rejection will automatically initiate an instant <strong>100% MoMo refund</strong> to customer's wallet via Paystack webhook.
+        </p>
+</div>
+<!-- Rejection Reason Dropdown -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface font-bold" for="rejectionReasonSelect">
+          Required Rejection Reason *
+        </label>
+<select class="w-full h-11 px-3 rounded-xl bg-surface-container text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-error" id="rejectionReasonSelect">
+<option value="">Choose operational reason...</option>
+<option value="exhausted">Kitchen Batch / Pot Exhausted (Out of Stock)</option>
+<option value="closed">Kitchen Closed / Shift Break</option>
+<option value="ingredients">Missing Key Ingredients (Proteins/Garnish)</option>
+<option value="rush">Extreme Kitchen Rush Delay (&gt;50m wait)</option>
+</select>
+</div>
+<!-- Custom Customer Message Note -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface font-bold" for="rejectNote">Custom Note to Customer</label>
+<textarea class="w-full p-3 rounded-xl bg-surface-container text-on-surface font-body-sm text-body-sm placeholder:text-on-surface-variant/60 focus:outline-none focus:ring-2 focus:ring-error" id="rejectNote" placeholder="e.g. Fresh batch of Waakye currently in preparation for 3:00 PM..." rows="2"></textarea>
+</div>
+<!-- Action buttons -->
+<div class="grid grid-cols-2 gap-3 pt-2">
+<button class="h-12 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md" onclick="closeRejectModal()" type="button">
+          Keep Order
+        </button>
+<button class="h-12 rounded-xl bg-error hover:bg-error/90 text-on-error font-label-md text-label-md shadow-md flex items-center justify-center gap-1.5" onclick="confirmRejectOrder()" type="button">
+<span class="material-symbols-outlined text-[18px]">block</span>
+<span>Confirm &amp; Refund</span>
+</button>
+</div>
+</div>
+</div>
+<!-- MODAL 3: RUSH PAUSE MODAL -->
+<div class="fixed inset-0 z-50 bg-[#2B2118]/60 flex items-center justify-center p-4 hidden" id="rushPauseModal">
+<div class="w-full max-w-sm rounded-2xl bg-surface-container-lowest p-6 shadow-2xl flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-secondary-container text-on-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">hourglass_top</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Rush Pause Mode</h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Temporarily pause incoming tickets</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">
+        Allows kitchen line to catch up on simmering pots and assemble current pending orders without new incoming orders ringing.
+      </p>
+<div class="grid grid-cols-3 gap-2">
+<button class="py-2.5 rounded-xl bg-surface-container hover:bg-primary-container hover:text-on-primary-container text-on-surface font-label-md text-label-md" onclick="activateRushPause(15)" type="button">15 Mins</button>
+<button class="py-2.5 rounded-xl bg-surface-container hover:bg-primary-container hover:text-on-primary-container text-on-surface font-label-md text-label-md" onclick="activateRushPause(30)" type="button">30 Mins</button>
+<button class="py-2.5 rounded-xl bg-surface-container hover:bg-primary-container hover:text-on-primary-container text-on-surface font-label-md text-label-md" onclick="activateRushPause(45)" type="button">45 Mins</button>
+</div>
+<button class="w-full py-2.5 rounded-xl bg-surface-container text-on-surface font-label-md text-label-md" onclick="toggleRushModal()" type="button">Cancel</button>
+</div>
+</div>
+<!-- Toast Confirmation Feedback element -->
+<div class="fixed bottom-6 right-6 z-50 px-4 py-3 rounded-xl bg-primary text-on-primary shadow-xl flex items-center gap-2.5 translate-y-24 opacity-0 transition-all duration-300" id="kdsToast">
+<span class="material-symbols-outlined text-[20px] text-secondary">check_circle</span>
+<span class="font-body-sm-bold text-body-sm-bold" id="kdsToastMsg">Action completed successfully</span>
+</div>
+</div>
+<!-- Inline Interactive Scripting for Real-Time Kitchen Board -->
+<script>
+  let activeRejectOrderId = null;
+  let activeAcceptOrderId = null;
+  let currentSelectedPrep = '20m';
+
+  function testPingAudio() {
+    const audio = document.getElementById('orderPingChime');
+    if (audio) {
+      audio.currentTime = 0;
+      audio.play().catch(e => {
+        // Fallback tone using Web Audio API if asset blocked
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, audioCtx.currentTime); // A5
+        osc.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.3);
+        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.35);
+      });
+      showToast('🔊 Order Chime Tested: 85dB Audio Output');
+    }
+  }
+
+  function showToast(message) {
+    const toast = document.getElementById('kdsToast');
+    const msg = document.getElementById('kdsToastMsg');
+    if (toast && msg) {
+      msg.textContent = message;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 3500);
+    }
+  }
+
+  function openPrepTimeModal(orderId, customerName) {
+    activeAcceptOrderId = orderId;
+    const modal = document.getElementById('prepTimeModal');
+    const title = document.getElementById('prepModalTitle');
+    const subtitle = document.getElementById('prepModalSubtitle');
+    if (modal && title && subtitle) {
+      title.textContent = `Accept Order #${orderId}`;
+      subtitle.textContent = `Customer: ${customerName} • Prep Target`;
+      modal.classList.remove('hidden');
+    }
+  }
+
+  function closePrepTimeModal() {
+    const modal = document.getElementById('prepTimeModal');
+    if (modal) modal.classList.add('hidden');
+  }
+
+  function selectPrepOption(button, time) {
+    currentSelectedPrep = time;
+    const pills = document.querySelectorAll('.prep-pill');
+    pills.forEach(p => {
+      p.className = 'prep-pill py-3 rounded-xl bg-surface-container text-on-surface font-headline-sm text-headline-sm hover:bg-surface-container-high flex flex-col items-center justify-center transition-all';
+      const sub = p.querySelector('span:last-child');
+      if (sub) sub.className = 'font-label-sm text-[10px] text-on-surface-variant';
+    });
+    button.className = 'prep-pill py-3 rounded-xl bg-primary-container text-on-primary font-headline-sm text-headline-sm flex flex-col items-center justify-center ring-2 ring-primary-container transition-all';
+    const sub = button.querySelector('span:last-child');
+    if (sub) sub.className = 'font-label-sm text-[10px] text-primary-fixed';
+  }
+
+  function confirmAcceptOrder() {
+    closePrepTimeModal();
+    showToast(`Order #${activeAcceptOrderId} accepted with ${currentSelectedPrep} prep target! Moved to Preparing.`);
+  }
+
+  function openRejectModal(orderId) {
+    activeRejectOrderId = orderId;
+    const heading = document.getElementById('rejectOrderHeading');
+    const modal = document.getElementById('rejectModal');
+    if (heading && modal) {
+      heading.textContent = `Reject Order #${orderId}?`;
+      modal.classList.remove('hidden');
+    }
+  }
+
+  function closeRejectModal() {
+    const modal = document.getElementById('rejectModal');
+    if (modal) modal.classList.add('hidden');
+  }
+
+  function confirmRejectOrder() {
+    const reasonSelect = document.getElementById('rejectionReasonSelect');
+    if (!reasonSelect.value) {
+      alert('Please choose an operational rejection reason.');
+      return;
+    }
+    closeRejectModal();
+    showToast(`Order #${activeRejectOrderId} rejected. 100% MoMo refund issued via Paystack.`);
+  }
+
+  function toggleRushModal() {
+    const modal = document.getElementById('rushPauseModal');
+    if (modal) modal.classList.toggle('hidden');
+  }
+
+  function activateRushPause(mins) {
+    toggleRushModal();
+    showToast(`Kitchen Line Paused for ${mins} minutes (Rush Control Mode)`);
+  }
+
+  function markOrderReady(orderId) {
+    showToast(`Order #${orderId} marked Ready! Assigned to Shelf #01 and Rider alerted.`);
+  }
+
+  function printKDSTicket() {
+    showToast('🖨️ Printing Kitchen KDS Ticket to Thermal Station #1...');
+  }
+
+  function contactDispatch() {
+    showToast('Calling Accra Dispatch Lead at +233 30 200 4567...');
+  }
+
+  function selectOrder(orderId) {
+    showToast(`Order #${orderId} loaded in inspection drawer.`);
+  }
+</script></main></div></body></html>

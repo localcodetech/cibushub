@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@100..900&amp;family=Epilogue:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-secondary": "#ffffff", "surface": "#fff8f5", "on-primary-fixed-variant": "#264e3b", "secondary-fixed": "#ffdea4", "outline": "#717973", "primary-container": "#123c2a", "surface-dim": "#e9d7c8", "surface-container-highest": "#f2dfd1", "background": "#fff8f5", "on-surface": "#231a11", "surface-container": "#feeadc", "primary-fixed-dim": "#a4d0b7", "on-tertiary-container": "#ec7f63", "on-background": "#231a11", "outline-variant": "#c1c8c2", "tertiary-fixed": "#ffdad2", "surface-tint": "#3e6752", "on-secondary-container": "#755400", "on-tertiary-fixed": "#3c0700", "on-primary": "#ffffff", "on-secondary-fixed": "#261900", "primary-fixed": "#c0edd2", "tertiary": "#430900", "surface-container-lowest": "#ffffff", "secondary-fixed-dim": "#f0bf5c", "primary": "#002517", "error": "#ba1a1a", "surface-bright": "#fff8f5", "on-primary-container": "#7ca78f", "secondary-container": "#fcca66", "inverse-on-surface": "#ffeee1", "error-container": "#ffdad6", "secondary": "#7b5900", "tertiary-fixed-dim": "#ffb4a2", "on-error": "#ffffff", "on-secondary-fixed-variant": "#5d4200", "inverse-surface": "#392e25", "tertiary-container": "#651a06", "on-tertiary": "#ffffff", "inverse-primary": "#a4d0b7", "surface-variant": "#f2dfd1", "on-surface-variant": "#414943", "on-tertiary-fixed-variant": "#7e2b16", "surface-container-low": "#fff1e8", "on-error-container": "#93000a", "on-primary-fixed": "#002113", "surface-container-high": "#f8e5d6" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "gutter-desktop": "1.5rem", "margin": "1rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "margin-desktop": "2.5rem", "space-xl": "2rem", "space-md": "1rem", "gutter": "1rem", "margin-tablet": "1.5rem", "space-lg": "1.5rem" }, "fontFamily": { "body-sm": ["Atkinson Hyperlegible Next"], "body-lg": ["Atkinson Hyperlegible Next"], "headline-sm": ["Epilogue"], "body-sm-bold": ["Atkinson Hyperlegible Next"], "headline-xl-mobile": ["Epilogue"], "price-md": ["Atkinson Hyperlegible Next"], "headline-md": ["Epilogue"], "body-md": ["Atkinson Hyperlegible Next"], "headline-lg-mobile": ["Epilogue"], "headline-xl": ["Epilogue"], "body-md-bold": ["Atkinson Hyperlegible Next"], "headline-lg": ["Epilogue"], "label-md": ["Atkinson Hyperlegible Next"], "label-sm": ["Atkinson Hyperlegible Next"], "price-lg": ["Atkinson Hyperlegible Next"] }, "fontSize": { "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }], "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }], "body-sm-bold": ["14px", { "lineHeight": "20px", "fontWeight": "700" }], "headline-xl-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "800" }], "price-md": ["16px", { "lineHeight": "20px", "fontWeight": "700" }], "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "700" }], "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }], "headline-xl": ["36px", { "lineHeight": "44px", "fontWeight": "800" }], "body-md-bold": ["16px", { "lineHeight": "24px", "fontWeight": "700" }], "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "700" }], "label-md": ["14px", { "lineHeight": "18px", "fontWeight": "700" }], "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "700" }], "price-lg": ["20px", { "lineHeight": "24px", "fontWeight": "700" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head><body class="bg-surface font-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 bg-primary-container shadow-[0_1px_8px_rgba(0,0,0,0.06)] pt-safe"><div class="h-16 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm shrink-0"><img alt="CibusHub Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XXKDDq06ae1_J1s0b3S8paGzdRuNnZgvmEOfaWThsVk4X6OGuEj1-e3d3863vTpKvJW3kEnwLTSWW0zzXX9wXruay500_X2KJ0rrA-ZqUjLFWnSw8277zNpmp5YZwZBCW6hc_WgGWNb13bMS8I9dh-WW32gWL8xFXO1LYJx5FqnHLhRI2eOfaTuQN_DgfncdeLAHrbhPhecmDQpNNLit-XvXCTITBNTDv-FoJZzAM"/><span class="font-headline-sm text-headline-sm text-on-primary font-bold tracking-tight">CibusHub</span></div><button class="flex items-center gap-space-xs min-h-[44px] px-space-xs text-left rounded-lg transition-colors hover:bg-primary/20" type="button"><span class="material-symbols-outlined text-secondary-container text-[20px]">location_on</span><div class="flex flex-col"><span class="font-label-sm text-label-sm text-on-primary-container leading-tight">Delivering to</span><span class="font-body-sm-bold text-body-sm-bold text-on-primary truncate max-w-[130px] leading-tight">East Legon, Accra</span></div><span class="material-symbols-outlined text-on-primary-container text-[18px]">expand_more</span></button><div class="flex items-center gap-space-xs shrink-0"><button aria-label="Cart with 0 items" class="relative w-11 h-11 flex items-center justify-center rounded-lg text-on-primary transition-colors hover:bg-primary/20" type="button"><span class="material-symbols-outlined text-[24px]">shopping_bag</span><span class="absolute top-1 right-1 bg-secondary-container text-on-secondary-fixed font-label-sm text-label-sm w-4 h-4 rounded-full flex items-center justify-center">0</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 pb-24 bg-surface min-h-screen"><div class="flex flex-col w-full pb-20">
+<!-- Top Navigation & Action Strip -->
+<div class="px-margin pt-space-sm pb-space-xs flex items-center justify-between">
+<button aria-label="Back to listings" class="min-w-[44px] min-h-[44px] rounded-xl bg-surface-container flex items-center justify-center text-on-surface hover:bg-surface-dim transition-colors" type="button">
+<span class="material-symbols-outlined text-[22px]">arrow_back</span>
+</button>
+<div class="flex items-center gap-space-xs">
+<button aria-label="Favorite restaurant" class="min-w-[44px] min-h-[44px] rounded-xl bg-surface-container flex items-center justify-center text-on-surface hover:bg-surface-dim transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">favorite_border</span>
+</button>
+<button aria-label="Search within menu" class="min-w-[44px] min-h-[44px] rounded-xl bg-surface-container flex items-center justify-center text-on-surface hover:bg-surface-dim transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</button>
+</div>
+</div>
+<!-- Restaurant Hero Banner -->
+<div class="px-margin mt-space-xs">
+<div class="relative w-full h-48 rounded-xl overflow-hidden bg-surface-container-high shadow-md">
+<img class="w-full h-full object-cover" data-alt="Vibrant outdoor open-air Ghanaian kitchen counter in Accra showing steaming iron pots with fresh aromatic waakye, banana leaves, fried plantains, and colorful enamel plates under warm natural daylight with rich earth tones and forest green elements" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0aqAQxFr3MK2XiKSQqVaIMe7zTq7HXvGgcywOxf2Sk6eXMUwxEXlU0tHJ4iCXunI78J3cvnxo7GgILCFjF_vpoqb3glvmTRCEHpNgaHKqyXDRLaTO3tO2S4bfVzpLjN6Yb5RahdGtSlSqMJ3D4d8n_ZMQyM3K7PDY1YsI0ByxYWLoEJuOjFOYno23G1X7MBhfmkXEfcJLwynJVZjFiuRXwXjUy7Ml9LaKmcvXWDA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-black/20"></div>
+<!-- Verified Chef & Cultural Stamp Badge -->
+<div class="absolute top-space-sm left-space-sm flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-container-lowest/90 text-on-surface shadow-sm">
+<svg class="w-3.5 h-3.5 text-secondary" fill="currentColor" viewbox="0 0 24 24">
+<circle cx="12" cy="12" fill="none" r="9" stroke="currentColor" stroke-width="2"></circle>
+<circle cx="12" cy="12" r="4"></circle>
+</svg>
+<span class="font-label-sm text-label-sm tracking-tight text-on-surface">Heritage Kitchen</span>
+</div>
+<!-- Quick Delivery Time Tag on Hero -->
+<div class="absolute bottom-space-sm right-space-sm px-2.5 py-1 rounded-lg bg-secondary-container text-on-secondary-fixed font-label-sm text-label-sm shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+<span>20–30 min</span>
+</div>
+</div>
+</div>
+<!-- Restaurant Identity & Meta Block -->
+<div class="px-margin mt-space-md flex flex-col gap-space-sm">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface font-bold tracking-tight">Auntie Muni Kitchen</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[16px] text-primary-container">location_on</span>
+          Lagos Avenue, East Legon • GA-492-3810
+        </p>
+</div>
+<div class="shrink-0 flex flex-col items-end">
+<div class="px-2 py-1 rounded-lg bg-secondary-fixed text-on-secondary-fixed flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] fill-1 text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-body-sm-bold text-body-sm-bold">4.9</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">340+ reviews</span>
+</div>
+</div>
+<!-- Operational Status Card -->
+<div class="p-space-sm rounded-xl bg-surface-container flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-primary-container animate-pulse"></span>
+<span class="font-body-sm-bold text-body-sm-bold text-primary-container">Open Now • Lunch Service until 3:30 PM</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Fast Prep</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant pl-4">
+        Dinner Pot opens at 6:00 PM for fresh evening batches.
+      </p>
+</div>
+<!-- Value Badges Grid -->
+<div class="grid grid-cols-2 gap-space-xs mt-0.5">
+<div class="p-2.5 rounded-xl bg-surface-container-low flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container text-[20px]">two_wheeler</span>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant leading-tight">Delivery</span>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface truncate">GHS 12.00</span>
+</div>
+</div>
+<div class="p-2.5 rounded-xl bg-surface-container-low flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container text-[20px]">payments</span>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant leading-tight">Min. Order</span>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface truncate">GHS 30.00</span>
+</div>
+</div>
+</div>
+<!-- Eco Leaf Feature Callout -->
+<div class="px-3 py-2 rounded-xl bg-surface-container-lowest flex items-center gap-2.5 shadow-sm">
+<div class="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary-container text-[18px]">eco</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface">Eco Banana Leaf Wrapped Available on request</span>
+</div>
+<!-- Secondary Quick Action Buttons -->
+<div class="flex items-center gap-space-xs pt-1">
+<button class="flex-1 min-h-[44px] px-3 rounded-xl bg-surface-container text-on-surface hover:bg-surface-dim transition-colors flex items-center justify-center gap-1.5 font-label-md text-label-md" type="button">
+<span class="material-symbols-outlined text-[18px]">info</span>
+<span>Info &amp; Reviews</span>
+</button>
+<button class="flex-1 min-h-[44px] px-3 rounded-xl bg-surface-container text-on-surface hover:bg-surface-dim transition-colors flex items-center justify-center gap-1.5 font-label-md text-label-md" type="button">
+<span class="material-symbols-outlined text-[18px]">group_add</span>
+<span>Group Order</span>
+</button>
+<button aria-label="Share restaurant" class="w-11 min-h-[44px] rounded-xl bg-surface-container text-on-surface hover:bg-surface-dim transition-colors flex items-center justify-center shrink-0" type="button">
+<span class="material-symbols-outlined text-[18px]">share</span>
+</button>
+</div>
+</div>
+<!-- Sticky Horizontal Category Navigation -->
+<div class="sticky top-16 z-30 bg-surface/95 pt-space-md pb-space-xs px-margin shadow-[0_4px_12px_rgba(35,26,17,0.04)]">
+<div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5">
+<button class="shrink-0 min-h-[44px] px-4 rounded-xl bg-primary-container text-on-primary font-body-sm-bold text-body-sm-bold shadow-sm transition-transform active:scale-95" type="button">
+        Special Waakye (5)
+      </button>
+<button class="shrink-0 min-h-[44px] px-4 rounded-xl bg-surface-container text-on-surface font-body-sm text-body-sm hover:bg-surface-dim transition-colors" type="button">
+        Jollof &amp; Fried Rice (4)
+      </button>
+<button class="shrink-0 min-h-[44px] px-4 rounded-xl bg-surface-container text-on-surface font-body-sm text-body-sm hover:bg-surface-dim transition-colors" type="button">
+        Soups &amp; Swallow (3)
+      </button>
+<button class="shrink-0 min-h-[44px] px-4 rounded-xl bg-surface-container text-on-surface font-body-sm text-body-sm hover:bg-surface-dim transition-colors" type="button">
+        Sides &amp; Kelewele (6)
+      </button>
+<button class="shrink-0 min-h-[44px] px-4 rounded-xl bg-surface-container text-on-surface font-body-sm text-body-sm hover:bg-surface-dim transition-colors" type="button">
+        Chilled Drinks &amp; Sobolo (4)
+      </button>
+</div>
+</div>
+<!-- Dish List Section: Special Waakye -->
+<div class="px-margin mt-space-md flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md text-on-surface">Special Waakye</h2>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Signature Recipes</span>
+</div>
+<!-- Dish 1: Special Waakye Combo -->
+<div class="p-space-sm rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-space-sm">
+<div class="flex gap-space-sm">
+<div class="relative w-20 h-20 rounded-xl overflow-hidden bg-surface-container shrink-0">
+<img class="w-full h-full object-cover" data-alt="Traditional Ghanaian waakye dish served with rich dark sorghum rice and beans, boiled organic egg, talia spaghetti, brown gari foto, stewed beef cube and shiny black shito sauce, macro photography with warm ambient lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAy9BPHPEwlDAF71YJacfpp4DckQadjORQO2O22xuhAqLBPB-fJw82KgeNo70y1ZGC_-7RlYDoCUxzbi6odqsxzW0k2nEN4sH1i7cPTReJrBm08AzQxjCQCzZjIB6xYPthg78mAXuwv4_I2TDj1KpODdNE-ZG7JR0Zu-jyVqWXcuNjxFIwj8OW6XBGqaYvMCRRfmwM5syWYJ_od1tWZxuPYsYfZAY7qs8i7Dsw99Nw"/>
+</div>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-start justify-between gap-1">
+<h3 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Special Waakye Combo</h3>
+</div>
+<span class="font-price-md text-price-md text-primary-container mt-0.5">GHS 45.00</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">
+            Authentic sorghum-leaf cooked waakye rice &amp; beans, stewed beef, boiled egg, talia, gari, and rich black shito.
+          </p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="px-2 py-1 rounded-lg bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">
+          Customisable
+        </span>
+<button class="min-h-[44px] px-4 rounded-xl bg-primary-container text-on-primary font-body-sm-bold text-body-sm-bold hover:bg-primary transition-colors flex items-center gap-1 active:scale-95" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Add</span>
+</button>
+</div>
+</div>
+<!-- Dish 2: Waakye Economy Leaf Pack -->
+<div class="p-space-sm rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-space-sm">
+<div class="flex gap-space-sm">
+<div class="relative w-20 h-20 rounded-xl overflow-hidden bg-surface-container shrink-0">
+<img class="w-full h-full object-cover" data-alt="Waakye meal steaming hot neatly bundled inside clean folded green banana leaves with tender wele beef skin, sliced hard boiled egg and mild peppery shito sauce on wooden surface with warm Accra morning aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2wAUjuJCMec-EJ2uUeQdjl_1IqkS09sUcqoblUmOfoPP83PiaHgpnO7T23gw2ADH6y--M3_kk8RcETzwYIm2gaZLDL5XztshdfcTA-vJNpn2cX3Vl9fmYtWlNHE3mzmnX16SK2xDePmz4A1YIkKCBFrm63w8cAE8qekLovm05-nV811LNtQUEBKd-amxCok2RZaPEE_MqgQDruZ96XXLp108ChtBI_OgiAJqZh2U"/>
+</div>
+<div class="flex flex-col min-w-0 flex-1">
+<h3 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Waakye Economy Leaf Pack</h3>
+<span class="font-price-md text-price-md text-primary-container mt-0.5">GHS 25.00</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">
+            Traditional waakye rice &amp; beans wrapped in banana leaf, boiled egg, wele strip, mild shito.
+          </p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="px-2 py-1 rounded-lg bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">
+          Eco Wrap
+        </span>
+<button class="min-h-[44px] px-4 rounded-xl bg-primary-container text-on-primary font-body-sm-bold text-body-sm-bold hover:bg-primary transition-colors flex items-center gap-1 active:scale-95" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Add</span>
+</button>
+</div>
+</div>
+<!-- Dish 3: SOLD OUT ITEM - Fisherman Waakye Feast -->
+<div class="p-space-sm rounded-xl bg-surface-container-low shadow-sm flex flex-col gap-space-sm opacity-80">
+<div class="flex gap-space-sm">
+<div class="relative w-20 h-20 rounded-xl overflow-hidden bg-surface-dim shrink-0">
+<img class="w-full h-full object-cover grayscale-[35%]" data-alt="Gourmet Ghanaian seafood dish with whole golden crispy fried red snapper fish, spicy glazed peppered octopus tentacles, sliced creamy avocado beside dark waakye rice on ceramic plate with artisanal earth-toned styling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-y_E38uxmZEZQPI4mHGflWYre9r73iSwEU3RvYYdowSMX3vpR9HHrUuBc9ab-IZ_Dh_e0cpzLInk423AUTDzHmAmFYPHjAVfk7Ww7Xp_Bb5MBHjhXmoxXyeNWj_66_R3vffMeavgbmSXbIr7YZLtx3XGcytwQbLYGl-cM7lK885yNHkrxMTm4UqH6Zwd9l7RleMscz_pHuEh67dQ7GNL3gXHyDv3JKU6JTSLeL5o"/>
+<div class="absolute inset-0 bg-tertiary-container/30"></div>
+</div>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="px-2 py-0.5 rounded-lg bg-tertiary-container text-on-tertiary font-label-sm text-label-sm">
+              SOLD OUT FOR LUNCH
+            </span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface-variant leading-tight mt-1">
+            Fisherman Waakye Feast (Fried Red Snapper &amp; Octopus)
+          </h3>
+<span class="font-price-md text-price-md text-on-surface-variant line-through mt-0.5">GHS 65.00</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">
+            Crisp whole ocean red snapper, peppered octopus, avocado slice, waakye &amp; red pepper sauce.
+          </p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+<span class="font-label-sm text-label-sm">Fresh pot ready at 6:00 PM</span>
+</div>
+<button class="min-h-[44px] px-3.5 rounded-xl bg-surface-dim text-on-surface-variant font-body-sm-bold text-body-sm-bold cursor-not-allowed" disabled="" type="button">
+          Sold Out (Back at 6:00 PM)
+        </button>
+</div>
+</div>
+<!-- Dish 4: Plain Rice & Goat Meat Stew -->
+<div class="p-space-sm rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-space-sm">
+<div class="flex gap-space-sm">
+<div class="relative w-20 h-20 rounded-xl overflow-hidden bg-surface-container shrink-0">
+<img class="w-full h-full object-cover" data-alt="Aromatic Ghanaian tomato and ginger stew with succulent slow cooked tender goat meat cubes served with steaming fragrant white rice and golden sweet fried ripe plantain slices on decorative tableware" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlF-LK0lM-Sf7FibwG14ZdkgYu0gK3-kw4y6BD7rGbgAGcPrnlkr187PkZyYimIIWcsLeiVELgbpvE_gubWnHI6hyABLdFWzl2ONmAbvgCpXp7TYGUYJT8i7pHxkMDRLCqeoneDjOIke62W1YGTO5r-PDYCcDw-uP3j1Yt2U3gt30dQbNr02S4rFuoE3I9wK4HoGHthkes1JZO785RaMpeVipZP7_gWRm-1JIQESc"/>
+</div>
+<div class="flex flex-col min-w-0 flex-1">
+<h3 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Plain Rice &amp; Goat Meat Stew</h3>
+<span class="font-price-md text-price-md text-primary-container mt-0.5">GHS 40.00</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">
+            Tender goat meat cuts in spicy ginger tomato stew with sweet fried plantain.
+          </p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="px-2 py-1 rounded-lg bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">
+          Lunch Special
+        </span>
+<button class="min-h-[44px] px-4 rounded-xl bg-primary-container text-on-primary font-body-sm-bold text-body-sm-bold hover:bg-primary transition-colors flex items-center gap-1 active:scale-95" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Cultural Heritage & Quality Reassurance Stamp -->
+<div class="px-margin mt-space-lg mb-space-sm">
+<div class="p-space-md rounded-xl bg-surface-container flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-xl bg-primary-container text-on-primary flex items-center justify-center shrink-0">
+<!-- Sankofa glyph representation -->
+<span class="material-symbols-outlined text-[24px]">history_edu</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Prepared Fresh Daily</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Family recipe seasoned with natural dawadawa and local Ghanaian spices.</span>
+</div>
+</div>
+</div>
+<!-- Floating Basket Summary Bar (Bottom Anchor above tab bar) -->
+<aside aria-label="Order Cart Summary" class="fixed bottom-20 left-0 right-0 z-40 px-margin pointer-events-none">
+<div class="max-w-md mx-auto pointer-events-auto">
+<div class="p-2.5 rounded-xl bg-surface-container-lowest shadow-[0_8px_24px_rgba(35,26,17,0.14)] flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-2.5 pl-1.5 min-w-0">
+<div class="relative w-9 h-9 rounded-lg bg-secondary-container text-on-secondary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+<span class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-primary-container text-on-primary text-[10px] font-bold flex items-center justify-center">1</span>
+</div>
+<div class="flex flex-col truncate">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface leading-tight truncate">1 item in basket</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant leading-tight">GHS 45.00 total</span>
+</div>
+</div>
+<button class="min-h-[44px] px-5 rounded-xl bg-primary-container text-on-primary font-body-sm-bold text-body-sm-bold hover:bg-primary transition-all flex items-center gap-2 shadow-sm shrink-0 active:scale-95" type="button">
+<span>View Cart</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</aside>
+</div>
+<script>
+  // Simple category switch micro-interaction
+  document.querySelectorAll('.sticky button').forEach(button => {
+    button.addEventListener('click', () => {
+      document.querySelectorAll('.sticky button').forEach(b => {
+        b.className = 'shrink-0 min-h-[44px] px-4 rounded-xl bg-surface-container text-on-surface font-body-sm text-body-sm hover:bg-surface-dim transition-colors';
+      });
+      button.className = 'shrink-0 min-h-[44px] px-4 rounded-xl bg-primary-container text-on-primary font-body-sm-bold text-body-sm-bold shadow-sm transition-transform active:scale-95';
+    });
+  });
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-low shadow-[0_-2px_12px_rgba(43,33,24,0.06)]" data-active-classes="text-primary-container font-body-sm-bold"><div class="h-16 px-space-xs flex items-center justify-around"><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] gap-0.5 text-on-surface-variant transition-colors hover:text-on-surface" data-path="browse" href="#"><span class="material-symbols-outlined text-[24px]">restaurant</span><span class="font-label-sm text-label-sm">Browse</span></a><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] gap-0.5 text-on-surface-variant transition-colors hover:text-on-surface" data-path="search" href="#"><span class="material-symbols-outlined text-[24px]">search</span><span class="font-label-sm text-label-sm">Search</span></a><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] gap-0.5 text-on-surface-variant transition-colors hover:text-on-surface" data-path="orders" href="#"><span class="material-symbols-outlined text-[24px]">history</span><span class="font-label-sm text-label-sm">Sankofa</span></a><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] gap-0.5 text-on-surface-variant transition-colors hover:text-on-surface" data-path="account" href="#"><span class="material-symbols-outlined text-[24px]">person_outline</span><span class="font-label-sm text-label-sm">Account</span></a></div></nav></body></html>
