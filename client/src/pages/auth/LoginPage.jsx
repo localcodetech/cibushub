@@ -9,9 +9,12 @@ import FormField from "@/components/form/FormField";
 import { Button } from "@/components/ui/button";
 import { loginSchema } from "@/validators/auth/loginSchema";
 import { loginRequest } from "@/api/auth";
+import { useAuthStore } from "@/store/authStore";
+import { homePathFor } from "@/utils/roleHome";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const setUser = useAuthStore((state) => state.setUser);
 
   // React Hook Form looks after the form: what was typed, the errors, and "is it sending?".
   // zodResolver(loginSchema) checks the typed values with our Zod rules.
@@ -30,8 +33,9 @@ const LoginPage = () => {
   // Runs only when the Zod rules pass. values = { identifier, password }
   const onSubmit = async (values) => {
     try {
-      await loginRequest(values.identifier, values.password);
-      navigate("/"); // Step 3 sends each role to its own dashboard
+      const user = await loginRequest(values.identifier, values.password);
+      setUser(user); // remember who logged in, for every page
+      navigate(homePathFor(user.role)); // e.g. a rider goes to /rider
     } catch (error) {
       // The server named the wrong fields: show each message under its field
       if (error.details.length > 0) {

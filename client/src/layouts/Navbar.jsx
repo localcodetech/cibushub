@@ -2,12 +2,21 @@ import { useState } from "react";
 import { Link } from "react-router";
 import { Menu, X } from "lucide-react";
 import { guestLinks } from "@/data/navigation";
+import { useAuthStore } from "@/store/authStore";
+import { homePathFor } from "@/utils/roleHome";
 import Container from "./Container";
 import MobileMenu from "./MobileMenu";
 
 const Navbar = () => {
   // true when the phone menu is open, false when it is closed
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const user = useAuthStore((state) => state.user);
+
+  // Guests see "Log in" and "Sign up"; a logged-in user sees a link to their own home
+  let links = guestLinks;
+  if (user) {
+    links = [{ label: "My dashboard", to: homePathFor(user.role) }];
+  }
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -27,7 +36,7 @@ const Navbar = () => {
 
           {/* Big screens: the links sit in the bar */}
           <nav aria-label="Main" className="hidden items-center gap-6 md:flex">
-            {guestLinks.map((link) => (
+            {links.map((link) => (
               <Link key={link.to} to={link.to} className="font-bold hover:underline">
                 {link.label}
               </Link>
@@ -47,7 +56,7 @@ const Navbar = () => {
         </div>
       </Container>
 
-      <MobileMenu isOpen={isMenuOpen} onClose={closeMenu} />
+      <MobileMenu links={links} isOpen={isMenuOpen} onClose={closeMenu} />
     </header>
   );
 };
