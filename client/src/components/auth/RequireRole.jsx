@@ -1,7 +1,8 @@
 import { Navigate } from "react-router";
 import { useAuthStore } from "@/store/authStore";
 
-// A guard placed around a page, so only the right roles can open it [AC-RBAC-07].
+// A guard placed around a page, so only the right roles can open it [AC-RBAC-07],
+// and only once their phone is verified and their account approved.
 // The page inside is never drawn for anyone else, so it never fetches its data.
 //
 // In the router:
@@ -14,6 +15,16 @@ const RequireRole = ({ allowedRoles, children }) => {
   // Not logged in: go to the login page first
   if (!user) {
     return <Navigate to="/login" replace />;
+  }
+
+  // Phone not verified yet: enter the SMS code first [AC-AUTH-01]
+  if (!user.phoneVerifiedAt) {
+    return <Navigate to="/verify-phone" replace />;
+  }
+
+  // Restaurant owner or rider waiting for an admin: show the "under review" page [AC-AUTH-05]
+  if (user.status === "PENDING_APPROVAL") {
+    return <Navigate to="/pending-approval" replace />;
   }
 
   // Logged in, but this page is for another role: show the 403 page

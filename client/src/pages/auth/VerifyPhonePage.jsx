@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, useLocation, useNavigate } from "react-router";
+import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import { CircleAlert } from "lucide-react";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
@@ -64,6 +64,11 @@ const VerifyPhonePage = () => {
     // If the page closes before the second is up, cancel the timer
     return () => clearTimeout(timer);
   }, [secondsLeft]);
+
+  // Logged in and already verified: nothing to do here
+  if (user && user.phoneVerifiedAt && !justRegistered) {
+    return <Navigate to={homePathFor(user.role)} replace />;
+  }
 
   // No phone number at all (e.g. the page was opened directly): nothing to verify
   if (!phone) {

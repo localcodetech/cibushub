@@ -127,4 +127,3 @@ Use the `cibushub_public_landing_page_*` pair (mobile 360 px and desktop 1280 px
 
 ---
 
-*Made from the Stitch export on 2026-10-08. The zip itself is not kept in the repo.*
