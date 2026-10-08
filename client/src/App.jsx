@@ -8,6 +8,7 @@ import OwnerDashboardPage from "@/pages/owner/OwnerDashboardPage";
 import RiderHomePage from "@/pages/rider/RiderHomePage";
 import AdminDashboardPage from "@/pages/admin/AdminDashboardPage";
 import NotFoundPage from "@/pages/NotFoundPage";
+import ForbiddenPage from "@/pages/ForbiddenPage";
 import FullPageLoader from "@/components/common/FullPageLoader";
 import { useAuthStore } from "@/store/authStore";
 
@@ -28,6 +29,9 @@ const router = createBrowserRouter([
       { path: "owner", element: <OwnerDashboardPage /> },
       { path: "rider", element: <RiderHomePage /> },
       { path: "admin", element: <AdminDashboardPage /> },
+
+      // Shown when a role opens a page that is not theirs
+      { path: "403", element: <ForbiddenPage /> },
 
       // "*" catches every address not listed above
       { path: "*", element: <NotFoundPage /> },

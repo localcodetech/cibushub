@@ -3,7 +3,7 @@ import { getMeRequest, refreshRequest } from "@/api/auth";
 
 // Remembers who is logged in, for every page to read.
 // Only the user's details live here. The login tokens stay in HttpOnly cookies,
-// never in JavaScript or localStorage (CLAUDE.md rule).
+// never in JavaScript or localStorage .
 //
 // In a page:  const user = useAuthStore((state) => state.user);
 export const useAuthStore = create((set) => ({
