@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400&amp;family=Epilogue:ital,wght@0,600;0,700;0,800;1,600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"inverse-surface":"#392e25","on-surface-variant":"#414943","tertiary-fixed":"#ffdad2","on-tertiary-container":"#ec7f63","outline-variant":"#c1c8c2","on-primary":"#ffffff","on-secondary-fixed-variant":"#5d4200","on-surface":"#231a11","tertiary-fixed-dim":"#ffb4a2","primary-container":"#123c2a","on-tertiary-fixed":"#3c0700","tertiary":"#430900","surface":"#fff8f5","secondary-container":"#fcca66","primary":"#002517","surface-container":"#feeadc","secondary":"#7b5900","primary-fixed":"#c0edd2","on-primary-fixed-variant":"#264e3b","on-secondary-container":"#755400","error-container":"#ffdad6","surface-bright":"#fff8f5","secondary-fixed":"#ffdea4","on-tertiary-fixed-variant":"#7e2b16","surface-container-high":"#f8e5d6","on-error":"#ffffff","on-tertiary":"#ffffff","on-error-container":"#93000a","surface-variant":"#f2dfd1","background":"#fff8f5","on-primary-fixed":"#002113","surface-container-low":"#fff1e8","surface-container-lowest":"#ffffff","tertiary-container":"#651a06","surface-tint":"#3e6752","error":"#ba1a1a","on-secondary-fixed":"#261900","surface-container-highest":"#f2dfd1","primary-fixed-dim":"#a4d0b7","on-secondary":"#ffffff","inverse-primary":"#a4d0b7","secondary-fixed-dim":"#f0bf5c","inverse-on-surface":"#ffeee1","outline":"#717973","on-primary-container":"#7ca78f","surface-dim":"#e9d7c8","on-background":"#231a11"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-xs":"0.25rem","gutter-desktop":"1.5rem","gutter":"1rem","space-sm":"0.5rem","margin":"1rem","space-xl":"2rem","margin-desktop":"2.5rem","margin-tablet":"1.5rem","space-md":"1rem","space-lg":"1.5rem"},"fontFamily":{"body-md-bold":["Atkinson Hyperlegible Next"],"headline-lg-mobile":["Epilogue"],"price-md":["Atkinson Hyperlegible Next"],"headline-md":["Epilogue"],"price-lg":["Atkinson Hyperlegible Next"],"body-sm-bold":["Atkinson Hyperlegible Next"],"headline-xl":["Epilogue"],"headline-xl-mobile":["Epilogue"],"body-sm":["Atkinson Hyperlegible Next"],"headline-lg":["Epilogue"],"headline-sm":["Epilogue"],"label-md":["Atkinson Hyperlegible Next"],"body-lg":["Atkinson Hyperlegible Next"],"body-md":["Atkinson Hyperlegible Next"],"label-sm":["Atkinson Hyperlegible Next"]},"fontSize":{"body-md-bold":["16px",{"lineHeight":"24px","fontWeight":"700"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","fontWeight":"700"}],"price-md":["16px",{"lineHeight":"20px","fontWeight":"700"}],"headline-md":["22px",{"lineHeight":"28px","fontWeight":"700"}],"price-lg":["20px",{"lineHeight":"24px","fontWeight":"700"}],"body-sm-bold":["14px",{"lineHeight":"20px","fontWeight":"700"}],"headline-xl":["36px",{"lineHeight":"44px","fontWeight":"800"}],"headline-xl-mobile":["28px",{"lineHeight":"36px","fontWeight":"800"}],"body-sm":["14px",{"lineHeight":"20px","fontWeight":"400"}],"headline-lg":["28px",{"lineHeight":"36px","fontWeight":"700"}],"headline-sm":["18px",{"lineHeight":"24px","fontWeight":"600"}],"label-md":["14px",{"lineHeight":"18px","fontWeight":"700"}],"body-lg":["18px",{"lineHeight":"28px","fontWeight":"400"}],"body-md":["16px",{"lineHeight":"24px","fontWeight":"400"}],"label-sm":["12px",{"lineHeight":"16px","fontWeight":"700"}]}}}};</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="h-16 px-gutter flex items-center justify-between bg-primary-container text-on-primary"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container"><span class="material-symbols-outlined text-[20px]">radar</span></div><div><div class="font-headline-sm text-headline-sm tracking-tight text-surface-container-lowest leading-none">CibusHub</div><div class="font-label-sm text-label-sm text-primary-fixed uppercase tracking-wider mt-0.5">Ops HQ • Accra</div></div></div><div class="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-secondary-fixed" title="Adinkrahene Authority Key"><span class="material-symbols-outlined text-[16px]">verified</span></div></div><div class="px-gutter py-space-sm bg-surface-container"><div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm"><span class="uppercase font-bold tracking-wider">Node Scope</span><span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-bold text-[10px]">GREATER ACCRA</span></div></div><nav class="flex flex-col gap-1 p-space-sm mt-space-xs" data-active-classes="bg-primary-container text-on-primary font-body-sm-bold text-body-sm-bold rounded-lg shadow-[0_1px_4px_rgba(0,0,0,0.08)]"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="overview-and-live-radar" href="#"><span class="material-symbols-outlined text-[20px]">hub</span><span>Overview &amp; Live Radar</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="approvals-queue" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">how_to_reg</span><span>Approvals Queue</span></div><span class="px-1.5 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm">14</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="order-management" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">local_shipping</span><span>Order Management</span></div><span class="px-1.5 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">LIVE</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="payments-and-refunds" href="#"><span class="material-symbols-outlined text-[20px]">account_balance_wallet</span><span>Payments &amp; Refunds</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="audit-log" href="#"><span class="material-symbols-outlined text-[20px]">shield_lock</span><span>Audit Log</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm transition-all bg-primary-container text-on-primary font-body-sm-bold text-body-sm-bold rounded-lg shadow-[0_1px_4px_rgba(0,0,0,0.08)]" data-path="platform-settings" href="#"><span class="material-symbols-outlined text-[20px]">tune</span><span>Platform Settings</span></a></nav></div><div class="p-space-sm flex flex-col gap-space-sm bg-surface-container-low"><div class="p-space-sm rounded-lg bg-surface-container flex flex-col gap-1.5"><div class="flex items-center justify-between text-on-surface font-label-sm text-label-sm"><span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-tertiary">shield</span>Emergency Brake</span><span class="font-bold text-on-surface-variant">ACTIVE</span></div><button class="w-full h-9 rounded-lg bg-tertiary text-on-tertiary font-body-sm-bold text-body-sm-bold flex items-center justify-center gap-1.5 shadow-[0_1px_4px_rgba(0,0,0,0.08)] hover:bg-tertiary-container hover:text-on-tertiary-container transition-all" type="button"><span class="material-symbols-outlined text-[18px]">pause_circle</span>Platform Kill Switch</button></div><div class="flex items-center justify-between px-space-sm py-space-xs text-on-surface-variant font-label-sm text-label-sm"><span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-primary"></span>Accra East Core</span><span class="font-mono">v2.4.0-gh</span></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40"><div class="h-16 w-full px-gutter-desktop flex items-center justify-between"><div class="flex items-center gap-gutter"><div class="flex items-center gap-2 px-space-sm py-1 rounded-lg bg-surface-container font-body-sm-bold text-body-sm-bold text-on-surface"><span class="material-symbols-outlined text-[18px] text-secondary">schedule</span><span>ACCRA (GMT+0)</span><span class="font-mono text-primary font-bold">13:42:09</span></div><div class="hidden xl:flex items-center gap-space-md"><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm"><span class="w-2 h-2 rounded-full bg-primary"></span><span>GHIPSS Live</span></div><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm"><span class="w-2 h-2 rounded-full bg-primary"></span><span>Paystack Switch</span></div><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm"><span class="w-2 h-2 rounded-full bg-primary"></span><span>SMS M-Notify 99.8%</span></div></div></div><div class="flex items-center gap-space-md"><div class="relative flex items-center"><button class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span></button><span class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-[10px] flex items-center justify-center font-bold">7</span></div><div class="h-8 w-px bg-outline-variant"></div><div class="flex items-center gap-space-sm"><div class="text-right hidden sm:block"><div class="font-body-sm-bold text-body-sm-bold text-on-surface leading-tight">Kofi Mensah, CISSP</div><div class="font-label-sm text-label-sm text-secondary font-bold leading-tight">Super Admin • HQ Accra</div></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-[0_1px_4px_rgba(0,0,0,0.08)]"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><button class="p-1 text-on-surface-variant hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">unfold_more</span></button></div></div></div></header><main class="w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Operational Ambient Backdrop Glow -->
+<div class="relative w-full overflow-hidden px-gutter-desktop py-space-lg flex flex-col gap-space-lg">
+<!-- Privilege & Audit Warning Notice -->
+<div class="w-full rounded-xl bg-tertiary text-on-tertiary p-space-md shadow-md relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md">
+<div class="absolute -right-6 -bottom-8 opacity-10 pointer-events-none select-none">
+<span class="material-symbols-outlined text-[140px]">shield_with_heart</span>
+</div>
+<div class="flex items-center gap-space-md z-10">
+<div class="w-12 h-12 rounded-lg bg-tertiary-container flex items-center justify-center text-tertiary-fixed shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[28px]">verified_user</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm uppercase tracking-wide text-tertiary-fixed">Production Platform Engine</span>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-container text-tertiary-fixed font-label-sm text-label-sm">LEVEL 4 WRITE ACCESS</span>
+</div>
+<p class="font-body-sm text-body-sm text-tertiary-fixed-dim max-w-3xl mt-0.5">
+            Changes affect live dispatch and cost computations across the Greater Accra Metro corridor. Every committed setting parameter automatically records a cryptographic hash into the Immutable Audit Log.
+          </p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm z-10 shrink-0">
+<div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-tertiary-container text-on-tertiary font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed animate-pulse"></span>
+<span>GATEWAY NODE: ACTIVE</span>
+</div>
+</div>
+</div>
+<!-- Header Stats Banner: Live Engine Health -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-space-md">
+<div class="rounded-xl bg-surface-container p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span>ACTIVE SURCHARGE MULTIPLIER</span>
+<span class="material-symbols-outlined text-[18px] text-secondary">trending_up</span>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-primary font-bold">1.00x</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Nominal Midday</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">check_circle</span> Osu • Airport • Legon
+        </div>
+</div>
+<div class="rounded-xl bg-surface-container p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span>WEATHER HARVESTER</span>
+<span class="material-symbols-outlined text-[18px] text-secondary">cloud</span>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold">Dry</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">0.0 mm/h Rain</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-1 flex items-center gap-1">
+<span>GMet Kotoka Radar Feed Live</span>
+</div>
+</div>
+<div class="rounded-xl bg-surface-container p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span>DISPATCH SLA LATENCY</span>
+<span class="material-symbols-outlined text-[18px] text-secondary">timer</span>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-primary font-bold">42s</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Mean Accept Time</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-1 flex items-center gap-1">
+<span class="text-primary font-bold">98.4%</span> fulfilled within SLA
+        </div>
+</div>
+<div class="rounded-xl bg-surface-container p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span>PAYMENT SWITCH HEALTH</span>
+<span class="material-symbols-outlined text-[18px] text-secondary">currency_exchange</span>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-primary font-bold">99.98%</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">4 Rails Synced</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-1 flex items-center gap-1">
+<span>MoMo • Telecel • AT • Paystack</span>
+</div>
+</div>
+</div>
+<!-- Main Content Dual-Column Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<!-- Left 7 Cols: Configuration Engines -->
+<div class="lg:col-span-7 flex flex-col gap-space-lg">
+<!-- SECTION 1: Dynamic Delivery Fee Formula Engine -->
+<section class="rounded-xl bg-surface-container-low p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-start justify-between pb-space-xs">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-primary-container text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">route</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Dynamic Delivery Fee Formula</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Accra Metro urban terrain cost parameters, fuel indexing, and seasonal surcharges.</p>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold">LIVE FORMULA v3.1</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md mt-2">
+<!-- Base Delivery Radius & Cost -->
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface flex items-center justify-between">
+<span>Base Delivery Fee</span>
+<span class="text-on-surface-variant font-normal text-label-sm">Up to 2.0 km</span>
+</label>
+<div class="flex items-center rounded-lg bg-surface-container-lowest px-3 py-2 shadow-sm">
+<span class="font-label-md text-label-md text-secondary mr-2">GHS</span>
+<input class="w-full bg-transparent font-price-lg text-price-lg text-on-surface focus:outline-none" step="0.50" type="number" value="8.00"/>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Baseline threshold for inner-district handovers (e.g., Osu Central).</span>
+</div>
+<!-- Per-Kilometer Rate Beyond Base -->
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface flex items-center justify-between">
+<span>Per-Kilometer Step</span>
+<span class="text-on-surface-variant font-normal text-label-sm">Distance &gt; 2.0 km</span>
+</label>
+<div class="flex items-center rounded-lg bg-surface-container-lowest px-3 py-2 shadow-sm">
+<span class="font-label-md text-label-md text-secondary mr-2">GHS</span>
+<input class="w-full bg-transparent font-price-lg text-price-lg text-on-surface focus:outline-none" step="0.25" type="number" value="3.50"/>
+<span class="font-label-sm text-label-sm text-on-surface-variant">/km</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Applies incrementally to each subsequent kilometer beyond 2.0 km.</span>
+</div>
+</div>
+<!-- Weather & Tropical Downpour Surcharge -->
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed">
+<span class="material-symbols-outlined text-[18px]">thunderstorm</span>
+</div>
+<div>
+<div class="font-body-md-bold text-body-md-bold text-on-surface">Weather &amp; Monsoon Downpour Surge</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Automated trigger based on Accra Meteorological Agency telemetry</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-primary font-bold">ENABLED</span>
+<button class="w-12 h-6 rounded-full bg-primary flex items-center px-1 cursor-pointer" type="button">
+<div class="w-4 h-4 rounded-full bg-surface shadow-sm translate-x-6"></div>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md mt-1">
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Active Rain Flat Fee:</span>
+<span class="font-body-md-bold text-body-md-bold text-tertiary">+ GHS 5.00</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Rain Threshold:</span>
+<span class="font-body-md-bold text-body-md-bold text-on-surface">&gt; 1.2 mm / 15m</span>
+</div>
+</div>
+</div>
+<!-- Rush Multiplier Intervals -->
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Time-of-Day Traffic &amp; Rush Multipliers</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">2 WINDOWS CONFIGURED</span>
+</div>
+<div class="space-y-2">
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-lowest shadow-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[18px] text-secondary">lunch_dining</span>
+<div>
+<div class="font-body-sm-bold text-body-sm-bold text-on-surface">Lunch Rush Surge</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">11:30 - 14:00 GMT (Ministries, Ridge, Airport City)</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-1 rounded bg-secondary-container text-on-secondary-container font-label-md text-label-md">1.30x</span>
+<button class="text-on-surface-variant hover:text-on-surface p-1" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-lowest shadow-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[18px] text-secondary">dinner_dining</span>
+<div>
+<div class="font-body-sm-bold text-body-sm-bold text-on-surface">Evening Peak &amp; Weekend Suya Rush</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">18:30 - 21:45 GMT (Osu Oxford St, Cantonments, Dzorwulu)</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-1 rounded bg-secondary-container text-on-secondary-container font-label-md text-label-md">1.25x</span>
+<button class="text-on-surface-variant hover:text-on-surface p-1" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Formula Interactive Simulator Widget -->
+<div class="p-space-md rounded-xl bg-surface-container-highest shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-bold text-on-surface-variant">Live Cost Verification Engine</span>
+<span class="flex items-center gap-1 text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">bolt</span> Real-time Sync
+              </span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-lowest flex flex-col gap-2">
+<div class="flex items-center justify-between text-on-surface">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-secondary"></span>
+<span class="font-body-sm-bold text-body-sm-bold">Auntie Muni Waakye (East Legon) → American House</span>
+</div>
+<span class="font-mono text-body-sm text-on-surface-variant font-bold">2.40 km</span>
+</div>
+<div class="h-px bg-surface-container"></div>
+<div class="flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<span>Calculation breakdown:</span>
+<span class="font-mono">8.00 base + (0.40 km × 3.50) + 0.00 rain × 1.00x = </span>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface">Simulated Delivery Quotation:</span>
+<span class="font-headline-md text-headline-md text-primary font-bold">GHS 12.00</span>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 2: Dispatch & SLA Timeout Thresholds -->
+<section class="rounded-xl bg-surface-container-low p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-start justify-between pb-space-xs">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-secondary-container text-on-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">speed</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Dispatch &amp; SLA Timeout Thresholds</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Automated timeouts governing courier allocation, vendor kitchens, and gated entry handovers.</p>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-bold">SYSTEM RIGID</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Rider Delivery Offer Acceptance Window (Currently Modified for Demo) -->
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col justify-between gap-3 shadow-sm relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Courier Acceptance Window</span>
+<span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-bold">PENDING EDIT</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Time granted to targeted rider before cascading dispatch to next courier candidate.</p>
+<div class="flex items-center gap-space-sm mt-2">
+<input class="w-full accent-primary h-2 bg-surface-container-highest rounded-lg cursor-pointer" max="120" min="15" type="range" value="45"/>
+<span class="font-mono font-headline-sm text-headline-sm text-tertiary shrink-0">45s</span>
+</div>
+<div class="flex items-center justify-between pt-2">
+<span class="font-label-sm text-label-sm text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">warning</span> Default was 60s
+                </span>
+<button class="px-3 py-1.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md shadow-sm hover:bg-primary-container transition-all" type="button">
+                  Stage Change
+                </button>
+</div>
+</div>
+<!-- Unassigned Escalation Threshold -->
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col justify-between gap-3 shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Unassigned Order Escalation</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">NORMAL</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Triggers notification to Accra Dispatch Ops Lead if no courier accepts in time.</p>
+<div class="flex items-center rounded-lg bg-surface-container-lowest px-3 py-2 shadow-sm">
+<span class="material-symbols-outlined text-[20px] text-secondary mr-2">alarm</span>
+<input class="w-full bg-transparent font-headline-sm text-headline-sm text-on-surface focus:outline-none" type="number" value="3"/>
+<span class="font-label-md text-label-md text-on-surface-variant">Minutes</span>
+</div>
+<div class="flex items-center justify-between pt-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Escalates to Ops Slack Channel</span>
+<button class="text-secondary font-label-md text-label-md hover:underline" type="button">Edit</button>
+</div>
+</div>
+<!-- Kitchen SLA Acceptance Window -->
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col justify-between gap-3 shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Kitchen Acceptance SLA</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Auto-Pause Guard</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">If merchant POS does not acknowledge within window, venue is temporarily throttled.</p>
+<div class="flex items-center rounded-lg bg-surface-container-lowest px-3 py-2 shadow-sm">
+<span class="material-symbols-outlined text-[20px] text-secondary mr-2">soup_kitchen</span>
+<input class="w-full bg-transparent font-headline-sm text-headline-sm text-on-surface focus:outline-none" type="number" value="5"/>
+<span class="font-label-md text-label-md text-on-surface-variant">Minutes</span>
+</div>
+<div class="flex items-center justify-between pt-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Auto-switches to Busy Mode</span>
+<button class="text-secondary font-label-md text-label-md hover:underline" type="button">Edit</button>
+</div>
+</div>
+<!-- Gate Handover Customer Countdown -->
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col justify-between gap-3 shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Gate Handover Unreachable Wait</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">ESTATE BARRIERS</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Mandatory courier timer at private compounds (Cantonments/Airport Residential) prior to support ping.</p>
+<div class="flex items-center rounded-lg bg-surface-container-lowest px-3 py-2 shadow-sm">
+<span class="material-symbols-outlined text-[20px] text-secondary mr-2">fence</span>
+<input class="w-full bg-transparent font-headline-sm text-headline-sm text-on-surface focus:outline-none" type="number" value="300"/>
+<span class="font-label-md text-label-md text-on-surface-variant">Seconds (5 min)</span>
+</div>
+<div class="flex items-center justify-between pt-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Permits rider terminal discharge</span>
+<button class="text-secondary font-label-md text-label-md hover:underline" type="button">Edit</button>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 3: Payment Rails & Mobile Money Gateways -->
+<section class="rounded-xl bg-surface-container-low p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-start justify-between pb-space-xs">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">account_balance_wallet</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Payment Rails &amp; MoMo Gateway Routing</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Local Ghana interbank and telecom mobile wallet settlement parameters.</p>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold">GHIPSS COMPLIANT</span>
+</div>
+<div class="space-y-space-sm">
+<!-- MTN MoMo -->
+<div class="p-space-md rounded-xl bg-surface-container flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-lg bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-headline-sm font-headline-sm shadow-sm">
+                  MTN
+                </div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">MTN Mobile Money Gateway</span>
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm">PRIMARY (68% TRAFFIC)</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Gateway surcharge fee: 1.20% • Instant 24/7 API direct settlement</div>
+</div>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="text-right">
+<div class="font-label-md text-label-md text-primary">100% HEALTH</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">0.3s Latency</div>
+</div>
+<button class="w-12 h-6 rounded-full bg-primary flex items-center px-1" type="button">
+<div class="w-4 h-4 rounded-full bg-surface shadow-sm translate-x-6"></div>
+</button>
+</div>
+</div>
+<!-- Telecel Cash -->
+<div class="p-space-md rounded-xl bg-surface-container flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-lg bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center font-bold text-headline-sm font-headline-sm shadow-sm">
+                  TEL
+                </div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Telecel Cash</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">ACTIVE</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Gateway surcharge fee: 1.20% • Redundant push webhook</div>
+</div>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="text-right">
+<div class="font-label-md text-label-md text-primary">99.9% HEALTH</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">0.4s Latency</div>
+</div>
+<button class="w-12 h-6 rounded-full bg-primary flex items-center px-1" type="button">
+<div class="w-4 h-4 rounded-full bg-surface shadow-sm translate-x-6"></div>
+</button>
+</div>
+</div>
+<!-- AT Money -->
+<div class="p-space-md rounded-xl bg-surface-container flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest text-on-surface flex items-center justify-center font-bold text-headline-sm font-headline-sm shadow-sm">
+                  ATM
+                </div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">AT Money (AirtelTigo)</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">ACTIVE</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Zero fee transfer promotion active • Standard webhook processing</div>
+</div>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="text-right">
+<div class="font-label-md text-label-md text-primary">99.7% HEALTH</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">0.6s Latency</div>
+</div>
+<button class="w-12 h-6 rounded-full bg-primary flex items-center px-1" type="button">
+<div class="w-4 h-4 rounded-full bg-surface shadow-sm translate-x-6"></div>
+</button>
+</div>
+</div>
+<!-- Paystack Card / Bank rails -->
+<div class="p-space-md rounded-xl bg-surface-container flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-lg bg-primary-container text-on-primary flex items-center justify-center font-bold text-headline-sm font-headline-sm shadow-sm">
+                  PST
+                </div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Paystack Card Switch (Visa / Mastercard / Gh-Link)</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">CARD ENGINE</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">International &amp; diaspora card tokenization • 1.95% local / 3.90% foreign</div>
+</div>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="text-right">
+<div class="font-label-md text-label-md text-primary">OPERATIONAL</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">GHIPSS Bridge OK</div>
+</div>
+<button class="w-12 h-6 rounded-full bg-primary flex items-center px-1" type="button">
+<div class="w-4 h-4 rounded-full bg-surface shadow-sm translate-x-6"></div>
+</button>
+</div>
+</div>
+<!-- Global Platform Commission Default -->
+<div class="p-space-md rounded-xl bg-surface-container-high flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-md mt-2 shadow-sm">
+<div>
+<div class="font-body-md-bold text-body-md-bold text-on-surface">Default Merchant Take Rate (Commission)</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Standard food merchant deduction baseline applied before customized tier contracts.</div>
+</div>
+<div class="flex items-center gap-2 shrink-0">
+<div class="flex items-center rounded-lg bg-surface-container-lowest px-3 py-2 shadow-sm">
+<input class="w-16 bg-transparent font-headline-sm text-headline-sm text-on-surface text-right focus:outline-none" step="0.5" type="number" value="10.0"/>
+<span class="font-headline-sm text-headline-sm text-primary ml-1">%</span>
+</div>
+<button class="px-3 py-2 rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md shadow-sm hover:bg-surface-container transition-all" type="button">
+                  Update
+                </button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right 5 Cols: Live Demonstration Super Admin Confirmation Modal -->
+<div class="lg:col-span-5 flex flex-col gap-space-lg">
+<!-- STICKY CONFIRMATION DIALOG CONTAINER -->
+<div class="sticky top-20 rounded-xl bg-surface-container-low p-space-lg shadow-xl flex flex-col gap-space-md relative overflow-hidden">
+<!-- Cultural Authority Indicator Badge -->
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[18px]">lock_reset</span>
+</div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-bold text-tertiary">Two-Step Security Gate</span>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-bold">ACTION REQUIRED</span>
+</div>
+<!-- Dialog Title & Context -->
+<div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface">Confirm Platform Engine Change</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+              You are modifying a high-sensitivity parameter within the live production dispatcher.
+            </p>
+</div>
+<!-- Delta Diff Box -->
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col gap-space-sm shadow-sm">
+<div class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold">Proposed Modification</div>
+<div class="flex items-center justify-between">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Parameter:</span>
+<span class="font-mono font-body-sm text-body-sm text-primary font-bold">COURIER_OFFER_TIMEOUT</span>
+</div>
+<div class="grid grid-cols-2 gap-space-sm pt-2">
+<div class="p- space-sm rounded-lg bg-surface-container-lowest p-2.5 shadow-sm">
+<div class="font-label-sm text-label-sm text-on-surface-variant">Previous Value</div>
+<div class="font-headline-sm text-headline-sm text-on-surface mt-1 line-through opacity-70">60 seconds</div>
+</div>
+<div class="p- space-sm rounded-lg bg-surface-container-lowest p-2.5 shadow-sm">
+<div class="font-label-sm text-label-sm text-primary font-bold">New Proposed Value</div>
+<div class="font-headline-sm text-headline-sm text-primary mt-1 font-bold">45 seconds</div>
+</div>
+</div>
+</div>
+<!-- Operational Impact Analysis -->
+<div class="p-space-md rounded-xl bg-tertiary-fixed/40 text-on-surface flex flex-col gap-2">
+<div class="flex items-center gap-2 text-tertiary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px]">crisis_alert</span>
+<span>Predicted Operational Impact Matrix</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Couriers will have <strong>15 fewer seconds</strong> to accept dispatches during peak rush hours across Accra East.
+            </p>
+<div class="flex items-center justify-between text-body-sm font-body-sm pt-1">
+<span class="text-on-surface-variant">Offer cascade reroutes:</span>
+<span class="font-bold text-tertiary">+8.2% estimated increase</span>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-on-surface-variant">Merchant prep idle wait:</span>
+<span class="font-bold text-primary">-22s average reduction</span>
+</div>
+</div>
+<!-- 2FA Re-authentication Form -->
+<div class="flex flex-col gap-space-sm pt-1">
+<label class="font-label-md text-label-md text-on-surface flex items-center justify-between">
+<span>Super Admin Security Key • 2FA Code</span>
+<span class="text-label-sm text-secondary font-bold">Yubikey / Authenticator</span>
+</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined text-[20px] absolute left-3 text-on-surface-variant">key</span>
+<input class="w-full h-12 pl-10 pr-4 rounded-xl bg-surface-container-lowest text-on-surface font-mono tracking-widest text-center shadow-sm focus:outline-none" placeholder="Enter 6-digit hardware token" type="password" value="984210"/>
+</div>
+</div>
+<!-- Audit Log Ledger Hash Preview -->
+<div class="p-2.5 rounded-lg bg-surface-container text-on-surface-variant font-mono text-[11px] leading-relaxed break-all">
+<span class="text-secondary font-bold">AUDIT_HASH_STAGED:</span> 8f9b23c10a44d82ef45b... (Actor: Kofi Mensah CISSP)
+          </div>
+<!-- Dialog Actions (Accra Precision CTA buttons) -->
+<div class="flex flex-col sm:flex-row items-center gap-space-sm pt-2">
+<button class="w-full sm:w-1/3 h-12 rounded-lg bg-surface-container text-on-surface font-body-sm-bold text-body-sm-bold shadow-sm hover:bg-surface-container-high transition-all" type="button">
+              Cancel &amp; Discard
+            </button>
+<button class="w-full sm:w-2/3 h-12 rounded-lg bg-primary-container text-on-primary font-body-sm-bold text-body-sm-bold shadow-md hover:bg-primary transition-all flex items-center justify-center gap-2" type="button">
+<span class="material-symbols-outlined text-[20px]">rocket_launch</span>
+<span>Confirm &amp; Deploy Live Engine</span>
+</button>
+</div>
+<!-- Security Stamp (Nyame Dua Concept) -->
+<div class="flex items-center justify-center gap-1.5 pt-1 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px] text-secondary">verified</span>
+<span>Cryptographically signed with Adinkrahene Authority Key #GH-001</span>
+</div>
+</div>
+<!-- System Architecture & Node Status Card -->
+<div class="rounded-xl bg-surface-container-low p-space-md shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between text-on-surface font-label-md text-label-md">
+<span>Production Cluster Sync</span>
+<span class="font-mono text-primary font-bold">4 Nodes Live</span>
+</div>
+<div class="space-y-2">
+<div class="flex items-center justify-between text-body-sm font-body-sm text-on-surface-variant p-2 rounded-lg bg-surface-container">
+<span>accra-east-primary-01</span>
+<span class="font-mono text-primary font-bold">SYNCED (0ms)</span>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm text-on-surface-variant p-2 rounded-lg bg-surface-container">
+<span>accra-central-edge-02</span>
+<span class="font-mono text-primary font-bold">SYNCED (1ms)</span>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm text-on-surface-variant p-2 rounded-lg bg-surface-container">
+<span>ghipss-momo-bridge-01</span>
+<span class="font-mono text-primary font-bold">HEALTHY</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></main></div></body></html>

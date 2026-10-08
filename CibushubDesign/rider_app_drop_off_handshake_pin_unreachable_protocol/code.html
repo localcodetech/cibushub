@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400..700;1,400..700&amp;family=Epilogue:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "on-primary-fixed": "#002113", "secondary-fixed": "#ffdea4", "inverse-surface": "#392e25", "on-secondary": "#ffffff", "surface-bright": "#fff8f5", "on-surface-variant": "#414943", "surface-container-lowest": "#ffffff", "primary-fixed-dim": "#a4d0b7", "secondary-fixed-dim": "#f0bf5c", "on-primary": "#ffffff", "tertiary": "#430900", "on-secondary-fixed-variant": "#5d4200", "on-surface": "#231a11", "outline": "#717973", "error-container": "#ffdad6", "on-error-container": "#93000a", "surface-container-highest": "#f2dfd1", "primary": "#002517", "surface-dim": "#e9d7c8", "surface-container-high": "#f8e5d6", "surface-variant": "#f2dfd1", "on-tertiary-fixed": "#3c0700", "on-primary-fixed-variant": "#264e3b", "inverse-on-surface": "#ffeee1", "surface": "#fff8f5", "on-tertiary": "#ffffff", "on-tertiary-fixed-variant": "#7e2b16", "on-tertiary-container": "#ec7f63", "tertiary-container": "#651a06", "secondary-container": "#fcca66", "on-background": "#231a11", "on-secondary-fixed": "#261900", "error": "#ba1a1a", "tertiary-fixed-dim": "#ffb4a2", "surface-container": "#feeadc", "secondary": "#7b5900", "tertiary-fixed": "#ffdad2", "surface-container-low": "#fff1e8", "surface-tint": "#3e6752", "inverse-primary": "#a4d0b7", "primary-fixed": "#c0edd2", "on-secondary-container": "#755400", "on-error": "#ffffff", "outline-variant": "#c1c8c2", "primary-container": "#123c2a", "on-primary-container": "#7ca78f", "background": "#fff8f5" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "margin-desktop": "2.5rem", "margin": "1rem", "space-md": "1rem", "space-sm": "0.5rem", "gutter-desktop": "1.5rem", "space-xl": "2rem", "space-lg": "1.5rem", "space-xs": "0.25rem", "margin-tablet": "1.5rem", "gutter": "1rem" }, fontFamily: { "headline-xl-mobile": ["Epilogue"], "headline-md": ["Epilogue"], "label-sm": ["Atkinson Hyperlegible Next"], "headline-sm": ["Epilogue"], "headline-lg": ["Epilogue"], "headline-xl": ["Epilogue"], "body-lg": ["Atkinson Hyperlegible Next"], "label-md": ["Atkinson Hyperlegible Next"], "headline-lg-mobile": ["Epilogue"], "body-md": ["Atkinson Hyperlegible Next"], "body-md-bold": ["Atkinson Hyperlegible Next"], "price-md": ["Atkinson Hyperlegible Next"], "body-sm-bold": ["Atkinson Hyperlegible Next"], "price-lg": ["Atkinson Hyperlegible Next"], "body-sm": ["Atkinson Hyperlegible Next"] }, fontSize: { "headline-xl-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "800" }], "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "700" }], "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "700" }], "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }], "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "700" }], "headline-xl": ["36px", { "lineHeight": "44px", "fontWeight": "800" }], "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }], "label-md": ["14px", { "lineHeight": "18px", "fontWeight": "700" }], "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }], "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "body-md-bold": ["16px", { "lineHeight": "24px", "fontWeight": "700" }], "price-md": ["16px", { "lineHeight": "20px", "fontWeight": "700" }], "body-sm-bold": ["14px", { "lineHeight": "20px", "fontWeight": "700" }], "price-lg": ["20px", { "lineHeight": "24px", "fontWeight": "700" }], "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }] } } } };</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0"><button class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container transition-colors flex-shrink-0" onclick="history.back()"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><h1 class="font-headline-sm text-headline-sm text-on-surface truncate">Order Handshake Verification</h1></div><div class="flex items-center gap-space-sm flex-shrink-0"><div class="px-2.5 py-1 rounded-full bg-surface-container flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px] text-primary-container">gps_fixed</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase">GPS Ok</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 bg-surface pb-safe"><div class="flex flex-col w-full pb-8">
+<!-- Live Operational Status Ribbon -->
+<div class="px-margin pt-space-sm pb-space-xs">
+<div class="bg-primary-container text-on-primary-container rounded-xl p-space-sm shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="flex h-3 w-3 relative flex-shrink-0">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary-fixed opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-secondary-fixed-dim"></span>
+</span>
+<div class="min-w-0">
+<p class="font-label-sm text-label-sm uppercase tracking-wider text-primary-fixed truncate">Arrived at Destination</p>
+<p class="font-headline-sm text-headline-sm text-surface-container-lowest font-bold truncate">Order #CB-8492</p>
+</div>
+</div>
+<div class="flex items-center gap-1 bg-primary text-secondary-fixed px-2.5 py-1 rounded-lg flex-shrink-0">
+<!-- Dwennimmen (Ram's Horns Rider Stamp Badge) -->
+<svg class="w-4 h-4 text-secondary-fixed flex-shrink-0" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12 2C8.5 2 6 4.5 6 7.5C6 9.5 7.2 11.2 9 12C7.2 12.8 6 14.5 6 16.5C6 19.5 8.5 22 12 22C15.5 22 18 19.5 18 16.5C18 14.5 16.8 12.8 15 12C16.8 11.2 18 9.5 18 7.5C18 4.5 15.5 2 12 2ZM8 7.5C8 5.6 9.8 4 12 4C14.2 4 16 5.6 16 7.5C16 9.4 14.2 11 12 11C9.8 11 8 9.4 8 7.5ZM12 20C9.8 20 8 18.4 8 16.5C8 14.6 9.8 13 12 13C14.2 13 16 14.6 16 16.5C16 18.4 14.2 20 12 20Z"></path>
+</svg>
+<span class="font-label-sm text-label-sm font-bold">Rider Priority</span>
+</div>
+</div>
+</div>
+<!-- Main Content Stack -->
+<div class="px-margin flex flex-col gap-space-md mt-space-xs">
+<!-- Drop-off Address & Local Accra Landmarks Card -->
+<div class="bg-surface-container rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm text-on-surface">
+<div class="flex items-start justify-between gap-space-sm">
+<div>
+<span class="font-label-sm text-label-sm uppercase text-secondary font-bold tracking-wide">Handover Recipient</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Kwame M.</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">East Legon Residential • Boundary Road Ext.</p>
+</div>
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-primary text-[28px]" style="font-variation-settings: 'FILL' 1;">person_pin</span>
+</div>
+</div>
+<!-- Landmark Physical Guide Banner -->
+<div class="bg-surface-container-low rounded-lg p-space-sm flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[20px] flex-shrink-0 mt-0.5">signpost</span>
+<div class="flex flex-col">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Physical Landmark Note</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Opposite Shell filling station, behind Papaye, black gate with gold bell.</p>
+</div>
+</div>
+<!-- Specific Gate Instruction -->
+<div class="bg-surface-container-highest rounded-lg p-space-sm flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-primary-container text-[20px] flex-shrink-0 mt-0.5">notifications_active</span>
+<div class="flex flex-col">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Gate &amp; Safety Instructions</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Please ring gold bell on outer pillar. Security dog is safely enclosed behind the inner courtyard.</p>
+</div>
+</div>
+<!-- Direct Comm Toggles (Touch Targets: 48px) -->
+<div class="grid grid-cols-2 gap-space-sm pt-space-xs">
+<button class="h-12 px-space-sm rounded-lg bg-surface-container-high text-on-surface hover:bg-surface-dim transition-colors flex items-center justify-center gap-space-xs font-body-sm-bold text-body-sm-bold active:scale-[0.98]" id="callCustomerBtn">
+<span class="material-symbols-outlined text-[20px] text-primary">call</span>
+<span class="truncate">Call (024 ••• 3456)</span>
+</button>
+<button class="h-12 px-space-sm rounded-lg bg-surface-container-high text-on-surface hover:bg-surface-dim transition-colors flex items-center justify-center gap-space-xs font-body-sm-bold text-body-sm-bold active:scale-[0.98]" id="smsCustomerBtn">
+<span class="material-symbols-outlined text-[20px] text-primary">chat</span>
+<span class="truncate">Send In-App SMS</span>
+</button>
+</div>
+</div>
+<!-- Delivery Handshake Security PIN Section -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-md flex flex-col gap-space-md text-on-surface relative overflow-hidden">
+<!-- Subtle Brand Accent Background Ribbon -->
+<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-primary via-secondary-container to-primary"></div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<!-- Nyame Dua Glyph (Sanctity, Security & Verification) -->
+<div class="w-7 h-7 rounded-lg bg-secondary-container flex items-center justify-center flex-shrink-0">
+<svg class="w-4 h-4 text-on-secondary-fixed" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12 2L14.5 7.5L20 8L16 12L17.5 17.5L12 15L6.5 17.5L8 12L4 8L9.5 7.5L12 2ZM12 6L10.5 9.5L7 10L9.5 12.5L8.5 16L12 14.5L15.5 16L14.5 12.5L17 10L13.5 9.5L12 6Z"></path>
+</svg>
+</div>
+<div>
+<span class="font-label-sm text-label-sm uppercase font-bold text-secondary">Verified Handover</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Delivery Handshake PIN</h3>
+</div>
+</div>
+<!-- Live Verified Stamp Indicator -->
+<div class="flex items-center gap-1 bg-primary-fixed text-on-primary-fixed px-2.5 py-1 rounded-full text-label-sm font-label-sm font-bold" id="pinStatusBadge">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span>Matched</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+        Ask Kwame M. for the 4-digit Handshake PIN generated upon checkout to release packet safely.
+      </p>
+<!-- Interactive 4-Digit Inputs Display (Pre-populated demonstration '4 9 1 2' validated) -->
+<div class="flex justify-between items-center max-w-[280px] mx-auto w-full py-space-xs gap-3">
+<div class="w-14 h-16 rounded-xl bg-surface-container-high flex items-center justify-center font-headline-xl-mobile text-headline-xl-mobile font-bold text-primary shadow-sm" id="digit-1">
+          4
+        </div>
+<div class="w-14 h-16 rounded-xl bg-surface-container-high flex items-center justify-center font-headline-xl-mobile text-headline-xl-mobile font-bold text-primary shadow-sm" id="digit-2">
+          9
+        </div>
+<div class="w-14 h-16 rounded-xl bg-surface-container-high flex items-center justify-center font-headline-xl-mobile text-headline-xl-mobile font-bold text-primary shadow-sm" id="digit-3">
+          1
+        </div>
+<div class="w-14 h-16 rounded-xl bg-surface-container-high flex items-center justify-center font-headline-xl-mobile text-headline-xl-mobile font-bold text-primary shadow-sm" id="digit-4">
+          2
+        </div>
+</div>
+<!-- Quick Feedback Message -->
+<div class="bg-surface-container-low rounded-lg p-2.5 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+<span class="font-body-sm-bold text-body-sm-bold text-primary">Nyame Dua Confirmed: Customer &amp; Rider tokens align.</span>
+</div>
+<!-- Primary Handshake Completion Button -->
+<button class="w-full h-12 rounded-lg bg-primary text-on-primary font-body-md-bold text-body-md-bold flex items-center justify-center gap-space-sm shadow-md hover:bg-primary-container active:scale-[0.99] transition-all" id="completeHandshakeBtn">
+<span class="material-symbols-outlined text-[20px]">handshake</span>
+<span>Complete Handshake (+GHS 18.50)</span>
+</button>
+</div>
+<!-- Customer Unreachable Escalation Protocol Accordion/Card -->
+<div class="bg-surface-container rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm text-on-surface">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-error text-[22px]">timer_off</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Customer Not Answering Gate?</h3>
+</div>
+<span class="font-label-sm text-label-sm font-bold text-error bg-error-container text-on-error-container px-2 py-0.5 rounded-full">Protocol Active</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+        Follow required Accra dispatch steps before leaving the perimeter or forfeiting order drop-off.
+      </p>
+<!-- Step Counter List -->
+<div class="flex flex-col gap-space-sm pt-space-xs">
+<!-- Step 1 -->
+<div class="flex items-start gap-space-sm bg-surface-container-low p-space-sm rounded-lg">
+<div class="w-6 h-6 rounded-full bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">
+            1
+          </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Call Kwame via cellular</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">2 calls placed</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Last call: 1 minute ago (No answer)</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="flex items-start gap-space-sm bg-surface-container-low p-space-sm rounded-lg">
+<div class="w-6 h-6 rounded-full bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">
+            2
+          </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Gate Arrival Countdown</span>
+<span class="font-price-md text-price-md text-error font-bold" id="countdownTimer">03:42</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Remaining before Accra dispatch escalation</p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="flex items-start gap-space-sm bg-surface-container-low p-space-sm rounded-lg">
+<div class="w-6 h-6 rounded-full bg-surface-container-highest text-on-surface font-label-sm text-label-sm flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">
+            3
+          </div>
+<div class="flex-1 min-w-0 flex items-center justify-between">
+<div>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Photo Evidence Proof</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Snap outer gate / gold bell post</p>
+</div>
+<button class="h-9 px-3 rounded-lg bg-surface-container-high text-on-surface hover:bg-surface-dim font-label-sm text-label-sm font-bold flex items-center gap-1 active:scale-95" id="snapProofBtn">
+<span class="material-symbols-outlined text-[16px]">photo_camera</span>
+<span>Capture</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Step 4 CTA: File Escalation -->
+<button class="w-full h-12 mt-space-xs rounded-lg bg-surface-container-highest text-on-surface hover:bg-surface-dim font-body-sm-bold text-body-sm-bold flex items-center justify-center gap-space-xs transition-colors" id="fileReportBtn">
+<span class="material-symbols-outlined text-[20px] text-error">headset_mic</span>
+<span>Escalate to Dispatch (+233 30 200 4567)</span>
+</button>
+</div>
+<!-- Quick Emergency & Safety Notice -->
+<div class="flex items-center justify-between px-space-xs text-on-surface-variant">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">security</span>
+<span class="font-label-sm text-label-sm">Rider Safety Hub Active</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Accra Metro Zone 4</span>
+</div>
+</div>
+<!-- Bottom Sheet / Escalation Modal Backdrop -->
+<div class="fixed inset-0 z-50 bg-inverse-surface/60 hidden flex-col justify-end" id="escalationSheet">
+<div class="bg-surface-container-low rounded-t-[20px] p-space-md flex flex-col gap-space-md shadow-2xl max-w-lg mx-auto w-full">
+<!-- Sheet Handle -->
+<div class="w-9 h-1 rounded-full bg-outline-variant mx-auto"></div>
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase font-bold text-error">Accra Hub Escalation</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">File Unreachable Report</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Order #CB-8492 • East Legon</p>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface" id="closeSheetBtn">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="bg-surface-container rounded-lg p-space-sm flex flex-col gap-1 text-on-surface">
+<div class="flex items-center justify-between text-body-sm">
+<span class="text-on-surface-variant">Customer</span>
+<span class="font-bold">Kwame Mensah</span>
+</div>
+<div class="flex items-center justify-between text-body-sm">
+<span class="text-on-surface-variant">Gate Waiting Time</span>
+<span class="font-bold">5:00 Minutes Completed</span>
+</div>
+<div class="flex items-center justify-between text-body-sm">
+<span class="text-on-surface-variant">Rider Compensation</span>
+<span class="font-bold text-primary">Full Fare Guaranteed</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-sm pt-space-xs">
+<button class="w-full h-12 rounded-lg bg-error text-on-error font-body-md-bold text-body-md-bold flex items-center justify-center gap-space-sm" id="confirmCallDispatchBtn">
+<span class="material-symbols-outlined text-[20px]">call</span>
+<span>Call Dispatch Hub (+233 30 200 4567)</span>
+</button>
+<button class="w-full h-12 rounded-lg bg-surface-container-high text-on-surface font-body-md text-body-md" id="cancelEscalationBtn">
+          Return to Gate Handshake
+        </button>
+</div>
+</div>
+</div>
+<!-- Success Toast Modal -->
+<div class="fixed top-20 left-4 right-4 z-50 bg-primary text-on-primary p-space-md rounded-xl shadow-xl hidden flex-items-center gap-space-sm" id="toastSuccess">
+<span class="material-symbols-outlined text-secondary-fixed text-[28px]">task_alt</span>
+<div class="flex flex-col flex-1 min-w-0">
+<h4 class="font-body-md-bold text-body-md-bold">Handshake Confirmed!</h4>
+<p class="font-body-sm text-body-sm text-primary-fixed truncate">GHS 18.50 credited instantly to Momo Wallet.</p>
+</div>
+</div>
+</div>
+<script>
+  // Countdown Timer Logic (03:42 -> counts down smoothly)
+  let totalSeconds = 222;
+  const timerElement = document.getElementById('countdownTimer');
+  
+  const timerInterval = setInterval(() => {
+    if (totalSeconds <= 0) {
+      clearInterval(timerInterval);
+      if (timerElement) timerElement.textContent = "00:00 (Eligible)";
+      return;
+    }
+    totalSeconds--;
+    const mins = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+    const secs = (totalSeconds % 60).toString().padStart(2, '0');
+    if (timerElement) {
+      timerElement.textContent = `${mins}:${secs}`;
+    }
+  }, 1000);
+
+  // Complete Handshake Micro-interaction
+  const completeBtn = document.getElementById('completeHandshakeBtn');
+  const toast = document.getElementById('toastSuccess');
+
+  if (completeBtn && toast) {
+    completeBtn.addEventListener('click', () => {
+      completeBtn.disabled = true;
+      completeBtn.classList.add('opacity-80');
+      toast.classList.remove('hidden');
+      toast.classList.add('flex');
+      
+      setTimeout(() => {
+        toast.classList.add('hidden');
+        toast.classList.remove('flex');
+        completeBtn.disabled = false;
+        completeBtn.classList.remove('opacity-80');
+      }, 4000);
+    });
+  }
+
+  // Escalation Sheet Handlers
+  const fileReportBtn = document.getElementById('fileReportBtn');
+  const escalationSheet = document.getElementById('escalationSheet');
+  const closeSheetBtn = document.getElementById('closeSheetBtn');
+  const cancelEscalationBtn = document.getElementById('cancelEscalationBtn');
+  const snapProofBtn = document.getElementById('snapProofBtn');
+
+  function openSheet() {
+    if (escalationSheet) {
+      escalationSheet.classList.remove('hidden');
+      escalationSheet.classList.add('flex');
+    }
+  }
+
+  function closeSheet() {
+    if (escalationSheet) {
+      escalationSheet.classList.add('hidden');
+      escalationSheet.classList.remove('flex');
+    }
+  }
+
+  if (fileReportBtn) fileReportBtn.addEventListener('click', openSheet);
+  if (closeSheetBtn) closeSheetBtn.addEventListener('click', closeSheet);
+  if (cancelEscalationBtn) cancelEscalationBtn.addEventListener('click', closeSheet);
+
+  if (snapProofBtn) {
+    snapProofBtn.addEventListener('click', () => {
+      snapProofBtn.innerHTML = '<span class="material-symbols-outlined text-[16px] text-primary">check</span> <span>Saved</span>';
+      snapProofBtn.classList.add('bg-primary-fixed', 'text-on-primary-fixed');
+    });
+  }
+</script></main></body></html>

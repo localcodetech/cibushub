@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400;1,700&amp;family=Epilogue:ital,wght@0,600;0,700;0,800;1,600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "surface-variant": "#f2dfd1",
+          "secondary-fixed-dim": "#f0bf5c",
+          "secondary-container": "#fcca66",
+          "primary": "#002517",
+          "inverse-on-surface": "#ffeee1",
+          "on-tertiary-container": "#ec7f63",
+          "primary-fixed-dim": "#a4d0b7",
+          "on-secondary": "#ffffff",
+          "on-tertiary": "#ffffff",
+          "surface-container": "#feeadc",
+          "on-tertiary-fixed": "#3c0700",
+          "on-primary-fixed": "#002113",
+          "tertiary": "#430900",
+          "on-secondary-container": "#755400",
+          "on-tertiary-fixed-variant": "#7e2b16",
+          "inverse-primary": "#a4d0b7",
+          "outline": "#717973",
+          "background": "#fff8f5",
+          "error-container": "#ffdad6",
+          "surface-tint": "#3e6752",
+          "on-surface": "#231a11",
+          "on-error-container": "#93000a",
+          "secondary-fixed": "#ffdea4",
+          "on-surface-variant": "#414943",
+          "error": "#ba1a1a",
+          "secondary": "#7b5900",
+          "on-primary-container": "#7ca78f",
+          "surface-container-high": "#f8e5d6",
+          "outline-variant": "#c1c8c2",
+          "tertiary-container": "#651a06",
+          "on-secondary-fixed-variant": "#5d4200",
+          "primary-container": "#123c2a",
+          "on-error": "#ffffff",
+          "surface": "#fff8f5",
+          "on-secondary-fixed": "#261900",
+          "on-primary-fixed-variant": "#264e3b",
+          "on-background": "#231a11",
+          "surface-container-lowest": "#ffffff",
+          "surface-dim": "#e9d7c8",
+          "tertiary-fixed": "#ffdad2",
+          "surface-bright": "#fff8f5",
+          "surface-container-low": "#fff1e8",
+          "surface-container-highest": "#f2dfd1",
+          "primary-fixed": "#c0edd2",
+          "on-primary": "#ffffff",
+          "inverse-surface": "#392e25",
+          "tertiary-fixed-dim": "#ffb4a2"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "space-lg": "1.5rem",
+          "space-sm": "0.5rem",
+          "space-xl": "2rem",
+          "space-md": "1rem",
+          "margin-tablet": "1.5rem",
+          "margin": "1rem",
+          "gutter-desktop": "1.5rem",
+          "gutter": "1rem",
+          "space-xs": "0.25rem",
+          "margin-desktop": "2.5rem"
+        },
+        "fontFamily": {
+          "headline-sm": [
+            "Epilogue"
+          ],
+          "label-md": [
+            "Atkinson Hyperlegible Next"
+          ],
+          "price-md": [
+            "Atkinson Hyperlegible Next"
+          ],
+          "body-lg": [
+            "Atkinson Hyperlegible Next"
+          ],
+          "label-sm": [
+            "Atkinson Hyperlegible Next"
+          ],
+          "headline-md": [
+            "Epilogue"
+          ],
+          "body-md": [
+            "Atkinson Hyperlegible Next"
+          ],
+          "headline-xl": [
+            "Epilogue"
+          ],
+          "body-sm-bold": [
+            "Atkinson Hyperlegible Next"
+          ],
+          "headline-lg-mobile": [
+            "Epilogue"
+          ],
+          "price-lg": [
+            "Atkinson Hyperlegible Next"
+          ],
+          "headline-xl-mobile": [
+            "Epilogue"
+          ],
+          "headline-lg": [
+            "Epilogue"
+          ],
+          "body-sm": [
+            "Atkinson Hyperlegible Next"
+          ],
+          "body-md-bold": [
+            "Atkinson Hyperlegible Next"
+          ]
+        },
+        "fontSize": {
+          "headline-sm": [
+            "18px",
+            {
+              "lineHeight": "24px",
+              "fontWeight": "600"
+            }
+          ],
+          "label-md": [
+            "14px",
+            {
+              "lineHeight": "18px",
+              "fontWeight": "700"
+            }
+          ],
+          "price-md": [
+            "16px",
+            {
+              "lineHeight": "20px",
+              "fontWeight": "700"
+            }
+          ],
+          "body-lg": [
+            "18px",
+            {
+              "lineHeight": "28px",
+              "fontWeight": "400"
+            }
+          ],
+          "label-sm": [
+            "12px",
+            {
+              "lineHeight": "16px",
+              "fontWeight": "700"
+            }
+          ],
+          "headline-md": [
+            "22px",
+            {
+              "lineHeight": "28px",
+              "fontWeight": "700"
+            }
+          ],
+          "body-md": [
+            "16px",
+            {
+              "lineHeight": "24px",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-xl": [
+            "36px",
+            {
+              "lineHeight": "44px",
+              "fontWeight": "800"
+            }
+          ],
+          "body-sm-bold": [
+            "14px",
+            {
+              "lineHeight": "20px",
+              "fontWeight": "700"
+            }
+          ],
+          "headline-lg-mobile": [
+            "24px",
+            {
+              "lineHeight": "32px",
+              "fontWeight": "700"
+            }
+          ],
+          "price-lg": [
+            "20px",
+            {
+              "lineHeight": "24px",
+              "fontWeight": "700"
+            }
+          ],
+          "headline-xl-mobile": [
+            "28px",
+            {
+              "lineHeight": "36px",
+              "fontWeight": "800"
+            }
+          ],
+          "headline-lg": [
+            "28px",
+            {
+              "lineHeight": "36px",
+              "fontWeight": "700"
+            }
+          ],
+          "body-sm": [
+            "14px",
+            {
+              "lineHeight": "20px",
+              "fontWeight": "400"
+            }
+          ],
+          "body-md-bold": [
+            "16px",
+            {
+              "lineHeight": "24px",
+              "fontWeight": "700"
+            }
+          ]
+        }
+      },
+    },
+  }</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-low z-50 flex flex-col pt-4 pb-6 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="px-space-md mb-space-md flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center"><span class="material-symbols-outlined text-secondary-container text-[22px]">local_mall</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary tracking-tight">CibusHub</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Ops Console</span></div></div></div><div class="px-space-md mb-space-md"><div class="bg-surface-container px-space-sm py-space-xs rounded-lg flex items-center justify-between"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[16px] text-tertiary-container">hub</span><span class="font-label-sm text-label-sm text-on-surface">Cluster: GH-ACC-01</span></div><span class="w-2 h-2 rounded-full bg-surface-tint"></span></div></div><nav class="flex-1 px-space-sm flex flex-col gap-1" data-active-classes="bg-primary-container text-on-primary font-body-md-bold rounded-lg shadow-sm"><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="overview-and-live-ops" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">radar</span><span class="font-body-md text-body-md">Overview &amp; Live Ops</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="approvals-queue" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">fact_check</span><span class="font-body-md text-body-md">Approvals Queue</span></div><span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">6</span></a><a aria-current="page" class="flex items-center justify-between px-space-md py-space-sm transition-colors bg-primary-container text-on-primary font-body-md-bold rounded-lg shadow-sm" data-path="order-management" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span class="font-body-md text-body-md">Order Management</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="payments-and-refunds" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">payments</span><span class="font-body-md text-body-md">Payments &amp; Refunds</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="audit-log" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">policy</span><span class="font-body-md text-body-md">Audit Log</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="platform-settings" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-body-md text-body-md">Platform Settings</span></div></a></nav><div class="px-space-md pt-space-sm"><div class="bg-surface-container-high p-space-sm rounded-lg flex items-center justify-between"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[16px] text-primary">security</span><span class="font-label-sm text-label-sm text-on-surface-variant">MFA Enforced</span></div><span class="font-label-sm text-label-sm text-primary-container font-bold">Active</span></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-md"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs px-space-sm py-1 bg-surface-container rounded-lg"><span class="material-symbols-outlined text-[18px] text-primary">location_on</span><span class="font-body-sm-bold text-body-sm-bold text-on-surface">Accra Metro</span><span class="font-label-sm text-label-sm text-on-surface-variant">| 9 Zones Active</span></div><div class="flex items-center gap-space-xs px-space-sm py-1 bg-surface-container-lowest rounded-lg"><span class="w-2.5 h-2.5 rounded-full bg-surface-tint"></span><span class="font-label-sm text-label-sm text-on-surface">Core API: 99.98%</span></div></div><div class="flex items-center gap-space-md"><button class="relative w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 min-w-[18px] h-[18px] px-1 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-label-sm flex items-center justify-center">3</span></button><div class="h-8 w-px bg-surface-container-high"></div><div class="flex items-center gap-space-sm"><div class="flex flex-col text-right"><span class="font-body-sm-bold text-body-sm-bold text-on-surface leading-tight">Kofi Mensah</span><span class="font-label-sm text-label-sm text-secondary leading-tight">Super Admin</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-surface px-space-md pb-space-xl"><div class="flex flex-col w-full">
+<!-- Operational Breadcrumb & Top Bar -->
+<div class="flex flex-col md:flex-row items-start md:items-center justify-between pb-space-md gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-primary-container text-secondary-container flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[24px]">local_shipping</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-primary">Live Dispatch &amp; Order Operations</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">Zone Accra-East Live</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span>Cluster Node: GH-ACC-01</span>
+<span>•</span>
+<span>Core Ingestion Latency: 42ms</span>
+<span>•</span>
+<span class="inline-flex items-center gap-1 text-surface-tint font-body-sm-bold">
+<span class="w-2 h-2 rounded-full bg-surface-tint animate-pulse"></span>
+            Telemetry Stream Active
+          </span>
+</div>
+</div>
+</div>
+<!-- Quick Utilities -->
+<div class="flex items-center gap-space-sm flex-wrap self-stretch md:self-auto justify-end">
+<div class="flex items-center gap-1.5 px-3 py-1.5 bg-surface-container rounded-lg font-label-sm text-label-sm text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-surface-tint animate-spin" style="animation-duration: 9s;">sync</span>
+<span>Auto-ping: 10s</span>
+</div>
+<button class="h-10 px-4 rounded-lg bg-surface-container-high hover:bg-surface-variant text-primary font-label-md text-label-md flex items-center gap-1.5 transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">file_download</span>
+<span>Export Ledger CSV</span>
+</button>
+<button class="h-10 px-4 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md flex items-center gap-1.5 transition-colors shadow-sm" onclick="document.getElementById('reassign-modal').classList.remove('hidden')" type="button">
+<span class="material-symbols-outlined text-[18px]">alt_route</span>
+<span>Manual Override</span>
+</button>
+</div>
+</div>
+<!-- Operational Health Metrics Mosaic -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-space-sm pb-space-md">
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Active In-Flight</span>
+<span class="material-symbols-outlined text-[20px] text-surface-tint">two_wheeler</span>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-primary font-bold">142</span>
+<span class="font-label-sm text-label-sm text-surface-tint font-semibold">+18.4% peak</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Avg Transit: 19.4m</span>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Unassigned Queue</span>
+<span class="material-symbols-outlined text-[20px] text-tertiary-container">pending_actions</span>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-tertiary-container font-bold">4</span>
+<span class="px-1.5 py-0.5 rounded bg-error-container text-on-error-container font-label-sm text-label-sm">2 Escalated</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Oldest: 6m 12s (#CB-8521)</span>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">MoMo Success Rate</span>
+<span class="material-symbols-outlined text-[20px] text-secondary">verified_user</span>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold">99.4%</span>
+<span class="font-label-sm text-label-sm text-surface-tint">Paystack Live</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">MTN / Telecel / AT Hubs</span>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">PIN Handshake Delta</span>
+<span class="material-symbols-outlined text-[20px] text-primary">pin</span>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold">54s</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Gate to Handover</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Dwennimmen Authenticated</span>
+</div>
+</div>
+<!-- Filter Hub & Advanced Search Card -->
+<div class="bg-surface-container-low rounded-xl p-space-md mb-space-md shadow-sm flex flex-col gap-space-sm">
+<!-- Input Search Bar -->
+<div class="flex flex-col lg:flex-row gap-space-sm items-stretch lg:items-center">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="w-full h-12 pl-11 pr-4 bg-surface-container-lowest rounded-xl text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface focus:ring-2 focus:ring-primary-container/20 transition-all shadow-sm" placeholder="Search by Order ID (e.g. #CB-8492), customer name, courier, or restaurant..." type="text" value="#CB-8492"/>
+<div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Esc key clears</span>
+</div>
+</div>
+<!-- Quick Issue Presets -->
+<div class="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0">
+<button class="h-10 px-3 rounded-lg bg-surface-container-high hover:bg-surface-container text-on-surface font-label-sm text-label-sm whitespace-nowrap flex items-center gap-1 transition-colors" type="button">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+          Unassigned &gt; 5m (1)
+        </button>
+<button class="h-10 px-3 rounded-lg bg-surface-container-high hover:bg-surface-container text-on-surface font-label-sm text-label-sm whitespace-nowrap flex items-center gap-1 transition-colors" type="button">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+          Rider Stationary &gt; 8m (0)
+        </button>
+<button class="h-10 px-3 rounded-lg bg-surface-container-high hover:bg-surface-container text-on-surface font-label-sm text-label-sm whitespace-nowrap flex items-center gap-1 transition-colors" type="button">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+          Gate Handshake Lag (2)
+        </button>
+</div>
+</div>
+<!-- Tiered Filter Chips -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm pt-space-xs">
+<!-- Status Filter -->
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap">Status:</span>
+<div class="flex gap-1 overflow-x-auto w-full">
+<span class="px-3 py-1.5 rounded-lg bg-surface-container-high text-on-surface font-label-sm text-label-sm cursor-pointer hover:bg-surface-variant">All</span>
+<span class="px-3 py-1.5 rounded-lg bg-primary-container text-on-primary font-label-sm text-label-sm cursor-pointer shadow-sm">In Transit</span>
+<span class="px-3 py-1.5 rounded-lg bg-surface-container-high text-on-surface font-label-sm text-label-sm cursor-pointer hover:bg-surface-variant">Preparing</span>
+<span class="px-3 py-1.5 rounded-lg bg-surface-container-high text-on-surface font-label-sm text-label-sm cursor-pointer hover:bg-surface-variant">Unassigned</span>
+</div>
+</div>
+<!-- Zone Filter -->
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap">Zone:</span>
+<div class="flex gap-1 overflow-x-auto w-full">
+<span class="px-2.5 py-1.5 rounded-lg bg-surface-container-high text-on-surface font-label-sm text-label-sm cursor-pointer hover:bg-surface-variant">All (9)</span>
+<span class="px-2.5 py-1.5 rounded-lg bg-secondary-container text-on-secondary-container font-label-sm text-label-sm cursor-pointer font-bold">East Legon</span>
+<span class="px-2.5 py-1.5 rounded-lg bg-surface-container-high text-on-surface font-label-sm text-label-sm cursor-pointer hover:bg-surface-variant">Osu</span>
+<span class="px-2.5 py-1.5 rounded-lg bg-surface-container-high text-on-surface font-label-sm text-label-sm cursor-pointer hover:bg-surface-variant">Airport</span>
+</div>
+</div>
+<!-- Payment Channel Filter -->
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap">Channel:</span>
+<div class="flex gap-1 overflow-x-auto w-full">
+<span class="px-2.5 py-1.5 rounded-lg bg-surface-container-high text-on-surface font-label-sm text-label-sm cursor-pointer hover:bg-surface-variant">All Pay</span>
+<span class="px-2.5 py-1.5 rounded-lg bg-surface-container-lowest text-primary font-label-sm text-label-sm cursor-pointer shadow-sm">MTN MoMo</span>
+<span class="px-2.5 py-1.5 rounded-lg bg-surface-container-high text-on-surface font-label-sm text-label-sm cursor-pointer hover:bg-surface-variant">Telecel</span>
+<span class="px-2.5 py-1.5 rounded-lg bg-surface-container-high text-on-surface font-label-sm text-label-sm cursor-pointer hover:bg-surface-variant">Card</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Primary Operations Workspace: Split View Ledger + Active Inspection -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-start">
+<!-- Ledger Table (7 Cols on large displays) -->
+<div class="lg:col-span-7 flex flex-col bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<!-- Table Header Bar -->
+<div class="px-space-md py-space-sm bg-primary-container text-on-primary flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-secondary-container">receipt_long</span>
+<span class="font-headline-sm text-headline-sm tracking-tight text-surface-container-lowest">Orders Ledger</span>
+<span class="px-2 py-0.5 rounded bg-primary text-secondary-fixed-dim font-label-sm text-label-sm">5 displayed</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-label-sm text-label-sm text-primary-fixed-dim">Sorted: Last Updated</span>
+<button class="w-8 h-8 rounded-lg bg-primary hover:bg-primary/80 flex items-center justify-center text-on-primary" type="button">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+</div>
+</div>
+<!-- Ledger Table Data -->
+<div class="overflow-x-auto">
+<table class="w-full text-left font-body-sm text-body-sm border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-3 px-space-md">Order &amp; Time</th>
+<th class="py-3 px-space-sm">Customer &amp; Vendor</th>
+<th class="py-3 px-space-sm">Courier / Zone</th>
+<th class="py-3 px-space-sm text-right">Total</th>
+<th class="py-3 px-space-sm text-center">Status</th>
+<th class="py-3 px-space-md text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high/60">
+<!-- Row 1: Active Inspection Focus (CB-8492) -->
+<tr class="bg-surface-container/60 hover:bg-surface-container transition-colors cursor-pointer">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2">
+<div class="w-2.5 h-2.5 rounded-full bg-surface-tint"></div>
+<div>
+<span class="font-body-md-bold text-body-md-bold text-primary block leading-tight">#CB-8492</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">12:41 PM</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-sm">
+<div>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface block leading-tight">Kwame Mensah</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Auntie Muni Kitchen</span>
+</div>
+</td>
+<td class="py-3.5 px-space-sm">
+<div>
+<span class="font-body-sm-bold text-body-sm-bold text-primary block leading-tight">Kofi Mensah</span>
+<span class="font-label-sm text-label-sm text-secondary">East Legon / Am. House</span>
+</div>
+</td>
+<td class="py-3.5 px-space-sm text-right">
+<span class="font-price-md text-price-md text-on-surface block leading-tight">GHS 89.00</span>
+<span class="font-label-sm text-label-sm text-surface-tint">MTN MoMo</span>
+</td>
+<td class="py-3.5 px-space-sm text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-tint/15 text-primary font-label-sm text-label-sm font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-surface-tint"></span>
+                  In Transit • 4m
+                </span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<button class="h-9 px-3 rounded-lg bg-primary-container text-on-primary font-label-sm text-label-sm hover:bg-primary transition-colors" type="button">
+                  Inspect
+                </button>
+</td>
+</tr>
+<!-- Row 2: UNASSIGNED ALERT (CB-8521) -->
+<tr class="bg-error-container/20 hover:bg-error-container/30 transition-colors cursor-pointer">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2">
+<div class="w-2.5 h-2.5 rounded-full bg-error animate-ping"></div>
+<div>
+<span class="font-body-md-bold text-body-md-bold text-tertiary-container block leading-tight">#CB-8521</span>
+<span class="font-label-sm text-label-sm text-error">12:49 PM</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-sm">
+<div>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface block leading-tight">Naa Adoley</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Buka Express</span>
+</div>
+</td>
+<td class="py-3.5 px-space-sm">
+<div>
+<span class="font-body-sm-bold text-body-sm-bold text-error block leading-tight uppercase">Unassigned</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Osu / Danquah Cir.</span>
+</div>
+</td>
+<td class="py-3.5 px-space-sm text-right">
+<span class="font-price-md text-price-md text-on-surface block leading-tight">GHS 124.00</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Telecel Cash</span>
+</td>
+<td class="py-3.5 px-space-sm text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                  Wait: 6m 12s
+                </span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<button class="h-9 px-3 rounded-lg bg-tertiary-container hover:bg-tertiary text-on-tertiary font-label-sm text-label-sm transition-colors shadow-sm" onclick="document.getElementById('reassign-modal').classList.remove('hidden')" type="button">
+                  Assign Rider
+                </button>
+</td>
+</tr>
+<!-- Row 3: CANCELLED / REFUNDED (CB-8510) -->
+<tr class="hover:bg-surface-container-low transition-colors cursor-pointer">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2">
+<div class="w-2.5 h-2.5 rounded-full bg-outline"></div>
+<div>
+<span class="font-body-md-bold text-body-md-bold text-on-surface block leading-tight">#CB-8510</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">12:18 PM</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-sm">
+<div>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface block leading-tight">Kwame S.</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Auntie Muni Kitchen</span>
+</div>
+</td>
+<td class="py-3.5 px-space-sm">
+<div>
+<span class="font-body-sm-bold text-body-sm-bold text-outline block leading-tight">Cauldron Empty</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Airport Hills</span>
+</div>
+</td>
+<td class="py-3.5 px-space-sm text-right">
+<span class="font-price-md text-price-md text-on-surface-variant line-through block leading-tight">GHS 89.00</span>
+<span class="font-label-sm text-label-sm text-outline">Reversed</span>
+</td>
+<td class="py-3.5 px-space-sm text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">
+                  Refund Settled
+                </span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<button class="h-9 px-3 rounded-lg bg-surface-container-high text-on-surface hover:bg-surface-variant font-label-sm text-label-sm transition-colors" type="button">
+                  Audit Log
+                </button>
+</td>
+</tr>
+<!-- Row 4: DELIVERED (CB-8488) -->
+<tr class="hover:bg-surface-container-low transition-colors cursor-pointer">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2">
+<div class="w-2.5 h-2.5 rounded-full bg-surface-tint"></div>
+<div>
+<span class="font-body-md-bold text-body-md-bold text-on-surface block leading-tight">#CB-8488</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">11:30 AM</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-sm">
+<div>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface block leading-tight">Ebenezer Tagoe</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Buka Express</span>
+</div>
+</td>
+<td class="py-3.5 px-space-sm">
+<div>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface block leading-tight">Samuel Antwi</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Osu</span>
+</div>
+</td>
+<td class="py-3.5 px-space-sm text-right">
+<span class="font-price-md text-price-md text-on-surface block leading-tight">GHS 75.00</span>
+<span class="font-label-sm text-label-sm text-surface-tint">Verified</span>
+</td>
+<td class="py-3.5 px-space-sm text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container text-on-surface font-label-sm text-label-sm">
+                  PIN 6821 Match
+                </span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<button class="h-9 px-3 rounded-lg bg-surface-container-high text-on-surface hover:bg-surface-variant font-label-sm text-label-sm transition-colors" type="button">
+                  Receipt
+                </button>
+</td>
+</tr>
+<!-- Row 5: DELIVERED (CB-8481) -->
+<tr class="hover:bg-surface-container-low transition-colors cursor-pointer">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2">
+<div class="w-2.5 h-2.5 rounded-full bg-surface-tint"></div>
+<div>
+<span class="font-body-md-bold text-body-md-bold text-on-surface block leading-tight">#CB-8481</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">10:15 AM</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-sm">
+<div>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface block leading-tight">Serah Mensah</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Papaye Fast Food</span>
+</div>
+</td>
+<td class="py-3.5 px-space-sm">
+<div>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface block leading-tight">Bright T.</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Spintex</span>
+</div>
+</td>
+<td class="py-3.5 px-space-sm text-right">
+<span class="font-price-md text-price-md text-on-surface block leading-tight">GHS 68.00</span>
+<span class="font-label-sm text-label-sm text-surface-tint">Verified</span>
+</td>
+<td class="py-3.5 px-space-sm text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container text-on-surface font-label-sm text-label-sm">
+                  PIN 3140 Match
+                </span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<button class="h-9 px-3 rounded-lg bg-surface-container-high text-on-surface hover:bg-surface-variant font-label-sm text-label-sm transition-colors" type="button">
+                  Receipt
+                </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Footer Table Pagination -->
+<div class="px-space-md py-3 bg-surface-container-low flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<span>Showing 1-5 of 142 records</span>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded bg-surface-container-lowest text-on-surface flex items-center justify-center font-label-sm text-label-sm shadow-sm disabled:opacity-50" type="button">1</button>
+<button class="w-8 h-8 rounded bg-surface-container text-on-surface flex items-center justify-center font-label-sm text-label-sm" type="button">2</button>
+<button class="w-8 h-8 rounded bg-surface-container text-on-surface flex items-center justify-center font-label-sm text-label-sm" type="button">3</button>
+<span class="px-1 text-on-surface-variant">…</span>
+<button class="w-8 h-8 rounded bg-surface-container text-on-surface flex items-center justify-center font-label-sm text-label-sm" type="button">29</button>
+</div>
+</div>
+</div>
+<!-- Active Order Deep Dive & Dispatch Intervention Console (5 Cols on large displays) -->
+<div class="lg:col-span-5 flex flex-col gap-space-md">
+<!-- Focused Order Shell #CB-8492 -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col">
+<!-- Inspection Title & Badges -->
+<div class="p-space-md bg-surface-container flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-primary">#CB-8492</span>
+<span class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">In Transit</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">Placed at 12:15 PM • Target ETA: 12:45 PM</span>
+</div>
+<!-- Semantic Adinkra / Verified Stamp -->
+<div class="flex flex-col items-end">
+<div class="flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container-high text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] text-surface-tint">verified</span>
+<span>Nyame Dua Verified</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[11px] mt-1">Paystack #pstk_live_9942a8</span>
+</div>
+</div>
+<div class="p-space-md flex flex-col gap-space-md">
+<!-- Key Entities: Customer & Assigned Rider Card -->
+<div class="grid grid-cols-2 gap-space-sm">
+<!-- Customer Card -->
+<div class="p-space-sm bg-surface-container-low rounded-lg flex flex-col justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Customer</span>
+<span class="font-body-md-bold text-body-md-bold text-on-surface block mt-0.5">Kwame Mensah</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[14px]">call</span>
+                  024 412 3456
+                </span>
+</div>
+<span class="font-label-sm text-label-sm text-surface-tint mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">history_edu</span>
+                14 Prior Orders
+              </span>
+</div>
+<!-- Rider Card -->
+<div class="p-space-sm bg-surface-container-low rounded-lg flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Courier</span>
+<span class="px-1.5 py-0.2 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">Dwennimmen</span>
+</div>
+<span class="font-body-md-bold text-body-md-bold text-primary block mt-0.5">Kofi Mensah</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[14px]">motorcycle</span>
+                  Royal 125cc (GW-882-22)
+                </span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">star</span>
+                4.92 (480 deliveries)
+              </span>
+</div>
+</div>
+<!-- Live Telemetry Coordinates Banner -->
+<div class="bg-primary-container text-on-primary rounded-xl p-space-sm flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-primary flex items-center justify-center text-secondary-fixed-dim">
+<span class="material-symbols-outlined text-[20px]">explore</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-primary-fixed-dim block uppercase">Live Telemetry Ping</span>
+<span class="font-body-sm-bold text-body-sm-bold text-on-primary">5.6371° N, 0.1614° W • Boundary Rd</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-secondary-fixed block">Speed: 52 km/h</span>
+<span class="font-label-sm text-label-sm text-primary-fixed-dim">Updated 8s ago</span>
+</div>
+</div>
+<!-- Static Map Visual Representation -->
+<div class="w-full h-40 bg-cover bg-center rounded-xl relative overflow-hidden shadow-inner" data-location="East Legon, Accra, Ghana" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDXJKXA9VvRSrZF2QhE437Z0VWrtgKVVF0MGWyDzSudf63WkCITfBJny4NN6BpOacVUQfJGMp_vBuPLo2GOzouXWbvVIQh7Y37p4qq3zzQ0rPMHpHJ7W-CRlTQaRtoRwIsOJreSfanaz1Ynb0-xUZ60-qFbDlzAroHmmw8mRHJYuviAQAm9vxuAzS9GXGhnvAl6UYBuIDSIpNFxagVqbdBotpWdHdRTENAZElLO7Oc')">
+<div class="absolute inset-0 bg-primary/20 backdrop-brightness-95 pointer-events-none"></div>
+<div class="absolute bottom-2 left-2 px-2.5 py-1 rounded bg-surface-container-lowest/95 text-on-surface font-label-sm text-label-sm shadow-md flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-surface-tint animate-pulse"></span>
+<span>Rider 450m from American House junction</span>
+</div>
+</div>
+<!-- Order Items Breakdown -->
+<div class="bg-surface-container-low rounded-xl p-space-sm">
+<div class="flex items-center justify-between pb-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Order Content Breakdown</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">Auntie Muni Shelf #02</span>
+</div>
+<div class="flex flex-col gap-2 pt-1 font-body-sm text-body-sm">
+<div class="flex items-start justify-between">
+<div class="flex gap-2">
+<span class="font-body-sm-bold text-body-sm-bold text-primary">1x</span>
+<div>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface block">Special Waakye Combo</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">With spiced beef, boiled egg, kelewele, hot black shito</span>
+</div>
+</div>
+<span class="font-price-md text-price-md text-on-surface">GHS 75.00</span>
+</div>
+<div class="flex items-start justify-between">
+<div class="flex gap-2">
+<span class="font-body-sm-bold text-body-sm-bold text-primary">1x</span>
+<div>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface block">Fresh Chilled Sobolo</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Infused with ginger &amp; cloves (500ml)</span>
+</div>
+</div>
+<span class="font-price-md text-price-md text-on-surface">GHS 14.00</span>
+</div>
+</div>
+<div class="mt-3 pt-2 bg-surface-container/60 rounded-lg p-2 flex items-center justify-between font-label-md text-label-md">
+<span class="text-on-surface-variant">Total Settled (MoMo Paystack)</span>
+<span class="font-price-lg text-price-lg text-primary font-bold">GHS 89.00</span>
+</div>
+</div>
+<!-- Destination Landmark & Handshake Security Panel -->
+<div class="bg-surface-container-high rounded-xl p-space-sm flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Dropoff &amp; Handshake</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-lowest text-primary font-label-sm text-label-sm">High Security Zone</span>
+</div>
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[20px] text-primary shrink-0 mt-0.5">location_on</span>
+<div class="flex-1">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface block">East Legon, Opposite Shell Filling Station</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Behind Papaye • Black heavy gate with gold bell chime.</span>
+</div>
+</div>
+<!-- Handshake PIN Container -->
+<div class="mt-1 bg-secondary-container text-on-secondary-container rounded-lg p-space-sm flex items-center justify-between shadow-sm">
+<div>
+<span class="font-label-sm text-label-sm font-bold uppercase tracking-wider block">Customer Handshake PIN</span>
+<span class="font-body-sm text-body-sm text-on-secondary-variant">Required by courier before marking delivered</span>
+</div>
+<div class="bg-surface-container-lowest px-4 py-1.5 rounded-lg text-primary font-mono font-bold text-headline-sm tracking-widest shadow-inner">
+                4912
+              </div>
+</div>
+</div>
+<!-- 6-Stage Precise Timeline -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Dispatch Timeline Audit</span>
+<span class="font-label-sm text-label-sm text-surface-tint">5 / 6 Stages Passed</span>
+</div>
+<div class="relative pl-6 space-y-4 before:content-[''] before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-surface-container-high">
+<!-- Stage 1 -->
+<div class="relative flex flex-col">
+<span class="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full bg-surface-tint ring-4 ring-surface-container-lowest"></span>
+<div class="flex items-center justify-between">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Payment Webhook Verified</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">12:15 PM</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Paystack reference: pstk_live_9942a8</span>
+</div>
+<!-- Stage 2 -->
+<div class="relative flex flex-col">
+<span class="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full bg-surface-tint ring-4 ring-surface-container-lowest"></span>
+<div class="flex items-center justify-between">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Kitchen Acknowledged</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">12:17 PM</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Auntie Muni accepted ticket #CB-8492</span>
+</div>
+<!-- Stage 3 -->
+<div class="relative flex flex-col">
+<span class="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full bg-surface-tint ring-4 ring-surface-container-lowest"></span>
+<div class="flex items-center justify-between">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Food Packaged &amp; Sealed</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">12:22 PM</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Banana leaf waakye assembly wrapped with tamper seal</span>
+</div>
+<!-- Stage 4 -->
+<div class="relative flex flex-col">
+<span class="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full bg-surface-tint ring-4 ring-surface-container-lowest"></span>
+<div class="flex items-center justify-between">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Placed in Ready Locker</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">12:33 PM</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Stored at Shelf #02 awaiting rider QR scan</span>
+</div>
+<!-- Stage 5 -->
+<div class="relative flex flex-col">
+<span class="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full bg-surface-tint ring-4 ring-surface-container-lowest"></span>
+<div class="flex items-center justify-between">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Courier Picked Up &amp; En Route</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">12:36 PM</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Kofi Mensah scanned package • Departing via Boundary Rd</span>
+</div>
+<!-- Stage 6: Current Active -->
+<div class="relative flex flex-col">
+<span class="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full bg-secondary-container ring-4 ring-surface-container-lowest animate-pulse"></span>
+<div class="flex items-center justify-between">
+<span class="font-body-sm-bold text-body-sm-bold text-primary">In Transit (Approaching Destination)</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">12:41 PM (Live)</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Coords: 5.6371° N, 0.1614° W • Est. 4 mins remaining</span>
+</div>
+</div>
+</div>
+<!-- Dispatch Intervention Action CTAs -->
+<div class="pt-2 flex flex-col sm:flex-row gap-space-sm">
+<button class="flex-1 h-12 rounded-lg bg-surface-container hover:bg-surface-variant text-primary font-label-md text-label-md flex items-center justify-center gap-1.5 transition-colors shadow-sm" onclick="document.getElementById('reassign-modal').classList.remove('hidden')" type="button">
+<span class="material-symbols-outlined text-[18px]">swap_horiz</span>
+<span>Reassign Rider</span>
+</button>
+<button class="flex-1 h-12 rounded-lg bg-tertiary-container hover:bg-tertiary text-on-tertiary font-label-md text-label-md flex items-center justify-center gap-1.5 transition-colors shadow-sm" onclick="document.getElementById('cancel-modal').classList.remove('hidden')" type="button">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+<span>Cancel &amp; Issue Refund</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- MODAL 1: REASSIGN RIDER -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/60 backdrop-blur-sm hidden" id="reassign-modal">
+<div class="w-full max-w-lg bg-surface-container-lowest rounded-2xl shadow-2xl overflow-hidden flex flex-col animate-in fade-in zoom-in-95 duration-150">
+<div class="px-space-md py-4 bg-primary-container text-on-primary flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[22px] text-secondary-container">alt_route</span>
+<div>
+<span class="font-headline-sm text-headline-sm block">Reassign Courier Dispatch</span>
+<span class="font-label-sm text-label-sm text-primary-fixed-dim">Targeting Order #CB-8492 (East Legon)</span>
+</div>
+</div>
+<button class="w-8 h-8 rounded-lg bg-primary hover:bg-primary/80 flex items-center justify-center text-on-primary" onclick="document.getElementById('reassign-modal').classList.add('hidden')" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="p-space-md flex flex-col gap-space-md max-h-[80vh] overflow-y-auto">
+<!-- Reason Selector -->
+<div>
+<label class="font-label-sm text-label-sm uppercase text-on-surface-variant block mb-1.5">Operational Reason for Reassignment</label>
+<select class="w-full h-11 px-3 bg-surface-container-low rounded-lg font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary">
+<option>Motorbike breakdown / flat tire</option>
+<option>Severe traffic gridlock (Boundary Rd detour blocked)</option>
+<option>Rider unreachable / telemetry lost &gt; 10m</option>
+<option>Rider accidental swap / order mismatch</option>
+<option>Dispatcher manual load balancing</option>
+</select>
+</div>
+<!-- Available Nearby Riders List -->
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Recommended Couriers in Radar (East Legon)</span>
+<span class="font-label-sm text-label-sm text-surface-tint">3 online • GPS synced</span>
+</div>
+<div class="flex flex-col gap-2">
+<!-- Rider Option 1 -->
+<label class="p-3 bg-surface-container rounded-xl flex items-center justify-between cursor-pointer hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-3">
+<input checked="" class="w-4 h-4 text-primary focus:ring-0" name="selected_rider" type="radio"/>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Samuel Antwi</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container-lowest text-primary font-label-sm text-label-sm">Top Rated</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant block">450m away • ETA 3 mins to Auntie Muni</span>
+<span class="font-label-sm text-label-sm text-secondary">Haojue 150cc • 4.96 rating</span>
+</div>
+</div>
+<span class="px-2 py-1 rounded bg-surface-container-lowest text-surface-tint font-label-sm text-label-sm font-bold">Available Now</span>
+</label>
+<!-- Rider Option 2 -->
+<label class="p-3 bg-surface-container-low rounded-xl flex items-center justify-between cursor-pointer hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-3">
+<input class="w-4 h-4 text-primary focus:ring-0" name="selected_rider" type="radio"/>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Bright Tetteh</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant block">1.2 km away • ETA 6 mins</span>
+<span class="font-label-sm text-label-sm text-secondary">Bajaj Boxer • 4.88 rating</span>
+</div>
+</div>
+<span class="px-2 py-1 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Idle (American Hse)</span>
+</label>
+<!-- Rider Option 3 -->
+<label class="p-3 bg-surface-container-low rounded-xl flex items-center justify-between cursor-pointer hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-3">
+<input class="w-4 h-4 text-primary focus:ring-0" name="selected_rider" type="radio"/>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Emmanuel Osei</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant block">1.8 km away • Finishing dropoff</span>
+<span class="font-label-sm text-label-sm text-secondary">Royal 125cc • 4.79 rating</span>
+</div>
+</div>
+<span class="px-2 py-1 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Free in 2m</span>
+</label>
+</div>
+</div>
+<div class="p-3 bg-surface-container rounded-lg flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px] text-primary">sms</span>
+<span>Automatic SMS alert will be dispatched to current rider Kofi Mensah and customer Kwame Mensah.</span>
+</div>
+</div>
+<div class="px-space-md py-3 bg-surface-container flex items-center justify-end gap-2">
+<button class="px-4 py-2 rounded-lg bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-md text-label-md transition-colors" onclick="document.getElementById('reassign-modal').classList.add('hidden')" type="button">
+          Cancel
+        </button>
+<button class="px-5 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm" onclick="document.getElementById('reassign-modal').classList.add('hidden')" type="button">
+          Confirm Reassignment
+        </button>
+</div>
+</div>
+</div>
+<!-- MODAL 2: CANCEL ORDER & ISSUE REFUND -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/60 backdrop-blur-sm hidden" id="cancel-modal">
+<div class="w-full max-w-lg bg-surface-container-lowest rounded-2xl shadow-2xl overflow-hidden flex flex-col animate-in fade-in zoom-in-95 duration-150">
+<div class="px-space-md py-4 bg-tertiary-container text-on-tertiary flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[22px] text-secondary-fixed">warning</span>
+<div>
+<span class="font-headline-sm text-headline-sm block">Cancel Order &amp; Refund Settlement</span>
+<span class="font-label-sm text-label-sm text-tertiary-fixed">Order #CB-8492 • Paid: GHS 89.00</span>
+</div>
+</div>
+<button class="w-8 h-8 rounded-lg bg-tertiary hover:bg-tertiary/80 flex items-center justify-center text-on-tertiary" onclick="document.getElementById('cancel-modal').classList.add('hidden')" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="p-space-md flex flex-col gap-space-md max-h-[80vh] overflow-y-auto">
+<!-- Cancellation Reason -->
+<div>
+<label class="font-label-sm text-label-sm uppercase text-on-surface-variant block mb-1.5">Cancellation Reason</label>
+<select class="w-full h-11 px-3 bg-surface-container-low rounded-lg font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-tertiary">
+<option>Kitchen stock depletion (e.g. Cauldron empty / sold out)</option>
+<option>Customer emergency / changed mind before pickup</option>
+<option>Courier accident or vehicle impairment</option>
+<option>Duplicate order submitted accidentally</option>
+<option>Unserviceable landmark or inaccessible zone</option>
+</select>
+</div>
+<!-- Refund Choice Matrix -->
+<div>
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant block mb-2">Refund Channel &amp; Settlement Route</span>
+<div class="flex flex-col gap-2.5">
+<!-- Option 1: Full MoMo Reversal -->
+<label class="p-3 bg-surface-container rounded-xl flex items-start gap-3 cursor-pointer hover:bg-surface-container-high transition-colors">
+<input checked="" class="w-4 h-4 mt-1 text-primary focus:ring-0" name="refund_type" type="radio"/>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Instant Full Mobile Money Reversal</span>
+<span class="font-price-md text-price-md text-primary font-bold">GHS 89.00</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">Automated push to 024 412 3456 via Paystack Gateway API</span>
+<span class="font-label-sm text-label-sm text-surface-tint mt-1 inline-block">Estimated arrival: &lt; 30 seconds</span>
+</div>
+</label>
+<!-- Option 2: CibusHub Wallet Credit + 10% Voucher -->
+<label class="p-3 bg-surface-container-low rounded-xl flex items-start gap-3 cursor-pointer hover:bg-surface-container transition-colors">
+<input class="w-4 h-4 mt-1 text-primary focus:ring-0" name="refund_type" type="radio"/>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">CibusHub Wallet Credit (+10% Bonus)</span>
+<span class="font-price-md text-price-md text-secondary font-bold">GHS 97.90</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant block mt-0.5">Credited immediately to Kwame Mensah's in-app wallet balance</span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold mt-1 inline-block">Includes GHS 8.90 complimentary goodwill voucher</span>
+</div>
+</label>
+<!-- Option 3: Partial Custom Refund -->
+<label class="p-3 bg-surface-container-low rounded-xl flex items-start gap-3 cursor-pointer hover:bg-surface-container transition-colors">
+<input class="w-4 h-4 mt-1 text-primary focus:ring-0" name="refund_type" type="radio"/>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Partial Refund (Custom Deduction)</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">e.g. Sobolo only</span>
+</div>
+<div class="mt-2 flex items-center gap-2">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">GHS</span>
+<input class="h-9 w-28 px-2.5 bg-surface-container-lowest rounded text-on-surface font-price-md text-price-md focus:outline-none" placeholder="14.00" type="number"/>
+<input class="h-9 flex-1 px-2.5 bg-surface-container-lowest rounded text-on-surface font-body-sm text-body-sm focus:outline-none" placeholder="Reason for partial adjustment..." type="text"/>
+</div>
+</div>
+</label>
+</div>
+</div>
+<!-- Checkbox Notice -->
+<label class="flex items-center gap-2.5 cursor-pointer pt-1">
+<input checked="" class="w-4 h-4 rounded text-primary focus:ring-0" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface">Notify customer and restaurant via priority SMS immediately</span>
+</label>
+</div>
+<div class="px-space-md py-3 bg-surface-container flex items-center justify-end gap-2">
+<button class="px-4 py-2 rounded-lg bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-md text-label-md transition-colors" onclick="document.getElementById('cancel-modal').classList.add('hidden')" type="button">
+          Abort
+        </button>
+<button class="px-5 py-2 rounded-lg bg-tertiary-container hover:bg-tertiary text-on-tertiary font-label-md text-label-md transition-colors shadow-sm" onclick="document.getElementById('cancel-modal').classList.add('hidden')" type="button">
+          Execute Cancellation &amp; Refund
+        </button>
+</div>
+</div>
+</div>
+<script>
+    // Lightweight keyboard listener to dismiss open inspection overlays
+    window.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        const reassignModal = document.getElementById('reassign-modal');
+        const cancelModal = document.getElementById('cancel-modal');
+        if (reassignModal) reassignModal.classList.add('hidden');
+        if (cancelModal) cancelModal.classList.add('hidden');
+      }
+    });
+  </script>
+</div></main></div></body></html>

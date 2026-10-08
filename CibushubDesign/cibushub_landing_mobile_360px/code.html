@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_blank" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@600;700;800&amp;family=Atkinson+Hyperlegible+Next:wght@400;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100%;margin:0;padding:0;}body{overscroll-behavior-y:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "secondary": "#7b5900", "secondary-fixed-dim": "#f0bf5c", "on-secondary-fixed": "#261900", "on-primary-container": "#7ca78f", "on-secondary-fixed-variant": "#5d4200", "error": "#ba1a1a", "on-background": "#231a11", "outline-variant": "#c1c8c2", "primary-container": "#123c2a", "tertiary-fixed": "#ffdad2", "tertiary-fixed-dim": "#ffb4a2", "outline": "#717973", "secondary-container": "#fcca66", "primary-fixed": "#c0edd2", "on-tertiary-fixed-variant": "#7e2b16", "on-error": "#ffffff", "inverse-primary": "#a4d0b7", "on-secondary-container": "#755400", "error-container": "#ffdad6", "on-primary-fixed": "#002113", "on-surface": "#231a11", "surface-dim": "#e9d7c8", "on-tertiary-fixed": "#3c0700", "on-tertiary": "#ffffff", "surface-bright": "#fff8f5", "secondary-fixed": "#ffdea4", "surface-container": "#feeadc", "on-primary": "#ffffff", "background": "#fff8f5", "tertiary": "#430900", "surface-container-highest": "#f2dfd1", "tertiary-container": "#651a06", "on-primary-fixed-variant": "#264e3b", "surface-container-low": "#fff1e8", "on-tertiary-container": "#ec7f63", "inverse-surface": "#392e25", "inverse-on-surface": "#ffeee1", "surface-variant": "#f2dfd1", "surface": "#fff8f5", "primary-fixed-dim": "#a4d0b7", "primary": "#002517", "surface-container-lowest": "#ffffff", "on-surface-variant": "#414943", "on-error-container": "#93000a", "on-secondary": "#ffffff", "surface-tint": "#3e6752", "surface-container-high": "#f8e5d6" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xs": "0.25rem", "space-xl": "2rem", "space-lg": "1.5rem", "space-md": "1rem", "space-sm": "0.5rem", "margin-tablet": "1.5rem", "margin-desktop": "2.5rem", "margin": "1rem", "gutter": "1rem", "gutter-desktop": "1.5rem" }, "fontFamily": { "body-sm": ["Atkinson Hyperlegible Next"], "headline-xl-mobile": ["Epilogue"], "headline-xl": ["Epilogue"], "label-md": ["Atkinson Hyperlegible Next"], "headline-md": ["Epilogue"], "body-md": ["Atkinson Hyperlegible Next"], "label-sm": ["Atkinson Hyperlegible Next"], "headline-lg": ["Epilogue"], "headline-lg-mobile": ["Epilogue"], "price-md": ["Atkinson Hyperlegible Next"], "body-sm-bold": ["Atkinson Hyperlegible Next"], "body-md-bold": ["Atkinson Hyperlegible Next"], "body-lg": ["Atkinson Hyperlegible Next"], "headline-sm": ["Epilogue"], "price-lg": ["Atkinson Hyperlegible Next"] }, "fontSize": { "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}], "headline-xl-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "800"}], "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "800"}], "label-md": ["14px", {"lineHeight": "18px", "fontWeight": "700"}], "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "700"}], "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}], "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "700"}], "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "700"}], "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}], "price-md": ["16px", {"lineHeight": "20px", "fontWeight": "700"}], "body-sm-bold": ["14px", {"lineHeight": "20px", "fontWeight": "700"}], "body-md-bold": ["16px", {"lineHeight": "24px", "fontWeight": "700"}], "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}], "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}], "price-lg": ["20px", {"lineHeight": "24px", "fontWeight": "700"}] } } } }</script></head><body class="bg-surface font-body-md text-on-surface antialiased min-h-screen flex flex-col"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-14 px-margin flex items-center justify-between"><a class="flex items-center gap-space-xs min-h-[44px] min-w-[44px]" data-path="landing" href="#"><span class="material-symbols-outlined text-primary text-[26px]">restaurant_menu</span><span class="font-headline-sm text-headline-sm text-primary tracking-tight font-bold">CibusHub</span></a><div class="flex items-center gap-space-xs"><a class="min-h-[44px] px-space-sm flex items-center font-label-md text-label-md text-on-surface hover:text-primary transition-colors" data-path="login" href="#">Log in</a><a class="min-h-[44px] px-space-md py-space-xs rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md flex items-center justify-center transition-colors shadow-[0_2px_8px_rgba(0,37,23,0.12)]" data-path="signup" href="#">Sign up</a></div></div></header><main class="flex flex-col relative w-full pt-14 pb-safe bg-surface min-h-screen"><div class="flex flex-col w-full text-on-surface">
+<!-- 1. SEO & WHATSAPP SHARE PREVIEW DRAWER -->
+<section class="p-margin bg-surface-container-low">
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm space-y-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">SEO &amp; Share Simulator</span>
+<span class="font-label-sm text-label-sm px-space-xs py-0.5 rounded bg-surface-container text-on-surface-variant">Accra Node</span>
+</div>
+<!-- Metadata Inspector -->
+<div class="p-space-xs rounded bg-surface-container font-mono text-[11px] leading-tight text-on-surface-variant overflow-x-auto space-y-1">
+<div><strong class="text-primary-container">&lt;title&gt;</strong> CibusHub — Authentic Accra Kitchens Delivered to Your Gate</div>
+<div><strong class="text-primary-container">&lt;meta name="description"&gt;</strong> Order piping hot waakye, smoky party jollof, and steaming fufu across Accra with instant live courier tracking.</div>
+</div>
+<!-- WhatsApp Android Preview Card -->
+<div class="pt-space-xs">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-space-xs flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary">chat</span>
+          WhatsApp Chat Link Card
+        </p>
+<div class="rounded-xl overflow-hidden bg-surface-container-high shadow-sm">
+<img class="w-full h-32 object-cover" data-alt="Vibrant top-down photo of steaming hot Accra waakye served on a glossy emerald banana leaf, surrounded by fried sweet plantain kelewele, dark spicy shito, boiled eggs, and tender braised goat meat under warm golden natural sunlight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8FQKf66gCq_lQs2YZ226JlaO-i3J17nfiO5o77LSfAupMDpvRIHpwirNkr4y-ldVDj_uu1H76odwwcH3H-XP4d8S5i6ZYqb_VjiXvut46T9DqgK_9hF6_tlb0sMIJMbWRQKkaniHkZ36VEp7OkDMre7axOyRht1lNalAZRMbdZSAgBxBi4d9ww0Y8GaEBqBek2vTwJJJOGyoOUiXJPnJjA0z_vkeeBuFaDDV-q4s"/>
+<div class="p-space-sm space-y-1">
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-snug">
+              CibusHub — Authentic Accra Kitchens Delivered to Your Gate
+            </h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+              Hot chop bar meals &amp; home kitchens from Osu to Madina. Fast MoMo checkout and instant rider handshake.
+            </p>
+<span class="font-label-sm text-label-sm text-outline block">cibushub.com.gh</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. HERO SECTION -->
+<section class="p-margin space-y-space-md">
+<div class="space-y-space-xs">
+<span class="inline-flex items-center gap-1 px-space-sm py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">moped</span>
+        Accra-Wide Direct Kitchen Fleet
+      </span>
+<h1 class="font-headline-xl-mobile text-headline-xl-mobile text-primary font-extrabold tracking-tight">
+        Hot waakye, smoky jollof, and fresh chop bar pots delivered right to your gate across Accra.
+      </h1>
+<p class="font-body-md text-body-md text-on-surface-variant">
+        From East Legon to Osu, Madina to Spintex. Tell us where you are, choose your kitchen, and track your rider.
+      </p>
+</div>
+<!-- Location & Search Module -->
+<div class="p-space-md rounded-xl bg-surface-container shadow-sm space-y-space-sm">
+<div class="space-y-1">
+<label class="font-label-md text-label-md text-on-surface" for="delivery-location">Where should we bring your food?</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-outline text-[22px]">pin_drop</span>
+<input class="w-full h-12 pl-10 pr-3 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface-bright" id="delivery-location" placeholder="Enter street, Ghana Post GPS, or landmark" type="text"/>
+</div>
+</div>
+<!-- Current Location Button -->
+<button class="w-full min-h-[44px] px-space-sm py-space-xs rounded-lg bg-surface-container-lowest text-primary font-label-md text-label-md flex items-center justify-center gap-space-xs active:bg-surface-container-high transition-colors" id="geo-btn" type="button">
+<span class="material-symbols-outlined text-secondary text-[20px]">my_location</span>
+<span id="geo-text">Use my current location</span>
+</button>
+<!-- Primary CTA -->
+<button class="w-full min-h-[48px] rounded-lg bg-primary text-on-primary font-label-md text-label-md font-bold flex items-center justify-center gap-space-xs shadow-md active:bg-primary-container transition-transform active:scale-[0.99]" type="button">
+<span>Find food near me</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+<!-- Hero Showcase Image -->
+<div class="rounded-2xl overflow-hidden shadow-md bg-surface-container">
+<img class="w-full h-56 object-cover" data-alt="Richly composed authentic Ghanaian Waakye feast served traditionally on a large fresh green banana leaf with piping hot spiced kelewele plantains, hard boiled farm egg, glistening dark shito pepper sauce, wele cow skin, and spaghetti talia under warm midday Accra sun." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3MLQ6R0nEwUhXLwkVPDlr2kkbHAa2s2_C9TLXzEHGN7IZ5-DrvLUkTobKcdrds33a2goBio_mLeeAhSbIOfVzOgwkd2kRlft_bV_l24z4ghwb_mCNfduz5eiEFh5XLQpRPaWdzouhC6lUtRIzJupsHOPh0mCgklUsO7O2ai8zmluyKOvvwDLg1U7PB87cOziLyoy-4Q6MFxjhtMPQgs3HBLNVVkL60Lnz8PMadLw"/>
+<div class="p-space-sm bg-surface-container flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">Auntie Muni Signature Pot</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">Ready in 25 mins</span>
+</div>
+</div>
+</section>
+<!-- 3. POPULAR NEAR YOU -->
+<section class="p-margin space-y-space-md">
+<div class="flex items-end justify-between">
+<div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary font-bold">
+          Popular kitchens near you
+        </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Cooked fresh on order in high-volume Accra cauldrons</p>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-bold">See 48+</span>
+</div>
+<div class="space-y-space-md">
+<!-- Card 1: Auntie Muni Kitchen -->
+<div class="rounded-xl bg-surface-container-low shadow-sm overflow-hidden flex flex-col">
+<div class="relative">
+<img class="w-full h-40 object-cover" data-alt="Clay plate overflowing with dark spiced waakye rice and beans, golden fried sweet ripe kelewele cubes, soft boiled egg, and red stew in an outdoor Ghanaian courtyard setting with warm earthen textures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7BMvnlcYx5sXVJTZ80YiiiIHxUFwyBFCFsxrO-Ax7EoSagKtTMh-dGmkO4WYUVydSMUfSfAIt0sSFaNq0oDj4nsGcLzQS4ZrHNMPtakt4ncFTvdZAlVodxwQQER8JiYSvrseryEZaeDpWCz2hgg8CuS30wysztvFesiFLu6CBvqrzqU1wxmCo4PLBGzIG2fQdCXvj3qME_jeyXNN2wpsvaQrE0i6XQEWzM4nkQh8"/>
+<!-- Adinkrahene Top Rated Badge -->
+<div class="absolute top-3 left-3 flex items-center gap-1 px-space-sm py-1 rounded bg-secondary text-surface-container-lowest font-label-sm text-label-sm shadow-sm">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="9"></circle>
+<circle cx="12" cy="12" r="5"></circle>
+<circle cx="12" cy="12" r="1.5"></circle>
+</svg>
+<span>Top-rated kitchen</span>
+</div>
+</div>
+<div class="p-space-md space-y-space-xs flex-1 flex flex-col justify-between">
+<div>
+<div class="flex items-start justify-between gap-space-xs">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Auntie Muni Kitchen</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">East Legon • Waakye &amp; Kelewele</p>
+</div>
+<span class="font-price-md text-price-md text-primary font-bold">GHS 45.00</span>
+</div>
+<div class="flex items-center gap-space-sm pt-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[16px] text-secondary">schedule</span> 20-30 min</span>
+<span>•</span>
+<span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[16px] text-primary">two_wheeler</span> GHS 12 delivery</span>
+</div>
+</div>
+<button class="mt-space-sm w-full min-h-[44px] rounded-lg bg-surface-container text-primary font-label-md text-label-md flex items-center justify-center gap-space-xs active:bg-primary active:text-on-primary transition-colors" type="button">
+<span>View menu</span>
+<span class="material-symbols-outlined text-[18px]">restaurant_menu</span>
+</button>
+</div>
+</div>
+<!-- Card 2: Buka Express -->
+<div class="rounded-xl bg-surface-container-low shadow-sm overflow-hidden flex flex-col">
+<div class="relative">
+<img class="w-full h-40 object-cover" data-alt="Whole fresh charcoal grilled river tilapia topped with diced red onions, fresh green peppers, and tomatoes, served alongside two steaming wrapped balls of hot corn and cassava banku." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkHQHU95SJuwDZ7tIz74-RPjv6FQLtEQyD92eWAnDaI252U_Xx8MR5kFa7GAxn0Z1XqRBbF5TYzBgDKibbr3n406h20s_pwIuoGfK8tJyLaKEDyHFr8emO_lKGst_eiiOt5-Iwb6FjALOLWgzYEdlSvBJBBrN3NqolK4wli7oO0aYM7iZkvihZDvy7TW4-tAnG5XZY8J7gtC4lXILj19vvZRqk9fBIEU8xY5B0gBc"/>
+<div class="absolute top-3 left-3 px-space-sm py-1 rounded bg-surface-container-lowest/90 text-on-surface font-label-sm text-label-sm">
+            Osu Express Hub
+          </div>
+</div>
+<div class="p-space-md space-y-space-xs flex-1 flex flex-col justify-between">
+<div>
+<div class="flex items-start justify-between gap-space-xs">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Buka Express</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Osu • Grilled Tilapia &amp; Banku</p>
+</div>
+<span class="font-price-md text-price-md text-primary font-bold">GHS 65.00</span>
+</div>
+<div class="flex items-center gap-space-sm pt-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[16px] text-secondary">schedule</span> 35-45 min</span>
+<span>•</span>
+<span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[16px] text-primary">two_wheeler</span> GHS 15 delivery</span>
+</div>
+</div>
+<button class="mt-space-sm w-full min-h-[44px] rounded-lg bg-surface-container text-primary font-label-md text-label-md flex items-center justify-center gap-space-xs active:bg-primary active:text-on-primary transition-colors" type="button">
+<span>View menu</span>
+<span class="material-symbols-outlined text-[18px]">restaurant_menu</span>
+</button>
+</div>
+</div>
+<!-- Card 3: Asanka Local Chop Bar -->
+<div class="rounded-xl bg-surface-container-low shadow-sm overflow-hidden flex flex-col">
+<div class="relative">
+<img class="w-full h-40 object-cover" data-alt="Traditional Ghanaian clay asanka bowl brimming with smooth pounded cassava and plantain fufu bathed in rich steaming goat meat light soup, garnished with garden eggs and red scotch bonnet peppers." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXsYKERbIpHgNZBM0AkUE2EN9nS2_Dezv5GvArDaN4Dgzgt8cKZAPHoS2PYb05MGmi7H-F4xhuPSLe7DQUcOP_I9YmSXW3_4G_39DkE3u_LD38jZC62CpZqPro4coi9ObDnIuV1Nj1jMpJe1USyKjsZG41lElmUavACcMfs_bZqWikKFHffAmRsSSt8Vz3HW2bNBh9-U_ZQut4JDqP9bPeJxlAqfYqTvfZvuH-Rpo"/>
+<div class="absolute top-3 left-3 px-space-sm py-1 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold">
+            Chop Bar Classic
+          </div>
+</div>
+<div class="p-space-md space-y-space-xs flex-1 flex flex-col justify-between">
+<div>
+<div class="flex items-start justify-between gap-space-xs">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Asanka Local Chop Bar</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Madina • Fufu &amp; Light Soup</p>
+</div>
+<span class="font-price-md text-price-md text-primary font-bold">GHS 50.00</span>
+</div>
+<div class="flex items-center gap-space-sm pt-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[16px] text-secondary">schedule</span> 25-35 min</span>
+<span>•</span>
+<span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[16px] text-primary">two_wheeler</span> GHS 10 delivery</span>
+</div>
+</div>
+<button class="mt-space-sm w-full min-h-[44px] rounded-lg bg-surface-container text-primary font-label-md text-label-md flex items-center justify-center gap-space-xs active:bg-primary active:text-on-primary transition-colors" type="button">
+<span>View menu</span>
+<span class="material-symbols-outlined text-[18px]">restaurant_menu</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. HOW IT WORKS -->
+<section class="p-margin space-y-space-md bg-surface-container-low">
+<div class="text-left space-y-1">
+<span class="font-label-sm text-label-sm text-secondary uppercase font-bold tracking-wider">Fast &amp; Transparent</span>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary font-bold">
+        How CibusHub works
+      </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Engineered for direct street navigation and verified gate handoffs.</p>
+</div>
+<div class="space-y-space-sm">
+<!-- Step 1 -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center font-headline-sm text-headline-sm shrink-0">
+          1
+        </div>
+<div class="space-y-0.5">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Choose your food</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Browse verified neighborhood chop bars, auntie spots, and fast kitchens cook-to-order near you.
+          </p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-full bg-secondary text-surface-container-lowest flex items-center justify-center font-headline-sm text-headline-sm shrink-0">
+          2
+        </div>
+<div class="space-y-0.5">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Pay safely with MoMo or card</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            One-tap prompts via Paystack: MTN Mobile Money, Telecel Cash, AT Money, or Ghana debit cards.
+          </p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-headline-sm text-headline-sm shrink-0">
+          3
+        </div>
+<div class="space-y-0.5">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Track your rider live</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Follow the dispatch motorbike on live maps. Share your unique 4-digit Handshake PIN at your gate.
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. PAYING IS SAFE -->
+<section class="p-margin space-y-space-md">
+<div class="p-space-lg rounded-2xl bg-surface-container shadow-sm space-y-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[28px]">verified_user</span>
+<div>
+<h2 class="font-headline-md text-headline-md text-primary font-bold">Paying is safe &amp; seamless</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Direct integration backed by Paystack Ghana</p>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface">
+        Every cedi is protected with bank-grade encryption. No driver holds cash, and funds are only finalized once your food arrives warm and complete.
+      </p>
+<!-- MoMo and Card Channel Grid -->
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="p-space-sm rounded-lg bg-surface-container-lowest flex items-center gap-space-xs shadow-sm">
+<span class="material-symbols-outlined text-secondary text-[22px]">phone_android</span>
+<span class="font-label-md text-label-md text-on-surface">MTN MoMo</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-lowest flex items-center gap-space-xs shadow-sm">
+<span class="material-symbols-outlined text-error text-[22px]">sim_card</span>
+<span class="font-label-md text-label-md text-on-surface">Telecel Cash</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-lowest flex items-center gap-space-xs shadow-sm">
+<span class="material-symbols-outlined text-primary-container text-[22px]">contactless</span>
+<span class="font-label-md text-label-md text-on-surface">AT Money</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-lowest flex items-center gap-space-xs shadow-sm">
+<span class="material-symbols-outlined text-outline text-[22px]">credit_card</span>
+<span class="font-label-md text-label-md text-on-surface">Visa &amp; Mastercard</span>
+</div>
+</div>
+<!-- Security Handshake Pin Callout -->
+<div class="p-space-sm rounded-xl bg-secondary-container text-on-secondary-container flex items-center justify-between">
+<div class="space-y-0.5">
+<span class="font-label-sm text-label-sm block uppercase tracking-wider font-bold">Gate Handshake Code</span>
+<span class="font-body-sm text-body-sm">4-digit safety release pin for rider</span>
+</div>
+<span class="font-headline-md text-headline-md tracking-widest font-mono font-bold bg-surface-container-lowest/40 px-2 py-1 rounded">
+          7492
+        </span>
+</div>
+</div>
+</section>
+<!-- 6. FOR RESTAURANTS -->
+<section class="p-margin space-y-space-md">
+<div class="p-space-lg rounded-2xl bg-surface-container-low shadow-sm space-y-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[24px]">storefront</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase font-bold tracking-wider">Kitchen Growth</span>
+</div>
+<div class="space-y-1">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary font-bold">Cook with CibusHub</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Connect your pots to thousands of hungry diners in your municipality without managing deliveries.
+        </p>
+</div>
+<div class="space-y-space-sm">
+<div class="flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5">payments</span>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Daily MoMo payouts</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Automated transfers into your MTN or Telecel business wallet every evening at 8:00 PM.</p>
+</div>
+</div>
+<div class="flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5">notifications_active</span>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Tablet order board with loud alerts</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">High-volume chimes that can be heard even over sizzling oil and busy chop bar noise.</p>
+</div>
+</div>
+<div class="flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5">two_wheeler</span>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Dedicated motorbike fleet</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Thermal boxes sealed for soup and plantain so food lands piping hot at every gate.</p>
+</div>
+</div>
+</div>
+<button class="w-full min-h-[48px] rounded-lg bg-primary text-on-primary font-label-md text-label-md font-bold flex items-center justify-center gap-space-xs shadow-md active:bg-primary-container" type="button">
+<span>Register your restaurant</span>
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- 7. FOR RIDERS -->
+<section class="p-margin space-y-space-md">
+<div class="p-space-lg rounded-2xl bg-surface-container-low shadow-sm space-y-space-md">
+<div class="flex items-center gap-space-xs">
+<!-- Dwennimmen semantic rider indicator -->
+<svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M7 16c-2.5 0-4-2-4-4s2-5 5-5c2 0 3 1.5 4 3 1-1.5 2-3 4-3 3 0 5 3 5 5s-1.5 4-4 4"></path>
+<path d="M12 10v10"></path>
+</svg>
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold tracking-wider">Dwennimmen Rider Guild</span>
+</div>
+<div class="space-y-1">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary font-bold">Ride with CibusHub</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Respect, steady Accra deliveries, and instant fuel cashouts right to your pocket.
+        </p>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-lowest space-y-space-sm">
+<h4 class="font-label-md text-label-md text-on-surface">Clear Onboarding Requirements:</h4>
+<ul class="space-y-space-xs text-on-surface-variant font-body-sm text-body-sm">
+<li class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[18px]">check_circle</span>
+            Valid Ghana Card ID
+          </li>
+<li class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[18px]">check_circle</span>
+            DVLA Class A Motorcycle Driver's Licence
+          </li>
+<li class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[18px]">check_circle</span>
+            Roadworthy, registered motorbike with helmet
+          </li>
+<li class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[18px]">check_circle</span>
+            Android or iOS smartphone with GPS
+          </li>
+</ul>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary">flash_on</span>
+<span class="font-label-sm text-label-sm text-on-surface font-bold">Instant MoMo Cashout</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">After every completed batch</span>
+</div>
+<button class="w-full min-h-[48px] rounded-lg bg-secondary text-surface-container-lowest font-label-md text-label-md font-bold flex items-center justify-center gap-space-xs shadow-md active:bg-on-secondary-container" type="button">
+<span>Become a rider</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- 8. OUR STORY -->
+<section class="p-margin space-y-space-md">
+<div class="p-space-lg rounded-2xl bg-surface-container-high shadow-sm space-y-space-md">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider font-bold">Roots &amp; Meaning</span>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary font-bold">
+        Why we built CibusHub
+      </h2>
+<div class="space-y-space-sm font-body-md text-body-md text-on-surface leading-relaxed">
+<p>
+          The name blends <strong>Cibus</strong> (the Latin root for pure sustenance, wholesome food, and shared table nourishment) with <strong>Hub</strong> (the gathering core of our Accra neighborhoods).
+        </p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          We built this platform because Accra's greatest food secrets aren't confined to multinational franchises—they live in the cast-iron pots of Aunties in Osu, roadside grill masters in Spintex, and generational chop bars in Madina.
+        </p>
+</div>
+<!-- Labelled Adinkra Founding Placeholder -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest space-y-space-xs">
+<div class="flex items-center gap-space-xs text-secondary font-label-sm text-label-sm font-bold">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M12 2a10 10 0 0 0-10 10c0 5.5 4.5 10 10 10s10-4.5 10-10A10 10 0 0 0 12 2zm0 4v4m0 4v4m-4-8h8"></path>
+</svg>
+<span>[Adinkra Placeholder: Gye Nyame — Founding Heritage]</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant italic">
+          “Except God, I fear none.” CibusHub stands for deep cultural endurance, honest kitchen livelihoods, and dignified service across Ghanaian tables.
+        </p>
+<span class="font-label-sm text-label-sm text-outline block">
+          *Note: Symbol preserved solely within our cultural story archive, not reused as a system UI icon.
+        </span>
+</div>
+</div>
+</section>
+<!-- 9. FAQ -->
+<section class="p-margin space-y-space-md">
+<div class="space-y-1">
+<span class="font-label-sm text-label-sm text-secondary uppercase font-bold tracking-wider">Clarity &amp; Help</span>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary font-bold">
+        Frequently asked questions
+      </h2>
+</div>
+<div class="space-y-space-xs" id="faq-accordion">
+<!-- Item 1 -->
+<div class="rounded-xl bg-surface-container-low overflow-hidden">
+<button class="faq-toggle w-full min-h-[48px] p-space-md text-left flex items-center justify-between gap-space-xs" type="button">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Which Accra areas do you deliver to?</span>
+<span class="material-symbols-outlined text-outline transition-transform duration-200">expand_more</span>
+</button>
+<div class="faq-content px-space-md pb-space-md hidden font-body-sm text-body-sm text-on-surface-variant">
+          We cover East Legon, Airport Residential, Osu, Labone, Cantonments, Dzorwulu, Madina, Spintex Road, Tema (Comm 1-12), Achimota, and Dansoman. New clusters open every month.
+        </div>
+</div>
+<!-- Item 2 -->
+<div class="rounded-xl bg-surface-container-low overflow-hidden">
+<button class="faq-toggle w-full min-h-[48px] p-space-md text-left flex items-center justify-between gap-space-xs" type="button">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">How are delivery fees calculated?</span>
+<span class="material-symbols-outlined text-outline transition-transform duration-200">expand_more</span>
+</button>
+<div class="faq-content px-space-md pb-space-md hidden font-body-sm text-body-sm text-on-surface-variant">
+          Delivery starts at a flat base of <strong>GHS 8.00</strong> + <strong>GHS 2.50 per kilometer</strong> from the restaurant kitchen to your exact gate location. No hidden surge multipliers during rain.
+        </div>
+</div>
+<!-- Item 3 -->
+<div class="rounded-xl bg-surface-container-low overflow-hidden">
+<button class="faq-toggle w-full min-h-[48px] p-space-md text-left flex items-center justify-between gap-space-xs" type="button">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">What payment methods are supported?</span>
+<span class="material-symbols-outlined text-outline transition-transform duration-200">expand_more</span>
+</button>
+<div class="faq-content px-space-md pb-space-md hidden font-body-sm text-body-sm text-on-surface-variant">
+          We accept MTN Mobile Money, Telecel Cash, AT Money, and all local and international Visa / Mastercard debit and credit cards powered safely by Paystack Ghana.
+        </div>
+</div>
+<!-- Item 4 -->
+<div class="rounded-xl bg-surface-container-low overflow-hidden">
+<button class="faq-toggle w-full min-h-[48px] p-space-md text-left flex items-center justify-between gap-space-xs" type="button">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">What is your refund policy?</span>
+<span class="material-symbols-outlined text-outline transition-transform duration-200">expand_more</span>
+</button>
+<div class="faq-content px-space-md pb-space-md hidden font-body-sm text-body-sm text-on-surface-variant">
+          If an item is missing or spills on the motorbike, snap a photo in the app within 15 minutes. Our system triggers an instant MoMo refund directly back into your mobile wallet.
+        </div>
+</div>
+<!-- Item 5 -->
+<div class="rounded-xl bg-surface-container-low overflow-hidden">
+<button class="faq-toggle w-full min-h-[48px] p-space-md text-left flex items-center justify-between gap-space-xs" type="button">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">How do I reach customer support?</span>
+<span class="material-symbols-outlined text-outline transition-transform duration-200">expand_more</span>
+</button>
+<div class="faq-content px-space-md pb-space-md hidden font-body-sm text-body-sm text-on-surface-variant space-y-space-xs">
+<p>Our dedicated Accra dispatch center is open daily from 6:30 AM to 11:30 PM.</p>
+<p class="font-body-md-bold text-body-md-bold text-primary">Call: +233 30 200 4567</p>
+<p class="font-body-sm text-body-sm text-secondary">Direct WhatsApp: +233 55 900 4567</p>
+</div>
+</div>
+</div>
+</section>
+<!-- 10. FOOTER -->
+<footer class="p-margin bg-surface-container space-y-space-lg rounded-t-3xl">
+<div class="space-y-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[28px]">restaurant_menu</span>
+<span class="font-headline-md text-headline-md text-primary font-bold">CibusHub</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+        Accra's culinary network connecting traditional cauldrons and modern kitchens with fast gate delivery.
+      </p>
+</div>
+<!-- Quick Navigation Links (Min 44px Touch Targets) -->
+<div class="grid grid-cols-2 gap-space-xs">
+<a class="min-h-[44px] flex items-center font-label-md text-label-md text-on-surface hover:text-primary" href="#">
+        Browse Food
+      </a>
+<a class="min-h-[44px] flex items-center font-label-md text-label-md text-on-surface hover:text-primary" href="#">
+        Partner Restaurants
+      </a>
+<a class="min-h-[44px] flex items-center font-label-md text-label-md text-on-surface hover:text-primary" href="#">
+        Become a Rider
+      </a>
+<a class="min-h-[44px] flex items-center font-label-md text-label-md text-on-surface hover:text-primary" href="#">
+        Help &amp; FAQs
+      </a>
+<a class="min-h-[44px] flex items-center font-label-md text-label-md text-on-surface hover:text-primary" href="#">
+        Safety Handshake
+      </a>
+<a class="min-h-[44px] flex items-center font-label-md text-label-md text-on-surface hover:text-primary" href="#">
+        Terms of Service
+      </a>
+</div>
+<!-- Contact & Social Details -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest space-y-space-xs">
+<span class="font-label-sm text-label-sm text-secondary font-bold block uppercase tracking-wider">Accra Dispatch HQ</span>
+<p class="font-body-sm text-body-sm text-on-surface">Liberation Road, Airport City, Accra, Ghana</p>
+<div class="flex items-center gap-space-md pt-space-xs">
+<a aria-label="Call CibusHub" class="min-h-[44px] min-w-[44px] rounded-lg bg-surface-container flex items-center justify-center text-primary" href="tel:+233302004567">
+<span class="material-symbols-outlined text-[20px]">call</span>
+</a>
+<a aria-label="Chat on WhatsApp" class="min-h-[44px] min-w-[44px] rounded-lg bg-surface-container flex items-center justify-center text-primary" href="#">
+<span class="material-symbols-outlined text-[20px]">chat</span>
+</a>
+<a aria-label="Visit Instagram" class="min-h-[44px] min-w-[44px] rounded-lg bg-surface-container flex items-center justify-center text-primary" href="#">
+<span class="material-symbols-outlined text-[20px]">photo_camera</span>
+</a>
+</div>
+</div>
+<!-- Cultural Anchor Statement -->
+<div class="pt-space-xs text-center space-y-1">
+<p class="font-body-sm-bold text-body-sm-bold text-primary">
+        Crafted in Accra, Ghana. All prices in GHS.
+      </p>
+<p class="font-label-sm text-label-sm text-outline">
+        © 2025 CibusHub Ghana Technologies Ltd. Nyame Dua Protected.
+      </p>
+</div>
+</footer>
+</div>
+<script>
+  (function() {
+    // 1. Current Location Simulator
+    const geoBtn = document.getElementById('geo-btn');
+    const geoText = document.getElementById('geo-text');
+    const locationInput = document.getElementById('delivery-location');
+
+    if (geoBtn && locationInput) {
+      geoBtn.addEventListener('click', function() {
+        geoText.textContent = 'Detecting GPS in Accra...';
+        setTimeout(function() {
+          locationInput.value = 'East Legon, Lagos Avenue (Near Shell)';
+          geoText.textContent = 'Location pinned: East Legon';
+        }, 600);
+      });
+    }
+
+    // 2. Touch-friendly FAQ Accordion
+    const faqToggles = document.querySelectorAll('.faq-toggle');
+    faqToggles.forEach(function(toggle) {
+      toggle.addEventListener('click', function() {
+        const content = this.nextElementSibling;
+        const icon = this.querySelector('.material-symbols-outlined');
+        const isHidden = content.classList.contains('hidden');
+
+        // Close all others
+        document.querySelectorAll('.faq-content').forEach(function(el) {
+          el.classList.add('hidden');
+        });
+        document.querySelectorAll('.faq-toggle .material-symbols-outlined').forEach(function(ic) {
+          ic.style.transform = 'rotate(0deg)';
+        });
+
+        if (isHidden) {
+          content.classList.remove('hidden');
+          if (icon) icon.style.transform = 'rotate(180deg)';
+        }
+      });
+    });
+  })();
+</script></main></body></html>

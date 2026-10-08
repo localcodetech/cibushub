@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400&amp;family=Epilogue:ital,wght@0,600;0,700;0,800;1,600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"inverse-surface":"#392e25","on-surface-variant":"#414943","tertiary-fixed":"#ffdad2","on-tertiary-container":"#ec7f63","outline-variant":"#c1c8c2","on-primary":"#ffffff","on-secondary-fixed-variant":"#5d4200","on-surface":"#231a11","tertiary-fixed-dim":"#ffb4a2","primary-container":"#123c2a","on-tertiary-fixed":"#3c0700","tertiary":"#430900","surface":"#fff8f5","secondary-container":"#fcca66","primary":"#002517","surface-container":"#feeadc","secondary":"#7b5900","primary-fixed":"#c0edd2","on-primary-fixed-variant":"#264e3b","on-secondary-container":"#755400","error-container":"#ffdad6","surface-bright":"#fff8f5","secondary-fixed":"#ffdea4","on-tertiary-fixed-variant":"#7e2b16","surface-container-high":"#f8e5d6","on-error":"#ffffff","on-tertiary":"#ffffff","on-error-container":"#93000a","surface-variant":"#f2dfd1","background":"#fff8f5","on-primary-fixed":"#002113","surface-container-low":"#fff1e8","surface-container-lowest":"#ffffff","tertiary-container":"#651a06","surface-tint":"#3e6752","error":"#ba1a1a","on-secondary-fixed":"#261900","surface-container-highest":"#f2dfd1","primary-fixed-dim":"#a4d0b7","on-secondary":"#ffffff","inverse-primary":"#a4d0b7","secondary-fixed-dim":"#f0bf5c","inverse-on-surface":"#ffeee1","outline":"#717973","on-primary-container":"#7ca78f","surface-dim":"#e9d7c8","on-background":"#231a11"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-xs":"0.25rem","gutter-desktop":"1.5rem","gutter":"1rem","space-sm":"0.5rem","margin":"1rem","space-xl":"2rem","margin-desktop":"2.5rem","margin-tablet":"1.5rem","space-md":"1rem","space-lg":"1.5rem"},"fontFamily":{"body-md-bold":["Atkinson Hyperlegible Next"],"headline-lg-mobile":["Epilogue"],"price-md":["Atkinson Hyperlegible Next"],"headline-md":["Epilogue"],"price-lg":["Atkinson Hyperlegible Next"],"body-sm-bold":["Atkinson Hyperlegible Next"],"headline-xl":["Epilogue"],"headline-xl-mobile":["Epilogue"],"body-sm":["Atkinson Hyperlegible Next"],"headline-lg":["Epilogue"],"headline-sm":["Epilogue"],"label-md":["Atkinson Hyperlegible Next"],"body-lg":["Atkinson Hyperlegible Next"],"body-md":["Atkinson Hyperlegible Next"],"label-sm":["Atkinson Hyperlegible Next"]},"fontSize":{"body-md-bold":["16px",{"lineHeight":"24px","fontWeight":"700"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","fontWeight":"700"}],"price-md":["16px",{"lineHeight":"20px","fontWeight":"700"}],"headline-md":["22px",{"lineHeight":"28px","fontWeight":"700"}],"price-lg":["20px",{"lineHeight":"24px","fontWeight":"700"}],"body-sm-bold":["14px",{"lineHeight":"20px","fontWeight":"700"}],"headline-xl":["36px",{"lineHeight":"44px","fontWeight":"800"}],"headline-xl-mobile":["28px",{"lineHeight":"36px","fontWeight":"800"}],"body-sm":["14px",{"lineHeight":"20px","fontWeight":"400"}],"headline-lg":["28px",{"lineHeight":"36px","fontWeight":"700"}],"headline-sm":["18px",{"lineHeight":"24px","fontWeight":"600"}],"label-md":["14px",{"lineHeight":"18px","fontWeight":"700"}],"body-lg":["18px",{"lineHeight":"28px","fontWeight":"400"}],"body-md":["16px",{"lineHeight":"24px","fontWeight":"400"}],"label-sm":["12px",{"lineHeight":"16px","fontWeight":"700"}]}}}};</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="h-16 px-gutter flex items-center justify-between bg-primary-container text-on-primary"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container"><span class="material-symbols-outlined text-[20px]">radar</span></div><div><div class="font-headline-sm text-headline-sm tracking-tight text-surface-container-lowest leading-none">CibusHub</div><div class="font-label-sm text-label-sm text-primary-fixed uppercase tracking-wider mt-0.5">Ops HQ • Accra</div></div></div><div class="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-secondary-fixed" title="Adinkrahene Authority Key"><span class="material-symbols-outlined text-[16px]">verified</span></div></div><div class="px-gutter py-space-sm bg-surface-container"><div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm"><span class="uppercase font-bold tracking-wider">Node Scope</span><span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-bold text-[10px]">GREATER ACCRA</span></div></div><nav class="flex flex-col gap-1 p-space-sm mt-space-xs" data-active-classes="bg-primary-container text-on-primary font-body-sm-bold text-body-sm-bold rounded-lg shadow-[0_1px_4px_rgba(0,0,0,0.08)]"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="overview-and-live-radar" href="#"><span class="material-symbols-outlined text-[20px]">hub</span><span>Overview &amp; Live Radar</span></a><a aria-current="page" class="flex items-center justify-between px-space-md py-space-sm transition-all bg-primary-container text-on-primary font-body-sm-bold text-body-sm-bold rounded-lg shadow-[0_1px_4px_rgba(0,0,0,0.08)]" data-path="approvals-queue" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">how_to_reg</span><span>Approvals Queue</span></div><span class="px-1.5 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm">14</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="order-management" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">local_shipping</span><span>Order Management</span></div><span class="px-1.5 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">LIVE</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="payments-and-refunds" href="#"><span class="material-symbols-outlined text-[20px]">account_balance_wallet</span><span>Payments &amp; Refunds</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="audit-log" href="#"><span class="material-symbols-outlined text-[20px]">shield_lock</span><span>Audit Log</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="platform-settings" href="#"><span class="material-symbols-outlined text-[20px]">tune</span><span>Platform Settings</span></a></nav></div><div class="p-space-sm flex flex-col gap-space-sm bg-surface-container-low"><div class="p-space-sm rounded-lg bg-surface-container flex flex-col gap-1.5"><div class="flex items-center justify-between text-on-surface font-label-sm text-label-sm"><span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-tertiary">shield</span>Emergency Brake</span><span class="font-bold text-on-surface-variant">ACTIVE</span></div><button class="w-full h-9 rounded-lg bg-tertiary text-on-tertiary font-body-sm-bold text-body-sm-bold flex items-center justify-center gap-1.5 shadow-[0_1px_4px_rgba(0,0,0,0.08)] hover:bg-tertiary-container hover:text-on-tertiary-container transition-all" type="button"><span class="material-symbols-outlined text-[18px]">pause_circle</span>Platform Kill Switch</button></div><div class="flex items-center justify-between px-space-sm py-space-xs text-on-surface-variant font-label-sm text-label-sm"><span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-primary"></span>Accra East Core</span><span class="font-mono">v2.4.0-gh</span></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40"><div class="h-16 w-full px-gutter-desktop flex items-center justify-between"><div class="flex items-center gap-gutter"><div class="flex items-center gap-2 px-space-sm py-1 rounded-lg bg-surface-container font-body-sm-bold text-body-sm-bold text-on-surface"><span class="material-symbols-outlined text-[18px] text-secondary">schedule</span><span>ACCRA (GMT+0)</span><span class="font-mono text-primary font-bold">13:42:09</span></div><div class="hidden xl:flex items-center gap-space-md"><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm"><span class="w-2 h-2 rounded-full bg-primary"></span><span>GHIPSS Live</span></div><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm"><span class="w-2 h-2 rounded-full bg-primary"></span><span>Paystack Switch</span></div><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm"><span class="w-2 h-2 rounded-full bg-primary"></span><span>SMS M-Notify 99.8%</span></div></div></div><div class="flex items-center gap-space-md"><div class="relative flex items-center"><button class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span></button><span class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-[10px] flex items-center justify-center font-bold">7</span></div><div class="h-8 w-px bg-outline-variant"></div><div class="flex items-center gap-space-sm"><div class="text-right hidden sm:block"><div class="font-body-sm-bold text-body-sm-bold text-on-surface leading-tight">Kofi Mensah, CISSP</div><div class="font-label-sm text-label-sm text-secondary font-bold leading-tight">Super Admin • HQ Accra</div></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-[0_1px_4px_rgba(0,0,0,0.08)]"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><button class="p-1 text-on-surface-variant hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">unfold_more</span></button></div></div></div></header><main class="w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Top Command Strip & Operational SLA Header -->
+<div class="px-gutter-desktop py-space-md flex flex-col md:flex-row md:items-center md:justify-between gap-space-md bg-surface-container-low shadow-sm">
+<div class="flex flex-col gap-0.5">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface">Partner Approvals Desk</span>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm uppercase tracking-wide">High Priority Queue</span>
+</div>
+<div class="flex items-center gap-space-sm text-on-surface-variant font-body-sm text-body-sm">
+<span>Statutory Compliance Validation</span>
+<span class="text-outline">•</span>
+<span>Accra Metropolitan Area • Node 02</span>
+</div>
+</div>
+<!-- SLA Counter Tile -->
+<div class="flex items-center gap-space-md p-space-sm rounded-xl bg-surface shadow-sm">
+<div class="w-10 h-10 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-[22px]">timer</span>
+</div>
+<div class="flex flex-col pr-space-xs">
+<div class="flex items-center gap-1.5">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">4.2h</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">(-38% SLA Burn)</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Average review turnaround • Target &lt; 24h</span>
+</div>
+<div class="hidden lg:flex items-center gap-2 pl-space-sm">
+<div class="w-20 h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="w-3/4 h-full bg-primary-container rounded-full"></div>
+</div>
+<span class="font-label-sm text-label-sm font-bold text-primary">Healthy</span>
+</div>
+</div>
+</div>
+<!-- Segmented Navigation Filter Strip -->
+<div class="px-gutter-desktop py-space-sm bg-surface flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+<button class="px-space-md h-9 rounded-lg bg-primary-container text-on-primary font-body-sm-bold text-body-sm-bold flex items-center gap-2 shadow-sm transition-all" type="button">
+<span>All Pending</span>
+<span class="px-1.5 py-0.2 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold">14</span>
+</button>
+<button class="px-space-md h-9 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-body-sm-bold text-body-sm-bold flex items-center gap-2 transition-all" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary">storefront</span>
+<span>Restaurant Partners</span>
+<span class="px-1.5 py-0.2 rounded-full bg-surface-container-highest text-on-surface-variant text-[11px]">8</span>
+</button>
+<button class="px-space-md h-9 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-body-sm-bold text-body-sm-bold flex items-center gap-2 transition-all" type="button">
+<span class="material-symbols-outlined text-[16px] text-primary">two_wheeler</span>
+<span>Riders &amp; Couriers</span>
+<span class="px-1.5 py-0.2 rounded-full bg-surface-container-highest text-on-surface-variant text-[11px]">6</span>
+</button>
+<button class="px-space-md h-9 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container font-body-sm text-body-sm flex items-center gap-1.5 transition-all" type="button">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span>Approved History</span>
+</button>
+<button class="px-space-md h-9 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container font-body-sm text-body-sm flex items-center gap-1.5 transition-all" type="button">
+<span class="material-symbols-outlined text-[16px]">archive</span>
+<span>Rejected Archive</span>
+</button>
+</div>
+<div class="flex items-center gap-2 w-full sm:w-auto">
+<div class="relative flex-1 sm:w-64">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant text-[18px]">search</span>
+<input class="w-full h-9 pl-9 pr-3 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm placeholder:text-outline focus:outline-none focus:bg-surface shadow-sm" placeholder="Search Ghana Card, PIN or Hub..." type="text"/>
+</div>
+<button class="h-9 px-3 rounded-lg bg-surface-container flex items-center gap-1.5 text-on-surface font-body-sm-bold text-body-sm-bold hover:bg-surface-container-high" type="button">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+<span class="hidden md:inline">Sort: Age</span>
+</button>
+</div>
+</div>
+<!-- Master-Detail Split Canvas -->
+<div class="px-gutter-desktop py-space-md grid grid-cols-1 xl:grid-cols-12 gap-space-md items-start">
+<!-- LEFT PANEL: Applicant Roster (5 cols on xl) -->
+<div class="xl:col-span-5 flex flex-col gap-space-sm">
+<div class="flex items-center justify-between px-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span>PENDING VERIFICATION QUEUE (4 OF 14 DISPLAYED)</span>
+<span class="flex items-center gap-1 text-primary"><span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>Live Polling</span>
+</div>
+<!-- Item 1: SELECTED (Auntie Muni Kitchen) -->
+<div class="p-space-md rounded-xl bg-surface-container-low shadow-md relative overflow-hidden transition-all cursor-pointer">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary-container"></div>
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-11 h-11 rounded-lg bg-surface-container flex items-center justify-center text-primary-container shadow-sm">
+<span class="material-symbols-outlined text-[24px]">soup_kitchen</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Auntie Muni Kitchen</span>
+<span class="px-1.5 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-[10px]">CHOP BAR</span>
+</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">Ref #APP-GH-2024-8841</div>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-[11px] font-bold">2h ago</span>
+</div>
+<div class="mt-space-sm grid grid-cols-2 gap-space-xs text-on-surface-variant font-body-sm text-body-sm pt-space-xs">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">pin_drop</span>
+<span class="truncate">East Legon Hub • GA-492</span>
+</div>
+<div class="flex items-center gap-1.5 justify-end">
+<span class="material-symbols-outlined text-[16px] text-primary">verified_user</span>
+<span>2/3 Audits Cleared</span>
+</div>
+</div>
+<div class="mt-2 pt-2 flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center gap-1 text-on-surface">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>Waiting: Physical Sanitation Audit</span>
+</div>
+<span class="text-primary-container font-bold flex items-center gap-0.5">Active Inspect <span class="material-symbols-outlined text-[14px]">arrow_forward</span></span>
+</div>
+</div>
+<!-- Item 2: Kofi Mensah (Rider) -->
+<div class="p-space-md rounded-xl bg-surface-container shadow-sm hover:bg-surface-container-high transition-all cursor-pointer">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-11 h-11 rounded-lg bg-surface-container-low flex items-center justify-center text-secondary shadow-sm">
+<span class="material-symbols-outlined text-[24px]">sports_motorsports</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Kofi Mensah</span>
+<span class="px-1.5 py-0.5 rounded bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-[10px]">RIDER</span>
+</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">Ref #RID-GH-2024-3912</div>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-lowest text-on-surface-variant font-label-sm text-[11px]">3h ago</span>
+</div>
+<div class="mt-space-sm flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<div class="flex items-center gap-1.5 truncate">
+<span class="material-symbols-outlined text-[16px] text-secondary">moped</span>
+<span class="truncate">Royal 125cc (GW-4029-22)</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">East Legon Depot</span>
+</div>
+</div>
+<!-- Item 3: Asanka Local Chop Bar -->
+<div class="p-space-md rounded-xl bg-surface-container shadow-sm hover:bg-surface-container-high transition-all cursor-pointer">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-11 h-11 rounded-lg bg-surface-container-low flex items-center justify-center text-primary-container shadow-sm">
+<span class="material-symbols-outlined text-[24px]">restaurant</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Asanka Local Chop Bar</span>
+<span class="px-1.5 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-[10px]">RESTAURANT</span>
+</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">Ref #APP-GH-2024-8790</div>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-lowest text-on-surface-variant font-label-sm text-[11px]">4h ago</span>
+</div>
+<div class="mt-space-sm flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">pin_drop</span>
+<span>Osu Oxford St • Accra Central</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-[10px] font-bold">AMA Expired?</span>
+</div>
+</div>
+<!-- Item 4: Emmanuel Tetteh (Rider) -->
+<div class="p-space-md rounded-xl bg-surface-container shadow-sm hover:bg-surface-container-high transition-all cursor-pointer">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-11 h-11 rounded-lg bg-surface-container-low flex items-center justify-center text-secondary shadow-sm">
+<span class="material-symbols-outlined text-[24px]">sports_motorsports</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Emmanuel Tetteh</span>
+<span class="px-1.5 py-0.5 rounded bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-[10px]">RIDER</span>
+</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">Ref #RID-GH-2024-3891</div>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-lowest text-on-surface-variant font-label-sm text-[11px]">5h ago</span>
+</div>
+<div class="mt-space-sm flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<div class="flex items-center gap-1.5 truncate">
+<span class="material-symbols-outlined text-[16px] text-secondary">moped</span>
+<span class="truncate">Haojue 150cc (GE-1192-23)</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Circle Hub Core</span>
+</div>
+</div>
+<!-- Pagination Mini Foot -->
+<div class="flex items-center justify-between px-space-xs py-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span>Showing 4 of 14 queue items</span>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface hover:bg-surface-container-high disabled:opacity-40" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface hover:bg-surface-container-high" type="button">
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- RIGHT PANEL: Detail Inspection Canvas (7 cols on xl) -->
+<div class="xl:col-span-7 flex flex-col gap-space-md">
+<!-- Primary Detail Box for Auntie Muni Kitchen -->
+<div class="rounded-xl bg-surface-container-low shadow-md overflow-hidden">
+<!-- Header Banner & Adinkrahene Stamp -->
+<div class="p-space-md bg-surface-container flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-sm">
+<div class="w-14 h-14 rounded-xl bg-primary-container text-on-primary flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-[32px]">soup_kitchen</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-on-surface">Auntie Muni Kitchen</span>
+<!-- Semantic Adinkrahene badge representing accredited vendor -->
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold flex items-center gap-1" title="Adinkrahene Quality Trust Candidate">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+<span>Authentic Kitchen</span>
+</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                Application Intake Ref: <span class="font-mono font-bold text-on-surface">APP-GH-2024-8841</span> • Submitted Today at 11:24 GMT
+              </div>
+</div>
+</div>
+<div class="flex md:flex-col items-end justify-between md:justify-center gap-1">
+<span class="px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-bold">
+              PENDING FINAL KYC CHECK
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Assigned to: Kofi Mensah (HQ)</span>
+</div>
+</div>
+<!-- Section 1: Merchant & Location Profile (Ghanaian Grounded Data) -->
+<div class="p-space-md flex flex-col gap-space-md">
+<div>
+<div class="font-label-sm text-label-sm text-secondary uppercase font-bold tracking-wider mb-space-xs">Applicant Credentials &amp; Settlement Target</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+<!-- Legal Representative -->
+<div class="p-space-sm rounded-lg bg-surface shadow-sm flex flex-col gap-0.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Proprietor / Legal Signatory</span>
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Hajia Muni Zuwera</span>
+<div class="flex items-center gap-1 mt-1 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] text-primary">badge</span>
+<span class="font-mono">Ghana Card: GHA-729104829-1</span>
+</div>
+</div>
+<!-- Settlement Mobile Money -->
+<div class="p-space-sm rounded-lg bg-surface shadow-sm flex flex-col gap-0.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Merchant Payout Wallet (GhIPSS Verified)</span>
+<div class="flex items-center gap-2">
+<span class="font-body-md-bold text-body-md-bold text-on-surface font-mono">+233 24 412 3456</span>
+<span class="px-1.5 py-0.5 rounded bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-[10px] font-bold">MTN MoMo Merchant</span>
+</div>
+<div class="flex items-center gap-1 mt-1 text-primary font-label-sm text-label-sm">
+<!-- Nyame Dua semantic confirmation placeholder -->
+<span class="material-symbols-outlined text-[16px]">security</span>
+<span>Account Match: "AUNTIE MUNI SERVICES LTD"</span>
+</div>
+</div>
+<!-- Location Details -->
+<div class="p-space-sm rounded-lg bg-surface shadow-sm flex flex-col gap-0.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">GhanaPost GPS Digital Address</span>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-secondary">explore</span>
+<span class="font-body-md-bold text-body-md-bold text-on-surface font-mono">GA-492-3810</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">14 Boundary Road, East Legon, Accra</span>
+</div>
+<!-- Daily Preparation Window -->
+<div class="p-space-sm rounded-lg bg-surface shadow-sm flex flex-col gap-0.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Operating Capacity &amp; Category</span>
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Waakye Speciality Kitchen</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Expected volume: 180 - 240 boxes / day</span>
+</div>
+</div>
+</div>
+<!-- Section 2: Statutory Compliance Documents (High-Fidelity Document Previews) -->
+<div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-sm text-label-sm text-secondary uppercase font-bold tracking-wider">Statutory Licenses &amp; Physical Evidence</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Click preview to enlarge hi-res asset</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
+<!-- Doc 1: Ghana FDA Permit -->
+<div class="p-space-sm rounded-xl bg-surface shadow-sm flex flex-col justify-between group">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-[10px] font-bold">GHANA FDA CLEARANCE</span>
+<span class="material-symbols-outlined text-[18px] text-primary">verified</span>
+</div>
+<div class="my-space-sm relative rounded-lg overflow-hidden bg-surface-container aspect-[4/3] flex items-center justify-center">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Official high-contrast Ghana Food and Drugs Authority hygiene compliance certificate document with gold embossed security crest, official stamp, and registration text on crisp parchment background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1PslSV3NUqYK6Md9OBOSA9CQ21dvXTPAFksKKLBPfN8zLFS9DeACe42RwWistzp_3RYEHUsdCfXCm0gPbAbraiUN2XW33TadlLLY_N1fI-0di4KECitB91MP1o1RgWURi9ajTu55FJOI_NNoxjWBWIodJBI0U7oqqJBE6TLeQtTM_CYam9OZ1wMpdLW3_zK1ZQFA_5iXOLhNNi6GuVYAXU3EcG6tvz9dpTicfh4w"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="px-2.5 py-1 rounded bg-surface text-on-surface font-body-sm-bold text-body-sm-bold shadow-md">Inspect Permit</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface truncate">Cert #FDA/HD-2023-884</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">Valid • Expires Dec 2025</span>
+</div>
+</div>
+<!-- Doc 2: AMA Permit -->
+<div class="p-space-sm rounded-xl bg-surface shadow-sm flex flex-col justify-between group">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-[10px] font-bold">AMA OPERATING PERMIT</span>
+<span class="material-symbols-outlined text-[18px] text-secondary">verified</span>
+</div>
+<div class="my-space-sm relative rounded-lg overflow-hidden bg-surface-container aspect-[4/3] flex items-center justify-center">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Official Accra Metropolitan Assembly Business Operating Permit with purple municipal seal, dated registration serial codes, and authorized town council signature on off-white paper." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0f43Jqw_05yLd-mnkeS4TeB1Z1tmAA2bRQVzo-U4S4rqqeSyYPuMgoaoOLW7nooQR3ejIHDaWErkPGDv62WldK34ctg51W5TzpouDTSWX0eqkuwswTwD8nf59yuWq0xYtOE_c42_9K856TLDy89_QA4n8Y6ZycVEXKifTeMgRlaqTcLwDWZkem5lNibJFxVrz-FuC_tEkt0kTMbRhcxcUrqGUhYOxDlZkTerH6A0"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="px-2.5 py-1 rounded bg-surface text-on-surface font-body-sm-bold text-body-sm-bold shadow-md">Inspect Permit</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface truncate">Licence AMA-BOP-2024-0012</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Ayawaso West Sub-Metro</span>
+</div>
+</div>
+<!-- Doc 3: Kitchen Inspection Photo -->
+<div class="p-space-sm rounded-xl bg-surface shadow-sm flex flex-col justify-between group">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-[10px] font-bold">KITCHEN HYGIENE PROOF</span>
+<span class="material-symbols-outlined text-[18px] text-tertiary">photo_camera</span>
+</div>
+<div class="my-space-sm relative rounded-lg overflow-hidden bg-surface-container aspect-[4/3] flex items-center justify-center">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Vibrant, clean professional commercial kitchen in Accra with gleaming stainless steel cookware, tidy prep tables, staff wearing clean aprons and hairnets preparing authentic Ghanaian stew under warm natural daylight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLoVfCtsxCtByJFcUs9Su-IZUuiqlDba0brMmEFWTCZCehbDU-2y8Yiq6r_J8JhcSqHtho3cdUvIuw_K0w2lNXZz3VucbJv6eSTXO10O5-VIlovLtfmh6bl13vbLE2TO8tyhYUnK3BQJ0YJoyUk-bzymvcBRbWkRj7_nhvOwg5gBp5uUekBxPz-tBItFJmr4AGKeh6OCmHbc3rgSomszBQBdQEt8k9CSjop9F6BjQ"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="px-2.5 py-1 rounded bg-surface text-on-surface font-body-sm-bold text-body-sm-bold shadow-md">View Photo (1/4)</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface truncate">Prep Station &amp; Wash Area</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Photographed today 09:30 GMT</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 3: KYC Audit Verification Checklist -->
+<div class="p-space-md rounded-xl bg-surface shadow-sm">
+<div class="flex items-center justify-between mb-space-sm">
+<div>
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Compliance Officer Verification Audit</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">All mandatory checks must be signed off prior to platform dispatch entitlement.</p>
+</div>
+<span class="font-label-sm text-label-sm px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-bold">Step 3 of 3</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<!-- Check item 1 (Passed) -->
+<label class="flex items-start gap-space-sm p-space-sm rounded-lg bg-surface-container-low cursor-pointer">
+<input checked="" class="mt-1 w-5 h-5 rounded text-primary focus:ring-0 accent-primary" type="checkbox"/>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">National ID biometric cross-reference complete</span>
+<span class="px-1.5 py-0.2 rounded bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-[10px]">VERIFIED (NIA API)</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Facial photo match 98.4% with Ghana Card GHA-729104829-1 database record.</span>
+</div>
+</label>
+<!-- Check item 2 (Passed) -->
+<label class="flex items-start gap-space-sm p-space-sm rounded-lg bg-surface-container-low cursor-pointer">
+<input checked="" class="mt-1 w-5 h-5 rounded text-primary focus:ring-0 accent-primary" type="checkbox"/>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">MoMo Merchant GhIPSS settlement ping check</span>
+<span class="px-1.5 py-0.2 rounded bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-[10px]">PAYSTACK LINKED</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">1.00 GHS test deposit settled instantly to Auntie Muni Services MTN Merchant account.</span>
+</div>
+</label>
+<!-- Check item 3 (Unchecked / Pending) -->
+<label class="flex items-start gap-space-sm p-space-sm rounded-lg bg-surface-container cursor-pointer">
+<input class="mt-1 w-5 h-5 rounded text-primary focus:ring-0 accent-primary" id="sanitation-toggle" type="checkbox"/>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Physical kitchen sanitation inspection confirmed</span>
+<span class="px-1.5 py-0.2 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-[10px]">AWAITING SIGN-OFF</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Field Agent Emmanuel Boateng filed satisfactory photo report via Field Ops App.</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Section 4: Audit Action Bar (High Impact Ergonomic CTAs) -->
+<div class="pt-space-xs flex flex-col sm:flex-row items-center gap-space-sm">
+<button class="w-full sm:flex-1 h-12 rounded-lg bg-primary text-on-primary font-body-md-bold text-body-md-bold flex items-center justify-center gap-2 shadow-md hover:bg-primary-container transition-all" type="button">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+<span>Approve &amp; Activate Live Ordering</span>
+</button>
+<button class="w-full sm:w-auto px-space-md h-12 rounded-lg bg-secondary-container text-on-secondary-container font-body-md-bold text-body-md-bold flex items-center justify-center gap-2 shadow-sm hover:bg-secondary-fixed transition-all" type="button">
+<span class="material-symbols-outlined text-[20px]">mark_email_unread</span>
+<span>Request Additional Docs</span>
+</button>
+<button class="w-full sm:w-auto px-space-md h-12 rounded-lg bg-tertiary text-on-tertiary font-body-md-bold text-body-md-bold flex items-center justify-center gap-2 shadow-sm hover:bg-tertiary-container transition-all" id="open-reject-btn" type="button">
+<span class="material-symbols-outlined text-[20px]">cancel</span>
+<span>Reject with Reason</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Compliance Notes & Historical Review Log -->
+<div class="p-space-md rounded-xl bg-surface-container shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between text-on-surface">
+<span class="font-label-sm text-label-sm text-secondary uppercase font-bold tracking-wider">Internal Audit Trail • East Legon Sector</span>
+<span class="font-mono text-label-sm text-on-surface-variant">Trace: #LOG-8841-ACC</span>
+</div>
+<div class="flex flex-col gap-2 font-body-sm text-body-sm text-on-surface-variant">
+<div class="flex items-start gap-2">
+<span class="w-2 h-2 rounded-full bg-primary mt-1.5"></span>
+<span><strong class="text-on-surface">11:24 GMT:</strong> Self-onboarding application submitted via CibusHub Partner Web Portal.</span>
+</div>
+<div class="flex items-start gap-2">
+<span class="w-2 h-2 rounded-full bg-primary mt-1.5"></span>
+<span><strong class="text-on-surface">11:29 GMT:</strong> Automated Ghana Card verification handshake confirmed by GhiPSS/NIA bridge.</span>
+</div>
+<div class="flex items-start gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary mt-1.5"></span>
+<span><strong class="text-on-surface">12:05 GMT:</strong> Field Inspector E. Boateng attached Kitchen Photo Evidence Suite (3 photos uploaded).</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Ghanaian Compliance Rejection Modal / Slide-Over Sheet (Accessible & Stylized) -->
+<div class="fixed inset-0 z-50 bg-on-surface/50 backdrop-blur-xs flex items-center justify-center p-space-md transition-opacity duration-200 hidden" id="reject-modal">
+<div class="w-full max-w-xl rounded-2xl bg-surface-container-low shadow-xl overflow-hidden flex flex-col">
+<!-- Modal Header -->
+<div class="px-gutter-desktop py-space-md bg-tertiary text-on-tertiary flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-tertiary-container flex items-center justify-center text-on-tertiary">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm leading-tight">Reject Application</div>
+<div class="font-label-sm text-label-sm text-tertiary-fixed leading-tight">Auntie Muni Kitchen (Ref #APP-GH-2024-8841)</div>
+</div>
+</div>
+<button class="w-8 h-8 rounded-lg bg-tertiary-container flex items-center justify-center text-on-tertiary hover:opacity-80" id="close-reject-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Modal Body -->
+<div class="p-gutter-desktop flex flex-col gap-space-md bg-surface">
+<div>
+<label class="block font-label-sm text-label-sm text-secondary uppercase font-bold tracking-wider mb-1">
+            Mandatory Compliance Rejection Reason *
+          </label>
+<div class="relative">
+<select class="w-full h-12 px-space-md rounded-xl bg-surface-container-low text-on-surface font-body-sm-bold text-body-sm-bold appearance-none focus:outline-none focus:bg-surface shadow-sm" id="rejection-reason">
+<option value="fda">Invalid or Expired Ghana FDA Certificate</option>
+<option value="card">Unreadable / Unverified Ghana Card National ID</option>
+<option selected="" value="sanitation">Failed Physical Kitchen Sanitation Inspection</option>
+<option value="momo">Duplicate MoMo Wallet / Incompatible Merchant Type</option>
+<option value="ama">Unregistered AMA Business Operating Premises</option>
+<option value="zone">Outside Permitted Greater Accra Dispatch Radius</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3.5 text-on-surface-variant pointer-events-none text-[20px]">expand_more</span>
+</div>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-secondary uppercase font-bold tracking-wider mb-1">
+            Compliance Officer Custom Findings Note
+          </label>
+<textarea class="w-full p-space-md rounded-xl bg-surface-container-low text-on-surface font-body-sm text-body-sm placeholder:text-outline focus:outline-none focus:bg-surface shadow-sm resize-none" id="rejection-note" placeholder="Provide actionable remediation steps for the food partner..." rows="3"></textarea>
+</div>
+<!-- Automated Ghanaian SMS / Notification Preview -->
+<div class="p-space-md rounded-xl bg-surface-container shadow-sm flex flex-col gap-1.5">
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span class="flex items-center gap-1 font-bold text-primary">
+<span class="material-symbols-outlined text-[16px]">sms</span>
+<span>Automated Ghana M-Notify SMS Dispatch Preview</span>
+</span>
+<span>Recipient: +233 24 412 3456</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface text-on-surface font-mono text-label-sm leading-relaxed">
+            "CibusHub Ghana Notice: Your partner application APP-GH-2024-8841 could not be activated due to: Physical Sanitation Audit requirement not met. Please remediate and re-upload via your partner dashboard link."
+          </div>
+</div>
+<div class="p-space-sm rounded-lg bg-tertiary-fixed text-on-tertiary-fixed flex items-center gap-2 text-label-sm font-label-sm">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+<span>Rejections are logged directly into the immutable Accra Central Node regulatory ledger.</span>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="px-gutter-desktop py-space-md bg-surface-container-low flex items-center justify-end gap-space-sm">
+<button class="px-space-md h-10 rounded-lg bg-surface text-on-surface font-body-sm-bold text-body-sm-bold hover:bg-surface-container transition-colors" id="cancel-reject-btn" type="button">
+          Cancel &amp; Keep in Queue
+        </button>
+<button class="px-space-lg h-10 rounded-lg bg-tertiary text-on-tertiary font-body-sm-bold text-body-sm-bold flex items-center gap-1.5 shadow-sm hover:bg-tertiary-container transition-all" id="confirm-reject-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">rule</span>
+<span>Confirm &amp; Notify Vendor</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function () {
+    const openBtn = document.getElementById('open-reject-btn');
+    const closeBtn = document.getElementById('close-reject-btn');
+    const cancelBtn = document.getElementById('cancel-reject-btn');
+    const confirmBtn = document.getElementById('confirm-reject-btn');
+    const modal = document.getElementById('reject-modal');
+    const sanitationToggle = document.getElementById('sanitation-toggle');
+
+    function showModal() {
+      if (modal) {
+        modal.classList.remove('hidden');
+      }
+    }
+
+    function hideModal() {
+      if (modal) {
+        modal.classList.add('hidden');
+      }
+    }
+
+    if (openBtn) openBtn.addEventListener('click', showModal);
+    if (closeBtn) closeBtn.addEventListener('click', hideModal);
+    if (cancelBtn) cancelBtn.addEventListener('click', hideModal);
+
+    if (confirmBtn) {
+      confirmBtn.addEventListener('click', function () {
+        hideModal();
+        alert('Application APP-GH-2024-8841 rejected. Vendor notified via SMS on +233 24 412 3456.');
+      });
+    }
+
+    if (sanitationToggle) {
+      sanitationToggle.addEventListener('change', function (e) {
+        if (e.target.checked) {
+          e.target.parentElement.querySelector('.text-secondary-fixed').className =
+            'px-1.5 py-0.2 rounded bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-[10px]';
+          e.target.parentElement.querySelector('span:nth-child(2)').textContent = 'SIGN-OFF CONFIRMED';
+        }
+      });
+    }
+  })();
+</script></main></div></body></html>

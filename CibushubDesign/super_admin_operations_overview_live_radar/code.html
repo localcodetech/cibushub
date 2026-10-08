@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400&amp;family=Epilogue:ital,wght@0,600;0,700;0,800;1,600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"inverse-surface":"#392e25","on-surface-variant":"#414943","tertiary-fixed":"#ffdad2","on-tertiary-container":"#ec7f63","outline-variant":"#c1c8c2","on-primary":"#ffffff","on-secondary-fixed-variant":"#5d4200","on-surface":"#231a11","tertiary-fixed-dim":"#ffb4a2","primary-container":"#123c2a","on-tertiary-fixed":"#3c0700","tertiary":"#430900","surface":"#fff8f5","secondary-container":"#fcca66","primary":"#002517","surface-container":"#feeadc","secondary":"#7b5900","primary-fixed":"#c0edd2","on-primary-fixed-variant":"#264e3b","on-secondary-container":"#755400","error-container":"#ffdad6","surface-bright":"#fff8f5","secondary-fixed":"#ffdea4","on-tertiary-fixed-variant":"#7e2b16","surface-container-high":"#f8e5d6","on-error":"#ffffff","on-tertiary":"#ffffff","on-error-container":"#93000a","surface-variant":"#f2dfd1","background":"#fff8f5","on-primary-fixed":"#002113","surface-container-low":"#fff1e8","surface-container-lowest":"#ffffff","tertiary-container":"#651a06","surface-tint":"#3e6752","error":"#ba1a1a","on-secondary-fixed":"#261900","surface-container-highest":"#f2dfd1","primary-fixed-dim":"#a4d0b7","on-secondary":"#ffffff","inverse-primary":"#a4d0b7","secondary-fixed-dim":"#f0bf5c","inverse-on-surface":"#ffeee1","outline":"#717973","on-primary-container":"#7ca78f","surface-dim":"#e9d7c8","on-background":"#231a11"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-xs":"0.25rem","gutter-desktop":"1.5rem","gutter":"1rem","space-sm":"0.5rem","margin":"1rem","space-xl":"2rem","margin-desktop":"2.5rem","margin-tablet":"1.5rem","space-md":"1rem","space-lg":"1.5rem"},"fontFamily":{"body-md-bold":["Atkinson Hyperlegible Next"],"headline-lg-mobile":["Epilogue"],"price-md":["Atkinson Hyperlegible Next"],"headline-md":["Epilogue"],"price-lg":["Atkinson Hyperlegible Next"],"body-sm-bold":["Atkinson Hyperlegible Next"],"headline-xl":["Epilogue"],"headline-xl-mobile":["Epilogue"],"body-sm":["Atkinson Hyperlegible Next"],"headline-lg":["Epilogue"],"headline-sm":["Epilogue"],"label-md":["Atkinson Hyperlegible Next"],"body-lg":["Atkinson Hyperlegible Next"],"body-md":["Atkinson Hyperlegible Next"],"label-sm":["Atkinson Hyperlegible Next"]},"fontSize":{"body-md-bold":["16px",{"lineHeight":"24px","fontWeight":"700"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","fontWeight":"700"}],"price-md":["16px",{"lineHeight":"20px","fontWeight":"700"}],"headline-md":["22px",{"lineHeight":"28px","fontWeight":"700"}],"price-lg":["20px",{"lineHeight":"24px","fontWeight":"700"}],"body-sm-bold":["14px",{"lineHeight":"20px","fontWeight":"700"}],"headline-xl":["36px",{"lineHeight":"44px","fontWeight":"800"}],"headline-xl-mobile":["28px",{"lineHeight":"36px","fontWeight":"800"}],"body-sm":["14px",{"lineHeight":"20px","fontWeight":"400"}],"headline-lg":["28px",{"lineHeight":"36px","fontWeight":"700"}],"headline-sm":["18px",{"lineHeight":"24px","fontWeight":"600"}],"label-md":["14px",{"lineHeight":"18px","fontWeight":"700"}],"body-lg":["18px",{"lineHeight":"28px","fontWeight":"400"}],"body-md":["16px",{"lineHeight":"24px","fontWeight":"400"}],"label-sm":["12px",{"lineHeight":"16px","fontWeight":"700"}]}}}};</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="h-16 px-gutter flex items-center justify-between bg-primary-container text-on-primary"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container"><span class="material-symbols-outlined text-[20px]">radar</span></div><div><div class="font-headline-sm text-headline-sm tracking-tight text-surface-container-lowest leading-none">CibusHub</div><div class="font-label-sm text-label-sm text-primary-fixed uppercase tracking-wider mt-0.5">Ops HQ • Accra</div></div></div><div class="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-secondary-fixed" title="Adinkrahene Authority Key"><span class="material-symbols-outlined text-[16px]">verified</span></div></div><div class="px-gutter py-space-sm bg-surface-container"><div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm"><span class="uppercase font-bold tracking-wider">Node Scope</span><span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-bold text-[10px]">GREATER ACCRA</span></div></div><nav class="flex flex-col gap-1 p-space-sm mt-space-xs" data-active-classes="bg-primary-container text-on-primary font-body-sm-bold text-body-sm-bold rounded-lg shadow-[0_1px_4px_rgba(0,0,0,0.08)]"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="overview-and-live-radar" href="#"><span class="material-symbols-outlined text-[20px]">hub</span><span>Overview &amp; Live Radar</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="approvals-queue" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">how_to_reg</span><span>Approvals Queue</span></div><span class="px-1.5 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm">14</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="order-management" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">local_shipping</span><span>Order Management</span></div><span class="px-1.5 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">LIVE</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="payments-and-refunds" href="#"><span class="material-symbols-outlined text-[20px]">account_balance_wallet</span><span>Payments &amp; Refunds</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="audit-log" href="#"><span class="material-symbols-outlined text-[20px]">shield_lock</span><span>Audit Log</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="platform-settings" href="#"><span class="material-symbols-outlined text-[20px]">tune</span><span>Platform Settings</span></a></nav></div><div class="p-space-sm flex flex-col gap-space-sm bg-surface-container-low"><div class="p-space-sm rounded-lg bg-surface-container flex flex-col gap-1.5"><div class="flex items-center justify-between text-on-surface font-label-sm text-label-sm"><span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-tertiary">shield</span>Emergency Brake</span><span class="font-bold text-on-surface-variant">ACTIVE</span></div><button class="w-full h-9 rounded-lg bg-tertiary text-on-tertiary font-body-sm-bold text-body-sm-bold flex items-center justify-center gap-1.5 shadow-[0_1px_4px_rgba(0,0,0,0.08)] hover:bg-tertiary-container hover:text-on-tertiary-container transition-all" type="button"><span class="material-symbols-outlined text-[18px]">pause_circle</span>Platform Kill Switch</button></div><div class="flex items-center justify-between px-space-sm py-space-xs text-on-surface-variant font-label-sm text-label-sm"><span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-primary"></span>Accra East Core</span><span class="font-mono">v2.4.0-gh</span></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40"><div class="h-16 w-full px-gutter-desktop flex items-center justify-between"><div class="flex items-center gap-gutter"><div class="flex items-center gap-2 px-space-sm py-1 rounded-lg bg-surface-container font-body-sm-bold text-body-sm-bold text-on-surface"><span class="material-symbols-outlined text-[18px] text-secondary">schedule</span><span>ACCRA (GMT+0)</span><span class="font-mono text-primary font-bold">13:42:09</span></div><div class="hidden xl:flex items-center gap-space-md"><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm"><span class="w-2 h-2 rounded-full bg-primary"></span><span>GHIPSS Live</span></div><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm"><span class="w-2 h-2 rounded-full bg-primary"></span><span>Paystack Switch</span></div><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm"><span class="w-2 h-2 rounded-full bg-primary"></span><span>SMS M-Notify 99.8%</span></div></div></div><div class="flex items-center gap-space-md"><div class="relative flex items-center"><button class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span></button><span class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-[10px] flex items-center justify-center font-bold">7</span></div><div class="h-8 w-px bg-outline-variant"></div><div class="flex items-center gap-space-sm"><div class="text-right hidden sm:block"><div class="font-body-sm-bold text-body-sm-bold text-on-surface leading-tight">Kofi Mensah, CISSP</div><div class="font-label-sm text-label-sm text-secondary font-bold leading-tight">Super Admin • HQ Accra</div></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-[0_1px_4px_rgba(0,0,0,0.08)]"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><button class="p-1 text-on-surface-variant hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">unfold_more</span></button></div></div></div></header><main class="w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<div class="px-gutter-desktop py-space-lg flex flex-col gap-space-lg max-w-[1720px] mx-auto w-full">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-space-sm">
+<span class="px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm uppercase tracking-wider font-bold">Zone 01: Core Urban</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">Stream Latency: 110ms</span>
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+</div>
+<div class="flex items-baseline gap-space-sm">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Accra Core Fleet &amp; Dispatch Radar</h1>
+<span class="font-label-sm text-label-sm text-on-surface-variant hidden sm:inline-block">High-Density Operational Feed</span>
+</div>
+</div>
+<div class="flex items-center flex-wrap gap-2 bg-surface-container p-1 rounded-xl shadow-sm">
+<button class="px-3 py-1.5 rounded-lg bg-primary-container text-on-primary font-body-sm-bold text-body-sm-bold shadow-sm transition-all" data-range="today" type="button">Today</button>
+<button class="px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-body-sm-bold text-body-sm-bold transition-all" data-range="yesterday" type="button">Yesterday</button>
+<button class="px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-body-sm-bold text-body-sm-bold transition-all" data-range="7days" type="button">Past 7 Days</button>
+<button class="px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-body-sm-bold text-body-sm-bold transition-all hidden lg:block" data-range="october" type="button">Oct 2024</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface font-body-sm-bold text-body-sm-bold shadow-sm hover:bg-surface-bright transition-all" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary">date_range</span>
+<span>Custom</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-space-md">
+<div class="bg-surface-container-low rounded-xl p-space-md shadow-sm flex flex-col justify-between relative overflow-hidden group">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Today's Orders</span>
+<span class="material-symbols-outlined text-[20px] text-primary">receipt_long</span>
+</div>
+<div class="mt-space-sm">
+<div class="font-headline-xl text-headline-xl text-on-surface tracking-tight leading-none">1,428</div>
+<div class="flex items-center gap-1.5 mt-2">
+<span class="inline-flex items-center text-[12px] font-bold text-primary px-1.5 py-0.5 rounded bg-primary-fixed">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>14.2%
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">vs yesterday (1,250)</span>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span>Peak Velocity</span>
+<span class="font-mono font-bold text-on-surface">3.8 ord/min</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-space-md shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Gross Value (GMV)</span>
+<span class="material-symbols-outlined text-[20px] text-secondary">payments</span>
+</div>
+<div class="mt-space-sm">
+<div class="font-headline-lg text-headline-lg text-on-surface tracking-tight leading-tight">GHS 124,650.00</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full mt-2.5 overflow-hidden flex">
+<div class="bg-secondary-container h-full" style="width: 78%;" title="MTN MoMo: 78%"></div>
+<div class="bg-secondary h-full" style="width: 16%;" title="Telecel Cash: 16%"></div>
+<div class="bg-primary-container h-full" style="width: 6%;" title="Card: 6%"></div>
+</div>
+</div>
+<div class="mt-space-sm flex items-center justify-between font-label-sm text-[11px] text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary-container"></span>MTN 78%</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary"></span>Telecel 16%</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-primary-container"></span>Card 6%</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Order Lifecycle</span>
+<span class="material-symbols-outlined text-[20px] text-secondary">alt_route</span>
+</div>
+<div class="grid grid-cols-2 gap-2 mt-space-xs">
+<div class="bg-surface-container p-2 rounded-lg">
+<div class="font-label-sm text-[11px] text-tertiary-container font-bold uppercase">Unassigned</div>
+<div class="font-headline-sm text-headline-sm text-tertiary mt-0.5">68</div>
+</div>
+<div class="bg-surface-container p-2 rounded-lg">
+<div class="font-label-sm text-[11px] text-secondary font-bold uppercase">In Kitchen</div>
+<div class="font-headline-sm text-headline-sm text-on-surface mt-0.5">112</div>
+</div>
+<div class="bg-surface-container p-2 rounded-lg">
+<div class="font-label-sm text-[11px] text-primary font-bold uppercase">On Delivery</div>
+<div class="font-headline-sm text-headline-sm text-on-surface mt-0.5">94</div>
+</div>
+<div class="bg-surface-container p-2 rounded-lg">
+<div class="font-label-sm text-[11px] text-on-surface-variant font-bold uppercase">Delivered</div>
+<div class="font-headline-sm text-headline-sm text-on-surface mt-0.5">1,154</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Online Fleet</span>
+<span class="material-symbols-outlined text-[20px] text-primary">moped</span>
+</div>
+<div class="mt-space-sm">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-on-surface tracking-tight leading-none">182</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">Riders Live</span>
+</div>
+<div class="mt-2.5 flex flex-wrap gap-1.5 font-label-sm text-[11px]">
+<span class="px-2 py-0.5 bg-surface-container rounded-md text-on-surface">Legon: <strong>56</strong></span>
+<span class="px-2 py-0.5 bg-surface-container rounded-md text-on-surface">Osu: <strong>44</strong></span>
+<span class="px-2 py-0.5 bg-surface-container rounded-md text-on-surface">Airport: <strong>48</strong></span>
+<span class="px-2 py-0.5 bg-surface-container rounded-md text-on-surface">Spintex: <strong>34</strong></span>
+</div>
+</div>
+<div class="mt-space-sm pt-space-xs flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span>Active Capacity</span>
+<span class="font-body-sm-bold text-body-sm-bold text-primary">91.4% Allocated</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">KYC Queue</span>
+<span class="material-symbols-outlined text-[20px] text-tertiary">how_to_reg</span>
+</div>
+<div class="mt-space-sm">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-tertiary tracking-tight leading-none">14</span>
+<span class="font-label-sm text-label-sm text-tertiary font-bold">Action Needed</span>
+</div>
+<div class="mt-3 flex items-center justify-between text-on-surface font-body-sm text-body-sm">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">storefront</span>
+<span>8 Chop Bars</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">sports_motorsports</span>
+<span>6 Couriers</span>
+</div>
+</div>
+</div>
+<div class="mt-space-sm">
+<a class="w-full py-1.5 px-3 rounded-lg bg-surface-container text-on-surface font-body-sm-bold text-body-sm-bold flex items-center justify-center gap-1 hover:bg-surface-container-high transition-colors text-center" href="#">
+<span>Audit Submissions</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</a>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-tertiary">warning</span>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface tracking-wide uppercase">Critical Live Operational Alerts</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">2 Unresolved Issues</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-space-md">
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col sm:flex-row sm:items-center justify-between gap-space-md shadow-sm">
+<div class="flex items-start gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[22px]">timer_off</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded bg-tertiary text-on-tertiary font-label-sm text-[11px] font-bold">DISPATCH LAG</span>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">5 orders unassigned &gt; 3 mins</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+                Cluster in East Legon zone: <span class="font-mono text-on-surface font-bold">#CB-8496</span> (Auntie Muni Waakye), <span class="font-mono text-on-surface font-bold">#CB-8499</span> (Buka Express).
+              </p>
+</div>
+</div>
+<button class="h-11 px-space-md rounded-xl bg-primary text-on-primary font-body-sm-bold text-body-sm-bold flex items-center justify-center gap-2 shrink-0 shadow-sm hover:bg-primary-container transition-all active:scale-95" type="button">
+<span class="material-symbols-outlined text-[18px]">dynamic_form</span>
+<span>Auto-Dispatch Rebalance</span>
+</button>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col sm:flex-row sm:items-center justify-between gap-space-md shadow-sm">
+<div class="flex items-start gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[22px]">sync_problem</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded bg-secondary text-on-secondary font-label-sm text-[11px] font-bold">WEBHOOK TIMEOUT</span>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">2 Paystack MoMo Webhook Retries</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+                Telecel Cash core channel experiencing delayed handshake. In-flight transactions protected under Escrow.
+              </p>
+</div>
+</div>
+<button class="h-11 px-space-md rounded-xl bg-surface-container-lowest text-on-surface font-body-sm-bold text-body-sm-bold flex items-center justify-center gap-2 shrink-0 shadow-sm hover:bg-surface-bright transition-all" type="button">
+<span class="material-symbols-outlined text-[18px] text-secondary">lan</span>
+<span>Inspect Gateway</span>
+</button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<div class="lg:col-span-7 bg-surface-container-low rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm mb-space-md">
+<div>
+<div class="font-headline-sm text-headline-sm text-on-surface">Hourly Order Volume &amp; Peak Lunch Surge</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">11:30 - 14:00 Lunch surge trend vs. previous Thursday baseline</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1.5 font-label-sm text-label-sm text-on-surface">
+<span class="w-3 h-3 rounded-full bg-primary-container"></span>
+<span>Today</span>
+</div>
+<div class="flex items-center gap-1.5 font-label-sm text-label-sm text-on-surface-variant">
+<span class="w-3 h-1.5 rounded bg-outline-variant"></span>
+<span>Last Week</span>
+</div>
+</div>
+</div>
+<div class="w-full h-64 relative flex items-end">
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 700 220">
+<line class="text-surface-container" stroke="currentColor" stroke-dasharray="4" stroke-width="1" x1="0" x2="700" y1="40" y2="40"></line>
+<line class="text-surface-container" stroke="currentColor" stroke-dasharray="4" stroke-width="1" x1="0" x2="700" y1="100" y2="100"></line>
+<line class="text-surface-container" stroke="currentColor" stroke-dasharray="4" stroke-width="1" x1="0" x2="700" y1="160" y2="160"></line>
+<path class="text-outline-variant" d="M 20 180 Q 80 175 140 160 T 260 110 T 380 50 T 480 75 T 580 130 T 680 160" fill="none" stroke="currentColor" stroke-dasharray="6 4" stroke-width="2.5"></path>
+<path class="text-primary-container" d="M 20 190 Q 80 180 140 150 T 260 95 T 380 25 T 480 55 T 580 115 T 680 145" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-primary-container/10" d="M 20 190 Q 80 180 140 150 T 260 95 T 380 25 T 480 55 T 580 115 T 680 145 L 680 220 L 20 220 Z" fill="currentColor"></path>
+<circle class="text-secondary fill-current" cx="380" cy="25" r="6"></circle>
+<circle class="text-secondary/30 fill-current animate-ping" cx="380" cy="25" r="10"></circle>
+</svg>
+<div class="absolute top-2 left-[51%] -translate-x-1/2 bg-inverse-surface text-inverse-on-surface px-2.5 py-1 rounded-md shadow-md text-center pointer-events-none">
+<div class="font-label-sm text-[10px] uppercase tracking-wider text-secondary-fixed">Peak Rush: 12:45</div>
+<div class="font-body-sm-bold text-body-sm-bold leading-tight">312 Orders/hr</div>
+</div>
+</div>
+<div class="grid grid-cols-7 pt-space-md text-center text-on-surface-variant font-label-sm text-label-sm border-0">
+<span>09:00</span>
+<span>10:30</span>
+<span>11:30</span>
+<span class="font-bold text-primary">12:30</span>
+<span>13:30</span>
+<span>14:30</span>
+<span>15:30</span>
+</div>
+<div class="mt-space-md p-space-sm rounded-lg bg-surface-container flex items-center justify-between text-on-surface font-body-sm text-body-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">bolt</span>
+<span>Accra Central &amp; Ridge bank offices drove +22% larger bucket sizes today.</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-bold uppercase tracking-wider">High Velocity</span>
+</div>
+</div>
+<div class="lg:col-span-5 bg-surface-container-low rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<div>
+<div class="font-headline-sm text-headline-sm text-on-surface">Zone Fulfillment Latency</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Live trip duration &amp; bottleneck tracker</p>
+</div>
+<span class="px-2 py-1 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold">4 ZONES</span>
+</div>
+<div class="flex flex-col gap-space-md mt-space-md">
+<div class="bg-surface-container rounded-xl p-space-md flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">East Legon (Bawaleshie &amp; Lagos Ave)</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-primary">24 min</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 58%;"></div>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant font-label-sm text-[12px]">
+<span>Prep: 14m • Transit: 10m</span>
+<span class="text-primary font-bold">Target: &lt;30m (Optimal)</span>
+</div>
+</div>
+<div class="bg-surface-container rounded-xl p-space-md flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Osu &amp; Oxford Street Corridor</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-primary">22 min</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 48%;"></div>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant font-label-sm text-[12px]">
+<span>Prep: 12m • Transit: 10m</span>
+<span class="text-primary font-bold">Target: &lt;25m (Fastest Zone)</span>
+</div>
+</div>
+<div class="bg-surface-container rounded-xl p-space-md flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-tertiary"></span>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Spintex &amp; Manet Junction</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-tertiary">31 min</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full" style="width: 82%;"></div>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant font-label-sm text-[12px]">
+<span>Prep: 16m • Transit: 15m (Coastal Road Congestion)</span>
+<span class="text-tertiary font-bold">+6m Over Target</span>
+</div>
+</div>
+<div class="bg-surface-container rounded-xl p-space-md flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-secondary"></span>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Airport Residential &amp; Dzorwulu</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-secondary">26 min</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 64%;"></div>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant font-label-sm text-[12px]">
+<span>Prep: 15m • Transit: 11m</span>
+<span class="text-secondary font-bold">Stable</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span>Regional Fleet Speed Index</span>
+<span class="font-mono text-on-surface font-bold">96.2% On-Time SLA</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-3 h-3 rounded-full bg-secondary animate-ping"></div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Live Operations Telemetry &amp; Field Incident Stream</h2>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Filter Stream:</span>
+<button class="px-2.5 py-1 rounded bg-surface-container font-label-sm text-label-sm text-on-surface font-bold hover:bg-surface-container-high transition-colors" type="button">All Events</button>
+<button class="px-2.5 py-1 rounded bg-surface-container-highest font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-container-high transition-colors" type="button">Chop Bar Stocks</button>
+<button class="px-2.5 py-1 rounded bg-surface-container-highest font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-container-high transition-colors" type="button">Couriers</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-3 px-4 rounded-l-lg">Time</th>
+<th class="py-3 px-4">Event Type</th>
+<th class="py-3 px-4">Node / Actor</th>
+<th class="py-3 px-4">Zone</th>
+<th class="py-3 px-4">Incident Telemetry Detail</th>
+<th class="py-3 px-4 rounded-r-lg text-right">Quick Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container text-on-surface font-body-sm text-body-sm">
+<tr class="hover:bg-surface-container transition-colors">
+<td class="py-3 px-4 font-mono font-bold text-on-surface-variant">13:41:22</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">soup_kitchen</span>
+<span>Kitchen Out-of-Stock</span>
+</span>
+</td>
+<td class="py-3 px-4">
+<div class="font-body-sm-bold text-body-sm-bold">Auntie Muni Waakye</div>
+<div class="font-label-sm text-[11px] text-on-surface-variant">Partner ID: #GH-KTC-0042</div>
+</td>
+<td class="py-3 px-4">Airport Res.</td>
+<td class="py-3 px-4 text-on-surface-variant">
+                Wele &amp; Shito Big Pot fully exhausted. Menu item auto-disabled across 18 customer carts.
+              </td>
+<td class="py-3 px-4 text-right">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-body-sm-bold text-body-sm-bold hover:bg-surface-container-high transition-colors" type="button">
+                  Ack Item
+                </button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors">
+<td class="py-3 px-4 font-mono font-bold text-on-surface-variant">13:39:05</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">location_disabled</span>
+<span>Rider Signal Drop</span>
+</span>
+</td>
+<td class="py-3 px-4">
+<div class="font-body-sm-bold text-body-sm-bold">Kwame Boateng (#R-109)</div>
+<div class="font-label-sm text-[11px] text-on-surface-variant">Boxer 150 • 024-411-9082</div>
+</td>
+<td class="py-3 px-4">East Legon</td>
+<td class="py-3 px-4 text-on-surface-variant">
+                No GPS ping for 6 mins near Underbridge. Carrying order #CB-8491 (GHS 240.00). SMS ping sent.
+              </td>
+<td class="py-3 px-4 text-right">
+<button class="px-3 py-1.5 rounded-lg bg-tertiary text-on-tertiary font-body-sm-bold text-body-sm-bold hover:bg-tertiary-container transition-colors" type="button">
+                  Ping Courier
+                </button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors">
+<td class="py-3 px-4 font-mono font-bold text-on-surface-variant">13:36:48</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">currency_exchange</span>
+<span>Instant Refund Executed</span>
+</span>
+</td>
+<td class="py-3 px-4">
+<div class="font-body-sm-bold text-body-sm-bold">Esi Addo (#C-9931)</div>
+<div class="font-label-sm text-[11px] text-on-surface-variant">Telecel Cash • Accra</div>
+</td>
+<td class="py-3 px-4">Osu</td>
+<td class="py-3 px-4 text-on-surface-variant">
+                GHS 115.00 refunded via GHIPSS direct credit following missing plantain side item dispute.
+              </td>
+<td class="py-3 px-4 text-right">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-body-sm-bold text-body-sm-bold hover:bg-surface-container-high transition-colors" type="button">
+                  View Ledger
+                </button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors">
+<td class="py-3 px-4 font-mono font-bold text-on-surface-variant">13:32:10</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">soup_kitchen</span>
+<span>Prep Delay Extended</span>
+</span>
+</td>
+<td class="py-3 px-4">
+<div class="font-body-sm-bold text-body-sm-bold">Heavy Do Chop Bar</div>
+<div class="font-label-sm text-[11px] text-on-surface-variant">Partner ID: #GH-KTC-0118</div>
+</td>
+<td class="py-3 px-4">Spintex Road</td>
+<td class="py-3 px-4 text-on-surface-variant">
+                Fufu pounding bench backlog. Prep estimate extended +15m for 4 queued courier assignments.
+              </td>
+<td class="py-3 px-4 text-right">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-body-sm-bold text-body-sm-bold hover:bg-surface-container-high transition-colors" type="button">
+                  Adjust Buffer
+                </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pt-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span>Websocket Telemetry Channel: <strong>ops.node.gh-accra-east-01</strong></span>
+</div>
+<div class="flex items-center gap-3">
+<span>Showing 4 of 32 live stream events</span>
+<a class="font-body-sm-bold text-body-sm-bold text-primary hover:underline" href="#">Full Incident Console →</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    // Time picker active toggle
+    const rangeButtons = document.querySelectorAll('[data-range]');
+    rangeButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        rangeButtons.forEach(b => {
+          b.classList.remove('bg-primary-container', 'text-on-primary');
+          b.classList.add('text-on-surface-variant', 'hover:text-on-surface', 'hover:bg-surface-container-high');
+        });
+        btn.classList.add('bg-primary-container', 'text-on-primary');
+        btn.classList.remove('text-on-surface-variant', 'hover:text-on-surface', 'hover:bg-surface-container-high');
+      });
+    });
+  })();
+</script></main></div></body></html>

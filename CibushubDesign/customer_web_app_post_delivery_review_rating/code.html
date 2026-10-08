@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400..700;1,400..700&amp;family=Epilogue:ital,wght@0,600..800;1,600..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "primary-container": "#123c2a",
+        "on-tertiary-container": "#ec7f63",
+        "on-secondary-fixed": "#261900",
+        "error-container": "#ffdad6",
+        "on-primary": "#ffffff",
+        "on-surface": "#231a11",
+        "surface-dim": "#e9d7c8",
+        "tertiary-fixed-dim": "#ffb4a2",
+        "outline": "#717973",
+        "on-error": "#ffffff",
+        "on-secondary-fixed-variant": "#5d4200",
+        "tertiary": "#430900",
+        "surface-container-highest": "#f2dfd1",
+        "on-surface-variant": "#414943",
+        "secondary-container": "#fcca66",
+        "outline-variant": "#c1c8c2",
+        "surface-container-lowest": "#ffffff",
+        "on-tertiary-fixed": "#3c0700",
+        "primary-fixed-dim": "#a4d0b7",
+        "secondary": "#7b5900",
+        "inverse-surface": "#392e25",
+        "on-primary-container": "#7ca78f",
+        "primary": "#002517",
+        "tertiary-container": "#651a06",
+        "on-secondary-container": "#755400",
+        "surface-container-low": "#fff1e8",
+        "on-tertiary-fixed-variant": "#7e2b16",
+        "surface-container-high": "#f8e5d6",
+        "secondary-fixed": "#ffdea4",
+        "surface-container": "#feeadc",
+        "inverse-on-surface": "#ffeee1",
+        "tertiary-fixed": "#ffdad2",
+        "on-background": "#231a11",
+        "on-primary-fixed": "#002113",
+        "secondary-fixed-dim": "#f0bf5c",
+        "on-tertiary": "#ffffff",
+        "inverse-primary": "#a4d0b7",
+        "primary-fixed": "#c0edd2",
+        "surface-variant": "#f2dfd1",
+        "surface-tint": "#3e6752",
+        "on-primary-fixed-variant": "#264e3b",
+        "error": "#ba1a1a",
+        "background": "#fff8f5",
+        "surface": "#fff8f5",
+        "surface-bright": "#fff8f5",
+        "on-error-container": "#93000a",
+        "on-secondary": "#ffffff"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.25rem",
+        "lg": "0.5rem",
+        "xl": "0.75rem",
+        "full": "9999px"
+      },
+      "spacing": {
+        "space-xs": "0.25rem",
+        "margin": "1rem",
+        "gutter": "1rem",
+        "gutter-desktop": "1.5rem",
+        "space-lg": "1.5rem",
+        "space-md": "1rem",
+        "margin-desktop": "2.5rem",
+        "space-xl": "2rem",
+        "margin-tablet": "1.5rem",
+        "space-sm": "0.5rem"
+      },
+      "fontFamily": {
+        "headline-md": ["Epilogue"],
+        "headline-lg": ["Epilogue"],
+        "body-md-bold": ["Atkinson Hyperlegible Next"],
+        "body-md": ["Atkinson Hyperlegible Next"],
+        "price-lg": ["Atkinson Hyperlegible Next"],
+        "body-sm": ["Atkinson Hyperlegible Next"],
+        "headline-xl-mobile": ["Epilogue"],
+        "headline-sm": ["Epilogue"],
+        "label-md": ["Atkinson Hyperlegible Next"],
+        "headline-xl": ["Epilogue"],
+        "label-sm": ["Atkinson Hyperlegible Next"],
+        "headline-lg-mobile": ["Epilogue"],
+        "body-lg": ["Atkinson Hyperlegible Next"],
+        "price-md": ["Atkinson Hyperlegible Next"],
+        "body-sm-bold": ["Atkinson Hyperlegible Next"]
+      },
+      "fontSize": {
+        "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "700"}],
+        "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+        "body-md-bold": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+        "price-lg": ["20px", {"lineHeight": "24px", "fontWeight": "700"}],
+        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+        "headline-xl-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "800"}],
+        "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+        "label-md": ["14px", {"lineHeight": "18px", "fontWeight": "700"}],
+        "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "800"}],
+        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "700"}],
+        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+        "price-md": ["16px", {"lineHeight": "20px", "fontWeight": "700"}],
+        "body-sm-bold": ["14px", {"lineHeight": "20px", "fontWeight": "700"}]
+      }
+    }
+  }
+}</script><style>@layer base{html,body{width:100%;margin:0;padding:0;}body{overscroll-behavior-y:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(43,33,24,0.06)] pt-safe"><div class="h-16 px-gutter flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0"><button aria-label="Go Back" class="w-11 h-11 flex items-center justify-center text-on-surface rounded-xl hover:bg-surface-container active:bg-surface-container-high transition-colors" onclick="history.back()"><span class="material-symbols-outlined text-[22px]">arrow_back</span></button><h1 class="font-headline-sm text-headline-sm text-on-surface truncate">Customer Web App   Review &amp; Courier Tip</h1></div><div class="flex items-center gap-space-xs flex-shrink-0"><button aria-label="Support and Help" class="w-11 h-11 flex items-center justify-center text-on-surface-variant hover:text-on-surface rounded-xl hover:bg-surface-container active:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[22px]">help_outline</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full pb-safe">
+<div class="px-margin pt-space-md pb-space-lg flex flex-col gap-space-lg">
+<!-- Delivery Status & Receipt Verification Badge -->
+<div class="flex flex-col items-center text-center gap-space-xs">
+<div class="inline-flex items-center gap-space-xs px-3 py-1.5 rounded-full bg-primary-container text-on-primary shadow-sm">
+<svg class="w-4 h-4 fill-current text-secondary-container" viewbox="0 0 24 24">
+<!-- Nyame Dua semantic glyph placeholder for verified receipt -->
+<path d="M12 2L14.5 7H19.5L15.5 11L17 16.5L12 13.5L7 16.5L8.5 11L4.5 7H9.5L12 2Z"></path>
+</svg>
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Nyame Dua Verified</span>
+<span class="font-body-sm-bold text-body-sm-bold text-secondary-container">• Delivered at 12:47 PM</span>
+</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mt-1">Rate your meal experience</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Order #CB-8492 • Delivered from East Legon</p>
+</div>
+<!-- 1. Restaurant Rating Section (Mandatory) -->
+<section class="bg-surface-container-low rounded-xl p-space-md shadow-sm flex flex-col gap-space-md">
+<!-- Restaurant Header -->
+<div class="flex items-center gap-space-md">
+<div class="w-20 h-20 rounded-xl overflow-hidden shrink-0 shadow-sm relative">
+<img class="w-full h-full object-cover" data-alt="Traditional Ghanaian waakye served hot wrapped in broad green plantain leaves, garnished with seasoned boiled eggs, fried plantain slices, spaghetti, and a generous rich dark shito pepper sauce, captured in warm daylight on an Accra kitchen wooden table." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmEtLSWXDWWeLxebXkbaiIoW6TH1oOD9Hx0N8Om0dahJT5XwQZuE0hNEjLiVdn1N8I2AzIRWEuqUd6x6DCxvlm176kS3QxZjNG06Hz8h8ewyOUVVUKrwRIYYeqX6MS6b0c5nk0P4ARQmDSe9L8yYCmWYu3yfjcdwxpw37dDPuv2q5OsRwtoBpLfbbyuC-suRpVvzGZBo5qNjN9mWlt1m9_W9en9AOV4v1kbMoGmNI"/>
+<div class="absolute bottom-1 right-1 bg-primary text-on-primary rounded px-1 text-[10px] font-bold">MUNI</div>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">Auntie Muni Kitchen</span>
+<!-- Adinkrahene badge for top-rated institution -->
+<span class="bg-secondary-container text-on-secondary-container px-1.5 py-0.5 rounded text-[10px] font-bold shrink-0">Adinkrahene</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Special Waakye Combo • East Legon</p>
+<span class="font-label-sm text-label-sm text-secondary mt-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">local_fire_department</span>
+            Order freshly completed
+          </span>
+</div>
+</div>
+<!-- Food Rating Prompt -->
+<div class="flex flex-col items-center justify-center gap-space-xs py-2 bg-surface-container rounded-lg">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">How was the food?</span>
+<!-- 5 Interactive Ashanti Gold Stars -->
+<div aria-label="Restaurant food rating" class="flex items-center gap-2" id="restaurant-stars" role="radiogroup">
+<button aria-label="1 star" class="w-11 h-11 flex items-center justify-center text-secondary-container hover:scale-110 transition-transform" data-star="1" type="button">
+<span class="material-symbols-outlined text-[34px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</button>
+<button aria-label="2 stars" class="w-11 h-11 flex items-center justify-center text-secondary-container hover:scale-110 transition-transform" data-star="2" type="button">
+<span class="material-symbols-outlined text-[34px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</button>
+<button aria-label="3 stars" class="w-11 h-11 flex items-center justify-center text-secondary-container hover:scale-110 transition-transform" data-star="3" type="button">
+<span class="material-symbols-outlined text-[34px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</button>
+<button aria-label="4 stars" class="w-11 h-11 flex items-center justify-center text-secondary-container hover:scale-110 transition-transform" data-star="4" type="button">
+<span class="material-symbols-outlined text-[34px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</button>
+<button aria-label="5 stars" class="w-11 h-11 flex items-center justify-center text-outline-variant hover:scale-110 transition-transform" data-star="5" type="button">
+<span class="material-symbols-outlined text-[34px]">star</span>
+</button>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Very Good (4.0)</span>
+</div>
+<!-- Food Attribute Chips -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Highlights &amp; Feedback</span>
+<div class="flex flex-wrap gap-2" id="food-chips">
+<button class="tag-chip active-chip px-3 py-2 rounded-lg bg-primary text-on-primary font-body-sm-bold text-body-sm-bold flex items-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">done</span>
+            Hot &amp; Fresh
+          </button>
+<button class="tag-chip active-chip px-3 py-2 rounded-lg bg-primary text-on-primary font-body-sm-bold text-body-sm-bold flex items-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">done</span>
+            Authentic Taste
+          </button>
+<button class="tag-chip active-chip px-3 py-2 rounded-lg bg-primary text-on-primary font-body-sm-bold text-body-sm-bold flex items-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">done</span>
+            Banana Leaf Aroma
+          </button>
+<button class="tag-chip px-3 py-2 rounded-lg bg-surface-container text-on-surface font-body-sm text-body-sm flex items-center gap-1.5 hover:bg-surface-container-high transition-colors" type="button">
+            Generous Shito Portion
+          </button>
+<button class="tag-chip px-3 py-2 rounded-lg bg-surface-container text-on-surface font-body-sm text-body-sm flex items-center gap-1.5 hover:bg-surface-container-high transition-colors" type="button">
+            Eco Packaging
+          </button>
+<button class="tag-chip px-3 py-2 rounded-lg bg-surface-container text-error font-body-sm text-body-sm flex items-center gap-1.5 hover:bg-error-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">flag</span>
+            Missing Item
+          </button>
+</div>
+</div>
+</section>
+<!-- 2. Courier / Rider Rating Section -->
+<section class="bg-surface-container-low rounded-xl p-space-md shadow-sm flex flex-col gap-space-md">
+<!-- Rider Identity Header -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-14 h-14 rounded-full overflow-hidden shrink-0 shadow-sm relative">
+<img class="w-full h-full object-cover" data-alt="Portrait of an energetic West African delivery courier named Kofi wearing a dark forest green polo shirt and clean courier helmet, smiling warmly with bright midday Accra sunlight in the background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJ1GuKEzhhksB3ynp5QiudHoMCaFvvZr287mz4qBj27r6WN2OYSvLkDLkoDVn-sbjbrsxZEopRIzyxYkMAh1UutjQGaAonujYsaz1c8G6pGUJjkDDV4M7Hx-LCOXLihsf-OUQRk6tsOxKG8IGPQEziiMFNJzsiXguXhJDUOkdi1SsA4dxogJnvV9vj_CTBixH5yZFCejfW_2sRMnamJPMbTt6dS2NWL3JQq3xaOQI"/>
+<div class="absolute bottom-0 right-0 bg-secondary-container text-on-secondary-container rounded-full p-0.5 flex items-center justify-center">
+<span class="material-symbols-outlined text-[12px]">verified</span>
+</div>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">Kofi Mensah</span>
+<!-- Dwennimmen semantic courier honor badge -->
+<span class="bg-secondary-fixed text-on-secondary-fixed px-1.5 py-0.5 rounded text-[10px] font-bold flex items-center gap-0.5">
+                Dwennimmen
+              </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Royal 125cc Motorbike • 4.97 ★</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant italic">Optional</span>
+</div>
+<!-- Courier Stars -->
+<div class="flex flex-col items-center justify-center gap-space-xs py-2 bg-surface-container rounded-lg">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">How was Kofi's delivery?</span>
+<div aria-label="Courier delivery rating" class="flex items-center gap-2" id="courier-stars" role="radiogroup">
+<button aria-label="1 star" class="w-11 h-11 flex items-center justify-center text-secondary-container hover:scale-110 transition-transform" data-star="1" type="button">
+<span class="material-symbols-outlined text-[34px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</button>
+<button aria-label="2 stars" class="w-11 h-11 flex items-center justify-center text-secondary-container hover:scale-110 transition-transform" data-star="2" type="button">
+<span class="material-symbols-outlined text-[34px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</button>
+<button aria-label="3 stars" class="w-11 h-11 flex items-center justify-center text-secondary-container hover:scale-110 transition-transform" data-star="3" type="button">
+<span class="material-symbols-outlined text-[34px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</button>
+<button aria-label="4 stars" class="w-11 h-11 flex items-center justify-center text-secondary-container hover:scale-110 transition-transform" data-star="4" type="button">
+<span class="material-symbols-outlined text-[34px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</button>
+<button aria-label="5 stars" class="w-11 h-11 flex items-center justify-center text-secondary-container hover:scale-110 transition-transform" data-star="5" type="button">
+<span class="material-symbols-outlined text-[34px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</button>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Exceptional (5.0)</span>
+</div>
+<!-- Courier Compliments Tags -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Courier Compliments</span>
+<div class="flex flex-wrap gap-2" id="courier-chips">
+<button class="tag-chip active-chip px-3 py-2 rounded-lg bg-primary text-on-primary font-body-sm-bold text-body-sm-bold flex items-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">done</span>
+            Fast Arrival
+          </button>
+<button class="tag-chip px-3 py-2 rounded-lg bg-surface-container text-on-surface font-body-sm text-body-sm flex items-center gap-1.5 hover:bg-surface-container-high transition-colors" type="button">
+            Respected Gate Instructions
+          </button>
+<button class="tag-chip active-chip px-3 py-2 rounded-lg bg-primary text-on-primary font-body-sm-bold text-body-sm-bold flex items-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">done</span>
+            Called Before Handover
+          </button>
+<button class="tag-chip px-3 py-2 rounded-lg bg-surface-container text-on-surface font-body-sm text-body-sm flex items-center gap-1.5 hover:bg-surface-container-high transition-colors" type="button">
+            Polite &amp; Friendly
+          </button>
+<button class="tag-chip px-3 py-2 rounded-lg bg-surface-container text-on-surface font-body-sm text-body-sm flex items-center gap-1.5 hover:bg-surface-container-high transition-colors" type="button">
+            Followed GPS
+          </button>
+</div>
+</div>
+</section>
+<!-- 3. Written Feedback Textarea -->
+<section class="bg-surface-container-low rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<label class="font-headline-sm text-headline-sm text-on-surface" for="review-notes">Detailed Feedback</label>
+<span class="font-label-sm text-label-sm text-on-surface-variant" id="char-counter">142 / 500 characters</span>
+</div>
+<div class="relative w-full">
+<textarea class="w-full bg-surface-container-lowest rounded-xl p-3 text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary shadow-inner resize-none leading-relaxed" id="review-notes" maxlength="500" placeholder="Tell us about the flavours, packaging, or delivery speed... (Optional)" rows="4">The waakye was steaming hot and wrapped beautifully in banana leaf! Shito had the perfect spicy kick and Kofi called right when reaching the Shell station.</textarea>
+</div>
+</section>
+<!-- 4. Optional Courier Tip Addition -->
+<section class="bg-surface-container-low rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[22px]">payments</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Add a tip for Kofi Mensah?</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">100% goes to rider</span>
+</div>
+<!-- Tip Preset Chips -->
+<div class="grid grid-cols-5 gap-2 pt-1" id="tip-chips">
+<button class="tip-btn h-11 rounded-lg bg-surface-container text-on-surface font-body-sm-bold text-body-sm-bold flex items-center justify-center transition-all hover:bg-surface-container-high" type="button">
+          No Tip
+        </button>
+<button class="tip-btn h-11 rounded-lg bg-surface-container text-on-surface font-body-sm-bold text-body-sm-bold flex items-center justify-center transition-all hover:bg-surface-container-high" type="button">
+          GH₵ 5
+        </button>
+<button class="tip-btn active-tip h-11 rounded-lg bg-primary text-on-primary font-body-sm-bold text-body-sm-bold flex items-center justify-center shadow-sm" type="button">
+          GH₵ 10
+        </button>
+<button class="tip-btn h-11 rounded-lg bg-surface-container text-on-surface font-body-sm-bold text-body-sm-bold flex items-center justify-center transition-all hover:bg-surface-container-high" type="button">
+          GH₵ 15
+        </button>
+<button class="tip-btn h-11 rounded-lg bg-surface-container text-on-surface font-body-sm-bold text-body-sm-bold flex items-center justify-center transition-all hover:bg-surface-container-high" type="button">
+          Custom
+        </button>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant pt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-secondary">shield</span>
+        Securely added to your Mobile Money receipt.
+      </p>
+</section>
+<!-- 5. Actions / Submission CTAs -->
+<div class="flex flex-col gap-space-sm pt-2">
+<!-- Primary Forest Green Submission CTA -->
+<button class="w-full h-12 rounded-xl bg-primary text-on-primary font-body-md-bold text-body-md-bold flex items-center justify-center gap-2 shadow-md hover:bg-primary-container active:scale-[0.99] transition-all" id="submit-review-btn" type="button">
+<span>Submit Review</span>
+<span class="material-symbols-outlined text-[20px]">send</span>
+</button>
+<!-- Sankofa Reorder or Skip Link -->
+<div class="flex items-center justify-between px-2 pt-1">
+<button class="inline-flex items-center gap-1 text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors py-2" onclick="history.back()" type="button">
+<span>Skip for Now</span>
+</button>
+<button class="inline-flex items-center gap-1.5 text-secondary font-label-md text-label-md hover:underline py-2" type="button">
+<!-- Sankofa semantic return & fetch again -->
+<span class="material-symbols-outlined text-[18px]">replay</span>
+<span>Sankofa: Order Waakye Again</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Character counter for live textarea feedback
+  const textarea = document.getElementById('review-notes');
+  const counter = document.getElementById('char-counter');
+  if (textarea && counter) {
+    textarea.addEventListener('input', () => {
+      counter.textContent = `${textarea.value.length} / 500 characters`;
+    });
+  }
+
+  // Interactive Star Rating Logic
+  function setupStars(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const buttons = container.querySelectorAll('button');
+
+    buttons.forEach((btn, idx) => {
+      btn.addEventListener('click', () => {
+        buttons.forEach((b, i) => {
+          const icon = b.querySelector('.material-symbols-outlined');
+          if (i <= idx) {
+            b.className = 'w-11 h-11 flex items-center justify-center text-secondary-container hover:scale-110 transition-transform';
+            icon.style.fontVariationSettings = "'FILL' 1";
+            icon.textContent = 'star';
+          } else {
+            b.className = 'w-11 h-11 flex items-center justify-center text-outline-variant hover:scale-110 transition-transform';
+            icon.style.fontVariationSettings = "'FILL' 0";
+            icon.textContent = 'star';
+          }
+        });
+      });
+    });
+  }
+  setupStars('restaurant-stars');
+  setupStars('courier-stars');
+
+  // Toggle Highlight Tag Chips
+  function setupChips(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.querySelectorAll('.tag-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const isActive = chip.classList.contains('active-chip');
+        if (isActive) {
+          chip.classList.remove('active-chip', 'bg-primary', 'text-on-primary', 'font-body-sm-bold');
+          chip.classList.add('bg-surface-container', 'text-on-surface', 'font-body-sm');
+          const check = chip.querySelector('.material-symbols-outlined');
+          if (check && check.textContent.trim() === 'done') check.remove();
+        } else {
+          chip.classList.add('active-chip', 'bg-primary', 'text-on-primary', 'font-body-sm-bold');
+          chip.classList.remove('bg-surface-container', 'text-on-surface', 'font-body-sm');
+          if (!chip.querySelector('.material-symbols-outlined')) {
+            const check = document.createElement('span');
+            check.className = 'material-symbols-outlined text-[16px]';
+            check.textContent = 'done';
+            chip.prepend(check);
+          }
+        }
+      });
+    });
+  }
+  setupChips('food-chips');
+  setupChips('courier-chips');
+
+  // Tip Selector Logic
+  const tipButtons = document.querySelectorAll('#tip-chips .tip-btn');
+  tipButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tipButtons.forEach(b => {
+        b.className = 'tip-btn h-11 rounded-lg bg-surface-container text-on-surface font-body-sm-bold text-body-sm-bold flex items-center justify-center transition-all hover:bg-surface-container-high';
+      });
+      btn.className = 'tip-btn active-tip h-11 rounded-lg bg-primary text-on-primary font-body-sm-bold text-body-sm-bold flex items-center justify-center shadow-sm';
+    });
+  });
+
+  // Submission toast micro-interaction
+  const submitBtn = document.getElementById('submit-review-btn');
+  if (submitBtn) {
+    submitBtn.addEventListener('click', () => {
+      submitBtn.innerHTML = `
+        <span class="material-symbols-outlined text-[20px] animate-spin">refresh</span>
+        <span>Submitting Medaase...</span>
+      `;
+      submitBtn.disabled = true;
+      setTimeout(() => {
+        submitBtn.innerHTML = `
+          <span class="material-symbols-outlined text-[20px]">check_circle</span>
+          <span>Review Sent! Medaase Paa</span>
+        `;
+        submitBtn.classList.remove('bg-primary');
+        submitBtn.classList.add('bg-secondary-container', 'text-on-secondary-container');
+      }, 900);
+    });
+  }
+</script></main></body></html>
