@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400&amp;family=Epilogue:ital,wght@0,600;0,700;0,800;1,600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"inverse-surface":"#392e25","on-surface-variant":"#414943","tertiary-fixed":"#ffdad2","on-tertiary-container":"#ec7f63","outline-variant":"#c1c8c2","on-primary":"#ffffff","on-secondary-fixed-variant":"#5d4200","on-surface":"#231a11","tertiary-fixed-dim":"#ffb4a2","primary-container":"#123c2a","on-tertiary-fixed":"#3c0700","tertiary":"#430900","surface":"#fff8f5","secondary-container":"#fcca66","primary":"#002517","surface-container":"#feeadc","secondary":"#7b5900","primary-fixed":"#c0edd2","on-primary-fixed-variant":"#264e3b","on-secondary-container":"#755400","error-container":"#ffdad6","surface-bright":"#fff8f5","secondary-fixed":"#ffdea4","on-tertiary-fixed-variant":"#7e2b16","surface-container-high":"#f8e5d6","on-error":"#ffffff","on-tertiary":"#ffffff","on-error-container":"#93000a","surface-variant":"#f2dfd1","background":"#fff8f5","on-primary-fixed":"#002113","surface-container-low":"#fff1e8","surface-container-lowest":"#ffffff","tertiary-container":"#651a06","surface-tint":"#3e6752","error":"#ba1a1a","on-secondary-fixed":"#261900","surface-container-highest":"#f2dfd1","primary-fixed-dim":"#a4d0b7","on-secondary":"#ffffff","inverse-primary":"#a4d0b7","secondary-fixed-dim":"#f0bf5c","inverse-on-surface":"#ffeee1","outline":"#717973","on-primary-container":"#7ca78f","surface-dim":"#e9d7c8","on-background":"#231a11"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-xs":"0.25rem","gutter-desktop":"1.5rem","gutter":"1rem","space-sm":"0.5rem","margin":"1rem","space-xl":"2rem","margin-desktop":"2.5rem","margin-tablet":"1.5rem","space-md":"1rem","space-lg":"1.5rem"},"fontFamily":{"body-md-bold":["Atkinson Hyperlegible Next"],"headline-lg-mobile":["Epilogue"],"price-md":["Atkinson Hyperlegible Next"],"headline-md":["Epilogue"],"price-lg":["Atkinson Hyperlegible Next"],"body-sm-bold":["Atkinson Hyperlegible Next"],"headline-xl":["Epilogue"],"headline-xl-mobile":["Epilogue"],"body-sm":["Atkinson Hyperlegible Next"],"headline-lg":["Epilogue"],"headline-sm":["Epilogue"],"label-md":["Atkinson Hyperlegible Next"],"body-lg":["Atkinson Hyperlegible Next"],"body-md":["Atkinson Hyperlegible Next"],"label-sm":["Atkinson Hyperlegible Next"]},"fontSize":{"body-md-bold":["16px",{"lineHeight":"24px","fontWeight":"700"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","fontWeight":"700"}],"price-md":["16px",{"lineHeight":"20px","fontWeight":"700"}],"headline-md":["22px",{"lineHeight":"28px","fontWeight":"700"}],"price-lg":["20px",{"lineHeight":"24px","fontWeight":"700"}],"body-sm-bold":["14px",{"lineHeight":"20px","fontWeight":"700"}],"headline-xl":["36px",{"lineHeight":"44px","fontWeight":"800"}],"headline-xl-mobile":["28px",{"lineHeight":"36px","fontWeight":"800"}],"body-sm":["14px",{"lineHeight":"20px","fontWeight":"400"}],"headline-lg":["28px",{"lineHeight":"36px","fontWeight":"700"}],"headline-sm":["18px",{"lineHeight":"24px","fontWeight":"600"}],"label-md":["14px",{"lineHeight":"18px","fontWeight":"700"}],"body-lg":["18px",{"lineHeight":"28px","fontWeight":"400"}],"body-md":["16px",{"lineHeight":"24px","fontWeight":"400"}],"label-sm":["12px",{"lineHeight":"16px","fontWeight":"700"}]}}}};</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="h-16 px-gutter flex items-center justify-between bg-primary-container text-on-primary"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container"><span class="material-symbols-outlined text-[20px]">radar</span></div><div><div class="font-headline-sm text-headline-sm tracking-tight text-surface-container-lowest leading-none">CibusHub</div><div class="font-label-sm text-label-sm text-primary-fixed uppercase tracking-wider mt-0.5">Ops HQ • Accra</div></div></div><div class="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-secondary-fixed" title="Adinkrahene Authority Key"><span class="material-symbols-outlined text-[16px]">verified</span></div></div><div class="px-gutter py-space-sm bg-surface-container"><div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm"><span class="uppercase font-bold tracking-wider">Node Scope</span><span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-bold text-[10px]">GREATER ACCRA</span></div></div><nav class="flex flex-col gap-1 p-space-sm mt-space-xs" data-active-classes="bg-primary-container text-on-primary font-body-sm-bold text-body-sm-bold rounded-lg shadow-[0_1px_4px_rgba(0,0,0,0.08)]"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="overview-and-live-radar" href="#"><span class="material-symbols-outlined text-[20px]">hub</span><span>Overview &amp; Live Radar</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="approvals-queue" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">how_to_reg</span><span>Approvals Queue</span></div><span class="px-1.5 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm">14</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="order-management" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">local_shipping</span><span>Order Management</span></div><span class="px-1.5 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">LIVE</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="payments-and-refunds" href="#"><span class="material-symbols-outlined text-[20px]">account_balance_wallet</span><span>Payments &amp; Refunds</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="audit-log" href="#"><span class="material-symbols-outlined text-[20px]">shield_lock</span><span>Audit Log</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all font-body-sm text-body-sm" data-path="platform-settings" href="#"><span class="material-symbols-outlined text-[20px]">tune</span><span>Platform Settings</span></a></nav></div><div class="p-space-sm flex flex-col gap-space-sm bg-surface-container-low"><div class="p-space-sm rounded-lg bg-surface-container flex flex-col gap-1.5"><div class="flex items-center justify-between text-on-surface font-label-sm text-label-sm"><span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-tertiary">shield</span>Emergency Brake</span><span class="font-bold text-on-surface-variant">ACTIVE</span></div><button class="w-full h-9 rounded-lg bg-tertiary text-on-tertiary font-body-sm-bold text-body-sm-bold flex items-center justify-center gap-1.5 shadow-[0_1px_4px_rgba(0,0,0,0.08)] hover:bg-tertiary-container hover:text-on-tertiary-container transition-all" type="button"><span class="material-symbols-outlined text-[18px]">pause_circle</span>Platform Kill Switch</button></div><div class="flex items-center justify-between px-space-sm py-space-xs text-on-surface-variant font-label-sm text-label-sm"><span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-primary"></span>Accra East Core</span><span class="font-mono">v2.4.0-gh</span></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40"><div class="h-16 w-full px-gutter-desktop flex items-center justify-between"><div class="flex items-center gap-gutter"><div class="flex items-center gap-2 px-space-sm py-1 rounded-lg bg-surface-container font-body-sm-bold text-body-sm-bold text-on-surface"><span class="material-symbols-outlined text-[18px] text-secondary">schedule</span><span>ACCRA (GMT+0)</span><span class="font-mono text-primary font-bold">13:42:09</span></div><div class="hidden xl:flex items-center gap-space-md"><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm"><span class="w-2 h-2 rounded-full bg-primary"></span><span>GHIPSS Live</span></div><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm"><span class="w-2 h-2 rounded-full bg-primary"></span><span>Paystack Switch</span></div><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm"><span class="w-2 h-2 rounded-full bg-primary"></span><span>SMS M-Notify 99.8%</span></div></div></div><div class="flex items-center gap-space-md"><div class="relative flex items-center"><button class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span></button><span class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-[10px] flex items-center justify-center font-bold">7</span></div><div class="h-8 w-px bg-outline-variant"></div><div class="flex items-center gap-space-sm"><div class="text-right hidden sm:block"><div class="font-body-sm-bold text-body-sm-bold text-on-surface leading-tight">Kofi Mensah, CISSP</div><div class="font-label-sm text-label-sm text-secondary font-bold leading-tight">Super Admin • HQ Accra</div></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-[0_1px_4px_rgba(0,0,0,0.08)]"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><button class="p-1 text-on-surface-variant hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">unfold_more</span></button></div></div></div></header><main class="w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<div class="px-gutter-desktop py-space-lg flex flex-col gap-space-xl">
+<!-- Top Action & Context Strip -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div>
+<div class="flex items-center gap-space-xs text-secondary font-label-sm text-label-sm uppercase tracking-wider">
+<span class="material-symbols-outlined text-[16px]">verified_user</span>
+<span>Financial Integrity &amp; Clearing Node • Central Bank of Ghana (BOG) Mandate</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight mt-0.5">Payments &amp; Refunds Clearing Ledger</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Real-time GhiPSS Proxy Settlement, Telco Mobile Money Liquidity &amp; Dual-Signoff Reversals.</p>
+</div>
+<div class="flex items-center gap-space-sm flex-wrap">
+<div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface">
+<span class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></span>
+<span>GhiPSS Switch: <strong>Connected (24ms)</strong></span>
+</div>
+<div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary-container"></span>
+<span>Paystack Live Rail: <strong>99.98% OK</strong></span>
+</div>
+<button class="h-12 px-space-md rounded-lg bg-primary text-on-primary font-body-sm-bold text-body-sm-bold flex items-center gap-2 shadow-md hover:bg-primary-container transition-all" id="btnOpenManualDrawer" type="button">
+<span class="material-symbols-outlined text-[20px]">currency_exchange</span>
+<span>Execute Instant MoMo Reversal</span>
+</button>
+</div>
+</div>
+<!-- 1. Financial Health Top Banner & GhiPSS/Paystack Rails -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-space-md">
+<!-- Metric 1: Total Settlements Processed Today -->
+<div class="p-space-md rounded-xl bg-surface-container-low shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-start justify-between">
+<div>
+<div class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Settlements Processed Today</div>
+<div class="font-headline-lg text-headline-lg text-on-surface mt-1 font-mono">GHS 124,650.00</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">account_balance</span>
+</div>
+</div>
+<div class="mt-space-md flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span class="flex items-center gap-1 text-primary font-body-sm-bold text-body-sm-bold">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>+18.4% vs yday
+          </span>
+<span>2,842 Batched Txns</span>
+</div>
+<!-- Micro sparkline svg -->
+<svg class="w-full h-4 mt-2 text-primary" fill="none" preserveaspectratio="none" stroke="currentColor" stroke-width="2" viewbox="0 0 100 20">
+<polyline points="0,15 15,14 30,12 45,9 60,11 75,5 90,6 100,2"></polyline>
+</svg>
+</div>
+<!-- Metric 2: Platform Commission Retained -->
+<div class="p-space-md rounded-xl bg-surface-container-low shadow-sm flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div>
+<div class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Platform Take (10% Retained)</div>
+<div class="font-headline-lg text-headline-lg text-secondary mt-1 font-mono">GHS 12,465.00</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed">
+<span class="material-symbols-outlined text-[22px]">savings</span>
+</div>
+</div>
+<div class="mt-space-md flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span>Net Take-Rate Margin</span>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">10.00% Flat</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden mt-2">
+<div class="bg-secondary h-full rounded-full" style="width: 78%"></div>
+</div>
+</div>
+<!-- Metric 3: Automated Daily Payouts -->
+<div class="p-space-md rounded-xl bg-primary-container text-on-primary shadow-sm flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div>
+<div class="font-label-sm text-label-sm text-primary-fixed uppercase tracking-wider">Scheduled Batch Payouts</div>
+<div class="font-headline-lg text-headline-lg text-surface-container-lowest mt-1 font-mono">GHS 112,185.00</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest/20 flex items-center justify-center text-primary-fixed">
+<span class="material-symbols-outlined text-[22px]">local_shipping</span>
+</div>
+</div>
+<div class="mt-space-md flex items-center justify-between text-primary-fixed font-label-sm text-label-sm">
+<span class="flex items-center gap-1 font-mono">
+<span class="material-symbols-outlined text-[16px]">alarm</span>23:59 GMT Release
+          </span>
+<span class="px-2 py-0.5 rounded bg-primary-fixed/20 text-surface-container-lowest font-label-sm text-label-sm">341 Kitchens • 188 Riders</span>
+</div>
+<div class="w-full bg-primary h-1.5 rounded-full overflow-hidden mt-2">
+<div class="bg-secondary-fixed h-full rounded-full" style="width: 91%"></div>
+</div>
+</div>
+<!-- Metric 4: Total Active Refunds Today -->
+<div class="p-space-md rounded-xl bg-surface-container-low shadow-sm flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div>
+<div class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Active Refunds Today</div>
+<div class="font-headline-lg text-headline-lg text-tertiary mt-1 font-mono">GHS 1,480.00</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed">
+<span class="material-symbols-outlined text-[22px]">undo</span>
+</div>
+</div>
+<div class="mt-space-md flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span class="text-tertiary font-body-sm-bold text-body-sm-bold">18 Total Claims</span>
+<span>1.18% Settlement Volume</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden mt-2">
+<div class="bg-tertiary h-full rounded-full" style="width: 24%"></div>
+</div>
+</div>
+</div>
+<!-- 2. Flagged Transactions & Dispute Resolution Queue (Urgent Attention Tab) -->
+<div class="rounded-xl bg-surface-container-low p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pb-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface leading-tight">Urgent Attention Queue &amp; Reversal Flags</h2>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Active operational alerts mandating compliance resolution or verification signoff.</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-1 rounded-full bg-tertiary text-on-tertiary font-label-sm text-label-sm font-mono font-bold">3 PENDING ACTION</span>
+<button class="h-9 px-3 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface hover:bg-surface-container-high transition-colors flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">refresh</span>Refresh Queue
+          </button>
+</div>
+</div>
+<!-- Flagged Items Cards Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-md">
+<!-- Flag 1: Auntie Muni Kitchen -->
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">MTN MOMO • REVERSED</span>
+<span class="font-mono text-tertiary font-body-sm-bold text-body-sm-bold">#CB-8510</span>
+</div>
+<div class="font-headline-sm text-headline-sm text-on-surface mt-1">Auntie Muni Kitchen (Labone)</div>
+<div class="font-mono text-headline-md text-headline-md text-primary font-bold">GHS 89.00</div>
+<div class="p-2.5 rounded-lg bg-surface-container-high text-on-surface font-body-sm text-body-sm mt-1">
+<strong class="font-body-sm-bold text-body-sm-bold">Trigger:</strong> Kitchen Pot Exhausted (Waakye Batch B depleted). Instant MoMo Refund triggered via webhook.
+            </div>
+<div class="font-label-sm text-label-sm text-on-surface-variant font-mono mt-1 break-all">
+              Ref: rfnd_live_884920bxa
+            </div>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="flex items-center gap-1 text-primary font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>GhiPSS 200 OK
+            </span>
+<button class="h-9 px-3 rounded-lg bg-surface-container-highest text-on-surface font-label-sm text-label-sm hover:bg-surface-dim transition-colors flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">receipt_long</span>Audit Slip
+            </button>
+</div>
+</div>
+<!-- Flag 2: Buka Express -->
+<div class="p-space-md rounded-xl bg-secondary-fixed/40 flex flex-col justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold">TELECEL CASH • ESCALATED</span>
+<span class="font-mono text-secondary font-body-sm-bold text-body-sm-bold">#CB-8522</span>
+</div>
+<div class="font-headline-sm text-headline-sm text-on-surface mt-1">Buka Express (Osu)</div>
+<div class="font-mono text-headline-md text-headline-md text-tertiary font-bold">GHS 145.00</div>
+<div class="p-2.5 rounded-lg bg-surface-container-lowest text-on-surface font-body-sm text-body-sm mt-1">
+<strong class="font-body-sm-bold text-body-sm-bold">Trigger:</strong> Double MoMo Debit reported by Customer via Telecel Cash push gateway. Duplicate webhook received.
+            </div>
+<div class="font-label-sm text-label-sm text-on-surface-variant font-mono mt-1 break-all">
+              Ref: trx_892147 (Telecel GH)
+            </div>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="flex items-center gap-1 text-secondary font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[16px]">hourglass_top</span>Awaiting Admin Action
+            </span>
+<button class="h-9 px-3 rounded-lg bg-tertiary text-on-tertiary font-body-sm-bold text-body-sm-bold hover:bg-tertiary-container transition-colors flex items-center gap-1 shadow-sm" onclick="triggerInlineReverse('CB-8522', '145.00', '0208194481')" type="button">
+<span class="material-symbols-outlined text-[16px]">bolt</span>One-Click Reverse
+            </button>
+</div>
+</div>
+<!-- Flag 3: Bush Canteen -->
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-bold">DISPUTE UNDER INQUIRY</span>
+<span class="font-mono text-on-surface font-body-sm-bold text-body-sm-bold">#CB-8471</span>
+</div>
+<div class="font-headline-sm text-headline-sm text-on-surface mt-1">Bush Canteen (Legon)</div>
+<div class="font-mono text-headline-md text-headline-md text-on-surface font-bold">GHS 65.00</div>
+<div class="p-2.5 rounded-lg bg-surface-container-high text-on-surface font-body-sm text-body-sm mt-1">
+<strong class="font-body-sm-bold text-body-sm-bold">Trigger:</strong> Customer claimed non-delivery after rider marked Delivered via PIN bypass. Geo-fence log mismatch (840m offset).
+            </div>
+<div class="font-label-sm text-label-sm text-on-surface-variant font-mono mt-1 break-all">
+              Rider ID: RD-409 (Kweku A.)
+            </div>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="flex items-center gap-1 text-on-surface-variant font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[16px]">policy</span>Ops Investigation
+            </span>
+<button class="h-9 px-3 rounded-lg bg-surface-container-highest text-on-surface font-label-sm text-label-sm hover:bg-surface-dim transition-colors flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>Open Case
+            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- 3. Comprehensive MoMo & Card Transactions Ledger -->
+<div class="rounded-xl bg-surface-container-low p-space-lg shadow-sm flex flex-col gap-space-md">
+<!-- Ledger Filter Bar -->
+<div class="flex flex-col xl:flex-row xl:items-center justify-between gap-space-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Live Clearing &amp; Settlement Ledger</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Authenticated payment traces through Ghana Interbank Payment and Settlement Systems (GhiPSS).</p>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm">
+<!-- Search box -->
+<div class="relative min-w-[260px]">
+<span class="material-symbols-outlined absolute left-3 top-3 text-[20px] text-on-surface-variant">search</span>
+<input class="w-full h-11 pl-10 pr-3 rounded-lg bg-surface-container text-on-surface placeholder:text-outline text-body-sm font-body-sm focus:outline-none focus:bg-surface-container-highest" id="ledgerSearchInput" placeholder="Search Txn ID, MoMo #, Order #..." type="text"/>
+</div>
+<!-- Network filter chips -->
+<div class="flex items-center gap-1 bg-surface-container p-1 rounded-lg">
+<button class="network-chip active px-3 py-1.5 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm transition-colors" data-network="all">All Rails</button>
+<button class="network-chip px-3 py-1.5 rounded-lg text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm transition-colors" data-network="mtn">MTN MoMo</button>
+<button class="network-chip px-3 py-1.5 rounded-lg text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm transition-colors" data-network="telecel">Telecel Cash</button>
+<button class="network-chip px-3 py-1.5 rounded-lg text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm transition-colors" data-network="at">AT Money</button>
+<button class="network-chip px-3 py-1.5 rounded-lg text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm transition-colors" data-network="card">Gh-Link / Card</button>
+</div>
+<!-- Export CSV -->
+<button class="h-11 px-3.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm flex items-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">download</span>Export CSV
+          </button>
+</div>
+</div>
+<!-- Ledger Table -->
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left font-body-sm text-body-sm">
+<thead>
+<tr class="bg-surface-container text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-3 px-4 rounded-l-lg">Transaction ID &amp; Order</th>
+<th class="py-3 px-4">Paystack / GhiPSS Ref</th>
+<th class="py-3 px-4">Payer &amp; Network</th>
+<th class="py-3 px-4 text-right">Gross Amount</th>
+<th class="py-3 px-4 text-right">Net Kitchen</th>
+<th class="py-3 px-4 text-right">Platform Fee</th>
+<th class="py-3 px-4">Clearing Status</th>
+<th class="py-3 px-4 rounded-r-lg text-center">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container" id="ledgerTableBody">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-high/60 transition-colors">
+<td class="py-3.5 px-4 font-mono">
+<div class="font-body-sm-bold text-body-sm-bold text-on-surface">TXN-GH-994102</div>
+<div class="text-secondary font-label-sm text-label-sm">#CB-8526 • Asanka Local</div>
+</td>
+<td class="py-3.5 px-4 font-mono text-label-sm text-label-sm text-on-surface-variant">
+                pstk_chg_99120401<br/><span class="text-primary font-bold">GHP-OK-00</span>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-secondary-container text-on-secondary-container font-bold">MTN</span>
+<span class="font-mono text-on-surface font-body-sm text-body-sm">0244192039</span>
+</div>
+<div class="text-[12px] text-on-surface-variant">Kofi Addo (Accra East)</div>
+</td>
+<td class="py-3.5 px-4 text-right font-mono font-bold text-on-surface">GHS 210.00</td>
+<td class="py-3.5 px-4 text-right font-mono text-primary font-bold">GHS 189.00</td>
+<td class="py-3.5 px-4 text-right font-mono text-secondary">GHS 21.00</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>Settled
+                </span>
+</td>
+<td class="py-3.5 px-4 text-center">
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors" title="View Transaction Audit Trail" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-high/60 transition-colors">
+<td class="py-3.5 px-4 font-mono">
+<div class="font-body-sm-bold text-body-sm-bold text-on-surface">TXN-GH-994101</div>
+<div class="text-secondary font-label-sm text-label-sm">#CB-8525 • Starbites Cantonments</div>
+</td>
+<td class="py-3.5 px-4 font-mono text-label-sm text-label-sm text-on-surface-variant">
+                pstk_chg_99120388<br/><span class="text-primary font-bold">GHP-OK-00</span>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-tertiary-fixed text-on-tertiary-fixed font-bold">TELECEL</span>
+<span class="font-mono text-on-surface font-body-sm text-body-sm">0201198824</span>
+</div>
+<div class="text-[12px] text-on-surface-variant">Abena Owusu</div>
+</td>
+<td class="py-3.5 px-4 text-right font-mono font-bold text-on-surface">GHS 175.00</td>
+<td class="py-3.5 px-4 text-right font-mono text-primary font-bold">GHS 157.50</td>
+<td class="py-3.5 px-4 text-right font-mono text-secondary">GHS 17.50</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>Settled
+                </span>
+</td>
+<td class="py-3.5 px-4 text-center">
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors" title="View Transaction Audit Trail" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 (Flagged / Under Reverse) -->
+<tr class="bg-secondary-fixed/20 hover:bg-secondary-fixed/30 transition-colors">
+<td class="py-3.5 px-4 font-mono">
+<div class="font-body-sm-bold text-body-sm-bold text-tertiary">TXN-GH-994098</div>
+<div class="text-secondary font-label-sm text-label-sm">#CB-8522 • Buka Express</div>
+</td>
+<td class="py-3.5 px-4 font-mono text-label-sm text-label-sm text-on-surface-variant">
+                trx_892147<br/><span class="text-secondary font-bold">DUPLICATE DETECT</span>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-tertiary-fixed text-on-tertiary-fixed font-bold">TELECEL</span>
+<span class="font-mono text-on-surface font-body-sm text-body-sm">0208194481</span>
+</div>
+<div class="text-[12px] text-on-surface-variant">Esi Thompson</div>
+</td>
+<td class="py-3.5 px-4 text-right font-mono font-bold text-tertiary">GHS 145.00</td>
+<td class="py-3.5 px-4 text-right font-mono text-on-surface-variant">-- HOLD --</td>
+<td class="py-3.5 px-4 text-right font-mono text-on-surface-variant">-- HOLD --</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">flag</span>Flagged Dup
+                </span>
+</td>
+<td class="py-3.5 px-4 text-center">
+<button class="h-8 px-2 rounded bg-tertiary text-on-tertiary font-label-sm text-label-sm hover:bg-tertiary-container transition-colors inline-flex items-center gap-1" onclick="triggerInlineReverse('CB-8522', '145.00', '0208194481')" type="button">
+<span class="material-symbols-outlined text-[14px]">undo</span>Reverse
+                </button>
+</td>
+</tr>
+<!-- Row 4 (Auto Reversed) -->
+<tr class="hover:bg-surface-container-high/60 transition-colors">
+<td class="py-3.5 px-4 font-mono">
+<div class="font-body-sm-bold text-body-sm-bold text-on-surface">TXN-GH-994085</div>
+<div class="text-secondary font-label-sm text-label-sm">#CB-8510 • Auntie Muni Kitchen</div>
+</td>
+<td class="py-3.5 px-4 font-mono text-label-sm text-label-sm text-on-surface-variant">
+                rfnd_live_884920bxa<br/><span class="text-primary font-bold">REV-GHI-200</span>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-secondary-container text-on-secondary-container font-bold">MTN</span>
+<span class="font-mono text-on-surface font-body-sm text-body-sm">0552910488</span>
+</div>
+<div class="text-[12px] text-on-surface-variant">Kwame Acheampong</div>
+</td>
+<td class="py-3.5 px-4 text-right font-mono font-bold text-tertiary">GHS 89.00</td>
+<td class="py-3.5 px-4 text-right font-mono text-on-surface-variant">GHS 0.00</td>
+<td class="py-3.5 px-4 text-right font-mono text-on-surface-variant">GHS 0.00</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-highest text-on-surface font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">replay</span>Reversed
+                </span>
+</td>
+<td class="py-3.5 px-4 text-center">
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors" title="Download Reversal Voucher" type="button">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</button>
+</td>
+</tr>
+<!-- Row 5 (Card / Gh-Link) -->
+<tr class="hover:bg-surface-container-high/60 transition-colors">
+<td class="py-3.5 px-4 font-mono">
+<div class="font-body-sm-bold text-body-sm-bold text-on-surface">TXN-GH-994079</div>
+<div class="text-secondary font-label-sm text-label-sm">#CB-8504 • Heavy Do Chop Bar</div>
+</td>
+<td class="py-3.5 px-4 font-mono text-label-sm text-label-sm text-on-surface-variant">
+                pstk_crd_8192004<br/><span class="text-primary font-bold">GHP-OK-00</span>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-surface-container-highest text-on-surface font-bold">GH-LINK</span>
+<span class="font-mono text-on-surface font-body-sm text-body-sm">4187 •••• 8192</span>
+</div>
+<div class="text-[12px] text-on-surface-variant">GCB Direct Gateway</div>
+</td>
+<td class="py-3.5 px-4 text-right font-mono font-bold text-on-surface">GHS 94.00</td>
+<td class="py-3.5 px-4 text-right font-mono text-primary font-bold">GHS 84.60</td>
+<td class="py-3.5 px-4 text-right font-mono text-secondary">GHS 9.40</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>Settled
+                </span>
+</td>
+<td class="py-3.5 px-4 text-center">
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors" title="View Transaction Audit Trail" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</td>
+</tr>
+<!-- Row 6 (AT Money / Retrying) -->
+<tr class="hover:bg-surface-container-high/60 transition-colors">
+<td class="py-3.5 px-4 font-mono">
+<div class="font-body-sm-bold text-body-sm-bold text-on-surface">TXN-GH-994062</div>
+<div class="text-secondary font-label-sm text-label-sm">#CB-8499 • Chez Clarisse</div>
+</td>
+<td class="py-3.5 px-4 font-mono text-label-sm text-label-sm text-on-surface-variant">
+                pstk_atm_6620194<br/><span class="text-secondary font-bold">GH-TIMEOUT-408</span>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-primary-fixed text-on-primary-fixed-variant font-bold">AT MONEY</span>
+<span class="font-mono text-on-surface font-body-sm text-body-sm">0266184920</span>
+</div>
+<div class="text-[12px] text-on-surface-variant">Mawuli Sogbo</div>
+</td>
+<td class="py-3.5 px-4 text-right font-mono font-bold text-on-surface">GHS 118.00</td>
+<td class="py-3.5 px-4 text-right font-mono text-on-surface-variant">GHS 106.20</td>
+<td class="py-3.5 px-4 text-right font-mono text-on-surface-variant">GHS 11.80</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">sync</span>Retrying Rail
+                </span>
+</td>
+<td class="py-3.5 px-4 text-center">
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors" title="Ping Telco Gateway" type="button">
+<span class="material-symbols-outlined text-[18px]">electrical_services</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Ledger Pagination & Batch Signoff Summary -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-space-sm pt-space-xs text-on-surface-variant font-body-sm text-body-sm">
+<div class="flex items-center gap-2">
+<span>Showing <strong>1 - 6</strong> of <strong>2,842</strong> transactions</span>
+<span class="text-outline">•</span>
+<span class="font-mono text-primary font-bold">GhiPSS Sync: Last poll 14s ago</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="h-9 px-3 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-surface-container-high transition-colors disabled:opacity-50" disabled="" type="button">Previous</button>
+<button class="h-9 w-9 rounded-lg bg-primary text-on-primary font-body-sm-bold text-body-sm-bold" type="button">1</button>
+<button class="h-9 w-9 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-surface-container-high transition-colors" type="button">2</button>
+<button class="h-9 w-9 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-surface-container-high transition-colors" type="button">3</button>
+<button class="h-9 px-3 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-surface-container-high transition-colors" type="button">Next</button>
+</div>
+</div>
+</div>
+<!-- Payout Schedule & Liquidity Reserve Snapshot (Accra Hub Ops) -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-md">
+<div class="p-space-md rounded-xl bg-surface-container-low shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center gap-2 text-on-surface font-body-sm-bold text-body-sm-bold">
+<span class="material-symbols-outlined text-[20px] text-secondary">account_balance_wallet</span>
+<span>Paystack Primary Balance (MoMo Liquidity)</span>
+</div>
+<div class="font-headline-lg text-headline-lg font-mono text-on-surface">GHS 482,910.45</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Sufficient reserve for midnight automated kitchen payouts without manual bank top-up.</div>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-low shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center gap-2 text-on-surface font-body-sm-bold text-body-sm-bold">
+<span class="material-symbols-outlined text-[20px] text-primary">security</span>
+<span>Dual Custody &amp; Adinkrahene Signing Policy</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface">
+          All refunds exceeding <strong>GHS 250.00</strong> enforce dual authorization from Super Admin Kofi Mensah and Finance Director Efua K.
+        </div>
+<div class="font-label-sm text-label-sm text-primary font-mono flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">lock</span>Nyame Dua Security Protocol Enabled
+        </div>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-low shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center gap-2 text-on-surface font-body-sm-bold text-body-sm-bold">
+<span class="material-symbols-outlined text-[20px] text-tertiary">sync_problem</span>
+<span>Telco MoMo Webhook Latencies</span>
+</div>
+<div class="flex items-center justify-between text-on-surface font-label-sm text-label-sm">
+<span>MTN MoMo API: <strong class="text-primary font-mono">1.1s</strong></span>
+<span>Telecel Cash: <strong class="text-secondary font-mono">2.8s</strong></span>
+<span>AT Money: <strong class="text-tertiary font-mono">4.2s (Delay)</strong></span>
+</div>
+<div class="text-[12px] text-on-surface-variant font-mono">Next automated batch retry in 02:44</div>
+</div>
+</div>
+</div>
+<!-- 4. Manual Refund Processing Modal / Drawer -->
+<div class="fixed inset-0 z-50 bg-on-surface/50 transition-opacity duration-300 opacity-0 pointer-events-none flex justify-end" id="refundDrawerOverlay">
+<div class="w-full max-w-xl h-full bg-surface-container-low shadow-2xl p-space-lg flex flex-col justify-between transform translate-x-full transition-transform duration-300 ease-out overflow-y-auto" id="refundDrawerContent">
+<!-- Drawer Header -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-9 h-9 rounded-lg bg-tertiary text-on-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">currency_exchange</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface leading-none">Execute MoMo Instant Reversal</h2>
+<div class="font-label-sm text-label-sm text-secondary font-bold uppercase tracking-wider mt-1">Dual-Custody Clearing Authority</div>
+</div>
+</div>
+<button class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-on-surface hover:bg-surface-container-high transition-colors" id="btnCloseRefundDrawer" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Dual Custody Security Warning Box -->
+<div class="p-space-md rounded-xl bg-surface-container text-on-surface flex flex-col gap-2">
+<div class="flex items-center gap-2 font-body-sm-bold text-body-sm-bold text-tertiary">
+<span class="material-symbols-outlined text-[18px]">shield</span>
+<span>Security Handshake Notice (Adinkra Nyame Dua)</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Initiating this reversal will directly trigger an instantaneous API debit command against CibusHub Accra MoMo settlement reserves via the Paystack/GhiPSS bridge. The customer's mobile wallet will receive funds in under 15 seconds.
+          </p>
+</div>
+<!-- Form Fields -->
+<div class="flex flex-col gap-space-md mt-space-sm">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface uppercase tracking-wider mb-1">Target Order ID</label>
+<div class="relative">
+<input class="w-full h-12 px-3 rounded-lg bg-surface-container text-on-surface font-mono font-body-sm-bold text-body-sm-bold focus:outline-none" id="drawerOrderId" type="text" value="CB-8522"/>
+<span class="absolute right-3 top-3 text-primary material-symbols-outlined text-[20px]">task_alt</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface uppercase tracking-wider mb-1">Reversal Amount (GHS)</label>
+<input class="w-full h-12 px-3 rounded-lg bg-surface-container text-on-surface font-mono font-headline-sm text-headline-sm focus:outline-none" id="drawerAmount" type="text" value="145.00"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface uppercase tracking-wider mb-1">Target Telco Rail</label>
+<select class="w-full h-12 px-3 rounded-lg bg-surface-container text-on-surface font-body-sm text-body-sm focus:outline-none" id="drawerTelcoSelect">
+<option value="telecel">Telecel Cash (Vodafone)</option>
+<option value="mtn">MTN MoMo</option>
+<option value="at">AT Money</option>
+</select>
+</div>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface uppercase tracking-wider mb-1">Customer MSISDN (Wallet Number)</label>
+<div class="flex items-center gap-2">
+<span class="h-12 px-3 rounded-lg bg-surface-container flex items-center gap-1 font-body-sm-bold text-body-sm-bold text-on-surface">
+                🇬🇭 +233
+              </span>
+<input class="w-full h-12 px-3 rounded-lg bg-surface-container text-on-surface font-mono font-body-sm-bold text-body-sm-bold focus:outline-none" id="drawerPhone" type="text" value="0208194481"/>
+</div>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface uppercase tracking-wider mb-1">Audited Justification Reason</label>
+<select class="w-full h-12 px-3 rounded-lg bg-surface-container text-on-surface font-body-sm text-body-sm focus:outline-none" id="drawerReasonSelect">
+<option value="duplicate">Double MoMo Debit reported by Customer via Telecel Cash</option>
+<option value="out_of_stock">Kitchen Depleted / Menu Unavailable</option>
+<option value="rider_undelivered">Rider Failure / Non-Delivery Verification</option>
+<option value="customer_cancel">Authorized Customer Cancellation within 3min window</option>
+</select>
+</div>
+<!-- Live Resolution Target Preview Box -->
+<div class="p-space-sm rounded-lg bg-secondary-fixed/30 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-[12px]">GH</div>
+<div>
+<div class="font-body-sm-bold text-body-sm-bold text-on-surface">Esi Thompson • Telecel Verified</div>
+<div class="text-[12px] text-on-surface-variant font-mono">GhiPSS Account Name Match: 99.4%</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary text-[20px]">verified</span>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface uppercase tracking-wider mb-1">Super Admin Approval Key (Accra HQ)</label>
+<div class="relative">
+<input class="w-full h-12 px-3 rounded-lg bg-surface-container text-on-surface font-mono text-body-sm font-body-sm focus:outline-none" id="drawerAdminPin" placeholder="Enter 6-digit Security Pin or Hardware Token" type="password" value="••••••"/>
+<span class="absolute right-3 top-3 text-secondary material-symbols-outlined text-[20px]">key</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Drawer Action Buttons -->
+<div class="flex flex-col gap-space-sm pt-space-lg">
+<button class="w-full h-12 rounded-lg bg-tertiary text-on-tertiary font-body-sm-bold text-body-sm-bold flex items-center justify-center gap-2 shadow-md hover:bg-tertiary-container transition-all" id="btnConfirmReversal" type="button">
+<span class="material-symbols-outlined text-[20px]">bolt</span>
+<span>Initiate Paystack MoMo Instant Reversal</span>
+</button>
+<button class="w-full h-11 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-surface-container-high transition-colors" id="btnCancelDrawer" type="button">
+          Cancel &amp; Retain in Queue
+        </button>
+</div>
+</div>
+</div>
+<!-- Notification Toast Container -->
+<div class="fixed bottom-6 right-6 z-50 pointer-events-none transform translate-y-12 opacity-0 transition-all duration-300" id="toastNotification">
+<div class="px-4 py-3 rounded-xl bg-primary-container text-on-primary shadow-xl flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed text-[24px]">task_alt</span>
+<div>
+<div class="font-body-sm-bold text-body-sm-bold" id="toastTitle">Reversal Dispatched!</div>
+<div class="text-label-sm text-label-sm text-primary-fixed" id="toastMessage">GhiPSS Ack: GHS 145.00 refunded to Telecel Cash 0208194481.</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Drawer Handling
+  const overlay = document.getElementById('refundDrawerOverlay');
+  const drawer = document.getElementById('refundDrawerContent');
+  const openBtn = document.getElementById('btnOpenManualDrawer');
+  const closeBtn = document.getElementById('btnCloseRefundDrawer');
+  const cancelBtn = document.getElementById('btnCancelDrawer');
+  const confirmBtn = document.getElementById('btnConfirmReversal');
+
+  function openDrawer() {
+    overlay.classList.remove('opacity-0', 'pointer-events-none');
+    overlay.classList.add('opacity-100');
+    drawer.classList.remove('translate-x-full');
+    drawer.classList.add('translate-x-0');
+  }
+
+  function closeDrawer() {
+    overlay.classList.remove('opacity-100');
+    overlay.classList.add('opacity-0', 'pointer-events-none');
+    drawer.classList.remove('translate-x-0');
+    drawer.classList.add('translate-x-full');
+  }
+
+  if (openBtn) openBtn.addEventListener('click', openDrawer);
+  if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+  if (cancelBtn) cancelBtn.addEventListener('click', closeDrawer);
+  if (overlay) {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeDrawer();
+    });
+  }
+
+  // Quick inline trigger for flag table rows
+  window.triggerInlineReverse = function(orderId, amount, phone) {
+    const orderInput = document.getElementById('drawerOrderId');
+    const amountInput = document.getElementById('drawerAmount');
+    const phoneInput = document.getElementById('drawerPhone');
+    if (orderInput) orderInput.value = orderId;
+    if (amountInput) amountInput.value = amount;
+    if (phoneInput) phoneInput.value = phone;
+    openDrawer();
+  };
+
+  // Reversal Execution Trigger
+  if (confirmBtn) {
+    confirmBtn.addEventListener('click', () => {
+      confirmBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[20px]">sync</span><span>Communicating with GhiPSS Bridge...</span>';
+      confirmBtn.disabled = true;
+
+      setTimeout(() => {
+        closeDrawer();
+        confirmBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">bolt</span><span>Initiate Paystack MoMo Instant Reversal</span>';
+        confirmBtn.disabled = false;
+        showToast('Instant Reversal Executed', 'Paystack Reference: rfnd_live_992147bx. Telecel customer credited.');
+      }, 1200);
+    });
+  }
+
+  // Toast Functionality
+  function showToast(title, message) {
+    const toast = document.getElementById('toastNotification');
+    const titleEl = document.getElementById('toastTitle');
+    const msgEl = document.getElementById('toastMessage');
+    if (!toast || !titleEl || !msgEl) return;
+
+    titleEl.textContent = title;
+    msgEl.textContent = message;
+
+    toast.classList.remove('translate-y-12', 'opacity-0');
+    toast.classList.add('translate-y-0', 'opacity-100');
+
+    setTimeout(() => {
+      toast.classList.remove('translate-y-0', 'opacity-100');
+      toast.classList.add('translate-y-12', 'opacity-0');
+    }, 4000);
+  }
+
+  // Network Chip Switching Filter
+  const networkChips = document.querySelectorAll('.network-chip');
+  networkChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      networkChips.forEach(c => {
+        c.classList.remove('active', 'bg-primary', 'text-on-primary');
+        c.classList.add('text-on-surface');
+      });
+      chip.classList.add('active', 'bg-primary', 'text-on-primary');
+      chip.classList.remove('text-on-surface');
+    });
+  });
+
+  // Client Search Filter on Ledger Table
+  const searchInput = document.getElementById('ledgerSearchInput');
+  const tableBody = document.getElementById('ledgerTableBody');
+  if (searchInput && tableBody) {
+    searchInput.addEventListener('input', (e) => {
+      const term = e.target.value.toLowerCase();
+      const rows = tableBody.querySelectorAll('tr');
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(term) ? '' : 'none';
+      });
+    });
+  }
+</script></main></div></body></html>

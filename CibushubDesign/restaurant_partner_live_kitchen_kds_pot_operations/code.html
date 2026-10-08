@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@100..900&family=Epilogue:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-dim":"#e9d7c8","secondary-container":"#fcca66","secondary-fixed-dim":"#f0bf5c","surface-container-high":"#f8e5d6","on-tertiary-fixed-variant":"#7e2b16","on-primary-fixed":"#002113","primary":"#002517","primary-fixed":"#c0edd2","on-error":"#ffffff","tertiary-fixed":"#ffdad2","outline-variant":"#c1c8c2","surface-container-highest":"#f2dfd1","on-tertiary":"#ffffff","primary-container":"#123c2a","primary-fixed-dim":"#a4d0b7","inverse-on-surface":"#ffeee1","on-tertiary-fixed":"#3c0700","surface-container":"#feeadc","error-container":"#ffdad6","on-tertiary-container":"#ec7f63","tertiary-container":"#651a06","on-error-container":"#93000a","on-secondary-fixed-variant":"#5d4200","secondary":"#7b5900","on-secondary-container":"#755400","on-surface-variant":"#414943","on-surface":"#231a11","on-primary-fixed-variant":"#264e3b","surface-tint":"#3e6752","on-secondary-fixed":"#261900","on-primary":"#ffffff","inverse-surface":"#392e25","surface-container-lowest":"#ffffff","on-secondary":"#ffffff","surface-variant":"#f2dfd1","surface":"#fff8f5","tertiary-fixed-dim":"#ffb4a2","on-primary-container":"#7ca78f","on-background":"#231a11","surface-bright":"#fff8f5","surface-container-low":"#fff1e8","error":"#ba1a1a","tertiary":"#430900","outline":"#717973","background":"#fff8f5","secondary-fixed":"#ffdea4","inverse-primary":"#a4d0b7"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"margin-desktop":"2.5rem","space-md":"1rem","gutter-desktop":"1.5rem","space-sm":"0.5rem","gutter":"1rem","space-lg":"1.5rem","margin":"1rem","margin-tablet":"1.5rem","space-xs":"0.25rem","space-xl":"2rem"},fontFamily:{"price-lg":["Atkinson Hyperlegible Next"],"price-md":["Atkinson Hyperlegible Next"],"headline-lg":["Epilogue"],"label-md":["Atkinson Hyperlegible Next"],"headline-lg-mobile":["Epilogue"],"body-lg":["Atkinson Hyperlegible Next"],"headline-sm":["Epilogue"],"body-md-bold":["Atkinson Hyperlegible Next"],"headline-md":["Epilogue"],"headline-xl":["Epilogue"],"body-sm-bold":["Atkinson Hyperlegible Next"],"headline-xl-mobile":["Epilogue"],"body-md":["Atkinson Hyperlegible Next"],"label-sm":["Atkinson Hyperlegible Next"],"body-sm":["Atkinson Hyperlegible Next"]},fontSize:{"price-lg":["20px",{"lineHeight":"24px","fontWeight":"700"}],"price-md":["16px",{"lineHeight":"20px","fontWeight":"700"}],"headline-lg":["28px",{"lineHeight":"36px","fontWeight":"700"}],"label-md":["14px",{"lineHeight":"18px","fontWeight":"700"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","fontWeight":"700"}],"body-lg":["18px",{"lineHeight":"28px","fontWeight":"400"}],"headline-sm":["18px",{"lineHeight":"24px","fontWeight":"600"}],"body-md-bold":["16px",{"lineHeight":"24px","fontWeight":"700"}],"headline-md":["22px",{"lineHeight":"28px","fontWeight":"700"}],"headline-xl":["36px",{"lineHeight":"44px","fontWeight":"800"}],"body-sm-bold":["14px",{"lineHeight":"20px","fontWeight":"700"}],"headline-xl-mobile":["28px",{"lineHeight":"36px","fontWeight":"800"}],"body-md":["16px",{"lineHeight":"24px","fontWeight":"400"}],"label-sm":["12px",{"lineHeight":"16px","fontWeight":"700"}],"body-sm":["14px",{"lineHeight":"20px","fontWeight":"400"}]}}}};</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-low z-50 flex flex-col justify-between py-6 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col gap-6"><div class="px-6"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-primary-fixed"><span class="material-symbols-outlined text-[24px]">skillet</span></div><div><span class="font-headline-sm text-headline-sm text-primary block leading-tight">CibusHub</span><span class="font-label-sm text-label-sm text-secondary font-bold tracking-wide uppercase">Partner Station</span></div></div><div class="mt-4 pt-3 border-t border-outline-variant/30"><div class="font-body-md-bold text-body-md-bold text-on-surface truncate">Auntie Muni Kitchen</div><div class="flex items-center gap-1.5 text-on-surface-variant font-body-sm text-body-sm"><span class="material-symbols-outlined text-[14px]">location_on</span><span>East Legon, Accra</span></div></div></div><nav class="flex flex-col gap-1.5 px-4" data-active-classes="bg-primary-container text-on-primary font-body-md-bold rounded-lg shadow-sm"><a aria-current="page" class="flex items-center gap-3 px-4 py-3 transition-colors bg-primary-container text-on-primary font-body-md-bold rounded-lg shadow-sm" data-path="live-kitchen-kds" href="#"><span class="material-symbols-outlined text-[20px]">table_restaurant</span><span>Live Kitchen KDS</span></a><a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="menu-pot-inventory" href="#"><span class="material-symbols-outlined text-[20px]">soup_kitchen</span><span>Menu & Pot Inventory</span></a><a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="dispatch-handover" href="#"><span class="material-symbols-outlined text-[20px]">two_wheeler</span><span>Dispatch Handover</span></a><a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="daily-payouts" href="#"><span class="material-symbols-outlined text-[20px]">payments</span><span>Daily Payouts</span></a></nav></div><div class="px-4 flex flex-col gap-3"><div class="bg-surface-container p-3 rounded-xl flex items-center justify-between"><div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">KDS Tablet #2</span></div><span class="font-label-sm text-label-sm text-secondary font-bold">ONLINE</span></div><div class="flex items-center justify-between px-2 pt-2 text-on-surface-variant font-label-sm text-label-sm"><span>Branch ID: #GH-ACC-042</span><span>v2.4.0</span></div></div></aside><div class="pl-64 flex flex-col min-h-screen"><header class="fixed top-0 left-64 right-0 h-20 bg-surface/95 backdrop-blur-md z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 w-full px-space-lg flex items-center justify-between gap-4"><div class="flex items-center gap-4 min-w-0"><div class="flex items-center gap-2 bg-primary-fixed/40 px-3 py-1.5 rounded-full border border-primary-fixed-dim/60"><span class="w-3 h-3 rounded-full bg-primary animate-ping inline-block"></span><span class="font-label-md text-label-md text-primary tracking-wide">Kitchen Open • Accepting Orders</span></div><div class="hidden xl:flex items-center gap-2 bg-surface-container px-3 py-1.5 rounded-lg"><span class="material-symbols-outlined text-secondary text-[18px]">timer</span><span class="font-label-md text-label-md text-on-surface">12:35 PM Lunch Rush</span><span class="font-label-sm text-label-sm text-on-surface-variant font-normal">(Pot Timer 18m)</span></div></div><div class="flex items-center gap-6"><div class="hidden md:flex items-center gap-4 bg-surface-container-low px-4 py-2 rounded-xl"><div class="flex items-center gap-2"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Active</span><span class="font-body-md-bold text-body-md-bold text-primary bg-primary-fixed px-2 py-0.5 rounded-full">14</span></div><span class="text-outline-variant font-body-sm text-body-sm">•</span><div class="flex items-center gap-2"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Awaiting Rider</span><span class="font-body-md-bold text-body-md-bold text-secondary bg-secondary-container px-2 py-0.5 rounded-full">3</span></div><span class="text-outline-variant font-body-sm text-body-sm">•</span><div class="flex items-center gap-2"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Sales</span><span class="font-price-md text-price-md text-on-surface">GHS 1,840.00</span></div></div><div class="flex items-center gap-3"><button class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" title="Kitchen Sound Chime Active" type="button"><span class="material-symbols-outlined text-[20px]">volume_up</span></button><button class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" title="Incoming Order Notifications" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-1"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><main class="w-full pt-20 bg-surface flex-1"><div class="flex flex-col w-full">
+<!-- Operational KPI & Station Selector Banner -->
+<section class="p-4 md:p-6 bg-surface-container-low flex flex-col gap-4">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-3 items-stretch">
+<!-- Pot Status Pill (Live Gauge) -->
+<div class="lg:col-span-5 bg-surface-container p-4 rounded-xl shadow-sm flex items-center justify-between gap-4">
+<div class="flex items-center gap-3.5 min-w-0">
+<div class="w-12 h-12 rounded-xl bg-tertiary-container flex items-center justify-center text-on-tertiary shrink-0">
+<span class="material-symbols-outlined text-[28px]">soup_kitchen</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">Fresh Waakye Pot #2</span>
+<span class="bg-tertiary text-on-tertiary font-label-sm text-label-sm px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0">Rush Peak</span>
+</div>
+<p class="font-body-sm-bold text-body-sm-bold text-secondary truncate">
+              35% Remaining <span class="font-body-sm text-body-sm text-on-surface-variant font-normal">est. 18 portions left</span>
+</p>
+</div>
+</div>
+<!-- Compact SVG Level Dial -->
+<div class="relative w-14 h-14 shrink-0 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 36 36">
+<path class="text-surface-dim" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="4"></path>
+<path class="text-secondary-container" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="35, 100" stroke-linecap="round" stroke-width="4.5"></path>
+</svg>
+<span class="absolute font-label-md text-label-md text-on-surface font-extrabold">35%</span>
+</div>
+</div>
+<!-- Prep Speed Benchmark -->
+<div class="lg:col-span-3 bg-surface-container p-4 rounded-xl shadow-sm flex items-center gap-3.5">
+<div class="w-12 h-12 rounded-xl bg-primary-container flex items-center justify-center text-primary-fixed shrink-0">
+<span class="material-symbols-outlined text-[28px]">speed</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider block">Avg Ticket Pace</span>
+<div class="flex items-baseline gap-1.5">
+<span class="font-headline-lg text-headline-lg text-primary leading-none">8.5</span>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">min</span>
+<span class="font-label-sm text-label-sm text-primary font-bold ml-1 bg-primary-fixed px-1.5 py-0.2 rounded">-45s vs target</span>
+</div>
+</div>
+</div>
+<!-- Station Audio & Print State -->
+<div class="lg:col-span-4 bg-surface-container p-4 rounded-xl shadow-sm flex items-center justify-between gap-2">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[22px]">notifications_active</span>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Sound Chime Enabled</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Auto-print ticket active on accept</span>
+</div>
+</div>
+<button class="h-11 px-3 bg-surface-container-high hover:bg-surface-dim rounded-lg text-on-surface font-label-md text-label-md flex items-center gap-1 transition-colors" id="toggleChimeBtn">
+<span class="material-symbols-outlined text-[18px]">volume_up</span>
+<span>Test</span>
+</button>
+</div>
+</div>
+<!-- Station Filter Pill Tabs -->
+<div class="flex items-center gap-2 overflow-x-auto pb-1 text-nowrap">
+<button class="station-tab active h-11 px-4 rounded-lg bg-primary text-on-primary font-label-md text-label-md flex items-center gap-2 shadow-sm transition-all" data-target="all">
+<span>All Stations</span>
+<span class="bg-primary-container text-primary-fixed px-2 py-0.5 rounded-full font-label-sm text-label-sm">14</span>
+</button>
+<button class="station-tab h-11 px-4 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center gap-2 transition-all" data-target="waakye">
+<span>Waakye Prep Table</span>
+<span class="bg-surface-variant text-on-surface-variant px-2 py-0.5 rounded-full font-label-sm text-label-sm">8</span>
+</button>
+<button class="station-tab h-11 px-4 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center gap-2 transition-all" data-target="fryer">
+<span>Fryer & Kelewele</span>
+<span class="bg-surface-variant text-on-surface-variant px-2 py-0.5 rounded-full font-label-sm text-label-sm">4</span>
+</button>
+<button class="station-tab h-11 px-4 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center gap-2 transition-all" data-target="leaf">
+<span>Packing & Banana Leaf</span>
+<span class="bg-surface-variant text-on-surface-variant px-2 py-0.5 rounded-full font-label-sm text-label-sm">2</span>
+</button>
+<button class="station-tab h-11 px-4 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center gap-2 transition-all" data-target="rider">
+<span>Ready for Rider</span>
+<span class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded-full font-label-sm text-label-sm">3</span>
+</button>
+</div>
+</section>
+<!-- High-Contrast KDS Kanban Board -->
+<main class="p-4 md:p-6 grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+<!-- COLUMN 1: INCOMING / NEW ORDERS -->
+<section class="flex flex-col gap-4 bg-surface-container-low p-4 rounded-2xl shadow-sm">
+<header class="flex items-center justify-between pb-2 bg-surface-container-low">
+<div class="flex items-center gap-2.5">
+<span class="w-3.5 h-3.5 rounded-full bg-secondary animate-pulse"></span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Incoming Tickets</h2>
+</div>
+<span class="px-2.5 py-1 rounded-md bg-secondary-container text-on-secondary-container font-label-md text-label-md font-bold">3 NEW</span>
+</header>
+<!-- Ticket CB-8501 -->
+<article class="bg-surface p-4 rounded-xl shadow-md flex flex-col gap-3 transition-transform hover:-translate-y-0.5" id="ticket-8501">
+<div class="flex items-start justify-between gap-2 pb-2">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-primary font-bold">#CB-8501</span>
+<span class="bg-surface-container-highest text-on-surface font-label-sm text-label-sm px-2 py-0.5 rounded">Deliverect API</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Placed 1m ago • Pickup in 12m</span>
+</div>
+<span class="bg-error-container text-on-error-container font-label-md text-label-md px-2.5 py-1 rounded-md flex items-center gap-1 font-bold animate-pulse">
+<span class="material-symbols-outlined text-[16px]">alarm</span> 01:14
+          </span>
+</div>
+<!-- Packaging Callout -->
+<div class="bg-surface-container px-3 py-1.5 rounded-lg flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-secondary text-[20px]">eco</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">Packaging: Fresh Banana Leaf Wrapped</span>
+</div>
+<!-- Food Details -->
+<ul class="space-y-2 py-1">
+<li class="flex items-start justify-between gap-2">
+<div>
+<span class="font-body-md-bold text-body-md-bold text-on-surface block">2x Special Waakye Combo</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Fried Red Snapper, Wele, Boiled Egg</span>
+</div>
+<span class="font-label-md text-label-md bg-surface-container px-2 py-1 rounded text-primary">Station A</span>
+</li>
+<li class="flex items-start justify-between gap-2">
+<div>
+<span class="font-body-md-bold text-body-md-bold text-on-surface block">1x Goat Meat w/ Extra Shito</span>
+<span class="font-label-sm text-label-sm text-tertiary-container font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">local_fire_department</span> Extra Hot 🔥
+              </span>
+</div>
+<span class="font-label-md text-label-md bg-surface-container px-2 py-1 rounded text-primary">Pot #2</span>
+</li>
+<li class="flex items-start justify-between gap-2">
+<div>
+<span class="font-body-md-bold text-body-md-bold text-on-surface block">2x Kelewele (Spicy Ripe Plantain)</span>
+</div>
+<span class="font-label-md text-label-md bg-surface-container px-2 py-1 rounded text-primary">Fryer 1</span>
+</li>
+</ul>
+<!-- Kitchen Note alert -->
+<div class="bg-secondary-fixed/50 p-2.5 rounded-lg flex items-start gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px] shrink-0">edit_note</span>
+<p class="font-body-sm-bold text-body-sm-bold text-on-secondary-fixed-variant">
+            Customer Note: "Please put shito in a separate leaf parcel, no plastic!"
+          </p>
+</div>
+<!-- Touch Target CTAs (min 50px) -->
+<div class="flex flex-col gap-2 pt-2">
+<button class="h-14 w-full bg-primary hover:bg-primary-container text-on-primary rounded-xl font-body-md-bold text-body-md-bold flex items-center justify-center gap-2 shadow-md transition-colors active:scale-[0.99]" onclick="acceptOrder('ticket-8501', '8501')">
+<span class="material-symbols-outlined text-[24px]">soup_kitchen</span>
+<span>Accept & Start Prep</span>
+</button>
+<div class="flex items-center justify-between px-1">
+<button class="font-label-md text-label-md text-error hover:underline flex items-center gap-1 py-2">
+<span class="material-symbols-outlined text-[16px]">cancel</span>
+<span>Reject / Sold Out</span>
+</button>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Printer: Ready</span>
+</div>
+</div>
+</article>
+<!-- Ticket CB-8504 -->
+<article class="bg-surface p-4 rounded-xl shadow-md flex flex-col gap-3" id="ticket-8504">
+<div class="flex items-start justify-between gap-2 pb-2">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-primary font-bold">#CB-8504</span>
+<span class="bg-surface-container-highest text-on-surface font-label-sm text-label-sm px-2 py-0.5 rounded">Bolt Food</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Placed 3m ago • Direct Rider</span>
+</div>
+<span class="bg-surface-container-high text-on-surface font-label-md text-label-md px-2.5 py-1 rounded-md flex items-center gap-1 font-bold">
+<span class="material-symbols-outlined text-[16px]">timer</span> 03:22
+          </span>
+</div>
+<ul class="space-y-2 py-1">
+<li class="flex items-start justify-between gap-2">
+<div>
+<span class="font-body-md-bold text-body-md-bold text-on-surface block">1x Jollof Rice Special Pack</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Quarter Grilled Chicken • Tangy Coleslaw</span>
+</div>
+<span class="font-label-md text-label-md bg-surface-container px-2 py-1 rounded text-primary">Station B</span>
+</li>
+</ul>
+<div class="flex flex-col gap-2 pt-2">
+<button class="h-14 w-full bg-primary hover:bg-primary-container text-on-primary rounded-xl font-body-md-bold text-body-md-bold flex items-center justify-center gap-2 shadow-md transition-colors active:scale-[0.99]" onclick="acceptOrder('ticket-8504', '8504')">
+<span class="material-symbols-outlined text-[24px]">soup_kitchen</span>
+<span>Accept & Start Prep</span>
+</button>
+<div class="flex items-center justify-between px-1">
+<button class="font-label-md text-label-md text-error hover:underline flex items-center gap-1 py-2">
+<span class="material-symbols-outlined text-[16px]">cancel</span>
+<span>Reject / Sold Out</span>
+</button>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Printer: Ready</span>
+</div>
+</div>
+</article>
+</section>
+<!-- COLUMN 2: IN PREPARATION / KITCHEN POT -->
+<section class="flex flex-col gap-4 bg-surface-container-low p-4 rounded-2xl shadow-sm">
+<header class="flex items-center justify-between pb-2">
+<div class="flex items-center gap-2.5">
+<span class="w-3.5 h-3.5 rounded-full bg-primary"></span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Pot Prep Line</h2>
+</div>
+<span class="px-2.5 py-1 rounded-md bg-primary-fixed text-on-primary-fixed font-label-md text-label-md font-bold">5 ACTIVE</span>
+</header>
+<!-- Card CB-8488 (OVERDUE HIGH ALERT) -->
+<article class="bg-surface p-4 rounded-xl shadow-md flex flex-col gap-3 relative overflow-hidden bg-gradient-to-r from-error/10 via-surface to-surface">
+<div class="flex items-start justify-between gap-2">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-on-surface font-extrabold">#CB-8488</span>
+<span class="bg-error text-on-error font-label-sm text-label-sm px-2 py-0.5 rounded uppercase font-bold tracking-wide">Delayed +4m</span>
+</div>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Customer: Nana Yaa (Airport Res.)</span>
+</div>
+<div class="bg-error-container text-on-error-container font-headline-sm text-headline-sm px-2.5 py-1.5 rounded-lg flex items-center gap-1 font-extrabold">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+<span>14:10</span>
+</div>
+</div>
+<div class="bg-surface-container p-2.5 rounded-lg">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider block">Ticket Items</span>
+<p class="font-body-md-bold text-body-md-bold text-on-surface">3x Waakye Leaf Pack</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Extra Soft Wele • Fried Snapper • Boiled Egg</p>
+</div>
+<div class="flex items-center justify-between bg-surface-container-high p-2 rounded-lg text-on-surface">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">moped</span>
+<span class="font-body-sm-bold text-body-sm-bold">Rider waiting outside at counter</span>
+</div>
+<span class="font-label-sm text-label-sm bg-secondary-fixed text-on-secondary-fixed font-bold px-2 py-0.5 rounded">Rider Here</span>
+</div>
+<div class="grid grid-cols-2 gap-2 pt-1">
+<button class="h-14 bg-secondary-container hover:bg-secondary-fixed-dim text-on-secondary-container rounded-xl font-body-md-bold text-body-md-bold flex items-center justify-center gap-1 shadow transition-colors active:scale-[0.99]">
+<span class="material-symbols-outlined text-[22px]">bolt</span>
+<span>Fast-Track Pack</span>
+</button>
+<button class="h-14 bg-primary hover:bg-primary-container text-on-primary rounded-xl font-body-md-bold text-body-md-bold flex items-center justify-center gap-1 shadow transition-colors active:scale-[0.99]">
+<span class="material-symbols-outlined text-[22px]">check_circle</span>
+<span>Bump Ready</span>
+</button>
+</div>
+</article>
+<!-- Card CB-8492 (NORMAL PACE) -->
+<article class="bg-surface p-4 rounded-xl shadow-md flex flex-col gap-3">
+<div class="flex items-start justify-between gap-2">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-on-surface font-extrabold">#CB-8492</span>
+<span class="bg-surface-container-high text-on-surface font-label-sm text-label-sm px-2 py-0.5 rounded">Cibus Direct</span>
+</div>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Kwame A. (East Legon, Mensah Wood St)</span>
+</div>
+<div class="bg-surface-container-highest text-primary font-headline-sm text-headline-sm px-2.5 py-1 rounded-lg flex items-center gap-1 font-bold">
+<span class="material-symbols-outlined text-[18px]">timer</span>
+<span>07:18</span>
+</div>
+</div>
+<div class="bg-surface-container p-2.5 rounded-lg space-y-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider block">Line Breakdown</span>
+<p class="font-body-md-bold text-body-md-bold text-on-surface">1x Special Waakye Combo</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Tender Stewed Beef • Mild Shito • Hard Egg • Kelewele</p>
+</div>
+<!-- Rider telemetry -->
+<div class="flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm px-1">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">sports_motorsports</span>
+<span>Rider Kofi Mensah (4 min away)</span>
+</div>
+<span class="font-label-sm text-label-sm bg-primary-fixed text-primary px-2 py-0.5 rounded font-bold">Assigned</span>
+</div>
+<div class="grid grid-cols-2 gap-2 pt-1">
+<button class="h-14 bg-secondary-container hover:bg-secondary-fixed-dim text-on-secondary-container rounded-xl font-body-md-bold text-body-md-bold flex items-center justify-center gap-1 shadow transition-colors active:scale-[0.99]">
+<span class="material-symbols-outlined text-[20px]">inventory_2</span>
+<span>Ready to Pack</span>
+</button>
+<button class="h-14 bg-primary hover:bg-primary-container text-on-primary rounded-xl font-body-md-bold text-body-md-bold flex items-center justify-center gap-1 shadow transition-colors active:scale-[0.99]">
+<span class="material-symbols-outlined text-[20px]">done_all</span>
+<span>Bump to Complete</span>
+</button>
+</div>
+</article>
+<!-- Card CB-8495 (FRESH ON LINE) -->
+<article class="bg-surface p-4 rounded-xl shadow-md flex flex-col gap-3">
+<div class="flex items-start justify-between gap-2">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-on-surface font-extrabold">#CB-8495</span>
+<span class="bg-surface-container-high text-on-surface font-label-sm text-label-sm px-2 py-0.5 rounded">Takeaway</span>
+</div>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Akosua Boateng</span>
+</div>
+<div class="bg-surface-container text-on-surface font-label-md text-label-md px-2.5 py-1 rounded-lg flex items-center gap-1 font-bold">
+<span class="material-symbols-outlined text-[18px]">timer</span>
+<span>04:02</span>
+</div>
+</div>
+<div class="bg-surface-container p-2.5 rounded-lg">
+<p class="font-body-md-bold text-body-md-bold text-on-surface">2x Plain Rice & Beef Stew</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Fried Sweet Plantain portions on side</p>
+</div>
+<div class="grid grid-cols-2 gap-2 pt-1">
+<button class="h-14 bg-surface-container-high hover:bg-surface-dim text-on-surface rounded-xl font-body-md-bold text-body-md-bold flex items-center justify-center gap-1 shadow-sm transition-colors active:scale-[0.99]">
+<span>Split Ticket</span>
+</button>
+<button class="h-14 bg-primary hover:bg-primary-container text-on-primary rounded-xl font-body-md-bold text-body-md-bold flex items-center justify-center gap-1 shadow transition-colors active:scale-[0.99]">
+<span class="material-symbols-outlined text-[20px]">done_all</span>
+<span>Bump Ready</span>
+</button>
+</div>
+</article>
+</section>
+<!-- COLUMN 3: PACKING & HANDOVER -->
+<section class="flex flex-col gap-4 bg-surface-container-low p-4 rounded-2xl shadow-sm">
+<header class="flex items-center justify-between pb-2">
+<div class="flex items-center gap-2.5">
+<span class="w-3.5 h-3.5 rounded-full bg-secondary-container"></span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Ready for Rider</h2>
+</div>
+<span class="px-2.5 py-1 rounded-md bg-primary-fixed text-primary font-label-md text-label-md font-bold">3 DISPATCH</span>
+</header>
+<!-- Ticket CB-8479: RIDER AT COUNTER WITH HANDSHAKE PIN -->
+<article class="bg-surface p-4 rounded-xl shadow-lg flex flex-col gap-3 relative border-2 border-primary/20">
+<div class="flex items-start justify-between gap-2">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-primary font-bold">#CB-8479</span>
+<span class="bg-primary text-on-primary font-label-sm text-label-sm px-2 py-0.5 rounded font-bold uppercase tracking-wider">Rider Arrived</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Waakye 2-pack sealed in thermal bag</span>
+</div>
+<span class="bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md px-2.5 py-1 rounded-md font-extrabold">SHELF 02</span>
+</div>
+<!-- Rider Profile Identification Card -->
+<div class="bg-surface-container p-3 rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[26px]">two_wheeler</span>
+</div>
+<div>
+<p class="font-body-md-bold text-body-md-bold text-on-surface">Emmanuel D.</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Yamaha DT (Box #04)</p>
+</div>
+</div>
+<!-- Adinkra Dwennimmen Courier Reliability Stamp -->
+<div class="text-right flex flex-col items-end">
+<span class="bg-primary-fixed text-primary font-label-sm text-label-sm px-2 py-0.5 rounded-full flex items-center gap-1 font-bold">
+<span class="material-symbols-outlined text-[14px]">verified</span> Dwennimmen
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">Top Courier</span>
+</div>
+</div>
+<!-- Security Handshake Monospace PIN Display -->
+<div class="bg-secondary-container/30 p-3.5 rounded-xl flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface uppercase tracking-wider block font-bold">Rider Handshake Code</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Ask rider for matching digits</span>
+</div>
+<div class="bg-secondary-container px-4 py-2 rounded-lg tracking-[0.25em] font-headline-md text-headline-md text-on-secondary-container font-extrabold select-all">
+            8312
+          </div>
+</div>
+<!-- Verification Primary Button -->
+<button class="h-14 w-full bg-primary hover:bg-primary-container text-on-primary rounded-xl font-body-md-bold text-body-md-bold flex items-center justify-center gap-2 shadow-md transition-all active:scale-[0.99]" onclick="completeHandover(this)">
+<span class="material-symbols-outlined text-[24px]">task_alt</span>
+<span>Verify Handover to Rider</span>
+</button>
+</article>
+<!-- Ticket CB-8482: IN TRANSIT TO PICKUP -->
+<article class="bg-surface p-4 rounded-xl shadow-md flex flex-col gap-3">
+<div class="flex items-start justify-between gap-2">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-on-surface font-extrabold">#CB-8482</span>
+<span class="bg-surface-container-high text-on-surface font-label-sm text-label-sm px-2 py-0.5 rounded">GLOVO Express</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Packed & Sealed at Station 1</span>
+</div>
+<span class="bg-surface-container-high text-on-surface font-label-md text-label-md px-2.5 py-1 rounded-md font-bold">SHELF 04</span>
+</div>
+<div class="bg-surface-container p-3 rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[22px]">directions_bike</span>
+</div>
+<div>
+<p class="font-body-md-bold text-body-md-bold text-on-surface">Sarah K.</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Royal 125cc • 2 min away</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm bg-secondary-fixed text-on-secondary-fixed px-2 py-0.5 rounded font-bold">En Route</span>
+</div>
+<!-- Security Handshake PIN Display (Pending) -->
+<div class="bg-surface-container p-3 rounded-xl flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider block">Handshake Code</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Awaiting proximity check</span>
+</div>
+<div class="bg-surface-container-high px-3 py-1.5 rounded-lg tracking-[0.2em] font-headline-sm text-headline-sm text-on-surface font-bold">
+            5944
+          </div>
+</div>
+<button class="h-14 w-full bg-surface-container-high text-outline rounded-xl font-body-md-bold text-body-md-bold flex items-center justify-center gap-2 cursor-not-allowed" disabled="">
+<span class="material-symbols-outlined text-[20px]">hourglass_top</span>
+<span>Awaiting Rider Arrival</span>
+</button>
+</article>
+<!-- Ticket CB-8475: BAGGED TAKEAWAY -->
+<article class="bg-surface p-4 rounded-xl shadow-md flex flex-col gap-3">
+<div class="flex items-start justify-between gap-2">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-on-surface font-extrabold">#CB-8475</span>
+<span class="bg-primary-fixed text-primary font-label-sm text-label-sm px-2 py-0.5 rounded font-bold">Counter Pickup</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Client arriving on foot</span>
+</div>
+<span class="bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md px-2.5 py-1 rounded-md font-bold">HOT BAG 1</span>
+</div>
+<div class="bg-surface-container p-3 rounded-xl">
+<p class="font-body-md-bold text-body-md-bold text-on-surface">Kweku Baako • Walk-in Online Order</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Paid via MTN Mobile Money (Receipt #GH-7782)</p>
+</div>
+<button class="h-14 w-full bg-primary hover:bg-primary-container text-on-primary rounded-xl font-body-md-bold text-body-md-bold flex items-center justify-center gap-2 shadow transition-colors active:scale-[0.99]">
+<span class="material-symbols-outlined text-[20px]">badge</span>
+<span>Handover to Customer</span>
+</button>
+</article>
+</section>
+</main>
+<!-- Sticky Operational Drawer / Kitchen Command Bar -->
+<aside class="sticky bottom-0 z-30 bg-surface-container p-4 md:px-6 shadow-[0_-4px_16px_rgba(43,33,24,0.08)]">
+<div class="w-full flex flex-wrap items-center justify-between gap-4">
+<!-- Instant 86 / Pot Sold-out Kill-Switches -->
+<div class="flex items-center flex-wrap gap-2.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-bold mr-1">Rapid 86 / Stock Control:</span>
+<button class="h-12 px-4 rounded-xl bg-surface hover:bg-surface-dim text-on-surface font-body-sm-bold text-body-sm-bold flex items-center gap-2 shadow-sm transition-all active:scale-95" id="btn86Chicken" onclick="toggle86(this, 'Fried Red Snapper')">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+<span>Red Snapper: Live</span>
+</button>
+<button class="h-12 px-4 rounded-xl bg-tertiary-container hover:bg-tertiary text-on-tertiary font-body-sm-bold text-body-sm-bold flex items-center gap-2 shadow-sm transition-all active:scale-95" id="btn86Waakye" onclick="togglePotBatch(this)">
+<span class="material-symbols-outlined text-[18px]">soup_kitchen</span>
+<span>Signal "Waakye Batch Depleting (20m)"</span>
+</button>
+<button class="h-12 px-4 rounded-xl bg-surface hover:bg-surface-dim text-on-surface font-body-sm-bold text-body-sm-bold flex items-center gap-2 shadow-sm transition-all active:scale-95" onclick="toggle86(this, 'Kelewele Ripe')">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+<span>Kelewele: Available</span>
+</button>
+</div>
+<!-- Quick Operational Controls -->
+<div class="flex items-center gap-3 ml-auto">
+<button class="h-12 px-4 bg-surface-container-high hover:bg-surface-dim text-on-surface rounded-xl font-body-sm-bold text-body-sm-bold flex items-center gap-2 transition-colors" onclick="simulateChime()">
+<span class="material-symbols-outlined text-[20px]">volume_up</span>
+<span class="hidden sm:inline">Chime Test</span>
+</button>
+<button class="h-12 px-4 bg-surface-container-high hover:bg-surface-dim text-on-surface rounded-xl font-body-sm-bold text-body-sm-bold flex items-center gap-2 transition-colors" onclick="reprintLast()">
+<span class="material-symbols-outlined text-[20px]">print</span>
+<span class="hidden sm:inline">Reprint Last Slip</span>
+</button>
+<button class="h-12 px-4 bg-error text-on-error hover:bg-on-error-container rounded-xl font-body-sm-bold text-body-sm-bold flex items-center gap-2 shadow transition-colors active:scale-95" id="pauseKitchenBtn" onclick="togglePauseKitchen(this)">
+<span class="material-symbols-outlined text-[20px]">pause_circle</span>
+<span>Pause Incoming (15 min)</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- Interactive Client-side Script -->
+<script>
+    function simulateChime() {
+      // Audio synth feedback for KDS tablet touch response
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, audioCtx.currentTime); // High pleasant ding
+        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.5);
+      } catch (e) {
+        console.log('AudioContext not available');
+      }
+    }
+
+    function acceptOrder(elementId, orderNum) {
+      simulateChime();
+      const card = document.getElementById(elementId);
+      if (card) {
+        card.style.transition = "all 0.3s ease";
+        card.style.opacity = "0.4";
+        card.style.transform = "translateX(20px)";
+        setTimeout(() => {
+          card.remove();
+        }, 300);
+      }
+    }
+
+    function completeHandover(btn) {
+      simulateChime();
+      btn.innerHTML = `<span class="material-symbols-outlined text-[24px]">verified</span> Handed Over Successfully`;
+      btn.classList.remove('bg-primary');
+      btn.classList.add('bg-secondary');
+      setTimeout(() => {
+        const parentCard = btn.closest('article');
+        if (parentCard) parentCard.style.opacity = '0.35';
+      }, 700);
+    }
+
+    function toggle86(btn, itemName) {
+      const isOut = btn.dataset.isOut === 'true';
+      if (!isOut) {
+        btn.dataset.isOut = 'true';
+        btn.classList.remove('bg-surface', 'text-on-surface');
+        btn.classList.add('bg-error', 'text-on-error');
+        btn.innerHTML = `<span class="material-symbols-outlined text-[18px]">block</span> <span>86'd: ${itemName}</span>`;
+      } else {
+        btn.dataset.isOut = 'false';
+        btn.classList.remove('bg-error', 'text-on-error');
+        btn.classList.add('bg-surface', 'text-on-surface');
+        btn.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-primary"></span> <span>${itemName}: Live</span>`;
+      }
+    }
+
+    function togglePotBatch(btn) {
+      const active = btn.dataset.cooking === 'true';
+      if (!active) {
+        btn.dataset.cooking = 'true';
+        btn.classList.remove('bg-tertiary-container', 'text-on-tertiary');
+        btn.classList.add('bg-secondary', 'text-on-secondary');
+        btn.innerHTML = `<span class="material-symbols-outlined text-[18px]">timelapse</span> <span>Next Pot Ready in ~16 min</span>`;
+      } else {
+        btn.dataset.cooking = 'false';
+        btn.classList.remove('bg-secondary', 'text-on-secondary');
+        btn.classList.add('bg-tertiary-container', 'text-on-tertiary');
+        btn.innerHTML = `<span class="material-symbols-outlined text-[18px]">soup_kitchen</span> <span>Signal "Waakye Batch Depleting (20m)"</span>`;
+      }
+    }
+
+    function reprintLast() {
+      simulateChime();
+      alert('Sent slip reprint request to Kitchen Thermal Printer (Station A - EPSON TM-T88VI)');
+    }
+
+    function togglePauseKitchen(btn) {
+      const isPaused = btn.dataset.paused === 'true';
+      if (!isPaused) {
+        btn.dataset.paused = 'true';
+        btn.classList.remove('bg-error');
+        btn.classList.add('bg-primary');
+        btn.innerHTML = `<span class="material-symbols-outlined text-[20px]">play_arrow</span> <span>Resume Orders</span>`;
+      } else {
+        btn.dataset.paused = 'false';
+        btn.classList.remove('bg-primary');
+        btn.classList.add('bg-error');
+        btn.innerHTML = `<span class="material-symbols-outlined text-[20px]">pause_circle</span> <span>Pause Incoming (15 min)</span>`;
+      }
+    }
+
+    // Filter pill behaviors
+    document.querySelectorAll('.station-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.station-tab').forEach(t => {
+          t.classList.remove('bg-primary', 'text-on-primary');
+          t.classList.add('bg-surface-container', 'text-on-surface');
+        });
+        tab.classList.remove('bg-surface-container', 'text-on-surface');
+        tab.classList.add('bg-primary', 'text-on-primary');
+      });
+    });
+
+    document.getElementById('toggleChimeBtn')?.addEventListener('click', simulateChime);
+  </script>
+</div></main></div></body></html>

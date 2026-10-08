@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400;1,700&amp;family=Epilogue:ital,wght@0,600;0,700;0,800;1,600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "surface-variant": "#f2dfd1",
+          "secondary-fixed-dim": "#f0bf5c",
+          "secondary-container": "#fcca66",
+          "primary": "#002517",
+          "inverse-on-surface": "#ffeee1",
+          "on-tertiary-container": "#ec7f63",
+          "primary-fixed-dim": "#a4d0b7",
+          "on-secondary": "#ffffff",
+          "on-tertiary": "#ffffff",
+          "surface-container": "#feeadc",
+          "on-tertiary-fixed": "#3c0700",
+          "on-primary-fixed": "#002113",
+          "tertiary": "#430900",
+          "on-secondary-container": "#755400",
+          "on-tertiary-fixed-variant": "#7e2b16",
+          "inverse-primary": "#a4d0b7",
+          "outline": "#717973",
+          "background": "#fff8f5",
+          "error-container": "#ffdad6",
+          "surface-tint": "#3e6752",
+          "on-surface": "#231a11",
+          "on-error-container": "#93000a",
+          "secondary-fixed": "#ffdea4",
+          "on-surface-variant": "#414943",
+          "error": "#ba1a1a",
+          "secondary": "#7b5900",
+          "on-primary-container": "#7ca78f",
+          "surface-container-high": "#f8e5d6",
+          "outline-variant": "#c1c8c2",
+          "tertiary-container": "#651a06",
+          "on-secondary-fixed-variant": "#5d4200",
+          "primary-container": "#123c2a",
+          "on-error": "#ffffff",
+          "surface": "#fff8f5",
+          "on-secondary-fixed": "#261900",
+          "on-primary-fixed-variant": "#264e3b",
+          "on-background": "#231a11",
+          "surface-container-lowest": "#ffffff",
+          "surface-dim": "#e9d7c8",
+          "tertiary-fixed": "#ffdad2",
+          "surface-bright": "#fff8f5",
+          "surface-container-low": "#fff1e8",
+          "surface-container-highest": "#f2dfd1",
+          "primary-fixed": "#c0edd2",
+          "on-primary": "#ffffff",
+          "inverse-surface": "#392e25",
+          "tertiary-fixed-dim": "#ffb4a2"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "space-lg": "1.5rem",
+          "space-sm": "0.5rem",
+          "space-xl": "2rem",
+          "space-md": "1rem",
+          "margin-tablet": "1.5rem",
+          "margin": "1rem",
+          "gutter-desktop": "1.5rem",
+          "gutter": "1rem",
+          "space-xs": "0.25rem",
+          "margin-desktop": "2.5rem"
+        },
+        "fontFamily": {
+          "headline-sm": [
+            "Epilogue"
+          ],
+          "label-md": [
+            "Atkinson Hyperlegible Next"
+          ],
+          "price-md": [
+            "Atkinson Hyperlegible Next"
+          ],
+          "body-lg": [
+            "Atkinson Hyperlegible Next"
+          ],
+          "label-sm": [
+            "Atkinson Hyperlegible Next"
+          ],
+          "headline-md": [
+            "Epilogue"
+          ],
+          "body-md": [
+            "Atkinson Hyperlegible Next"
+          ],
+          "headline-xl": [
+            "Epilogue"
+          ],
+          "body-sm-bold": [
+            "Atkinson Hyperlegible Next"
+          ],
+          "headline-lg-mobile": [
+            "Epilogue"
+          ],
+          "price-lg": [
+            "Atkinson Hyperlegible Next"
+          ],
+          "headline-xl-mobile": [
+            "Epilogue"
+          ],
+          "headline-lg": [
+            "Epilogue"
+          ],
+          "body-sm": [
+            "Atkinson Hyperlegible Next"
+          ],
+          "body-md-bold": [
+            "Atkinson Hyperlegible Next"
+          ]
+        },
+        "fontSize": {
+          "headline-sm": [
+            "18px",
+            {
+              "lineHeight": "24px",
+              "fontWeight": "600"
+            }
+          ],
+          "label-md": [
+            "14px",
+            {
+              "lineHeight": "18px",
+              "fontWeight": "700"
+            }
+          ],
+          "price-md": [
+            "16px",
+            {
+              "lineHeight": "20px",
+              "fontWeight": "700"
+            }
+          ],
+          "body-lg": [
+            "18px",
+            {
+              "lineHeight": "28px",
+              "fontWeight": "400"
+            }
+          ],
+          "label-sm": [
+            "12px",
+            {
+              "lineHeight": "16px",
+              "fontWeight": "700"
+            }
+          ],
+          "headline-md": [
+            "22px",
+            {
+              "lineHeight": "28px",
+              "fontWeight": "700"
+            }
+          ],
+          "body-md": [
+            "16px",
+            {
+              "lineHeight": "24px",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-xl": [
+            "36px",
+            {
+              "lineHeight": "44px",
+              "fontWeight": "800"
+            }
+          ],
+          "body-sm-bold": [
+            "14px",
+            {
+              "lineHeight": "20px",
+              "fontWeight": "700"
+            }
+          ],
+          "headline-lg-mobile": [
+            "24px",
+            {
+              "lineHeight": "32px",
+              "fontWeight": "700"
+            }
+          ],
+          "price-lg": [
+            "20px",
+            {
+              "lineHeight": "24px",
+              "fontWeight": "700"
+            }
+          ],
+          "headline-xl-mobile": [
+            "28px",
+            {
+              "lineHeight": "36px",
+              "fontWeight": "800"
+            }
+          ],
+          "headline-lg": [
+            "28px",
+            {
+              "lineHeight": "36px",
+              "fontWeight": "700"
+            }
+          ],
+          "body-sm": [
+            "14px",
+            {
+              "lineHeight": "20px",
+              "fontWeight": "400"
+            }
+          ],
+          "body-md-bold": [
+            "16px",
+            {
+              "lineHeight": "24px",
+              "fontWeight": "700"
+            }
+          ]
+        }
+      },
+    },
+  }</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-low z-50 flex flex-col pt-4 pb-6 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="px-space-md mb-space-md flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center"><span class="material-symbols-outlined text-secondary-container text-[22px]">local_mall</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary tracking-tight">CibusHub</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Ops Console</span></div></div></div><div class="px-space-md mb-space-md"><div class="bg-surface-container px-space-sm py-space-xs rounded-lg flex items-center justify-between"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[16px] text-tertiary-container">hub</span><span class="font-label-sm text-label-sm text-on-surface">Cluster: GH-ACC-01</span></div><span class="w-2 h-2 rounded-full bg-surface-tint"></span></div></div><nav class="flex-1 px-space-sm flex flex-col gap-1" data-active-classes="bg-primary-container text-on-primary font-body-md-bold rounded-lg shadow-sm"><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="overview-and-live-ops" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">radar</span><span class="font-body-md text-body-md">Overview &amp; Live Ops</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="approvals-queue" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">fact_check</span><span class="font-body-md text-body-md">Approvals Queue</span></div><span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">6</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="order-management" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span class="font-body-md text-body-md">Order Management</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="payments-and-refunds" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">payments</span><span class="font-body-md text-body-md">Payments &amp; Refunds</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="audit-log" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">policy</span><span class="font-body-md text-body-md">Audit Log</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="platform-settings" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-body-md text-body-md">Platform Settings</span></div></a></nav><div class="px-space-md pt-space-sm"><div class="bg-surface-container-high p-space-sm rounded-lg flex items-center justify-between"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[16px] text-primary">security</span><span class="font-label-sm text-label-sm text-on-surface-variant">MFA Enforced</span></div><span class="font-label-sm text-label-sm text-primary-container font-bold">Active</span></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-md"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs px-space-sm py-1 bg-surface-container rounded-lg"><span class="material-symbols-outlined text-[18px] text-primary">location_on</span><span class="font-body-sm-bold text-body-sm-bold text-on-surface">Accra Metro</span><span class="font-label-sm text-label-sm text-on-surface-variant">| 9 Zones Active</span></div><div class="flex items-center gap-space-xs px-space-sm py-1 bg-surface-container-lowest rounded-lg"><span class="w-2.5 h-2.5 rounded-full bg-surface-tint"></span><span class="font-label-sm text-label-sm text-on-surface">Core API: 99.98%</span></div></div><div class="flex items-center gap-space-md"><button class="relative w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 min-w-[18px] h-[18px] px-1 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-label-sm flex items-center justify-center">3</span></button><div class="h-8 w-px bg-surface-container-high"></div><div class="flex items-center gap-space-sm"><div class="flex flex-col text-right"><span class="font-body-sm-bold text-body-sm-bold text-on-surface leading-tight">Kofi Mensah</span><span class="font-label-sm text-label-sm text-secondary leading-tight">Super Admin</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-surface px-space-md pb-space-xl"><div class="flex flex-col w-full">
+<div class="flex flex-col gap-space-lg w-full">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md bg-surface-container-low p-space-lg rounded-xl shadow-sm">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-space-xs">
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase tracking-wider">GhIPSS ISO-20022 Compliant</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">• Live Settlement Cycle: 15-Min Rolling</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-tight">Payments, Refunds &amp; MoMo Reconciliation</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Real-time ledger audit, multi-network USSD gateway pings, and automated Paystack escrow dispersion for Greater Accra Metro.</p>
+</div>
+<div class="flex items-center gap-space-sm flex-wrap">
+<div class="flex items-center gap-2 bg-surface-container px-space-md py-2.5 rounded-lg shadow-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-surface-tint animate-pulse"></span>
+<span class="font-label-md text-label-md text-on-surface">Vault Sync: Active</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">12:44:02 GMT</span>
+</div>
+<button class="flex items-center gap-2 bg-primary-container hover:bg-primary text-on-primary px-space-md py-3 rounded-lg font-label-md text-label-md shadow-sm transition-all transform active:scale-95" onclick="document.getElementById('manual-refund-drawer').classList.remove('translate-x-full')">
+<span class="material-symbols-outlined text-[20px] text-secondary-container">currency_exchange</span>
+<span>Trigger Manual MoMo Reimbursement</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-space-md">
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col justify-between shadow-sm relative overflow-hidden group">
+<div class="absolute -right-4 -bottom-4 w-24 h-24 bg-surface-tint/5 rounded-full pointer-events-none group-hover:scale-110 transition-transform"></div>
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Gross Processed (7 Days)</span>
+<span class="font-headline-lg text-headline-lg text-primary mt-1">GHS 184,520.00</span>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">account_balance_wallet</span>
+</div>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between text-on-surface-variant">
+<span class="font-body-sm text-body-sm flex items-center gap-1 text-surface-tint font-bold">
+<span class="material-symbols-outlined text-[16px]">trending_up</span> +14.2% vs last cycle
+          </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">2,842 total runs</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col justify-between shadow-sm relative overflow-hidden group">
+<div class="absolute -right-4 -bottom-4 w-24 h-24 bg-surface-tint/5 rounded-full pointer-events-none group-hover:scale-110 transition-transform"></div>
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Automated Settlements</span>
+<span class="font-headline-lg text-headline-lg text-primary mt-1">GHS 158,687.20</span>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[22px]">bolt</span>
+</div>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between">
+<div class="w-full bg-surface-container rounded-full h-1.5 mr-3 overflow-hidden">
+<div class="bg-surface-tint h-1.5 rounded-full" style="width: 98.6%"></div>
+</div>
+<span class="font-label-sm text-label-sm text-surface-tint font-bold whitespace-nowrap">98.6% auto</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col justify-between shadow-sm relative overflow-hidden group">
+<div class="absolute -right-4 -bottom-4 w-24 h-24 bg-tertiary-container/5 rounded-full pointer-events-none group-hover:scale-110 transition-transform"></div>
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider font-bold">Flagged &amp; In-Review</span>
+<span class="font-headline-lg text-headline-lg text-tertiary mt-1">GHS 3,420.00</span>
+</div>
+<div class="w-10 h-10 rounded-lg bg-tertiary-fixed flex items-center justify-center text-tertiary-container">
+<span class="material-symbols-outlined text-[22px]">warning</span>
+</div>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-tertiary-container font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">priority_high</span> 5 manual interventions
+          </span>
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm">Requires Action</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col justify-between shadow-sm relative overflow-hidden group">
+<div class="absolute -right-4 -bottom-4 w-24 h-24 bg-secondary-container/10 rounded-full pointer-events-none group-hover:scale-110 transition-transform"></div>
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Commission Retained</span>
+<span class="font-headline-lg text-headline-lg text-primary mt-1">GHS 22,412.80</span>
+</div>
+<div class="w-10 h-10 rounded-lg bg-secondary-fixed flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-[22px]">savings</span>
+</div>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between text-on-surface-variant">
+<span class="font-body-sm text-body-sm">Avg 12% fee cut</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">+ GHS 3 Eco-pack</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low p-space-md rounded-xl shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between flex-wrap gap-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-primary">cell_tower</span>
+<span class="font-body-sm-bold text-body-sm-bold text-primary uppercase tracking-wider">West African Gateway Latency &amp; Status Monitor</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Accra Node • Last ping 8s ago</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-space-sm">
+<div class="bg-surface-container-lowest p-space-sm rounded-lg flex items-center justify-between shadow-sm">
+<div class="flex items-center gap- space-sm">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container font-headline-sm text-xs font-black mr-2">MTN</div>
+<div class="flex flex-col">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">MTN MoMo Ghana</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Webhook Latency: 1.4s</span>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-surface-tint"></span> 99.8% Uptime
+            </span>
+<span class="font-label-sm text-[10px] text-surface-tint mt-0.5">Live</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-space-sm rounded-lg flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-tertiary-container flex items-center justify-center text-on-tertiary font-headline-sm text-xs font-black mr-2">TEL</div>
+<div class="flex flex-col">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Telecel Cash</span>
+<span class="font-label-sm text-label-sm text-tertiary-container font-bold">Latency: 4.8s (Delayed)</span>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span> 98.2% Uptime
+            </span>
+<span class="font-label-sm text-[10px] text-error mt-0.5">Accra East USSD lag</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-space-sm rounded-lg flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-secondary-container font-headline-sm text-xs font-black mr-2">AT</div>
+<div class="flex flex-col">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">AT Money</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Webhook Latency: 1.8s</span>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-surface-tint"></span> 99.4% Uptime
+            </span>
+<span class="font-label-sm text-[10px] text-surface-tint mt-0.5">Normal</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-space-sm rounded-lg flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary font-headline-sm text-xs font-black mr-2">
+<span class="material-symbols-outlined text-[16px]">credit_card</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Cards via Paystack</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Webhook Latency: 0.8s</span>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-surface-tint"></span> 100% Uptime
+            </span>
+<span class="font-label-sm text-[10px] text-surface-tint mt-0.5">Optimal</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-tertiary-container flex items-center justify-center text-on-tertiary">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-primary">Exceptions &amp; Flagged Queue</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Urgent transaction hazards, timed-out callbacks, and merchant discrepancies requiring immediate operational sign-off.</p>
+</div>
+</div>
+<span class="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm rounded-full">3 unresolved blockers</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-md">
+<div class="bg-surface-container-low p-space-md rounded-xl shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="absolute top-0 left-0 right-0 h-1.5 bg-error"></div>
+<div>
+<div class="flex items-start justify-between mb-space-sm">
+<span class="px-2 py-0.5 rounded-md bg-error-container text-on-error-container font-label-sm text-label-sm">Webhook Timeout • Double Charge Risk</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">GHS 145.00</span>
+</div>
+<div class="flex items-center gap-2 mb-space-xs">
+<span class="font-body-sm-bold text-body-sm-bold text-primary">Order #CB-8534</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">• MTN MoMo (+233 24 491 8021)</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">
+              User MoMo account deducted via USSD push. Paystack callback timed out after 120s due to local carrier gateway spike. Dish preparation blocked at Buka Express.
+            </p>
+<div class="bg-surface-container p-space-sm rounded-lg flex items-center justify-between mb-space-md text-on-surface">
+<span class="font-label-sm text-label-sm">Telco Ref: MTN-GH-99820-X</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">12m Elapsed</span>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<div class="grid grid-cols-2 gap-2">
+<button class="h-11 px-3 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm rounded-lg transition-colors flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[16px]">sync</span> Verify Telco Ref
+              </button>
+<button class="h-11 px-3 bg-tertiary-container hover:bg-tertiary text-on-tertiary font-label-sm text-label-sm rounded-lg transition-colors flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[16px]">undo</span> Approve Refund
+              </button>
+</div>
+<button class="h-11 w-full bg-primary-container hover:bg-primary text-on-primary font-label-sm text-label-sm rounded-lg transition-colors flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[16px]">check_circle</span> Force Order Release to Kitchen
+            </button>
+</div>
+</div>
+<div class="bg-surface-container-low p-space-md rounded-xl shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="absolute top-0 left-0 right-0 h-1.5 bg-secondary"></div>
+<div>
+<div class="flex items-start justify-between mb-space-sm">
+<span class="px-2 py-0.5 rounded-md bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-label-sm">Kitchen Out of Stock • Auto-Reversed</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">GHS 89.00</span>
+</div>
+<div class="flex items-center gap-2 mb-space-xs">
+<span class="font-body-sm-bold text-body-sm-bold text-primary">Order #CB-8510</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">• Auntie Muni Kitchen</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">
+              Customer initiated cancellation: Jollof &amp; Waakye stock depleted. Instant MoMo Reversal triggered to Kwame S. via Paystack Subaccount protocol.
+            </p>
+<div class="bg-surface-container p-space-sm rounded-lg flex flex-col gap-1 mb-space-md">
+<div class="flex items-center justify-between text-on-surface">
+<span class="font-label-sm text-label-sm">Reversal Hash:</span>
+<span class="font-label-sm text-label-sm font-mono text-on-surface-variant">rfnd_live_884920bxa</span>
+</div>
+<div class="flex items-center gap-1 text-surface-tint">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span class="font-label-sm text-label-sm font-bold">Nyame Dua Confirmed Stamp</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="h-11 w-full bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm rounded-lg transition-colors flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[16px]">receipt</span> View Reversal Audit Trail
+            </button>
+</div>
+</div>
+<div class="bg-surface-container-low p-space-md rounded-xl shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="absolute top-0 left-0 right-0 h-1.5 bg-secondary-container"></div>
+<div>
+<div class="flex items-start justify-between mb-space-sm">
+<span class="px-2 py-0.5 rounded-md bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">Merchant Payout Discrepancy</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">GHS 210.00</span>
+</div>
+<div class="flex items-center gap-2 mb-space-xs">
+<span class="font-body-sm-bold text-body-sm-bold text-primary">Order #CB-8499</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">• Telecel Cash (Papaye Cantonments)</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">
+              Vendor GRA TIN mismatch on statutory eco-levy computation. Automatic disbursement withheld pending Ghana Revenue Authority electronic VAT validation.
+            </p>
+<div class="bg-surface-container p-space-sm rounded-lg flex items-center justify-between mb-space-md text-on-surface">
+<span class="font-label-sm text-label-sm">Discrepancy: GHS 6.30 (VAT)</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">Ledger Hold</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="h-11 w-full bg-primary-container hover:bg-primary text-on-primary font-label-sm text-label-sm rounded-lg transition-colors flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[16px]">fact_check</span> Resolve Hold &amp; Disburse
+            </button>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary">Settlements &amp; Refunds Ledger</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Live auditable record of split-payments, platform royalties, and carrier-level confirmations.</p>
+</div>
+<div class="flex items-center gap-space-sm flex-wrap">
+<div class="relative min-w-[280px]">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="w-full h-11 pl-10 pr-4 bg-surface-container-lowest text-on-surface font-body-sm text-body-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary shadow-sm" placeholder="Search Paystack ref, MoMo #, order..." type="text"/>
+</div>
+<select class="h-11 px-3 bg-surface-container-lowest text-on-surface font-label-sm text-label-sm rounded-lg focus:outline-none shadow-sm cursor-pointer">
+<option>All Providers (MTN, Telecel, AT)</option>
+<option>MTN MoMo Only</option>
+<option>Telecel Cash Only</option>
+<option>Card Channels</option>
+</select>
+<button class="h-11 px-4 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm rounded-lg shadow-sm flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-[18px]">tune</span> Filter
+          </button>
+<button class="h-11 px-4 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm rounded-lg shadow-sm flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-[18px]">download</span> Export CSV
+          </button>
+</div>
+</div>
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-3 px-space-md rounded-l-lg">Transaction Ref</th>
+<th class="py-3 px-space-sm">Order ID</th>
+<th class="py-3 px-space-sm">Date &amp; Time</th>
+<th class="py-3 px-space-md">Party Involved</th>
+<th class="py-3 px-space-sm">Provider</th>
+<th class="py-3 px-space-sm text-right">Amount</th>
+<th class="py-3 px-space-sm text-right">Fee (12%)</th>
+<th class="py-3 px-space-sm text-right">Net Payout</th>
+<th class="py-3 px-space-md text-center">Status</th>
+<th class="py-3 px-space-md text-center rounded-r-lg">Reconciled</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container text-body-sm text-on-surface">
+<tr class="hover:bg-surface-container-lowest/60 transition-colors">
+<td class="py-3.5 px-space-md">
+<span class="font-mono text-on-surface-variant font-body-sm-bold">pstk_live_9942a8</span>
+</td>
+<td class="py-3.5 px-space-sm">
+<span class="font-body-sm-bold text-primary">#CB-8492</span>
+</td>
+<td class="py-3.5 px-space-sm text-on-surface-variant whitespace-nowrap">
+                Today, 12:15 PM
+              </td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-body-sm-bold text-on-surface">Kwame Mensah</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">→ Auntie Muni Kitchen</span>
+</div>
+</td>
+<td class="py-3.5 px-space-sm">
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">MTN MoMo</span>
+</td>
+<td class="py-3.5 px-space-sm text-right font-price-md text-price-md font-bold text-on-surface">
+                GHS 89.00
+              </td>
+<td class="py-3.5 px-space-sm text-right text-on-surface-variant font-label-sm text-label-sm">
+                GHS 10.68
+              </td>
+<td class="py-3.5 px-space-sm text-right font-price-md text-price-md text-primary font-bold">
+                GHS 78.32
+              </td>
+<td class="py-3.5 px-space-md text-center">
+<span class="px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">Settled</span>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<div class="inline-flex items-center gap-1 text-surface-tint">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span class="font-label-sm text-label-sm">Verified</span>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest/60 transition-colors">
+<td class="py-3.5 px-space-md">
+<span class="font-mono text-on-surface-variant font-body-sm-bold">pstk_live_993812</span>
+</td>
+<td class="py-3.5 px-space-sm">
+<span class="font-body-sm-bold text-primary">#CB-8488</span>
+</td>
+<td class="py-3.5 px-space-sm text-on-surface-variant whitespace-nowrap">
+                Today, 11:30 AM
+              </td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-body-sm-bold text-on-surface">Ebenezer Tagoe</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">→ Buka Express</span>
+</div>
+</td>
+<td class="py-3.5 px-space-sm">
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">MTN MoMo</span>
+</td>
+<td class="py-3.5 px-space-sm text-right font-price-md text-price-md font-bold text-on-surface">
+                GHS 75.00
+              </td>
+<td class="py-3.5 px-space-sm text-right text-on-surface-variant font-label-sm text-label-sm">
+                GHS 9.00
+              </td>
+<td class="py-3.5 px-space-sm text-right font-price-md text-price-md text-primary font-bold">
+                GHS 66.00
+              </td>
+<td class="py-3.5 px-space-md text-center">
+<span class="px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">Settled</span>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<div class="inline-flex items-center gap-1 text-surface-tint">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span class="font-label-sm text-label-sm">Verified</span>
+</div>
+</td>
+</tr>
+<tr class="bg-surface-container-high/40 hover:bg-surface-container-high transition-colors">
+<td class="py-3.5 px-space-md">
+<span class="font-mono text-tertiary-container font-body-sm-bold">rfnd_live_884920b</span>
+</td>
+<td class="py-3.5 px-space-sm">
+<span class="font-body-sm-bold text-tertiary">#CB-8510</span>
+</td>
+<td class="py-3.5 px-space-sm text-on-surface-variant whitespace-nowrap">
+                Today, 12:20 PM
+              </td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-body-sm-bold text-tertiary">CibusHub Escrow</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">→ Kwame S. (Refund)</span>
+</div>
+</td>
+<td class="py-3.5 px-space-sm">
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">MTN MoMo</span>
+</td>
+<td class="py-3.5 px-space-sm text-right font-price-md text-price-md font-bold text-tertiary">
+                -GHS 89.00
+              </td>
+<td class="py-3.5 px-space-sm text-right text-on-surface-variant font-label-sm text-label-sm">
+                GHS 0.00
+              </td>
+<td class="py-3.5 px-space-sm text-right font-price-md text-price-md text-tertiary font-bold">
+                Full Refund
+              </td>
+<td class="py-3.5 px-space-md text-center">
+<span class="px-2.5 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm font-bold">Reversed</span>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<div class="inline-flex items-center gap-1 text-surface-tint">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span class="font-label-sm text-label-sm">Verified</span>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest/60 transition-colors">
+<td class="py-3.5 px-space-md">
+<span class="font-mono text-on-surface-variant font-body-sm-bold">pstk_live_992144</span>
+</td>
+<td class="py-3.5 px-space-sm">
+<span class="font-body-sm-bold text-primary">#CB-8481</span>
+</td>
+<td class="py-3.5 px-space-sm text-on-surface-variant whitespace-nowrap">
+                Today, 10:15 AM
+              </td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-body-sm-bold text-on-surface">Serah Mensah</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">→ Papaye Cantonments</span>
+</div>
+</td>
+<td class="py-3.5 px-space-sm">
+<span class="px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-label-sm">Telecel</span>
+</td>
+<td class="py-3.5 px-space-sm text-right font-price-md text-price-md font-bold text-on-surface">
+                GHS 68.00
+              </td>
+<td class="py-3.5 px-space-sm text-right text-on-surface-variant font-label-sm text-label-sm">
+                GHS 8.16
+              </td>
+<td class="py-3.5 px-space-sm text-right font-price-md text-price-md text-primary font-bold">
+                GHS 59.84
+              </td>
+<td class="py-3.5 px-space-md text-center">
+<span class="px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">Settled</span>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<div class="inline-flex items-center gap-1 text-surface-tint">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span class="font-label-sm text-label-sm">Verified</span>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest/60 transition-colors">
+<td class="py-3.5 px-space-md">
+<span class="font-mono text-on-surface-variant font-body-sm-bold">pstk_live_991802</span>
+</td>
+<td class="py-3.5 px-space-sm">
+<span class="font-body-sm-bold text-primary">#CB-8479</span>
+</td>
+<td class="py-3.5 px-space-sm text-on-surface-variant whitespace-nowrap">
+                Today, 09:48 AM
+              </td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-body-sm-bold text-on-surface">Akosua Boateng</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">→ Chez Clarisse</span>
+</div>
+</td>
+<td class="py-3.5 px-space-sm">
+<span class="px-2 py-0.5 rounded-full bg-primary-container text-secondary-container font-label-sm text-label-sm">AT Money</span>
+</td>
+<td class="py-3.5 px-space-sm text-right font-price-md text-price-md font-bold text-on-surface">
+                GHS 112.00
+              </td>
+<td class="py-3.5 px-space-sm text-right text-on-surface-variant font-label-sm text-label-sm">
+                GHS 13.44
+              </td>
+<td class="py-3.5 px-space-sm text-right font-price-md text-price-md text-primary font-bold">
+                GHS 98.56
+              </td>
+<td class="py-3.5 px-space-md text-center">
+<span class="px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">Settled</span>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<div class="inline-flex items-center gap-1 text-surface-tint">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span class="font-label-sm text-label-sm">Verified</span>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="flex items-center justify-between flex-wrap gap-space-sm pt-space-sm">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Showing 5 of 2,842 reconciled records in current Accra batch</span>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 bg-surface-container hover:bg-surface-container-high rounded-lg font-label-sm text-label-sm text-on-surface">Previous</button>
+<button class="px-3 py-1.5 bg-primary text-on-primary rounded-lg font-label-sm text-label-sm">1</button>
+<button class="px-3 py-1.5 bg-surface-container hover:bg-surface-container-high rounded-lg font-label-sm text-label-sm text-on-surface">2</button>
+<button class="px-3 py-1.5 bg-surface-container hover:bg-surface-container-high rounded-lg font-label-sm text-label-sm text-on-surface">3</button>
+<span class="text-on-surface-variant font-body-sm">...</span>
+<button class="px-3 py-1.5 bg-surface-container hover:bg-surface-container-high rounded-lg font-label-sm text-label-sm text-on-surface">Next</button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-md">
+<div class="lg:col-span-2 bg-surface-container-low p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-start justify-between mb-space-md">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Settlement Volume Distribution</span>
+<h3 class="font-headline-sm text-headline-sm text-primary">Daily Escrow &amp; Dispersion Trends (GHS '000)</h3>
+</div>
+<div class="flex items-center gap-2">
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-on-surface">
+<span class="w-2.5 h-2.5 rounded-full bg-primary-container"></span> Gross
+            </span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-on-surface">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary-container"></span> Disbursed
+            </span>
+</div>
+</div>
+<div class="w-full h-44 flex items-end gap-4 pt-4 px-2">
+<div class="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+<div class="w-full flex items-end justify-center gap-1 h-3/4">
+<div class="w-full bg-primary-container rounded-t" style="height: 65%;"></div>
+<div class="w-full bg-secondary-container rounded-t" style="height: 58%;"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Mon</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+<div class="w-full flex items-end justify-center gap-1 h-3/4">
+<div class="w-full bg-primary-container rounded-t" style="height: 78%;"></div>
+<div class="w-full bg-secondary-container rounded-t" style="height: 72%;"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Tue</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+<div class="w-full flex items-end justify-center gap-1 h-3/4">
+<div class="w-full bg-primary-container rounded-t" style="height: 82%;"></div>
+<div class="w-full bg-secondary-container rounded-t" style="height: 79%;"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Wed</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+<div class="w-full flex items-end justify-center gap-1 h-3/4">
+<div class="w-full bg-primary-container rounded-t" style="height: 70%;"></div>
+<div class="w-full bg-secondary-container rounded-t" style="height: 66%;"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Thu</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+<div class="w-full flex items-end justify-center gap-1 h-3/4">
+<div class="w-full bg-primary-container rounded-t" style="height: 92%;"></div>
+<div class="w-full bg-secondary-container rounded-t" style="height: 89%;"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Fri</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+<div class="w-full flex items-end justify-center gap-1 h-3/4">
+<div class="w-full bg-primary-container rounded-t" style="height: 100%;"></div>
+<div class="w-full bg-secondary-container rounded-t" style="height: 96%;"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Sat</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+<div class="w-full flex items-end justify-center gap-1 h-3/4">
+<div class="w-full bg-primary-container rounded-t" style="height: 88%;"></div>
+<div class="w-full bg-secondary-container rounded-t" style="height: 85%;"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Sun</span>
+</div>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between text-on-surface-variant">
+<span class="font-body-sm text-body-sm">Peak volume recorded Saturday 20:00 - 22:30 GMT during Osu Nightlife Rush.</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">Zero Escrow Drift</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center gap-space-sm mb-space-sm">
+<div class="w-9 h-9 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-[20px]">policy</span>
+</div>
+<div class="flex flex-col">
+<h3 class="font-headline-sm text-headline-sm text-primary">Compliance &amp; Security</h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">GhIPSS Direct Protocol</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-sm my-space-sm">
+<div class="bg-surface-container p-space-sm rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-surface-tint">check_circle</span>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">BoG Digital Escrow Guideline</span>
+</div>
+<span class="font-label-sm text-label-sm text-surface-tint font-bold">100%</span>
+</div>
+<div class="bg-surface-container p-space-sm rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-surface-tint">check_circle</span>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">GRA E-Levy Exemption Pass</span>
+</div>
+<span class="font-label-sm text-label-sm text-surface-tint font-bold">Passed</span>
+</div>
+<div class="bg-surface-container p-space-sm rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-surface-tint">check_circle</span>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Dual-Authorizer Threshold</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-bold">&gt; GHS 500</span>
+</div>
+</div>
+<div class="bg-surface-container-high p-space-sm rounded-lg text-on-surface-variant font-body-sm text-body-sm">
+          All instant reversals exceed GHS 250 require Super Admin biometric MFA per Bank of Ghana e-payment directive 2023/04.
+        </div>
+</div>
+</div>
+</div>
+<div class="fixed inset-y-0 right-0 w-full max-w-lg bg-surface-container-low shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between overflow-y-auto" id="manual-refund-drawer">
+<div class="p-space-lg flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-primary-container text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">currency_exchange</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-primary">Manual MoMo Reimbursement</h2>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Bank of Ghana / GhIPSS Authorizer Terminal</p>
+</div>
+</div>
+<button class="w-9 h-9 rounded-lg bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface transition-colors" onclick="document.getElementById('manual-refund-drawer').classList.add('translate-x-full')">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="bg-secondary-container/20 p-space-md rounded-xl flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[22px] mt-0.5">verified_user</span>
+<div class="flex flex-col">
+<span class="font-body-sm-bold text-body-sm-bold text-secondary">GhIPSS Anti-Fraud Safety Check</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Funds will be instantly pushed back to the originator MSISDN via the Paystack reversal channel. Action is auditable and irrevocable.</span>
+</div>
+</div>
+<form class="flex flex-col gap-space-md">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface font-bold uppercase tracking-wider">Related Order ID</label>
+<input class="h-12 px-4 rounded-xl bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary" type="text" value="#CB-8534"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface font-bold uppercase tracking-wider">Destination MoMo MSISDN</label>
+<div class="flex items-center">
+<span class="h-12 px-3 bg-surface-container flex items-center justify-center text-on-surface font-body-sm-bold text-body-sm-bold rounded-l-xl">🇬🇭 +233</span>
+<input class="h-12 px-4 w-full rounded-r-xl bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary" type="text" value="24 491 8021"/>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface font-bold uppercase tracking-wider">Telecom Provider</label>
+<select class="h-12 px-3 rounded-xl bg-surface-container-lowest text-on-surface font-body-sm text-body-sm shadow-sm focus:outline-none">
+<option selected="">MTN Mobile Money</option>
+<option>Telecel Cash</option>
+<option>AT Money</option>
+</select>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface font-bold uppercase tracking-wider">Reimbursement Amount</label>
+<div class="relative">
+<input class="h-12 pl-12 pr-4 w-full rounded-xl bg-surface-container-lowest text-on-surface font-price-md text-price-md font-bold shadow-sm focus:outline-none focus:ring-2 focus:ring-primary" type="text" value="145.00"/>
+<span class="absolute left-3 top-1/2 -translate-y-1/2 font-label-sm text-label-sm text-on-surface-variant font-bold">GHS</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface font-bold uppercase tracking-wider">Exception Category</label>
+<select class="h-12 px-3 rounded-xl bg-surface-container-lowest text-on-surface font-body-sm text-body-sm shadow-sm focus:outline-none">
+<option selected="">Double Charge - Webhook Callback Timeout</option>
+<option>Rider Delivery Cancellation (Post Payment)</option>
+<option>Kitchen Item Out of Stock</option>
+<option>Food Quality Defect Escalation</option>
+</select>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface font-bold uppercase tracking-wider">Mandatory Audit Justification &amp; Zendesk Ticket</label>
+<textarea class="p-3 rounded-xl bg-surface-container-lowest text-on-surface font-body-sm text-body-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Enter customer complaint reference, carrier resolution note, or call log..." rows="3">Carrier confirmed charge ded_994119x at 12:12 GMT. Paystack ping 504 Gateway. User charged once, merchant order never reached tablet. Issuing direct full settlement reversal.</textarea>
+</div>
+<div class="bg-surface-container p-space-md rounded-xl flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Super Admin 2FA Token</span>
+<span class="font-label-sm text-label-sm text-surface-tint font-bold">Kofi Mensah (Auth)</span>
+</div>
+<div class="flex gap-2">
+<input class="h-11 px-4 w-full tracking-widest text-center rounded-lg bg-surface-container-lowest text-on-surface font-mono text-headline-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-sm" maxlength="6" placeholder="••••••" type="password"/>
+</div>
+</div>
+</form>
+</div>
+<div class="p-space-lg bg-surface-container flex items-center gap-space-sm">
+<button class="w-1/3 h-12 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors" onclick="document.getElementById('manual-refund-drawer').classList.add('translate-x-full')" type="button">
+        Cancel
+      </button>
+<button class="w-2/3 h-12 rounded-xl bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md shadow-sm transition-all flex items-center justify-center gap-2" onclick="alert('Reimbursement of GHS 145.00 triggered successfully via Paystack Subaccount protocol.'); document.getElementById('manual-refund-drawer').classList.add('translate-x-full')" type="button">
+<span class="material-symbols-outlined text-[20px] text-secondary-container">send</span>
+<span>Authorize &amp; Push GHS 145.00</span>
+</button>
+</div>
+</div>
+</div></main></div></body></html>

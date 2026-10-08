@@ -397,7 +397,7 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 3. Menu: categories with display order, items with integer pesewa prices, availability, tags, option groups with min/max rules and option prices.
 4. Uploads: validate type by magic bytes and size, process with Sharp, store on Cloudinary; verification documents stored as private assets.
 5. Public endpoints: list (pagination, filters, sorting), detail with grouped menu, FULLTEXT search.
-6. Seed fictional restaurants across Accra neighbourhoods with local dishes, including deliberate edge cases (closed, pending, sold-out items, option groups).
+6. Seed fictional restaurants across Kumasi neighbourhoods with local dishes, including deliberate edge cases (closed, pending, sold-out items, option groups).
 
 ### Advisor tips
 

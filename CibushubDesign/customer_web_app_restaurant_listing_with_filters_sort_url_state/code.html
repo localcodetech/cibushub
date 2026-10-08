@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@100..900&amp;family=Epilogue:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-secondary": "#ffffff", "surface": "#fff8f5", "on-primary-fixed-variant": "#264e3b", "secondary-fixed": "#ffdea4", "outline": "#717973", "primary-container": "#123c2a", "surface-dim": "#e9d7c8", "surface-container-highest": "#f2dfd1", "background": "#fff8f5", "on-surface": "#231a11", "surface-container": "#feeadc", "primary-fixed-dim": "#a4d0b7", "on-tertiary-container": "#ec7f63", "on-background": "#231a11", "outline-variant": "#c1c8c2", "tertiary-fixed": "#ffdad2", "surface-tint": "#3e6752", "on-secondary-container": "#755400", "on-tertiary-fixed": "#3c0700", "on-primary": "#ffffff", "on-secondary-fixed": "#261900", "primary-fixed": "#c0edd2", "tertiary": "#430900", "surface-container-lowest": "#ffffff", "secondary-fixed-dim": "#f0bf5c", "primary": "#002517", "error": "#ba1a1a", "surface-bright": "#fff8f5", "on-primary-container": "#7ca78f", "secondary-container": "#fcca66", "inverse-on-surface": "#ffeee1", "error-container": "#ffdad6", "secondary": "#7b5900", "tertiary-fixed-dim": "#ffb4a2", "on-error": "#ffffff", "on-secondary-fixed-variant": "#5d4200", "inverse-surface": "#392e25", "tertiary-container": "#651a06", "on-tertiary": "#ffffff", "inverse-primary": "#a4d0b7", "surface-variant": "#f2dfd1", "on-surface-variant": "#414943", "on-tertiary-fixed-variant": "#7e2b16", "surface-container-low": "#fff1e8", "on-error-container": "#93000a", "on-primary-fixed": "#002113", "surface-container-high": "#f8e5d6" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "gutter-desktop": "1.5rem", "margin": "1rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "margin-desktop": "2.5rem", "space-xl": "2rem", "space-md": "1rem", "gutter": "1rem", "margin-tablet": "1.5rem", "space-lg": "1.5rem" }, "fontFamily": { "body-sm": ["Atkinson Hyperlegible Next"], "body-lg": ["Atkinson Hyperlegible Next"], "headline-sm": ["Epilogue"], "body-sm-bold": ["Atkinson Hyperlegible Next"], "headline-xl-mobile": ["Epilogue"], "price-md": ["Atkinson Hyperlegible Next"], "headline-md": ["Epilogue"], "body-md": ["Atkinson Hyperlegible Next"], "headline-lg-mobile": ["Epilogue"], "headline-xl": ["Epilogue"], "body-md-bold": ["Atkinson Hyperlegible Next"], "headline-lg": ["Epilogue"], "label-md": ["Atkinson Hyperlegible Next"], "label-sm": ["Atkinson Hyperlegible Next"], "price-lg": ["Atkinson Hyperlegible Next"] }, "fontSize": { "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }], "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }], "body-sm-bold": ["14px", { "lineHeight": "20px", "fontWeight": "700" }], "headline-xl-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "800" }], "price-md": ["16px", { "lineHeight": "20px", "fontWeight": "700" }], "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "700" }], "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }], "headline-xl": ["36px", { "lineHeight": "44px", "fontWeight": "800" }], "body-md-bold": ["16px", { "lineHeight": "24px", "fontWeight": "700" }], "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "700" }], "label-md": ["14px", { "lineHeight": "18px", "fontWeight": "700" }], "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "700" }], "price-lg": ["20px", { "lineHeight": "24px", "fontWeight": "700" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head><body class="bg-surface font-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 bg-primary-container shadow-[0_1px_8px_rgba(0,0,0,0.06)] pt-safe"><div class="h-16 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm shrink-0"><img alt="CibusHub Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XXKDDq06ae1_J1s0b3S8paGzdRuNnZgvmEOfaWThsVk4X6OGuEj1-e3d3863vTpKvJW3kEnwLTSWW0zzXX9wXruay500_X2KJ0rrA-ZqUjLFWnSw8277zNpmp5YZwZBCW6hc_WgGWNb13bMS8I9dh-WW32gWL8xFXO1LYJx5FqnHLhRI2eOfaTuQN_DgfncdeLAHrbhPhecmDQpNNLit-XvXCTITBNTDv-FoJZzAM"/><span class="font-headline-sm text-headline-sm text-on-primary font-bold tracking-tight">CibusHub</span></div><button class="flex items-center gap-space-xs min-h-[44px] px-space-xs text-left rounded-lg transition-colors hover:bg-primary/20" type="button"><span class="material-symbols-outlined text-secondary-container text-[20px]">location_on</span><div class="flex flex-col"><span class="font-label-sm text-label-sm text-on-primary-container leading-tight">Delivering to</span><span class="font-body-sm-bold text-body-sm-bold text-on-primary truncate max-w-[130px] leading-tight">East Legon, Accra</span></div><span class="material-symbols-outlined text-on-primary-container text-[18px]">expand_more</span></button><div class="flex items-center gap-space-xs shrink-0"><button aria-label="Cart with 0 items" class="relative w-11 h-11 flex items-center justify-center rounded-lg text-on-primary transition-colors hover:bg-primary/20" type="button"><span class="material-symbols-outlined text-[24px]">shopping_bag</span><span class="absolute top-1 right-1 bg-secondary-container text-on-secondary-fixed font-label-sm text-label-sm w-4 h-4 rounded-full flex items-center justify-center">0</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 pb-24 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Location & Context Micro-Header -->
+<div class="px-margin pt-space-sm pb-space-xs flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<button aria-label="Go back" class="w-11 h-11 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-surface-container-high active:scale-95 transition-transform" type="button">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+</button>
+<div class="flex flex-col">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface tracking-tight">Accra Restaurants &amp; Chop Bars</h1>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="w-2 h-2 rounded-full bg-primary-container inline-block animate-pulse"></span>
+<span class="font-body-sm text-body-sm text-on-surface-variant font-medium">24 Open Kitchens in East Legon</span>
+</div>
+</div>
+</div>
+<button aria-label="Search within list" class="w-11 h-11 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[22px]">tune</span>
+</button>
+</div>
+<!-- State Visualizer / URL Parameter Inspector Pill -->
+<div class="px-margin mt-space-xs">
+<div class="w-full bg-surface-container-high rounded-xl p-2.5 flex items-center gap-2 shadow-sm">
+<div class="w-6 h-6 rounded-md bg-primary-container text-on-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[14px]">link</span>
+</div>
+<div class="min-w-0 flex-1 overflow-hidden">
+<p class="font-label-sm text-label-sm text-on-surface-variant leading-none truncate">
+<span class="font-bold text-primary-container">cibushub.com</span><span class="text-on-surface-variant/80">/restaurants?</span><span class="text-secondary-fixed-variant font-bold">cuisine</span>=waakye,jollof&amp;<span class="text-secondary-fixed-variant font-bold">sort</span>=rating&amp;<span class="text-secondary-fixed-variant font-bold">speed</span>=under30&amp;<span class="text-secondary-fixed-variant font-bold">open</span>=true
+        </p>
+</div>
+<button class="shrink-0 text-on-surface-variant hover:text-on-surface p-1" onclick="navigator.clipboard?.writeText('https://cibushub.com/restaurants?cuisine=waakye,jollof&amp;sort=rating&amp;speed=under30&amp;open=true')" title="Copy sync link" type="button">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+</div>
+</div>
+<!-- Horizontal Scroll Filter Bar -->
+<div class="mt-space-md w-full overflow-x-auto no-scrollbar py-1">
+<div class="flex items-center gap-2 px-margin w-max">
+<!-- Sort Selector Dropdown -->
+<button class="h-11 px-3.5 bg-primary-container text-on-primary rounded-xl flex items-center gap-1.5 shadow-sm active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[18px] text-secondary-container" style="font-variation-settings: 'FILL' 1;">hotel_class</span>
+<span class="font-body-sm-bold text-body-sm-bold">Top Rated (★ 4.5+)</span>
+<span class="material-symbols-outlined text-[18px] text-on-primary/70">keyboard_arrow_down</span>
+</button>
+<!-- Active Delivery Time Tag -->
+<div class="h-11 pl-3 pr-2 bg-secondary-container text-on-secondary-fixed rounded-xl flex items-center gap-1.5 shadow-sm">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+<span class="font-body-sm-bold text-body-sm-bold">&lt; 30 mins</span>
+<button aria-label="Remove delivery time filter" class="w-6 h-6 rounded-full hover:bg-on-secondary-fixed/10 flex items-center justify-center ml-0.5" type="button">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+<!-- Active Cuisine Tag -->
+<div class="h-11 pl-3 pr-2 bg-secondary-container text-on-secondary-fixed rounded-xl flex items-center gap-1.5 shadow-sm">
+<span class="material-symbols-outlined text-[16px]">rice_bowl</span>
+<span class="font-body-sm-bold text-body-sm-bold">Waakye &amp; Rice</span>
+<button aria-label="Remove cuisine filter" class="w-6 h-6 rounded-full hover:bg-on-secondary-fixed/10 flex items-center justify-center ml-0.5" type="button">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+<!-- Open Now Toggle Indicator -->
+<button class="h-11 px-3.5 bg-surface-container text-on-surface rounded-xl flex items-center gap-2 hover:bg-surface-container-high transition-colors" type="button">
+<span class="w-2.5 h-2.5 rounded-full bg-primary-container"></span>
+<span class="font-body-sm-bold text-body-sm-bold">Open Now</span>
+</button>
+<!-- Price Range Pill -->
+<button class="h-11 px-3.5 bg-surface-container text-on-surface rounded-xl flex items-center gap-1 hover:bg-surface-container-high transition-colors" type="button">
+<span class="font-body-sm-bold text-body-sm-bold tracking-wider">₵₵</span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">unfold_more</span>
+</button>
+<!-- Eco packaging chip -->
+<button class="h-11 px-3.5 bg-surface-container text-on-surface rounded-xl flex items-center gap-1.5 hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px] text-primary-container">eco</span>
+<span class="font-body-sm text-body-sm whitespace-nowrap">Banana Leaf Wrapped</span>
+</button>
+</div>
+</div>
+<!-- Active Filter Summary Breadcrumb -->
+<div class="px-margin mt-space-sm flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="material-symbols-outlined text-[18px] text-primary-container shrink-0">filter_list</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">
+        Showing <span class="font-body-sm-bold text-body-sm-bold text-on-surface">14 results</span> for Waakye, &lt;30m
+      </p>
+</div>
+<button class="font-label-sm text-label-sm text-tertiary-container hover:text-tertiary shrink-0 font-bold px-2 py-1 rounded-lg hover:bg-surface-container transition-colors" type="button">
+      Clear All Filters
+    </button>
+</div>
+<!-- Main Restaurant Feed -->
+<div class="px-margin mt-space-md flex flex-col gap-space-lg">
+<!-- Card 1: Auntie Muni Kitchen (Hero chop bar with Adinkra badge) -->
+<article class="bg-surface-container rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col group">
+<!-- Image Header with Floating Badges -->
+<div class="relative w-full h-48 bg-surface-dim overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Traditional Ghanaian waakye spread steaming hot on fresh green banana leaves, garnished with dark spicy shito sauce, boiled egg, tender stewed goat meat, spaghetti talia, and wele in East Legon Accra restaurant setting, golden sunlight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEmw841uHIuvHarCNydS8nPOakj9swV8kGrYZMvjae1_LpN3b-v7Z1uBRDM9uZVZybEygGkDxp-dKJmBIZ6nrOZRkCTfkcb31hXOVJbJ-y8gfRiAdzwXpFJJM2y8AfBVGBNhQ4d6QR9TVBbLt5y0xxu91RVGmpLR64jUKzbu5ek55SFVgXylAiq9zr7i7dEG8eDziYvKzfzwe7MQOq5LGxi712s5_3vMAxBTAHbDA"/>
+<!-- Top Status Bar overlay -->
+<div class="absolute inset-x-0 top-0 p-3 flex items-center justify-between bg-gradient-to-b from-on-surface/70 via-transparent to-transparent">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-container/95 text-on-primary font-label-sm text-label-sm shadow-sm backdrop-blur-none">
+<span class="w-2 h-2 rounded-full bg-secondary-container animate-ping"></span>
+            Open • Lunch Pot Active
+          </span>
+<button aria-label="Favorite Auntie Muni Kitchen" class="w-9 h-9 rounded-full bg-surface/90 text-on-surface flex items-center justify-center hover:text-error active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<!-- Adinkrahene Authentic Badge (Top Rated) -->
+<div class="absolute bottom-3 left-3 flex items-center gap-1 px-2.5 py-1 rounded-lg bg-secondary-container text-on-secondary-fixed shadow-sm">
+<svg aria-hidden="true" class="w-4 h-4 fill-current" viewbox="0 0 24 24">
+<circle cx="12" cy="12" fill="none" r="10" stroke="currentColor" stroke-width="1.5"></circle>
+<circle cx="12" cy="12" fill="none" r="6" stroke="currentColor" stroke-width="1.5"></circle>
+<circle cx="12" cy="12" fill="currentColor" r="2"></circle>
+</svg>
+<span class="font-label-sm text-label-sm">Adinkrahene Choice</span>
+</div>
+<div class="absolute bottom-3 right-3 px-2 py-0.5 rounded bg-primary-container text-on-primary font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">local_fire_department</span>
+          Popular in East Legon
+        </div>
+</div>
+<!-- Card Details Content -->
+<div class="p-space-md flex flex-col gap-space-xs">
+<div class="flex items-start justify-between gap-space-sm">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface leading-snug">Auntie Muni Kitchen</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Waakye • Shito • Stewed Goat • Banana Leaf</p>
+</div>
+<!-- Ashanti Gold Rating Badge -->
+<div class="px-2 py-1 rounded-lg bg-secondary-container text-on-secondary-fixed flex items-center gap-1 shrink-0">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md">4.9</span>
+<span class="font-label-sm text-label-sm text-on-secondary-fixed/80 font-normal">(340+)</span>
+</div>
+</div>
+<!-- Metrics Strip -->
+<div class="flex items-center gap-space-md py-1.5 text-on-surface-variant font-body-sm text-body-sm">
+<div class="flex items-center gap-1 text-primary-container font-body-sm-bold text-body-sm-bold">
+<span class="material-symbols-outlined text-[18px]">bolt</span>
+<span>15–25 min</span>
+</div>
+<span class="text-outline-variant">•</span>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">near_me</span>
+<span>1.8 km</span>
+</div>
+<span class="text-outline-variant">•</span>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">eco</span>
+<span>Eco Leaf</span>
+</div>
+</div>
+<!-- Footer Pricing and Sankofa Action -->
+<div class="mt-space-xs pt-space-xs flex items-center justify-between bg-surface-container-low p-2.5 rounded-lg">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Delivery <strong class="text-on-surface">GHS 12.00</strong></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant/80">Min order GHS 30.00</span>
+</div>
+<button class="h-10 px-4 bg-primary-container text-on-primary rounded-xl font-label-md text-label-md flex items-center gap-1.5 shadow-sm active:scale-95 transition-transform hover:bg-primary" type="button">
+<span>Order Pot</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Card 2: Papaye Fast Food -->
+<article class="bg-surface-container rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col group">
+<div class="relative w-full h-44 bg-surface-dim overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Crispy golden rotisserie chicken with savory Ghanaian style fried rice and fresh shredded cabbage coleslaw, served in warm Accra restaurant atmosphere with rich spicy shito dip on the side." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBP3-P5DMs3ta1hFhE2pi5fYAnE4Dtje3e0oMu4wz9zur6f04GwOnqu2tZBCUx1WrLQmo-YKQdSN-IUhJM9tgIZYyvTzm8ctC0DdxYfN8QXKalKt-EkklL79fYiykGHXepuh-9n7B0hFfPwYBiAnElrLuqZ2SujfsCfSIdCawLRrdj469EKGwXVjPFIxg4v7ETyXUXvzrdL2j2tJWSBomSHZNoXlE9m9ywExoNzDkg"/>
+<div class="absolute inset-x-0 top-0 p-3 flex items-center justify-between bg-gradient-to-b from-on-surface/60 via-transparent to-transparent">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-container/95 text-on-primary font-label-sm text-label-sm shadow-sm">
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+            Open
+          </span>
+<button aria-label="Favorite Papaye" class="w-9 h-9 rounded-full bg-surface/90 text-on-surface flex items-center justify-center hover:text-error active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="absolute bottom-3 left-3 px-2 py-0.5 rounded bg-surface-container-highest/90 text-on-surface font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary-container">local_shipping</span>
+          Express Fleet
+        </div>
+</div>
+<div class="p-space-md flex flex-col gap-space-xs">
+<div class="flex items-start justify-between gap-space-sm">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface leading-snug">Papaye Fast Food</h2>
+<p class="font-label-sm text-label-sm text-on-surface-variant font-medium">Spintex / Legon Bypass Branch</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Roasted Chicken • Fried Rice • Coleslaw</p>
+</div>
+<div class="px-2 py-1 rounded-lg bg-secondary-container text-on-secondary-fixed flex items-center gap-1 shrink-0">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md">4.6</span>
+<span class="font-label-sm text-label-sm text-on-secondary-fixed/80 font-normal">(890+)</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md py-1.5 text-on-surface-variant font-body-sm text-body-sm">
+<div class="flex items-center gap-1 text-primary-container font-body-sm-bold text-body-sm-bold">
+<span class="material-symbols-outlined text-[18px]">bolt</span>
+<span>20–30 min</span>
+</div>
+<span class="text-outline-variant">•</span>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">near_me</span>
+<span>2.4 km</span>
+</div>
+</div>
+<div class="mt-space-xs pt-space-xs flex items-center justify-between bg-surface-container-low p-2.5 rounded-lg">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Delivery <strong class="text-on-surface">GHS 14.00</strong></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant/80">Min order GHS 25.00</span>
+</div>
+<button class="h-10 px-4 bg-primary-container text-on-primary rounded-xl font-label-md text-label-md flex items-center gap-1.5 shadow-sm active:scale-95 transition-transform hover:bg-primary" type="button">
+<span>View Menu</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Card 3: Asanka Local Canteen -->
+<article class="bg-surface-container rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col group">
+<div class="relative w-full h-44 bg-surface-dim overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Traditional Ghanaian clay earthenware Asanka bowl filled with rich Banku and hearty fresh Okro soup with crab, goat meat and wele, alongside smooth pounded Fufu in light soup, earthen kitchen setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxCzbMCfH6AJ4TF4zL3a8CH45PTq7D6k2Ym0Yra3NJzEcDf75Mx0oeaLlxFtU5iepbOmr1xEg-jqp5xBkqw7ZhVu6CUH990jbwvUw9F6IBFLRsg5ajgBSg0dGLyDPIU8FhfowRcGLmhdsPcltfl6zErsxgfURpR22o3zjOYtHQVXJyDzqmoeV_nY0kW6o0B7z6yFGMwWENXkAp0mdub6NOKFzY1Nbec2wEENhOE4U"/>
+<div class="absolute inset-x-0 top-0 p-3 flex items-center justify-between bg-gradient-to-b from-on-surface/60 via-transparent to-transparent">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-container/95 text-on-primary font-label-sm text-label-sm shadow-sm">
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+            Open
+          </span>
+<button aria-label="Favorite Asanka Local" class="w-9 h-9 rounded-full bg-surface/90 text-on-surface flex items-center justify-center hover:text-error active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<!-- Dwennimmen Courier Ready Stamp -->
+<div class="absolute bottom-3 left-3 flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-highest/95 text-on-surface shadow-sm">
+<span class="material-symbols-outlined text-[16px] text-primary-container">soup_kitchen</span>
+<span class="font-label-sm text-label-sm">Clay Asanka Served</span>
+</div>
+</div>
+<div class="p-space-md flex flex-col gap-space-xs">
+<div class="flex items-start justify-between gap-space-sm">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface leading-snug">Asanka Local Canteen</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Banku &amp; Okro • Fufu &amp; Light Soup • Ebunubunu</p>
+</div>
+<div class="px-2 py-1 rounded-lg bg-secondary-container text-on-secondary-fixed flex items-center gap-1 shrink-0">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md">4.8</span>
+<span class="font-label-sm text-label-sm text-on-secondary-fixed/80 font-normal">(420+)</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md py-1.5 text-on-surface-variant font-body-sm text-body-sm">
+<div class="flex items-center gap-1 text-primary-container font-body-sm-bold text-body-sm-bold">
+<span class="material-symbols-outlined text-[18px]">bolt</span>
+<span>25–35 min</span>
+</div>
+<span class="text-outline-variant">•</span>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">near_me</span>
+<span>3.1 km</span>
+</div>
+</div>
+<div class="mt-space-xs pt-space-xs flex items-center justify-between bg-surface-container-low p-2.5 rounded-lg">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Delivery <strong class="text-on-surface">GHS 15.00</strong></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant/80">Min order GHS 35.00</span>
+</div>
+<button class="h-10 px-4 bg-primary-container text-on-primary rounded-xl font-label-md text-label-md flex items-center gap-1.5 shadow-sm active:scale-95 transition-transform hover:bg-primary" type="button">
+<span>View Soups</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Card 4: Mama Sarah Kelewele & Grills (Closed / Pre-Order State) -->
+<article class="bg-surface-container/70 rounded-xl overflow-hidden shadow-sm flex flex-col opacity-90">
+<div class="relative w-full h-40 bg-surface-dim overflow-hidden grayscale-[35%]">
+<img class="w-full h-full object-cover" data-alt="Evening night market grill in Accra with sizzling spicy diced kelewele fried plantains sprinkled with ginger and chili pepper, alongside skewered gizzard suya, warm ambient coal glow." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEmFlx1As6vYsoo57hVQC8K6Tsx_davsnHC4CQ3OFN9WDIH9IySG-QteRCv6ndPBZvZ2HgzpSpUdYUVX8QOWGxn13m80YWNmUZn2RhjMLrlEliwX_53mbJm05wcOtwgQv66PVC1faIglq-wiCrmChbs6vaadGGph0_T73r7bQC6J81hmCf5Tuitfg9DMLNX2iHMl-7YZQqTuekztXGItYPDzZv9PgcaeJFsiQpmyw"/>
+<div class="absolute inset-x-0 top-0 p-3 flex items-center justify-between bg-gradient-to-b from-on-surface/70 via-transparent to-transparent">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-dim text-on-surface font-label-sm text-label-sm shadow-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+            Closed • Opens 4:30 PM
+          </span>
+<button aria-label="Favorite Mama Sarah" class="w-9 h-9 rounded-full bg-surface/90 text-on-surface-variant flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="absolute bottom-3 left-3 px-2 py-0.5 rounded bg-tertiary-container text-on-tertiary font-label-sm text-label-sm">
+          Dinner Kitchen
+        </div>
+</div>
+<div class="p-space-md flex flex-col gap-space-xs">
+<div class="flex items-start justify-between gap-space-sm">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface leading-snug">Mama Sarah Kelewele &amp; Grills</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Spicy Kelewele • Gizzard Suya • Roast Peanuts</p>
+</div>
+<div class="px-2 py-1 rounded-lg bg-surface-container-high text-on-surface-variant flex items-center gap-1 shrink-0">
+<span class="material-symbols-outlined text-[16px]">star</span>
+<span class="font-label-md text-label-md">4.7</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md py-1.5 text-on-surface-variant font-body-sm text-body-sm">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">alarm</span>
+<span>Pre-orders open for tonight</span>
+</div>
+</div>
+<div class="mt-space-xs pt-space-xs flex items-center justify-between bg-surface-container-low p-2.5 rounded-lg">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Scheduled slot: <strong class="text-on-surface">5:00 - 6:00 PM</strong></span>
+</div>
+<!-- Grayed Out Pre-order Action -->
+<button class="h-10 px-4 bg-surface-container-highest text-on-surface-variant rounded-xl font-label-md text-label-md flex items-center gap-1.5 hover:bg-primary-container hover:text-on-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">event_note</span>
+<span>Pre-order for Dinner</span>
+</button>
+</div>
+</div>
+</article>
+</div>
+<!-- Sankofa Reorder Floating Micro-Banner -->
+<div class="px-margin mt-space-lg mb-space-md">
+<div class="bg-primary-container text-on-primary p-4 rounded-xl flex items-center justify-between gap-space-sm shadow-md">
+<div class="flex items-center gap-3">
+<!-- Sankofa Traditional Bird SVG -->
+<div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center shrink-0 text-secondary-container">
+<svg aria-hidden="true" class="w-6 h-6 fill-current" viewbox="0 0 24 24">
+<path d="M12 2C8 2 4.5 4.5 3 8c1.5-.5 3-.5 4.5 0C8.5 6 10.2 5 12 5c3.9 0 7 3.1 7 7 0 2.2-1 4.2-2.6 5.5.4 1.5.2 3-.5 4.5C18.8 20.3 21 16.5 21 12c0-5-4-10-9-10zm-3 7c-.6 0-1 .4-1 1s.4 1 1 1 1-.4 1-1-.4-1-1-1zm-2 5c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z"></path>
+</svg>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-primary leading-tight">Sankofa (Fast Reorder)</h3>
+<p class="font-label-sm text-label-sm text-on-primary-container mt-0.5">Repeat Auntie Muni order from Tuesday?</p>
+</div>
+</div>
+<button class="h-10 px-3.5 bg-secondary-container text-on-secondary-fixed rounded-lg font-label-md text-label-md font-bold whitespace-nowrap active:scale-95 transition-transform" type="button">
+        Fetch It
+      </button>
+</div>
+</div>
+</div>
+<script>
+  // Simple micro-interaction for filter pill toggles
+  document.querySelectorAll('button[aria-label^="Remove"]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const parent = btn.closest('div');
+      if (parent) {
+        parent.style.transition = 'opacity 0.2s, transform 0.2s';
+        parent.style.opacity = '0';
+        parent.style.transform = 'scale(0.9)';
+        setTimeout(() => parent.remove(), 200);
+      }
+    });
+  });
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-low shadow-[0_-2px_12px_rgba(43,33,24,0.06)]" data-active-classes="text-primary-container font-body-sm-bold"><div class="h-16 px-space-xs flex items-center justify-around"><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] gap-0.5 text-on-surface-variant transition-colors hover:text-on-surface" data-path="browse" href="#"><span class="material-symbols-outlined text-[24px]">restaurant</span><span class="font-label-sm text-label-sm">Browse</span></a><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] gap-0.5 text-on-surface-variant transition-colors hover:text-on-surface" data-path="search" href="#"><span class="material-symbols-outlined text-[24px]">search</span><span class="font-label-sm text-label-sm">Search</span></a><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] gap-0.5 text-on-surface-variant transition-colors hover:text-on-surface" data-path="orders" href="#"><span class="material-symbols-outlined text-[24px]">history</span><span class="font-label-sm text-label-sm">Sankofa</span></a><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] gap-0.5 text-on-surface-variant transition-colors hover:text-on-surface" data-path="account" href="#"><span class="material-symbols-outlined text-[24px]">person_outline</span><span class="font-label-sm text-label-sm">Account</span></a></div></nav></body></html>

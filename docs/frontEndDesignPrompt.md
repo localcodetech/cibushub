@@ -9,7 +9,7 @@ These prompts work with any AI design or UI tool. If your tool generates code ra
 ## 1. Master Context Prompt (send first)
 
 ```
-You are a senior product designer working with me on CibusHub, a food ordering and delivery platform for Ghana, launching in Accra. Design with me one flow at a time. Before designing, ask me about anything important that is unclear instead of assuming.
+You are a senior product designer working with me on CibusHub, a food ordering and delivery platform for Ghana, launching in Kumasi. Design with me one flow at a time. Before designing, ask me about anything important that is unclear instead of assuming.
 
 PRODUCT
 CibusHub has four interfaces:
@@ -21,7 +21,7 @@ CibusHub has four interfaces:
 USERS AND CONTEXT
 - Mostly mid-range Android phones, often on slow or expensive mobile data, often used outdoors in bright sunlight.
 - Payment is mainly mobile money (MTN MoMo, Telecel Cash, AirtelTigo Money) and cards, through Paystack.
-- Addresses are unreliable, so delivery locations use a map pin (required), an optional Ghana Post GPS address (format GA-123-4567), and a landmark ("opposite Shell, Spintex Road").
+- Addresses are unreliable, so delivery locations use a map pin (required), an optional Ghana Post GPS address (format AK-039-5028), and a landmark ("opposite Kejetia Market, Adum").
 - Prices are in Ghana cedis, shown as "GHS 45.00".
 
 DESIGN SYSTEM (follow exactly)
@@ -47,7 +47,7 @@ ADINKRA SYMBOLS (each has one job; never decoration, patterns or backgrounds)
 Show symbols as clearly labelled placeholders; I will supply accurate artwork.
 
 CONTENT
-- Use realistic but fictional Ghanaian restaurants, dishes (waakye, jollof, banku and tilapia, kelewele, fufu and light soup), names and Accra neighbourhoods (East Legon, Osu, Madina, Spintex).
+- Use realistic but fictional Ghanaian restaurants, dishes (waakye, jollof, banku and tilapia, kelewele, fufu and light soup), names and Kumasi neighbourhoods (Adum, Bantama, Asokwa, Ahodwo, Ayeduase near KNUST).
 - No lorem ipsum, no "John Doe", no invented statistics or marketing claims.
 - Button labels say exactly what happens ("Place order", "Track rider", "Save address"), and the result uses the same words ("Order placed").
 - Errors say what went wrong and what to do next. Empty states suggest the next action.
@@ -122,7 +122,7 @@ Design the admin dashboard: Overview (today's orders, revenue, active orders by 
 ```
 Design the public landing page that guests see before logging in. It has two jobs: get customers ordering quickly, and recruit restaurants and riders. Sections, in order:
 1. Header: CibusHub logo, Log in, Sign up.
-2. Hero: a specific headline about ordering from Accra kitchens to your exact location (not generic copy), a delivery location input with "Use my current location", and a primary "Find food near me" button that leads straight into browsing. One large dish photo placeholder as the visual centrepiece.
+2. Hero: a specific headline about ordering from Kumasi kitchens to your exact location (not generic copy), a delivery location input with "Use my current location", and a primary "Find food near me" button that leads straight into browsing. One large dish photo placeholder as the visual centrepiece.
 3. Popular near you: a short row of real-looking fictional restaurants and dishes that guests can open without an account.
 4. How it works: three genuine steps (choose food, pay with mobile money or card, track your rider live).
 5. Paying is safe: mobile money and card through Paystack, shown plainly, with no invented trust badges.

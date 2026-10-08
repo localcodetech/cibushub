@@ -2,6 +2,7 @@ import sequelize from "../../config/database.js";
 import AppError from "../../utils/AppError.js";
 import { retryOnDeadlock } from "../../utils/database/retryOnDeadlock.js";
 import { generateOrderNumber } from "../../utils/order/orderNumber.js";
+import { splitEarnings } from "../../utils/order/earnings.js";
 import { buildQuote } from "../checkout/quote.service.js";
 import { clearCachedMenu } from "../menu/menuCache.service.js";
 import { scheduleUnpaidOrderExpiry } from "../../jobs/enqueue.js";
@@ -107,6 +108,8 @@ const createOrder = async (customerId, checkout, idempotencyKey, transaction) =>
       serviceFeePesewas: quote.serviceFeePesewas,
       discountPesewas: quote.discountPesewas,
       totalPesewas: quote.totalPesewas,
+      // Restaurant, rider and CibusHub shares, frozen now so a later rate change never changes them
+      ...splitEarnings(quote),
       deliveryDistanceMeters: quote.delivery.roadMeters,
       pricingSnapshot: quote.pricingSnapshot,
       deliveryLabel: address.label,

@@ -199,6 +199,10 @@ erDiagram
         int service_fee_pesewas
         int discount_pesewas
         int total_pesewas
+        tinyint commission_percent "frozen at placement"
+        int commission_pesewas "CibusHub's share of the subtotal"
+        int restaurant_earnings_pesewas "subtotal minus commission"
+        int rider_earnings_pesewas "share of the delivery fee"
         int delivery_distance_meters
         json pricing_snapshot "fee formula and inputs used"
         varchar delivery_label "copied from the address"

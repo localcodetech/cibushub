@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400;1,700&amp;family=Epilogue:ital,wght@0,600;0,700;0,800;1,600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "surface-variant": "#f2dfd1",
+          "secondary-fixed-dim": "#f0bf5c",
+          "secondary-container": "#fcca66",
+          "primary": "#002517",
+          "inverse-on-surface": "#ffeee1",
+          "on-tertiary-container": "#ec7f63",
+          "primary-fixed-dim": "#a4d0b7",
+          "on-secondary": "#ffffff",
+          "on-tertiary": "#ffffff",
+          "surface-container": "#feeadc",
+          "on-tertiary-fixed": "#3c0700",
+          "on-primary-fixed": "#002113",
+          "tertiary": "#430900",
+          "on-secondary-container": "#755400",
+          "on-tertiary-fixed-variant": "#7e2b16",
+          "inverse-primary": "#a4d0b7",
+          "outline": "#717973",
+          "background": "#fff8f5",
+          "error-container": "#ffdad6",
+          "surface-tint": "#3e6752",
+          "on-surface": "#231a11",
+          "on-error-container": "#93000a",
+          "secondary-fixed": "#ffdea4",
+          "on-surface-variant": "#414943",
+          "error": "#ba1a1a",
+          "secondary": "#7b5900",
+          "on-primary-container": "#7ca78f",
+          "surface-container-high": "#f8e5d6",
+          "outline-variant": "#c1c8c2",
+          "tertiary-container": "#651a06",
+          "on-secondary-fixed-variant": "#5d4200",
+          "primary-container": "#123c2a",
+          "on-error": "#ffffff",
+          "surface": "#fff8f5",
+          "on-secondary-fixed": "#261900",
+          "on-primary-fixed-variant": "#264e3b",
+          "on-background": "#231a11",
+          "surface-container-lowest": "#ffffff",
+          "surface-dim": "#e9d7c8",
+          "tertiary-fixed": "#ffdad2",
+          "surface-bright": "#fff8f5",
+          "surface-container-low": "#fff1e8",
+          "surface-container-highest": "#f2dfd1",
+          "primary-fixed": "#c0edd2",
+          "on-primary": "#ffffff",
+          "inverse-surface": "#392e25",
+          "tertiary-fixed-dim": "#ffb4a2"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "space-lg": "1.5rem",
+          "space-sm": "0.5rem",
+          "space-xl": "2rem",
+          "space-md": "1rem",
+          "margin-tablet": "1.5rem",
+          "margin": "1rem",
+          "gutter-desktop": "1.5rem",
+          "gutter": "1rem",
+          "space-xs": "0.25rem",
+          "margin-desktop": "2.5rem"
+        },
+        "fontFamily": {
+          "headline-sm": [
+            "Epilogue"
+          ],
+          "label-md": [
+            "Atkinson Hyperlegible Next"
+          ],
+          "price-md": [
+            "Atkinson Hyperlegible Next"
+          ],
+          "body-lg": [
+            "Atkinson Hyperlegible Next"
+          ],
+          "label-sm": [
+            "Atkinson Hyperlegible Next"
+          ],
+          "headline-md": [
+            "Epilogue"
+          ],
+          "body-md": [
+            "Atkinson Hyperlegible Next"
+          ],
+          "headline-xl": [
+            "Epilogue"
+          ],
+          "body-sm-bold": [
+            "Atkinson Hyperlegible Next"
+          ],
+          "headline-lg-mobile": [
+            "Epilogue"
+          ],
+          "price-lg": [
+            "Atkinson Hyperlegible Next"
+          ],
+          "headline-xl-mobile": [
+            "Epilogue"
+          ],
+          "headline-lg": [
+            "Epilogue"
+          ],
+          "body-sm": [
+            "Atkinson Hyperlegible Next"
+          ],
+          "body-md-bold": [
+            "Atkinson Hyperlegible Next"
+          ]
+        },
+        "fontSize": {
+          "headline-sm": [
+            "18px",
+            {
+              "lineHeight": "24px",
+              "fontWeight": "600"
+            }
+          ],
+          "label-md": [
+            "14px",
+            {
+              "lineHeight": "18px",
+              "fontWeight": "700"
+            }
+          ],
+          "price-md": [
+            "16px",
+            {
+              "lineHeight": "20px",
+              "fontWeight": "700"
+            }
+          ],
+          "body-lg": [
+            "18px",
+            {
+              "lineHeight": "28px",
+              "fontWeight": "400"
+            }
+          ],
+          "label-sm": [
+            "12px",
+            {
+              "lineHeight": "16px",
+              "fontWeight": "700"
+            }
+          ],
+          "headline-md": [
+            "22px",
+            {
+              "lineHeight": "28px",
+              "fontWeight": "700"
+            }
+          ],
+          "body-md": [
+            "16px",
+            {
+              "lineHeight": "24px",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-xl": [
+            "36px",
+            {
+              "lineHeight": "44px",
+              "fontWeight": "800"
+            }
+          ],
+          "body-sm-bold": [
+            "14px",
+            {
+              "lineHeight": "20px",
+              "fontWeight": "700"
+            }
+          ],
+          "headline-lg-mobile": [
+            "24px",
+            {
+              "lineHeight": "32px",
+              "fontWeight": "700"
+            }
+          ],
+          "price-lg": [
+            "20px",
+            {
+              "lineHeight": "24px",
+              "fontWeight": "700"
+            }
+          ],
+          "headline-xl-mobile": [
+            "28px",
+            {
+              "lineHeight": "36px",
+              "fontWeight": "800"
+            }
+          ],
+          "headline-lg": [
+            "28px",
+            {
+              "lineHeight": "36px",
+              "fontWeight": "700"
+            }
+          ],
+          "body-sm": [
+            "14px",
+            {
+              "lineHeight": "20px",
+              "fontWeight": "400"
+            }
+          ],
+          "body-md-bold": [
+            "16px",
+            {
+              "lineHeight": "24px",
+              "fontWeight": "700"
+            }
+          ]
+        }
+      },
+    },
+  }</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-low z-50 flex flex-col pt-4 pb-6 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="px-space-md mb-space-md flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center"><span class="material-symbols-outlined text-secondary-container text-[22px]">local_mall</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary tracking-tight">CibusHub</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Ops Console</span></div></div></div><div class="px-space-md mb-space-md"><div class="bg-surface-container px-space-sm py-space-xs rounded-lg flex items-center justify-between"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[16px] text-tertiary-container">hub</span><span class="font-label-sm text-label-sm text-on-surface">Cluster: GH-ACC-01</span></div><span class="w-2 h-2 rounded-full bg-surface-tint"></span></div></div><nav class="flex-1 px-space-sm flex flex-col gap-1" data-active-classes="bg-primary-container text-on-primary font-body-md-bold rounded-lg shadow-sm"><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="overview-and-live-ops" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">radar</span><span class="font-body-md text-body-md">Overview &amp; Live Ops</span></div></a><a aria-current="page" class="flex items-center justify-between px-space-md py-space-sm transition-colors bg-primary-container text-on-primary font-body-md-bold rounded-lg shadow-sm" data-path="approvals-queue" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">fact_check</span><span class="font-body-md text-body-md">Approvals Queue</span></div><span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">6</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="order-management" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span class="font-body-md text-body-md">Order Management</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="payments-and-refunds" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">payments</span><span class="font-body-md text-body-md">Payments &amp; Refunds</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="audit-log" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">policy</span><span class="font-body-md text-body-md">Audit Log</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="platform-settings" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-body-md text-body-md">Platform Settings</span></div></a></nav><div class="px-space-md pt-space-sm"><div class="bg-surface-container-high p-space-sm rounded-lg flex items-center justify-between"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[16px] text-primary">security</span><span class="font-label-sm text-label-sm text-on-surface-variant">MFA Enforced</span></div><span class="font-label-sm text-label-sm text-primary-container font-bold">Active</span></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-md"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs px-space-sm py-1 bg-surface-container rounded-lg"><span class="material-symbols-outlined text-[18px] text-primary">location_on</span><span class="font-body-sm-bold text-body-sm-bold text-on-surface">Accra Metro</span><span class="font-label-sm text-label-sm text-on-surface-variant">| 9 Zones Active</span></div><div class="flex items-center gap-space-xs px-space-sm py-1 bg-surface-container-lowest rounded-lg"><span class="w-2.5 h-2.5 rounded-full bg-surface-tint"></span><span class="font-label-sm text-label-sm text-on-surface">Core API: 99.98%</span></div></div><div class="flex items-center gap-space-md"><button class="relative w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 min-w-[18px] h-[18px] px-1 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-label-sm flex items-center justify-center">3</span></button><div class="h-8 w-px bg-surface-container-high"></div><div class="flex items-center gap-space-sm"><div class="flex flex-col text-right"><span class="font-body-sm-bold text-body-sm-bold text-on-surface leading-tight">Kofi Mensah</span><span class="font-label-sm text-label-sm text-secondary leading-tight">Super Admin</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-surface px-space-md pb-space-xl"><div class="flex flex-col w-full">
+<div class="flex flex-col gap-space-lg">
+<!-- Header Block with Accra Metro context & Stats Pill -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs mb-1">
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">GHIPSS &amp; AMA Connected</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">• Ghana National Identity Register Sync: Live</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-primary tracking-tight">Partner &amp; Courier Verification Queue</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+<strong class="font-body-md-bold text-tertiary-container">6 Pending Applications</strong> awaiting compliance officer verification and zone activation.
+        </p>
+</div>
+<!-- Quick Action Stats Strip -->
+<div class="flex items-center gap-space-sm bg-surface-container-low p-1.5 rounded-xl">
+<div class="flex items-center gap-2 px-space-sm py-1.5 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-surface-tint"></span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">SLA Turnaround</span>
+<span class="font-price-md text-price-md text-primary">4.2h avg</span>
+</div>
+</div>
+<div class="flex items-center gap-2 px-space-sm py-1.5 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="material-symbols-outlined text-secondary text-[20px]">verified_user</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Auto-Clearing (GH-Card)</span>
+<span class="font-price-md text-price-md text-primary">92.4%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Filter Bar & Search Layer -->
+<div class="flex flex-col gap-space-md">
+<!-- Tabs Strip -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex flex-wrap items-center gap-1.5 bg-surface-container-low p-1 rounded-xl">
+<button class="px-space-md py-2 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md flex items-center gap-2 shadow-sm" type="button">
+<span>All Applications</span>
+<span class="px-1.5 py-0.2 rounded-full bg-surface-tint text-on-primary font-label-sm text-label-sm">6</span>
+</button>
+<button class="px-space-md py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-md text-label-md flex items-center gap-2 transition-colors" type="button">
+<span>Chop Bars &amp; Restaurants</span>
+<span class="px-1.5 py-0.2 rounded-full bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm">4</span>
+</button>
+<button class="px-space-md py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-md text-label-md flex items-center gap-2 transition-colors" type="button">
+<span>Motorbike Riders</span>
+<span class="px-1.5 py-0.2 rounded-full bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm">2</span>
+</button>
+<button class="px-space-md py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-md text-label-md transition-colors" type="button">
+            Approved History
+          </button>
+<button class="px-space-md py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-md text-label-md transition-colors" type="button">
+            Rejected Archive
+          </button>
+</div>
+<div class="flex items-center gap-space-sm text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[18px] text-surface-tint">sync</span>
+          Auto-polling every 60s
+        </div>
+</div>
+<!-- Search, Zone Selector, & Quick Operations -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-space-sm">
+<div class="md:col-span-8 relative">
+<span class="material-symbols-outlined absolute left-3.5 top-3 text-on-surface-variant text-[22px]">search</span>
+<input class="w-full h-12 pl-11 pr-space-md rounded-xl bg-surface-container-lowest text-on-surface placeholder:text-outline font-body-md text-body-md shadow-sm focus:outline-none focus:bg-surface-container-low transition-all" placeholder="Search by applicant name, business, Ghana Card number (e.g. GHA-729...), or phone..." type="text"/>
+</div>
+<div class="md:col-span-4 flex items-center gap-space-sm">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-3 text-secondary text-[20px]">pin_drop</span>
+<select class="w-full h-12 pl-10 pr-8 rounded-xl bg-surface-container-lowest text-on-surface font-body-md text-body-md shadow-sm appearance-none focus:outline-none cursor-pointer">
+<option value="all">Zone: All Greater Accra (9 Active)</option>
+<option selected="" value="osu">Zone: Osu &amp; Ringway Estate</option>
+<option value="legon">Zone: East Legon &amp; Boundary Rd</option>
+<option value="spintex">Zone: Spintex Corridor</option>
+<option value="dansoman">Zone: Dansoman &amp; Keep Fit</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 pointer-events-none text-on-surface-variant text-[20px]">expand_more</span>
+</div>
+<button class="h-12 w-12 flex-shrink-0 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface-variant flex items-center justify-center shadow-sm transition-colors" title="Export CSV Summary" type="button">
+<span class="material-symbols-outlined text-[20px]">file_download</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Master / Detail Inspection Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-start">
+<!-- Master Applications List (Left 5 Cols on desktop) -->
+<div class="lg:col-span-5 flex flex-col gap-space-sm">
+<div class="flex items-center justify-between px-space-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Queue Priority: SLA Descending</span>
+<span class="font-label-sm text-label-sm text-secondary-container bg-primary px-2 py-0.5 rounded-full font-bold">5 Priority Queued</span>
+</div>
+<!-- Application Item 1 (Selected) -->
+<div class="group relative p-space-md rounded-xl bg-surface-container-lowest shadow-md cursor-pointer transition-all">
+<div class="absolute left-0 top-3 bottom-3 w-1.5 bg-primary-container rounded-r"></div>
+<div class="flex items-start justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-primary text-[22px]">soup_kitchen</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<h2 class="font-body-md-bold text-body-md-bold text-on-surface group-hover:text-primary transition-colors">Auntie Muni Kitchen</h2>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface font-label-sm text-label-sm">Branch #2</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Restaurant Partner • Osu Oxford St</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold flex-shrink-0">
+              Pending Verification
+            </span>
+</div>
+<div class="mt-space-sm grid grid-cols-2 gap-space-xs text-label-sm font-label-sm bg-surface-container-low p-2 rounded-lg">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[15px] text-surface-tint">verified</span>
+<span>FDA &amp; AMA Tax Attached</span>
+</div>
+<div class="flex items-center justify-end gap-1 text-on-surface">
+<span class="text-on-surface-variant">Risk Score:</span>
+<span class="font-bold text-surface-tint">0.04 (Low)</span>
+</div>
+</div>
+<div class="mt-2.5 flex items-center justify-between text-label-sm font-label-sm text-on-surface-variant">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">schedule</span> Submitted 3h ago
+            </span>
+<span class="font-label-sm text-label-sm text-primary-container font-bold flex items-center gap-0.5">
+              Inspecting Now <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</span>
+</div>
+</div>
+<!-- Application Item 2 -->
+<div class="p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container-lowest transition-all cursor-pointer">
+<div class="flex items-start justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-secondary text-[22px]">storefront</span>
+</div>
+<div class="flex flex-col">
+<h3 class="font-body-md-bold text-body-md-bold text-on-surface">Mama Gee Chop Bar</h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Restaurant Partner • Dansoman Keep Fit</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold flex-shrink-0">
+              Needs Resubmission
+            </span>
+</div>
+<div class="mt-space-sm bg-surface-container-high p-2 rounded-lg text-label-sm font-label-sm text-on-surface-variant flex items-center justify-between">
+<span class="flex items-center gap-1 text-error">
+<span class="material-symbols-outlined text-[15px]">report</span> FDA Cert blurred
+            </span>
+<span>Submitted 7h ago</span>
+</div>
+</div>
+<!-- Application Item 3 -->
+<div class="p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container-lowest transition-all cursor-pointer">
+<div class="flex items-start justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-surface-tint text-[22px]">two_wheeler</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<h3 class="font-body-md-bold text-body-md-bold text-on-surface">Ibrahim Salifu</h3>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface font-label-sm text-label-sm">Honda Ace 125</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Courier / Rider • East Legon Zone</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold flex-shrink-0">
+              Ready for Review
+            </span>
+</div>
+<div class="mt-space-sm bg-surface-container-high p-2 rounded-lg text-label-sm font-label-sm text-on-surface-variant flex items-center justify-between">
+<span class="flex items-center gap-1 text-on-surface">
+<span class="material-symbols-outlined text-[15px] text-surface-tint">check_circle</span> Ghana Card + Class A Lic.
+            </span>
+<span>Submitted 5h ago</span>
+</div>
+</div>
+<!-- Application Item 4 -->
+<div class="p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container-lowest transition-all cursor-pointer">
+<div class="flex items-start justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-primary text-[22px]">skillet</span>
+</div>
+<div class="flex flex-col">
+<h3 class="font-body-md-bold text-body-md-bold text-on-surface">Nourish Bowl GH</h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Cloud Kitchen • Spintex Road</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold flex-shrink-0">
+              Pending Verification
+            </span>
+</div>
+<div class="mt-space-sm bg-surface-container-high p-2 rounded-lg text-label-sm font-label-sm text-on-surface-variant flex items-center justify-between">
+<span class="flex items-center gap-1 text-on-surface">
+<span class="material-symbols-outlined text-[15px] text-surface-tint">assignment_turned_in</span> Health Inspection Valid
+            </span>
+<span>Submitted 11h ago</span>
+</div>
+</div>
+<!-- Application Item 5 -->
+<div class="p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container-lowest transition-all cursor-pointer">
+<div class="flex items-start justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-surface-tint text-[22px]">two_wheeler</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<h3 class="font-body-md-bold text-body-md-bold text-on-surface">Emmanuel Addo</h3>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface font-label-sm text-label-sm">Bajaj Boxer 150</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Courier / Rider • Circle &amp; Adabraka Zone</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold flex-shrink-0">
+              Ready for Review
+            </span>
+</div>
+<div class="mt-space-sm bg-surface-container-high p-2 rounded-lg text-label-sm font-label-sm text-on-surface-variant flex items-center justify-between">
+<span class="flex items-center gap-1 text-on-surface">
+<span class="material-symbols-outlined text-[15px] text-surface-tint">gavel</span> Criminal record check cleared
+            </span>
+<span>Submitted 14h ago</span>
+</div>
+</div>
+</div>
+<!-- Detailed Inspection Surface (Right 7 Cols on desktop) -->
+<div class="lg:col-span-7 flex flex-col gap-space-md bg-surface-container-lowest p-space-md lg:p-space-lg rounded-2xl shadow-sm">
+<!-- Inspection Header Card -->
+<div class="flex flex-col gap-space-sm pb-space-sm">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded bg-primary-container text-on-primary font-label-sm text-label-sm font-bold">App ID: KYC-ACC-2024-0982</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">Assigned: Officer Kofi Mensah</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-primary mt-1">Auntie Muni Kitchen (Branch #2 - Osu)</h2>
+<span class="font-label-md text-label-md text-secondary font-bold">Famous Waakye Specialist &amp; Local Fast Casual</span>
+</div>
+<!-- Adinkrahene Stamp Badge (Chief of Adinkra / Greatness & High Standing) -->
+<div class="flex flex-col items-center p-2 rounded-xl bg-surface-container-high text-primary flex-shrink-0" title="Adinkrahene: Proven Brand Standing">
+<svg class="w-7 h-7 text-secondary" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="9"></circle>
+<circle cx="12" cy="12" r="5"></circle>
+<circle cx="12" cy="12" fill="currentColor" r="1.5"></circle>
+</svg>
+<span class="font-label-sm text-label-sm text-secondary leading-none mt-1 font-bold">Grade A Tier</span>
+</div>
+</div>
+<!-- Metadata Pill Bar -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm mt-1">
+<div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Applicant / Director</span>
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Madam Muni</span>
+<span class="font-label-sm text-label-sm text-secondary font-mono">+233 24 412 3456</span>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Ghana Digital Address</span>
+<span class="font-body-md-bold text-body-md-bold text-on-surface font-mono">GA-492-3810</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Osu Oxford St bypass, Accra</span>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Estimated Daily Capacity</span>
+<span class="font-price-md text-price-md text-primary">350 - 500 Orders</span>
+<span class="font-label-sm text-label-sm text-surface-tint font-bold">2 Express Pick-up Slots</span>
+</div>
+</div>
+</div>
+<!-- Verification Checklist (Automated + Field Audits) -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-body-md-bold text-body-md-bold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[20px]">task_alt</span>
+              Compliance &amp; Verification Checklist
+            </span>
+<span class="font-label-sm text-label-sm text-surface-tint font-bold">4 of 4 Checks Cleared</span>
+</div>
+<div class="flex flex-col gap-2">
+<!-- Check 1 -->
+<div class="p-space-sm rounded-xl bg-surface-container-low flex items-start justify-between gap-space-sm">
+<div class="flex items-start gap-space-sm">
+<div class="w-6 h-6 rounded-full bg-surface-tint text-on-primary flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Phone &amp; MoMo Settlement Account</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">MTN MoMo (0244123456) validated via GHIPSS Instant Pay rail. Beneficiary: 'Auntie Muni Food Enterprise'.</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container text-surface-tint font-label-sm text-label-sm font-bold flex-shrink-0">GHIPSS Verified</span>
+</div>
+<!-- Check 2 -->
+<div class="p-space-sm rounded-xl bg-surface-container-low flex items-start justify-between gap-space-sm">
+<div class="flex items-start gap-space-sm">
+<div class="w-6 h-6 rounded-full bg-surface-tint text-on-primary flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Ghana Card Identity (NIA Match)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">GHA-729104819-2 matches registered director face &amp; biometric certificate record on file.</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container text-surface-tint font-label-sm text-label-sm font-bold flex-shrink-0">100% Match</span>
+</div>
+<!-- Check 3 -->
+<div class="p-space-sm rounded-xl bg-surface-container-low flex items-start justify-between gap-space-sm">
+<div class="flex items-start gap-space-sm">
+<div class="w-6 h-6 rounded-full bg-surface-tint text-on-primary flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Ghana FDA Food Hygiene Permit</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Certificate #FDA/HD-2024-8842 issued by Food &amp; Drugs Authority Ghana. Valid through 31 Dec 2025.</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container text-surface-tint font-label-sm text-label-sm font-bold flex-shrink-0">Valid 2025</span>
+</div>
+<!-- Check 4 -->
+<div class="p-space-sm rounded-xl bg-surface-container-low flex items-start justify-between gap-space-sm">
+<div class="flex items-start gap-space-sm">
+<div class="w-6 h-6 rounded-full bg-surface-tint text-on-primary flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Physical Kitchen On-Site Inspection</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Field verification completed by Lead Officer K. Boateng. Potable water, stainless prep surfaces &amp; cold storage passed.</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container text-surface-tint font-label-sm text-label-sm font-bold flex-shrink-0">Passed (Score 96)</span>
+</div>
+</div>
+</div>
+<!-- Document Preview Gallery -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-body-md-bold text-body-md-bold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[20px]">document_scanner</span>
+              Attached Statutory Credentials
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Click to enlarge preview</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm">
+<!-- Doc 1: FDA -->
+<div class="group relative rounded-xl bg-surface-container-low p-space-sm flex flex-col gap-2 overflow-hidden">
+<div class="relative w-full h-36 rounded-lg overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Official high-resolution government certificate with Ghana coat of arms and green FDA stamp, titled Republic of Ghana Food and Drugs Authority Food Hygiene Permit, crisp paper document on warm cream wooden surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVNetcakE6tPK4EPocAaW0hoCdgWiaeQqxmoKnAf8zYA7VoKA9iSbfRqSTOMeIYXFKpPClKJ-R7RDMyzPfM7wpyxNgbX0yDsEgtMUYzdvw2dxtD_o3jOxy8-LIs-bElOL7egIQsOuEfTxkjzMzg2fX021W3-xgtfOCq3hQcMETN8K3lyvH6yyJwUqK8dhj9CV1cDcNi3Hr0TlB8vV20XOL9I-6yw_VxBRLcgqCVNM"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<button class="px-3 py-1.5 rounded-lg bg-surface text-primary font-label-sm text-label-sm shadow-md flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">zoom_in</span> View Original (PDF)
+                  </button>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">FDA Hygiene Permit</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">#FDA/HD-2024-8842</span>
+</div>
+<span class="material-symbols-outlined text-surface-tint text-[20px]">verified</span>
+</div>
+</div>
+<!-- Doc 2: AMA Permit -->
+<div class="group relative rounded-xl bg-surface-container-low p-space-sm flex flex-col gap-2 overflow-hidden">
+<div class="relative w-full h-36 rounded-lg overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Official Accra Metropolitan Assembly AMA Business Operating Permit certificate with golden embossed seal and signature, clean documentary lighting, warm cocoa and golden accents" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9Ht2pXmuLqd1B6e2Y5MeCReruoC2xJ5kQFs25CMpzH47BeEcQGBNfKrQf89Ri1z_JybQMgrXq-tgXtLTN8EhyMUrCY4IDB6gbKmQDTmaunGbcGqeeCkExfNZDEi275MoS_0dfLBStG9NGavkJcmAgaQyIeEw8Fb70wVXglpPAa8TNtKb1hvkokR2pW8BNXUfKWJfV2mnAHH7kLk2l24hJVcWb_o6-NbISBefIjQU"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<button class="px-3 py-1.5 rounded-lg bg-surface text-primary font-label-sm text-label-sm shadow-md flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">zoom_in</span> View Original (PDF)
+                  </button>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">AMA Business Operating Permit</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Licence #AMA-OSU-24-1109</span>
+</div>
+<span class="material-symbols-outlined text-surface-tint text-[20px]">verified</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Kitchen Inspection Gallery Snippet -->
+<div class="flex items-center gap-space-sm p-space-sm rounded-xl bg-surface-container-low">
+<div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Clean professional West African commercial kitchen with polished stainless steel pots, gas cookers, clean tiled floors, and organized waakye serving preparation stations" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfRYMxLg-NSkJGTPCRgjW91nHHCs8HBnTrSuTY3AR8KsVrsAsO81gtqrubGMoPeyyahJNZBVqphu6LuWiwZsqi1k9B3evUYSd8ZXrLiRaj-nsYT2EitQjSyR8CdyzoCkV_rwGGZItlzZsyBluV-wWkjio-JB76Y-ePliGQcZp9JHDr3RxOkDjkfsGhE1zRcc55QliSX7hW8jiMNyLKxbelwwwa2o5PCLu2uraS5yI"/>
+</div>
+<div class="flex flex-col flex-1">
+<div class="flex items-center justify-between">
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Kitchen Inspection Evidence (6 Photos)</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">14 Oct 2024</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1">
+              "Dedicated packaging zone, 2 industrial upright freezers, grease trap installed and certified clean."
+            </p>
+</div>
+<button class="px-3 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container text-on-surface font-label-sm text-label-sm flex items-center gap-1" type="button">
+<span>Audit Pack</span>
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</button>
+</div>
+<!-- Action Decision Bar (Primary Actions) -->
+<div class="pt-space-sm flex flex-col gap-space-sm">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<button class="h-12 px-space-md rounded-xl bg-surface-container-high hover:bg-error-container hover:text-on-error-container text-error font-body-md-bold text-body-md-bold flex items-center gap-2 transition-colors" id="openRejectModalBtn" type="button">
+<span class="material-symbols-outlined text-[20px]">cancel</span>
+<span>Reject Application</span>
+</button>
+<div class="flex items-center gap-space-sm">
+<button class="h-12 px-space-md rounded-xl bg-surface-container-high hover:bg-surface-container text-on-surface font-body-md-bold text-body-md-bold flex items-center gap-2 transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">sms</span>
+<span>Request Document Re-upload</span>
+</button>
+<button class="h-12 px-space-lg rounded-xl bg-primary-container hover:bg-primary text-on-primary font-body-md-bold text-body-md-bold flex items-center gap-2 shadow-sm transition-all" id="approveApplicationBtn" type="button">
+<span class="material-symbols-outlined text-[20px] text-secondary-container">check_circle</span>
+<span>Approve &amp; Activate Live Kitchen</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Embedded Rejection / Clarification Sub-Dialogue (Interactive Drawer Panel) -->
+<div class="hidden flex-col gap-space-sm p-space-md rounded-xl bg-error-container/40 mt-space-sm" id="rejectionPanel">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 text-on-error-container">
+<span class="material-symbols-outlined text-[22px]">gavel</span>
+<h4 class="font-headline-sm text-headline-sm">Issue Rejection Notice</h4>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface" id="closeRejectPanelBtn" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Specify statutory grounds. The applicant will receive an official SMS notification and email explaining remediation steps.
+          </p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm">
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-on-surface">Primary Reason for Rejection *</label>
+<select class="h-11 px-3 rounded-lg bg-surface-container-lowest text-on-surface font-body-sm text-body-sm shadow-sm focus:outline-none">
+<option value="fda_expired">Expired Food Hygiene Certificate</option>
+<option value="gh_card_mismatch">Ghana Card Name / Biometric Mismatch</option>
+<option value="kitchen_hygiene">Kitchen Hygiene Standards Deficient</option>
+<option value="momo_owner">Invalid MoMo Account Owner (Third-party mismatch)</option>
+<option value="operating_permit">Unregistered Accra Metropolitan Assembly Permit</option>
+<option value="other">Other Specific Ground</option>
+</select>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-on-surface">Compliance Officer Signature</label>
+<input class="h-11 px-3 rounded-lg bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm shadow-sm focus:outline-none" readonly="" type="text" value="Kofi Mensah (ID: CHUB-SUP-001)"/>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-on-surface">Detailed Officer Feedback (Sent via SMS to Applicant) *</label>
+<textarea class="p-3 rounded-lg bg-surface-container-lowest text-on-surface font-body-sm text-body-sm shadow-sm focus:outline-none placeholder:text-outline" placeholder="e.g. Please provide a clear scan of the 2024 renewal sticker on your AMA permit. The current copy has unreadable serial numbers in the bottom-right corner..." rows="3"></textarea>
+</div>
+<div class="flex items-center justify-between pt-1">
+<label class="flex items-center gap-2 cursor-pointer">
+<input checked="" class="w-4 h-4 rounded text-primary focus:ring-0" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface">Allow re-application within 14 days without re-entering basic profile</span>
+</label>
+<button class="h-10 px-space-md rounded-lg bg-error text-on-error font-body-sm-bold text-body-sm-bold hover:bg-error/90 transition-colors" id="confirmRejectBtn" type="button">
+              Confirm Rejection &amp; Notify
+            </button>
+</div>
+</div>
+<!-- Success Toast Notification (Simulated State) -->
+<div class="hidden items-center justify-between p-space-md rounded-xl bg-primary text-on-primary shadow-lg" id="approvalSuccessToast">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold">
+              ✓
+            </div>
+<div class="flex flex-col">
+<span class="font-body-md-bold text-body-md-bold text-on-primary">Auntie Muni Kitchen (Osu) is Approved!</span>
+<span class="font-body-sm text-body-sm text-primary-fixed-dim">Branch live on customer app • Merchant credentials dispatched to +233 24 412 3456</span>
+</div>
+</div>
+<button class="text-on-primary/80 hover:text-on-primary" id="dismissToastBtn" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Simple interaction hooks for verification actions
+  const openRejectBtn = document.getElementById('openRejectModalBtn');
+  const rejectionPanel = document.getElementById('rejectionPanel');
+  const closeRejectBtn = document.getElementById('closeRejectPanelBtn');
+  const confirmRejectBtn = document.getElementById('confirmRejectBtn');
+  const approveBtn = document.getElementById('approveApplicationBtn');
+  const approvalToast = document.getElementById('approvalSuccessToast');
+  const dismissToast = document.getElementById('dismissToastBtn');
+
+  if (openRejectBtn && rejectionPanel) {
+    openRejectBtn.addEventListener('click', () => {
+      rejectionPanel.classList.remove('hidden');
+      rejectionPanel.classList.add('flex');
+      rejectionPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+  }
+
+  if (closeRejectBtn && rejectionPanel) {
+    closeRejectBtn.addEventListener('click', () => {
+      rejectionPanel.classList.add('hidden');
+      rejectionPanel.classList.remove('flex');
+    });
+  }
+
+  if (confirmRejectBtn && rejectionPanel) {
+    confirmRejectBtn.addEventListener('click', () => {
+      alert('Application marked as Rejected. SMS dispatch triggered to applicant.');
+      rejectionPanel.classList.add('hidden');
+      rejectionPanel.classList.remove('flex');
+    });
+  }
+
+  if (approveBtn && approvalToast) {
+    approveBtn.addEventListener('click', () => {
+      approvalToast.classList.remove('hidden');
+      approvalToast.classList.add('flex');
+      approveBtn.disabled = true;
+      approveBtn.classList.add('opacity-50', 'cursor-not-allowed');
+      approveBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">check</span> Activated Live';
+    });
+  }
+
+  if (dismissToast && approvalToast) {
+    dismissToast.addEventListener('click', () => {
+      approvalToast.classList.add('hidden');
+      approvalToast.classList.remove('flex');
+    });
+  }
+</script></main></div></body></html>

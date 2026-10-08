@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@100..900&amp;family=Epilogue:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-secondary": "#ffffff", "surface": "#fff8f5", "on-primary-fixed-variant": "#264e3b", "secondary-fixed": "#ffdea4", "outline": "#717973", "primary-container": "#123c2a", "surface-dim": "#e9d7c8", "surface-container-highest": "#f2dfd1", "background": "#fff8f5", "on-surface": "#231a11", "surface-container": "#feeadc", "primary-fixed-dim": "#a4d0b7", "on-tertiary-container": "#ec7f63", "on-background": "#231a11", "outline-variant": "#c1c8c2", "tertiary-fixed": "#ffdad2", "surface-tint": "#3e6752", "on-secondary-container": "#755400", "on-tertiary-fixed": "#3c0700", "on-primary": "#ffffff", "on-secondary-fixed": "#261900", "primary-fixed": "#c0edd2", "tertiary": "#430900", "surface-container-lowest": "#ffffff", "secondary-fixed-dim": "#f0bf5c", "primary": "#002517", "error": "#ba1a1a", "surface-bright": "#fff8f5", "on-primary-container": "#7ca78f", "secondary-container": "#fcca66", "inverse-on-surface": "#ffeee1", "error-container": "#ffdad6", "secondary": "#7b5900", "tertiary-fixed-dim": "#ffb4a2", "on-error": "#ffffff", "on-secondary-fixed-variant": "#5d4200", "inverse-surface": "#392e25", "tertiary-container": "#651a06", "on-tertiary": "#ffffff", "inverse-primary": "#a4d0b7", "surface-variant": "#f2dfd1", "on-surface-variant": "#414943", "on-tertiary-fixed-variant": "#7e2b16", "surface-container-low": "#fff1e8", "on-error-container": "#93000a", "on-primary-fixed": "#002113", "surface-container-high": "#f8e5d6" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "gutter-desktop": "1.5rem", "margin": "1rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "margin-desktop": "2.5rem", "space-xl": "2rem", "space-md": "1rem", "gutter": "1rem", "margin-tablet": "1.5rem", "space-lg": "1.5rem" }, "fontFamily": { "body-sm": ["Atkinson Hyperlegible Next"], "body-lg": ["Atkinson Hyperlegible Next"], "headline-sm": ["Epilogue"], "body-sm-bold": ["Atkinson Hyperlegible Next"], "headline-xl-mobile": ["Epilogue"], "price-md": ["Atkinson Hyperlegible Next"], "headline-md": ["Epilogue"], "body-md": ["Atkinson Hyperlegible Next"], "headline-lg-mobile": ["Epilogue"], "headline-xl": ["Epilogue"], "body-md-bold": ["Atkinson Hyperlegible Next"], "headline-lg": ["Epilogue"], "label-md": ["Atkinson Hyperlegible Next"], "label-sm": ["Atkinson Hyperlegible Next"], "price-lg": ["Atkinson Hyperlegible Next"] }, "fontSize": { "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }], "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }], "body-sm-bold": ["14px", { "lineHeight": "20px", "fontWeight": "700" }], "headline-xl-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "800" }], "price-md": ["16px", { "lineHeight": "20px", "fontWeight": "700" }], "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "700" }], "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }], "headline-xl": ["36px", { "lineHeight": "44px", "fontWeight": "800" }], "body-md-bold": ["16px", { "lineHeight": "24px", "fontWeight": "700" }], "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "700" }], "label-md": ["14px", { "lineHeight": "18px", "fontWeight": "700" }], "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "700" }], "price-lg": ["20px", { "lineHeight": "24px", "fontWeight": "700" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head><body class="bg-surface font-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 bg-primary-container shadow-[0_1px_8px_rgba(0,0,0,0.06)] pt-safe"><div class="h-16 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm shrink-0"><img alt="CibusHub Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XXKDDq06ae1_J1s0b3S8paGzdRuNnZgvmEOfaWThsVk4X6OGuEj1-e3d3863vTpKvJW3kEnwLTSWW0zzXX9wXruay500_X2KJ0rrA-ZqUjLFWnSw8277zNpmp5YZwZBCW6hc_WgGWNb13bMS8I9dh-WW32gWL8xFXO1LYJx5FqnHLhRI2eOfaTuQN_DgfncdeLAHrbhPhecmDQpNNLit-XvXCTITBNTDv-FoJZzAM"/><span class="font-headline-sm text-headline-sm text-on-primary font-bold tracking-tight">CibusHub</span></div><button class="flex items-center gap-space-xs min-h-[44px] px-space-xs text-left rounded-lg transition-colors hover:bg-primary/20" type="button"><span class="material-symbols-outlined text-secondary-container text-[20px]">location_on</span><div class="flex flex-col"><span class="font-label-sm text-label-sm text-on-primary-container leading-tight">Delivering to</span><span class="font-body-sm-bold text-body-sm-bold text-on-primary truncate max-w-[130px] leading-tight">East Legon, Accra</span></div><span class="material-symbols-outlined text-on-primary-container text-[18px]">expand_more</span></button><div class="flex items-center gap-space-xs shrink-0"><button aria-label="Cart with 0 items" class="relative w-11 h-11 flex items-center justify-center rounded-lg text-on-primary transition-colors hover:bg-primary/20" type="button"><span class="material-symbols-outlined text-[24px]">shopping_bag</span><span class="absolute top-1 right-1 bg-secondary-container text-on-secondary-fixed font-label-sm text-label-sm w-4 h-4 rounded-full flex items-center justify-center">0</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 pb-24 bg-surface min-h-screen"><div class="flex flex-col w-full relative">
+<!-- Restaurant Background Canvas (Visible underneath modal) -->
+<section class="flex flex-col w-full px-margin pb-6 opacity-40 pointer-events-none select-none filter blur-[1px]">
+<!-- Top Context Navigation -->
+<div class="flex items-center gap-space-xs py-space-sm">
+<div class="flex items-center gap-1.5 text-primary-container font-body-sm-bold text-body-sm-bold">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+<span>Back to discovery</span>
+</div>
+</div>
+<!-- Restaurant Header Card -->
+<div class="flex flex-col gap-space-sm bg-surface-container-high rounded-xl p-space-md mt-space-xs">
+<div class="flex items-start justify-between gap-space-sm">
+<div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface tracking-tight">Auntie Muni Kitchen</h1>
+<!-- Adinkrahene Semantic Badge -->
+<div class="inline-flex items-center gap-1.5 mt-1.5 px-2 py-1 bg-secondary-container text-on-secondary-fixed rounded-lg font-label-sm text-label-sm">
+<svg class="w-3.5 h-3.5 shrink-0 fill-current" viewbox="0 0 24 24">
+<circle cx="12" cy="12" fill="none" r="10" stroke="currentColor" stroke-width="2.5"></circle>
+<circle cx="12" cy="12" fill="none" r="6" stroke="currentColor" stroke-width="2.2"></circle>
+<circle cx="12" cy="12" fill="currentColor" r="2"></circle>
+</svg>
+<span>Accra Legend • East Legon</span>
+</div>
+</div>
+</div>
+<!-- Quick Metrics Strip -->
+<div class="flex flex-wrap items-center gap-space-xs pt-1">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container text-on-surface font-body-sm-bold text-body-sm-bold">
+<span class="material-symbols-outlined text-[16px] text-secondary">star</span> 4.9 (340+)
+        </span>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px]">schedule</span> 20–30 min • GHS 12.00
+        </span>
+</div>
+</div>
+<!-- Category Tabs Simulation -->
+<div class="flex gap-2 overflow-x-hidden pt-4 pb-2">
+<div class="px-4 py-2 rounded-lg bg-primary-container text-on-primary font-body-sm-bold text-body-sm-bold shrink-0">Special Waakye</div>
+<div class="px-4 py-2 rounded-lg bg-surface-container text-on-surface shrink-0 font-body-sm text-body-sm">Jollof &amp; Fried Rice</div>
+<div class="px-4 py-2 rounded-lg bg-surface-container text-on-surface shrink-0 font-body-sm text-body-sm">Proteins &amp; Meat</div>
+</div>
+<!-- Dummy Background Menu Card -->
+<div class="mt-4 p-4 rounded-xl bg-surface-container flex gap-3">
+<div class="w-20 h-20 rounded-2xl bg-surface-dim shrink-0"></div>
+<div class="flex flex-col flex-1">
+<span class="font-headline-sm text-headline-sm text-on-surface">Special Waakye Combo</span>
+<span class="font-price-md text-price-md text-on-surface mt-1">GHS 45.00</span>
+</div>
+</div>
+</section>
+<!-- High-Legibility Accra Food Modality Overlay (Cocoa Tonal Backdrop) -->
+<div aria-hidden="true" class="fixed inset-0 z-40 bg-inverse-surface/65"></div>
+<!-- Dish Customization Bottom Sheet -->
+<div aria-labelledby="dish-modal-title" aria-modal="true" class="relative z-50 flex flex-col w-full -mt-2 bg-surface-container-low rounded-t-[20px] shadow-[0_12px_36px_rgba(43,33,24,0.22)] overflow-hidden" role="dialog">
+<!-- Top Drag Handle & Dismiss Header -->
+<div class="sticky top-0 z-20 flex flex-col bg-surface-container-low pt-3 pb-2 px-margin">
+<div class="w-10 h-1.5 bg-outline-variant/60 rounded-full mx-auto mb-2"></div>
+<div class="flex items-center justify-between min-h-[44px]">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-tertiary-container uppercase tracking-wider">Customise Dish</span>
+<h2 class="font-headline-md text-headline-md text-on-surface leading-tight" id="dish-modal-title">Special Waakye Combo</h2>
+</div>
+<button aria-label="Close customisation sheet" class="w-11 h-11 flex items-center justify-center rounded-xl bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[22px]">close</span>
+</button>
+</div>
+</div>
+<!-- Scrollable Customizer Content -->
+<div class="flex flex-col px-margin pb-36 gap-space-lg">
+<!-- Dish Visual Centerpiece Card -->
+<div class="flex flex-col rounded-2xl bg-surface-container overflow-hidden">
+<div class="relative w-full aspect-[16/10] bg-surface-dim">
+<img class="w-full h-full object-cover rounded-2xl" data-alt="Traditional Ghanaian waakye rice and beans served hot on lush green plantain leaves, accompanied by rich spicy black shito, tomato meat stew, golden fried sweet plantain kelewele, a halved boiled egg, spaghetti talia, and tender stewed beef chunks under warm midday ambient restaurant lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_rd32O03G-9XZCO8rfIo6vyfzaEfaMWOYnPENq4P1DkNeEg_ByGyfZL1V48AoZmZzApFPW30fZV2rydoqfHeMDfBRrLKpl6wZMB5EwZ1xONn_yoBNWYnZ_VkCYcDgEvG7z9KUr6Eehta8ghGN2QOk5TyUB7WcqcAcw7gJhqyb7lR6M968_B2azsam4txpra6WEqQaRaBsM4FliZptYuucXeOEXVKifbJrHSdDyVI"/>
+<div class="absolute bottom-3 left-3 bg-primary-container text-on-primary font-price-lg text-price-lg px-3 py-1 rounded-lg">
+            GHS 45.00
+          </div>
+</div>
+<div class="p-3.5 flex flex-col gap-1.5">
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Authentic sorghum-leaf-cooked waakye rice &amp; beans served with slow-cooked rich tomato stew and traditional black pepper shito.
+          </p>
+<div class="flex items-center gap-1.5 text-tertiary-container font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">alarm</span>
+<span>Order before 1:30 PM for fresh lunch pot dispatch</span>
+</div>
+</div>
+</div>
+<!-- SECTION 1: Main Protein (Radio - Required) -->
+<fieldset class="flex flex-col gap-space-sm" id="protein-group">
+<div class="flex items-baseline justify-between">
+<legend class="font-headline-sm text-headline-sm text-on-surface">Choose Your Main Protein</legend>
+<span class="px-2 py-0.5 rounded-full bg-primary-container text-on-primary font-label-sm text-label-sm">Required</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant -mt-1">Select 1 option</p>
+<div class="flex flex-col gap-2 mt-1">
+<!-- Option 1: Stewed Beef (Checked) -->
+<label class="flex items-center justify-between p-3.5 rounded-xl bg-surface-container cursor-pointer transition-colors hover:bg-surface-container-high has-[:checked]:bg-primary-fixed/25">
+<div class="flex items-center gap-3">
+<input checked="" class="w-5 h-5 accent-primary-container text-primary-container shrink-0" name="protein" type="radio" value="0.00"/>
+<div class="flex flex-col">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Stewed Beef</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Slow simmered tender beef cuts</span>
+</div>
+</div>
+<span class="font-price-md text-price-md text-primary-container shrink-0">+ GHS 0.00</span>
+</label>
+<!-- Option 2: Fried Fish -->
+<label class="flex items-center justify-between p-3.5 rounded-xl bg-surface-container cursor-pointer transition-colors hover:bg-surface-container-high has-[:checked]:bg-primary-fixed/25">
+<div class="flex items-center gap-3">
+<input class="w-5 h-5 accent-primary-container text-primary-container shrink-0" name="protein" type="radio" value="5.00"/>
+<div class="flex flex-col">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Fried Fish (Red Snapper)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Crispy seasoned ocean fish</span>
+</div>
+</div>
+<span class="font-price-md text-price-md text-on-surface shrink-0">+ GHS 5.00</span>
+</label>
+<!-- Option 3: Tender Goat Meat / Wele Combo -->
+<label class="flex items-center justify-between p-3.5 rounded-xl bg-surface-container cursor-pointer transition-colors hover:bg-surface-container-high has-[:checked]:bg-primary-fixed/25">
+<div class="flex items-center gap-3">
+<input class="w-5 h-5 accent-primary-container text-primary-container shrink-0" name="protein" type="radio" value="10.00"/>
+<div class="flex flex-col">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Tender Goat Meat &amp; Wele</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Rich spiced local chevon combination</span>
+</div>
+</div>
+<span class="font-price-md text-price-md text-on-surface shrink-0">+ GHS 10.00</span>
+</label>
+<!-- Option 4: Fried Chicken (SOLD OUT) -->
+<div class="flex items-center justify-between p-3.5 rounded-xl bg-surface-dim/40 opacity-60 cursor-not-allowed">
+<div class="flex items-center gap-3">
+<input class="w-5 h-5 opacity-40 shrink-0 cursor-not-allowed" disabled="" name="protein" type="radio"/>
+<div class="flex flex-col">
+<span class="font-body-md-bold text-body-md-bold text-on-surface line-through">Fried Chicken</span>
+<span class="font-label-sm text-label-sm text-tertiary-container font-bold">Sold out for lunch pot</span>
+</div>
+</div>
+<span class="font-price-md text-price-md text-on-surface-variant line-through shrink-0">+ GHS 4.00</span>
+</div>
+</div>
+</fieldset>
+<!-- SECTION 2: Shito Pepper Level (Pill/Card Selector - Required) -->
+<fieldset class="flex flex-col gap-space-sm" id="shito-group">
+<div class="flex items-baseline justify-between">
+<legend class="font-headline-sm text-headline-sm text-on-surface">Shito Pepper Level</legend>
+<span class="px-2 py-0.5 rounded-full bg-primary-container text-on-primary font-label-sm text-label-sm">Required</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant -mt-1">Handmade black pepper sauce profile</p>
+<div class="grid grid-cols-2 gap-2 mt-1">
+<!-- Mild -->
+<label class="flex flex-col min-h-[52px] justify-center p-3 rounded-xl bg-surface-container cursor-pointer transition-colors hover:bg-surface-container-high has-[:checked]:bg-primary-container has-[:checked]:text-on-primary">
+<input class="sr-only" name="shito" type="radio" value="mild"/>
+<span class="font-body-md-bold text-body-md-bold">Mild Shito</span>
+<span class="font-label-sm text-label-sm opacity-80">Smooth aromatic heat</span>
+</label>
+<!-- Regular (Checked) -->
+<label class="flex flex-col min-h-[52px] justify-center p-3 rounded-xl bg-primary-container text-on-primary cursor-pointer transition-colors hover:bg-primary-container/90 has-[:checked]:bg-primary-container has-[:checked]:text-on-primary">
+<input checked="" class="sr-only" name="shito" type="radio" value="regular"/>
+<div class="flex items-center justify-between">
+<span class="font-body-md-bold text-body-md-bold">Regular Spicy</span>
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+</div>
+<span class="font-label-sm text-label-sm opacity-90">Traditional Accra heat</span>
+</label>
+<!-- Extra Hot -->
+<label class="flex flex-col min-h-[52px] justify-center p-3 rounded-xl bg-surface-container text-on-surface cursor-pointer transition-colors hover:bg-surface-container-high has-[:checked]:bg-primary-container has-[:checked]:text-on-primary">
+<input class="sr-only" name="shito" type="radio" value="extra_hot"/>
+<div class="flex items-center gap-1">
+<span class="font-body-md-bold text-body-md-bold">Extra Hot</span>
+<span class="font-label-sm text-label-sm text-tertiary-container font-bold">🔥 Fire</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Hot dried bird-eye chili</span>
+</label>
+<!-- No Shito -->
+<label class="flex flex-col min-h-[52px] justify-center p-3 rounded-xl bg-surface-container text-on-surface cursor-pointer transition-colors hover:bg-surface-container-high has-[:checked]:bg-primary-container has-[:checked]:text-on-primary">
+<input class="sr-only" name="shito" type="radio" value="none"/>
+<span class="font-body-md-bold text-body-md-bold">No Shito</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Stew only</span>
+</label>
+</div>
+</fieldset>
+<!-- SECTION 3: Traditional Sides & Extras (Multi-select Checkboxes) -->
+<fieldset class="flex flex-col gap-space-sm">
+<div class="flex items-baseline justify-between">
+<legend class="font-headline-sm text-headline-sm text-on-surface">Add Traditional Sides &amp; Extras</legend>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Optional</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant -mt-1">Customise your signature leaf pack</p>
+<div class="flex flex-col gap-2 mt-1">
+<!-- Kelewele (Checked) -->
+<label class="flex items-center justify-between p-3.5 rounded-xl bg-surface-container cursor-pointer transition-colors hover:bg-surface-container-high has-[:checked]:bg-secondary-container/30">
+<div class="flex items-center gap-3">
+<input checked="" class="w-5 h-5 rounded accent-primary-container text-primary-container shrink-0" name="extra" type="checkbox" value="8.00"/>
+<div class="flex flex-col">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Fried Sweet Plantain (Kelewele)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Spiced with ginger and cloves</span>
+</div>
+</div>
+<span class="font-price-md text-price-md text-on-surface shrink-0">+ GHS 8.00</span>
+</label>
+<!-- Boiled Egg (Checked) -->
+<label class="flex items-center justify-between p-3.5 rounded-xl bg-surface-container cursor-pointer transition-colors hover:bg-surface-container-high has-[:checked]:bg-secondary-container/30">
+<div class="flex items-center gap-3">
+<input checked="" class="w-5 h-5 rounded accent-primary-container text-primary-container shrink-0" name="extra" type="checkbox" value="4.00"/>
+<div class="flex flex-col">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Farm Fresh Boiled Egg</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Whole egg slit with shito garnish</span>
+</div>
+</div>
+<span class="font-price-md text-price-md text-on-surface shrink-0">+ GHS 4.00</span>
+</label>
+<!-- Gari Foto -->
+<label class="flex items-center justify-between p-3.5 rounded-xl bg-surface-container cursor-pointer transition-colors hover:bg-surface-container-high has-[:checked]:bg-secondary-container/30">
+<div class="flex items-center gap-3">
+<input class="w-5 h-5 rounded accent-primary-container text-primary-container shrink-0" name="extra" type="checkbox" value="3.00"/>
+<div class="flex flex-col">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Gari Foto</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Seasoned roasted cassava couscous</span>
+</div>
+</div>
+<span class="font-price-md text-price-md text-on-surface shrink-0">+ GHS 3.00</span>
+</label>
+<!-- Spaghetti / Talia -->
+<label class="flex items-center justify-between p-3.5 rounded-xl bg-surface-container cursor-pointer transition-colors hover:bg-surface-container-high has-[:checked]:bg-secondary-container/30">
+<div class="flex items-center gap-3">
+<input class="w-5 h-5 rounded accent-primary-container text-primary-container shrink-0" name="extra" type="checkbox" value="3.00"/>
+<div class="flex flex-col">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Waakye Spaghetti (Talia)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Tossed noodles with light scallions</span>
+</div>
+</div>
+<span class="font-price-md text-price-md text-on-surface shrink-0">+ GHS 3.00</span>
+</label>
+<!-- Extra Wele Strip -->
+<label class="flex items-center justify-between p-3.5 rounded-xl bg-surface-container cursor-pointer transition-colors hover:bg-surface-container-high has-[:checked]:bg-secondary-container/30">
+<div class="flex items-center gap-3">
+<input class="w-5 h-5 rounded accent-primary-container text-primary-container shrink-0" name="extra" type="checkbox" value="6.00"/>
+<div class="flex flex-col">
+<span class="font-body-md-bold text-body-md-bold text-on-surface">Extra Wele Strip</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Soft marinated cow skin strip</span>
+</div>
+</div>
+<span class="font-price-md text-price-md text-on-surface shrink-0">+ GHS 6.00</span>
+</label>
+</div>
+</fieldset>
+<!-- SECTION 4: Kitchen Preparation Notes -->
+<div class="flex flex-col gap-2">
+<label class="font-headline-sm text-headline-sm text-on-surface" for="kitchen-instructions">
+          Special Instructions for Kitchen
+        </label>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Any specific leaf wrapping or packaging requests?</p>
+<textarea class="w-full p-3.5 rounded-xl bg-surface-container text-on-surface font-body-md text-body-md placeholder:text-on-surface-variant/70 focus:outline-none focus:bg-surface-container-lowest transition-colors resize-none" id="kitchen-instructions" placeholder="e.g. Put shito in a separate leaf, extra stew on rice, no onions on egg..." rows="3"></textarea>
+</div>
+</div>
+<!-- Sticky Bottom Sheet Action Bar -->
+<div class="sticky bottom-0 z-30 flex flex-col w-full bg-surface-container-low shadow-[0_-8px_24px_rgba(43,33,24,0.12)] p-margin gap-2.5">
+<div class="flex items-center gap-3">
+<!-- Quantity Stepper -->
+<div class="flex items-center justify-between bg-surface-container rounded-xl h-[52px] px-2 min-w-[124px]">
+<button aria-label="Decrease quantity" class="w-10 h-10 flex items-center justify-center rounded-lg text-on-surface hover:bg-surface-container-high active:scale-95 transition-transform" id="qty-minus" type="button">
+<span class="material-symbols-outlined text-[20px]">remove</span>
+</button>
+<span class="font-headline-sm text-headline-sm text-on-surface px-2" id="qty-display">1</span>
+<button aria-label="Increase quantity" class="w-10 h-10 flex items-center justify-center rounded-lg text-on-surface hover:bg-surface-container-high active:scale-95 transition-transform" id="qty-plus" type="button">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+<!-- Add To Basket Button -->
+<button class="flex-1 h-[52px] px-4 rounded-[10px] bg-primary-container text-on-primary font-body-md-bold text-body-md-bold flex items-center justify-between shadow-md hover:bg-primary transition-all active:scale-[0.99]" id="btn-add-basket" type="button">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+<span>Add to basket</span>
+</span>
+<span class="font-price-lg text-price-lg" id="total-price-display">GHS 57.00</span>
+</button>
+</div>
+<!-- Trust Subtext / Local Node Notice -->
+<div class="flex items-center justify-center gap-1.5 text-center text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[15px] text-primary-container">storefront</span>
+<span>Dispatching from Lagos Avenue Kitchen • East Legon</span>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    const baseDishPrice = 45.00;
+    let quantity = 1;
+
+    const qtyDisplay = document.getElementById('qty-display');
+    const totalDisplay = document.getElementById('total-price-display');
+    const minusBtn = document.getElementById('qty-minus');
+    const plusBtn = document.getElementById('qty-plus');
+
+    function calculateUnitPrice() {
+      let proteinExtra = 0.00;
+      const selectedProtein = document.querySelector('input[name="protein"]:checked');
+      if (selectedProtein) {
+        proteinExtra = parseFloat(selectedProtein.value) || 0;
+      }
+
+      let sidesExtra = 0.00;
+      const checkedExtras = document.querySelectorAll('input[name="extra"]:checked');
+      checkedExtras.forEach(cb => {
+        sidesExtra += (parseFloat(cb.value) || 0);
+      });
+
+      return baseDishPrice + proteinExtra + sidesExtra;
+    }
+
+    function updateTotal() {
+      const unitPrice = calculateUnitPrice();
+      const grandTotal = unitPrice * quantity;
+      totalDisplay.textContent = `GHS ${grandTotal.toFixed(2)}`;
+    }
+
+    minusBtn.addEventListener('click', () => {
+      if (quantity > 1) {
+        quantity--;
+        qtyDisplay.textContent = quantity;
+        updateTotal();
+      }
+    });
+
+    plusBtn.addEventListener('click', () => {
+      if (quantity < 10) {
+        quantity++;
+        qtyDisplay.textContent = quantity;
+        updateTotal();
+      }
+    });
+
+    document.querySelectorAll('input[name="protein"], input[name="extra"]').forEach(input => {
+      input.addEventListener('change', updateTotal);
+    });
+
+    // Initial sync
+    updateTotal();
+  })();
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-low shadow-[0_-2px_12px_rgba(43,33,24,0.06)]" data-active-classes="text-primary-container font-body-sm-bold"><div class="h-16 px-space-xs flex items-center justify-around"><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] gap-0.5 text-on-surface-variant transition-colors hover:text-on-surface" data-path="browse" href="#"><span class="material-symbols-outlined text-[24px]">restaurant</span><span class="font-label-sm text-label-sm">Browse</span></a><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] gap-0.5 text-on-surface-variant transition-colors hover:text-on-surface" data-path="search" href="#"><span class="material-symbols-outlined text-[24px]">search</span><span class="font-label-sm text-label-sm">Search</span></a><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] gap-0.5 text-on-surface-variant transition-colors hover:text-on-surface" data-path="orders" href="#"><span class="material-symbols-outlined text-[24px]">history</span><span class="font-label-sm text-label-sm">Sankofa</span></a><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] gap-0.5 text-on-surface-variant transition-colors hover:text-on-surface" data-path="account" href="#"><span class="material-symbols-outlined text-[24px]">person_outline</span><span class="font-label-sm text-label-sm">Account</span></a></div></nav></body></html>

@@ -18,6 +18,13 @@ export const ORDER_STATUSES = [
 export const PAYMENT_METHODS = ["PAYSTACK", "CASH"];
 export const PAYMENT_STATUSES = ["UNPAID", "PAID", "REFUNDED", "PARTIALLY_REFUNDED"];
 
+export const EARNINGS_FIELDS = [
+  "commissionPercent",
+  "commissionPesewas",
+  "restaurantEarningsPesewas",
+  "riderEarningsPesewas",
+];
+
 // DECIMAL columns come back from MySQL as text; turn them into numbers
 const asNumber = (column) => ({
   get() {
@@ -83,6 +90,23 @@ const Order = sequelize.define(
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
     },
+    // Who gets what, frozen when the order is placed (utils/order/earnings.js)
+    commissionPercent: {
+      type: DataTypes.TINYINT.UNSIGNED,
+      allowNull: false,
+    },
+    commissionPesewas: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+    },
+    restaurantEarningsPesewas: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+    },
+    riderEarningsPesewas: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+    },
     deliveryDistanceMeters: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
@@ -134,6 +158,14 @@ const Order = sequelize.define(
   },
   {
     tableName: "orders",
+    // Customers never see the money split; owner, rider and admin queries ask for it with
+    // Order.scope("withEarnings")
+    defaultScope: {
+      attributes: { exclude: EARNINGS_FIELDS },
+    },
+    scopes: {
+      withEarnings: {},
+    },
   },
 );
 

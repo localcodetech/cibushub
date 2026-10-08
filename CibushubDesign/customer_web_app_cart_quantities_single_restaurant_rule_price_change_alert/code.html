@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@100..900&amp;family=Epilogue:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-secondary": "#ffffff", "surface": "#fff8f5", "on-primary-fixed-variant": "#264e3b", "secondary-fixed": "#ffdea4", "outline": "#717973", "primary-container": "#123c2a", "surface-dim": "#e9d7c8", "surface-container-highest": "#f2dfd1", "background": "#fff8f5", "on-surface": "#231a11", "surface-container": "#feeadc", "primary-fixed-dim": "#a4d0b7", "on-tertiary-container": "#ec7f63", "on-background": "#231a11", "outline-variant": "#c1c8c2", "tertiary-fixed": "#ffdad2", "surface-tint": "#3e6752", "on-secondary-container": "#755400", "on-tertiary-fixed": "#3c0700", "on-primary": "#ffffff", "on-secondary-fixed": "#261900", "primary-fixed": "#c0edd2", "tertiary": "#430900", "surface-container-lowest": "#ffffff", "secondary-fixed-dim": "#f0bf5c", "primary": "#002517", "error": "#ba1a1a", "surface-bright": "#fff8f5", "on-primary-container": "#7ca78f", "secondary-container": "#fcca66", "inverse-on-surface": "#ffeee1", "error-container": "#ffdad6", "secondary": "#7b5900", "tertiary-fixed-dim": "#ffb4a2", "on-error": "#ffffff", "on-secondary-fixed-variant": "#5d4200", "inverse-surface": "#392e25", "tertiary-container": "#651a06", "on-tertiary": "#ffffff", "inverse-primary": "#a4d0b7", "surface-variant": "#f2dfd1", "on-surface-variant": "#414943", "on-tertiary-fixed-variant": "#7e2b16", "surface-container-low": "#fff1e8", "on-error-container": "#93000a", "on-primary-fixed": "#002113", "surface-container-high": "#f8e5d6" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "gutter-desktop": "1.5rem", "margin": "1rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "margin-desktop": "2.5rem", "space-xl": "2rem", "space-md": "1rem", "gutter": "1rem", "margin-tablet": "1.5rem", "space-lg": "1.5rem" }, "fontFamily": { "body-sm": ["Atkinson Hyperlegible Next"], "body-lg": ["Atkinson Hyperlegible Next"], "headline-sm": ["Epilogue"], "body-sm-bold": ["Atkinson Hyperlegible Next"], "headline-xl-mobile": ["Epilogue"], "price-md": ["Atkinson Hyperlegible Next"], "headline-md": ["Epilogue"], "body-md": ["Atkinson Hyperlegible Next"], "headline-lg-mobile": ["Epilogue"], "headline-xl": ["Epilogue"], "body-md-bold": ["Atkinson Hyperlegible Next"], "headline-lg": ["Epilogue"], "label-md": ["Atkinson Hyperlegible Next"], "label-sm": ["Atkinson Hyperlegible Next"], "price-lg": ["Atkinson Hyperlegible Next"] }, "fontSize": { "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }], "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }], "body-sm-bold": ["14px", { "lineHeight": "20px", "fontWeight": "700" }], "headline-xl-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "800" }], "price-md": ["16px", { "lineHeight": "20px", "fontWeight": "700" }], "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "700" }], "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }], "headline-xl": ["36px", { "lineHeight": "44px", "fontWeight": "800" }], "body-md-bold": ["16px", { "lineHeight": "24px", "fontWeight": "700" }], "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "700" }], "label-md": ["14px", { "lineHeight": "18px", "fontWeight": "700" }], "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "700" }], "price-lg": ["20px", { "lineHeight": "24px", "fontWeight": "700" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head><body class="bg-surface font-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 bg-primary-container shadow-[0_1px_8px_rgba(0,0,0,0.06)] pt-safe"><div class="h-16 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm shrink-0"><img alt="CibusHub Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XXKDDq06ae1_J1s0b3S8paGzdRuNnZgvmEOfaWThsVk4X6OGuEj1-e3d3863vTpKvJW3kEnwLTSWW0zzXX9wXruay500_X2KJ0rrA-ZqUjLFWnSw8277zNpmp5YZwZBCW6hc_WgGWNb13bMS8I9dh-WW32gWL8xFXO1LYJx5FqnHLhRI2eOfaTuQN_DgfncdeLAHrbhPhecmDQpNNLit-XvXCTITBNTDv-FoJZzAM"/><span class="font-headline-sm text-headline-sm text-on-primary font-bold tracking-tight">CibusHub</span></div><button class="flex items-center gap-space-xs min-h-[44px] px-space-xs text-left rounded-lg transition-colors hover:bg-primary/20" type="button"><span class="material-symbols-outlined text-secondary-container text-[20px]">location_on</span><div class="flex flex-col"><span class="font-label-sm text-label-sm text-on-primary-container leading-tight">Delivering to</span><span class="font-body-sm-bold text-body-sm-bold text-on-primary truncate max-w-[130px] leading-tight">East Legon, Accra</span></div><span class="material-symbols-outlined text-on-primary-container text-[18px]">expand_more</span></button><div class="flex items-center gap-space-xs shrink-0"><button aria-label="Cart with 0 items" class="relative w-11 h-11 flex items-center justify-center rounded-lg text-on-primary transition-colors hover:bg-primary/20" type="button"><span class="material-symbols-outlined text-[24px]">shopping_bag</span><span class="absolute top-1 right-1 bg-secondary-container text-on-secondary-fixed font-label-sm text-label-sm w-4 h-4 rounded-full flex items-center justify-center">0</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 pb-24 bg-surface min-h-screen"><div class="flex flex-col w-full relative">
+<!-- Top Header / Kitchen Attribution -->
+<div class="px-margin pt-space-sm pb-space-md">
+<div class="flex items-center justify-between mb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary-container text-[20px]">shopping_cart</span>
+<h1 class="font-headline-md text-headline-md text-on-surface">Your Cart</h1>
+</div>
+<span class="bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm px-space-sm py-0.5 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">local_fire_department</span>
+        2 Items
+      </span>
+</div>
+<div class="flex items-center gap-space-xs text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-primary-container">storefront</span>
+<span class="font-body-sm-bold text-body-sm-bold text-on-surface">Auntie Muni Kitchen</span>
+<span>•</span>
+<span>East Legon</span>
+</div>
+</div>
+<!-- WARNING BANNER 1: Price Change Alert -->
+<section class="px-margin mb-space-md">
+<div class="bg-surface-container-high rounded-xl p-space-md shadow-sm transition-all duration-300" id="price-alert-box">
+<div class="flex items-start gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">price_change</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-space-xs mb-0.5">
+<span class="font-body-sm-bold text-body-sm-bold text-tertiary-container uppercase tracking-wide">Price Update Notice</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Just now</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-space-xs">Price updated for 1 item in your cart</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug mb-space-sm">
+            Tender Goat Meat &amp; Wele increased from <span class="line-through font-body-sm-bold text-body-sm-bold">GHS 52.00</span> to <span class="font-body-sm-bold text-body-sm-bold text-on-surface">GHS 57.00</span> due to kitchen fresh pot market pricing. Your total has been refreshed.
+          </p>
+<div class="flex flex-wrap items-center gap-space-xs">
+<button class="h-11 px-space-md bg-primary-container text-on-primary rounded-lg font-label-md text-label-md transition-colors active:opacity-90 flex items-center gap-1.5" onclick="dismissPriceAlert(true)" type="button">
+<span class="material-symbols-outlined text-[18px]">done</span>
+              Accept &amp; Keep Item
+            </button>
+<button class="h-11 px-space-md bg-surface-container text-on-surface-variant rounded-lg font-label-md text-label-md transition-colors active:opacity-80 flex items-center gap-1.5" onclick="dismissPriceAlert(false)" type="button">
+<span class="material-symbols-outlined text-[18px]">delete_outline</span>
+              Remove Item
+            </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- THRESHOLD / MINIMUM ORDER STATUS CARD -->
+<section class="px-margin mb-space-lg">
+<div class="bg-surface-container rounded-xl p-space-md shadow-sm">
+<div class="flex items-center justify-between mb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary-container text-[20px]">shopping_basket</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Minimum Order Requirement</span>
+</div>
+<span class="font-price-md text-price-md text-primary-container">GHS 30.00</span>
+</div>
+<!-- Active Progress Meter (100% Met) -->
+<div class="space-y-space-xs mb-space-sm">
+<div class="w-full bg-surface-container-highest rounded-full h-2.5 overflow-hidden">
+<div class="bg-primary-container h-full rounded-full w-full transition-all duration-500"></div>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span>Current items: <strong class="text-on-surface">GHS 69.00</strong></span>
+<span class="text-on-primary-container flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Met
+          </span>
+</div>
+</div>
+<div class="bg-surface-bright rounded-lg p-space-sm flex items-start gap-space-xs">
+<span class="text-[18px]">🎉</span>
+<p class="font-body-sm text-body-sm text-on-surface">
+          You have met the minimum order of <strong class="font-body-sm-bold text-body-sm-bold">GHS 30.00</strong> for Auntie Muni Kitchen.
+        </p>
+</div>
+<!-- Interactive Context Pill: Preview below-minimum threshold warning -->
+<div class="mt-space-sm pt-space-xs flex items-center justify-between">
+<button class="flex items-center gap-1 text-on-secondary-container font-label-sm text-label-sm py-1 px-space-xs rounded-lg active:bg-secondary-container/20 transition-colors" onclick="toggleMinOrderState()" type="button">
+<span class="material-symbols-outlined text-[16px]">swap_horiz</span>
+<span id="preview-toggle-text">Preview below-minimum alert state</span>
+</button>
+</div>
+<div class="hidden mt-space-xs bg-secondary-fixed rounded-lg p-space-sm text-on-secondary-fixed" id="below-minimum-callout">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px]">info</span>
+<p class="font-body-sm text-body-sm">
+            Add <strong>GHS 8.00</strong> more of delicious sides to reach Auntie Muni's GHS 30.00 minimum.
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Cart Items Section -->
+<section class="px-margin mb-space-lg">
+<div class="flex items-center justify-between mb-space-sm">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Order Items (2)</h3>
+<button class="flex items-center gap-1 font-label-sm text-label-sm text-on-surface-variant bg-surface-container py-1.5 px-space-sm rounded-lg hover:text-on-surface active:bg-surface-container-high transition-colors" onclick="triggerVendorSwitchModal()" type="button">
+<span class="material-symbols-outlined text-[16px]">add_circle_outline</span>
+        Simulate cross-vendor add
+      </button>
+</div>
+<div class="space-y-space-md">
+<!-- Item 1: Special Waakye Combo -->
+<div class="bg-surface-container-low rounded-xl p-space-md shadow-sm" id="item-waakye">
+<div class="flex gap-space-md">
+<div class="relative w-20 h-20 shrink-0 rounded-xl overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Traditional Ghanaian waakye bowl served with steamed rice and beans, tender stewed goat meat, wele cow skin, golden fried kelewele plantains, red shito pepper sauce, and sliced hard boiled egg, vibrant outdoor Accra food style, warm natural daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9_BUZNNgM22NsjsVUZappg787vV1i8CIADOxbnTs5irfTrAEScPK57hfMqAT4-zZ5IcbsUn-En3sdjqA06jTWAvJemZFopzaWs_nIWNTI9_72zN9QOXorhaorHWXCGnWK7jYIeTqOXQxLgi127802CM4mdVJZ52Ff2S90lANU86Q6hV9jhvUK5nquExLIQMyxhEURyNEIFMjnW59H08Z-KnQ6NmRyNNflrGJZIW4"/>
+<span class="absolute bottom-1 right-1 bg-secondary-container text-on-secondary-fixed font-label-sm text-label-sm px-1 rounded">
+              Updated
+            </span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-start justify-between gap-space-xs mb-1">
+<h4 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Special Waakye Combo</h4>
+<button aria-label="Remove Special Waakye Combo" class="min-w-[44px] min-h-[44px] -mr-2 -mt-2 flex items-center justify-center text-outline hover:text-error transition-colors rounded-lg" onclick="removeItem('item-waakye')" type="button">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+<div class="flex items-baseline gap-space-xs mb-space-xs">
+<span class="font-price-lg text-price-lg text-on-surface">GHS 57.00</span>
+<span class="font-body-sm text-body-sm text-outline line-through">GHS 52.00</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mb-space-sm">
+              Stewed Beef, Regular Shito, Kelewele (+GHS 8), Farm Boiled Egg (+GHS 4)
+            </p>
+<!-- Stepper controls -->
+<div class="flex items-center justify-between pt-space-xs">
+<div class="inline-flex items-center bg-surface-container rounded-lg p-0.5">
+<button aria-label="Decrease quantity" class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface active:bg-surface-container-high transition-colors" onclick="decrementQuantity('qty-waakye')" type="button">
+<span class="material-symbols-outlined text-[20px]">remove</span>
+</button>
+<span class="w-9 text-center font-body-md-bold text-body-md-bold text-on-surface" id="qty-waakye">1</span>
+<button aria-label="Increase quantity" class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface active:bg-surface-container-high transition-colors" onclick="incrementQuantity('qty-waakye')" type="button">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+<button class="font-label-sm text-label-sm text-primary-container flex items-center gap-1 px-space-xs py-2 rounded-lg active:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">edit</span> Edit Options
+              </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Item 2: Fresh Chilled Sobolo -->
+<div class="bg-surface-container-low rounded-xl p-space-md shadow-sm" id="item-sobolo">
+<div class="flex gap-space-md">
+<div class="w-20 h-20 shrink-0 rounded-xl overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Chilled dark crimson hibiscus Sobolo drink in a clear condensation-beaded bottle with fresh mint leaves and ginger slices beside it, vibrant Ghanaian beverage, bright daylight, commercial product aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3I6HzAIaQs_DpeTM9AEozbuPrfkR-OVfsnsu71Hb04Z6UUsTLbaxwS1PlSwV_fsuvnQopsXiaCaEO0iAh30yEs7MtF8I50RCRhkRAtC2LNRCEh3kXfC2_CEOL38u8wUiTQVRBeqyrRKNn6LinKFEUJxH6kC8_rJDzXVH04q3gI5jcHMhtrayle0oRoSWjM17LdqXmFb9sWnRQxAA3xBPiZX_wvZUoBDPuHiYyYQ8"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-start justify-between gap-space-xs mb-1">
+<h4 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Fresh Chilled Sobolo (500ml)</h4>
+<button aria-label="Remove Sobolo" class="min-w-[44px] min-h-[44px] -mr-2 -mt-2 flex items-center justify-center text-outline hover:text-error transition-colors rounded-lg" onclick="removeItem('item-sobolo')" type="button">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+<div class="flex items-baseline gap-space-xs mb-space-xs">
+<span class="font-price-lg text-price-lg text-on-surface">GHS 12.00</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-sm">
+              Cold pressed spiced hibiscus with organic clove &amp; dried pineapple sweetening.
+            </p>
+<!-- Stepper controls -->
+<div class="flex items-center justify-between pt-space-xs">
+<div class="inline-flex items-center bg-surface-container rounded-lg p-0.5">
+<button aria-label="Decrease quantity" class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface active:bg-surface-container-high transition-colors" onclick="decrementQuantity('qty-sobolo')" type="button">
+<span class="material-symbols-outlined text-[20px]">remove</span>
+</button>
+<span class="w-9 text-center font-body-md-bold text-body-md-bold text-on-surface" id="qty-sobolo">1</span>
+<button aria-label="Increase quantity" class="w-11 h-11 flex items-center justify-center rounded-lg text-on-surface active:bg-surface-container-high transition-colors" onclick="incrementQuantity('qty-sobolo')" type="button">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary-container">ac_unit</span> Chilled
+              </span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Ghanaian Kitchen Pride & Fresh Delivery Guarantee Badge -->
+<section class="px-margin mb-space-lg">
+<div class="bg-surface-container-highest rounded-xl p-space-md flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-full bg-primary-container text-on-primary flex items-center justify-center shrink-0">
+<!-- Semantic Adinkra inspired motif / Single Kitchen Guarantee -->
+<span class="material-symbols-outlined text-[26px]">moped</span>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="font-body-md-bold text-body-md-bold text-on-surface">Single Kitchen Guarantee</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Each dispatch arrives directly from Auntie Muni's stove in under 35 mins without transit delays.</p>
+</div>
+</div>
+</section>
+<!-- Order Bill Summary -->
+<section class="px-margin mb-space-xl">
+<div class="bg-surface-container rounded-xl p-space-md shadow-sm">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-space-md">Order Bill Summary</h3>
+<div class="space-y-space-sm font-body-md text-body-md text-on-surface-variant">
+<div class="flex items-center justify-between">
+<span>Items Subtotal</span>
+<span class="font-body-md-bold text-body-md-bold text-on-surface">GHS 69.00</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1">
+<span>Delivery Fee</span>
+<span class="font-label-sm text-label-sm bg-surface-container-high px-1.5 py-0.5 rounded text-on-surface-variant">East Legon</span>
+</div>
+<span class="font-body-md-bold text-body-md-bold text-on-surface">GHS 12.00</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1">
+<span>Eco Packaging Fee</span>
+<span class="material-symbols-outlined text-[16px] text-primary-container">eco</span>
+</div>
+<span class="font-body-md-bold text-body-md-bold text-on-surface">GHS 3.00</span>
+</div>
+<div class="h-px bg-surface-dim my-space-sm"></div>
+<div class="flex items-center justify-between text-on-surface pt-space-xs">
+<div>
+<span class="font-headline-sm text-headline-sm">Total to Pay</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">VAT &amp; municipal levy included</span>
+</div>
+<span class="font-headline-md text-headline-md text-primary-container">GHS 84.00</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Sticky Bottom Checkout CTA Bar -->
+<div class="sticky bottom-16 z-40 bg-surface-container-low px-margin py-space-sm shadow-md">
+<button class="w-full h-12 bg-primary-container text-on-primary rounded-lg font-body-md-bold text-body-md-bold flex items-center justify-between px-space-md shadow-md active:opacity-95 transition-all" type="button">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[22px]">lock</span>
+<span>Proceed to Checkout</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="bg-primary/40 px-space-sm py-1 rounded text-primary-fixed font-price-md text-price-md">GHS 84.00</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</div>
+</button>
+</div>
+<!-- SINGLE-RESTAURANT RULE WARNING DIALOG (MODAL OVERLAY) -->
+<div class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-margin bg-inverse-surface/60 transition-opacity duration-300" id="vendor-switch-modal">
+<div class="bg-surface-container rounded-t-2xl sm:rounded-2xl max-w-md w-full p-space-lg shadow-xl relative animate-in fade-in zoom-in-95 duration-200">
+<!-- Sheet Drag Handle (Mobile Ergonomics) -->
+<div class="w-9 h-1 bg-outline-variant rounded-full mx-auto mb-space-md sm:hidden"></div>
+<div class="flex items-start gap-space-md mb-space-md">
+<div class="w-12 h-12 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[28px]">soup_kitchen</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="inline-flex items-center gap-1 bg-tertiary-container/10 text-on-tertiary-container font-label-sm text-label-sm px-2 py-0.5 rounded-full mb-1">
+<span class="material-symbols-outlined text-[14px]">call_split</span> Single Kitchen Policy
+          </div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface leading-snug">
+            Start a new cart with Buka Express?
+          </h3>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-space-lg">
+        Your cart already contains items from <strong class="text-on-surface font-body-md-bold text-body-md-bold">Auntie Muni Kitchen</strong>. In CibusHub, each order is fulfilled directly from a single kitchen to guarantee piping hot dispatch.
+      </p>
+<div class="space-y-space-xs">
+<!-- Primary Action: Clear & Switch -->
+<button class="w-full min-h-[48px] bg-tertiary-container text-on-tertiary rounded-lg font-body-md-bold text-body-md-bold flex items-center justify-center gap-space-xs active:opacity-90 transition-opacity" onclick="confirmSwitchVendor()" type="button">
+<span class="material-symbols-outlined text-[20px]">delete_sweep</span>
+          Clear Cart &amp; Add Buka Express
+        </button>
+<!-- Secondary Action: Keep Current Cart -->
+<button class="w-full min-h-[48px] bg-surface-container-highest text-on-surface rounded-lg font-body-md-bold text-body-md-bold flex items-center justify-center gap-space-xs active:bg-surface-dim transition-colors" onclick="dismissVendorModal()" type="button">
+          Keep Auntie Muni Cart
+        </button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  function incrementQuantity(elementId) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+    let val = parseInt(el.textContent, 10) || 1;
+    val += 1;
+    el.textContent = val;
+  }
+
+  function decrementQuantity(elementId) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+    let val = parseInt(el.textContent, 10) || 1;
+    if (val > 1) {
+      val -= 1;
+      el.textContent = val;
+    }
+  }
+
+  function removeItem(itemId) {
+    const item = document.getElementById(itemId);
+    if (item) {
+      item.classList.add('opacity-40', 'scale-95');
+      setTimeout(() => {
+        item.remove();
+      }, 200);
+    }
+  }
+
+  function dismissPriceAlert(accepted) {
+    const box = document.getElementById('price-alert-box');
+    if (!box) return;
+    box.classList.add('opacity-0', '-translate-y-2');
+    setTimeout(() => {
+      box.parentElement.remove();
+    }, 250);
+
+    if (!accepted) {
+      const waakye = document.getElementById('item-waakye');
+      if (waakye) removeItem('item-waakye');
+    }
+  }
+
+  function toggleMinOrderState() {
+    const callout = document.getElementById('below-minimum-callout');
+    const label = document.getElementById('preview-toggle-text');
+    if (!callout) return;
+    if (callout.classList.contains('hidden')) {
+      callout.classList.remove('hidden');
+      label.textContent = 'Hide below-minimum alert state';
+    } else {
+      callout.classList.add('hidden');
+      label.textContent = 'Preview below-minimum alert state';
+    }
+  }
+
+  function dismissVendorModal() {
+    const modal = document.getElementById('vendor-switch-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+    }
+  }
+
+  function triggerVendorSwitchModal() {
+    const modal = document.getElementById('vendor-switch-modal');
+    if (modal) {
+      modal.classList.remove('hidden');
+    }
+  }
+
+  function confirmSwitchVendor() {
+    dismissVendorModal();
+    const item1 = document.getElementById('item-waakye');
+    const item2 = document.getElementById('item-sobolo');
+    if (item1) item1.remove();
+    if (item2) item2.remove();
+    alert('Cart cleared. Added fresh signature item from Buka Express!');
+  }
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-low shadow-[0_-2px_12px_rgba(43,33,24,0.06)]" data-active-classes="text-primary-container font-body-sm-bold"><div class="h-16 px-space-xs flex items-center justify-around"><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] gap-0.5 text-on-surface-variant transition-colors hover:text-on-surface" data-path="browse" href="#"><span class="material-symbols-outlined text-[24px]">restaurant</span><span class="font-label-sm text-label-sm">Browse</span></a><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] gap-0.5 text-on-surface-variant transition-colors hover:text-on-surface" data-path="search" href="#"><span class="material-symbols-outlined text-[24px]">search</span><span class="font-label-sm text-label-sm">Search</span></a><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] gap-0.5 text-on-surface-variant transition-colors hover:text-on-surface" data-path="orders" href="#"><span class="material-symbols-outlined text-[24px]">history</span><span class="font-label-sm text-label-sm">Sankofa</span></a><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] gap-0.5 text-on-surface-variant transition-colors hover:text-on-surface" data-path="account" href="#"><span class="material-symbols-outlined text-[24px]">person_outline</span><span class="font-label-sm text-label-sm">Account</span></a></div></nav></body></html>
