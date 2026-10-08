@@ -124,6 +124,20 @@ describe("POST /api/v1/customer/orders", () => {
     });
   });
 
+  it("freezes the restaurant, rider and CibusHub shares, and hides them from the customer", async () => {
+    const response = await placeOrder(checkout());
+    const order = response.body.data;
+    const saved = await Order.scope("withEarnings").findByPk(order.id);
+
+    expect(saved.commissionPercent).toBe(10);
+    expect(saved.commissionPesewas).toBe(700);
+    expect(saved.restaurantEarningsPesewas).toBe(6300);
+    expect(saved.riderEarningsPesewas).toBe(order.deliveryFeePesewas);
+    expect(order).not.toHaveProperty("commissionPesewas");
+    expect(order).not.toHaveProperty("restaurantEarningsPesewas");
+    expect(order).not.toHaveProperty("riderEarningsPesewas");
+  });
+
   it("takes the stock [AC-MENU-07]", async () => {
     await placeOrder(checkout());
 
