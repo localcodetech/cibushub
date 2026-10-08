@@ -3,6 +3,7 @@ import RootLayout from "@/layouts/RootLayout";
 import HomePage from "@/pages/public/HomePage";
 import LoginPage from "@/pages/auth/LoginPage";
 import RegisterPage from "@/pages/auth/RegisterPage";
+import VerifyPhonePage from "@/pages/auth/VerifyPhonePage";
 import CustomerHomePage from "@/pages/customer/CustomerHomePage";
 import OwnerDashboardPage from "@/pages/owner/OwnerDashboardPage";
 import RiderHomePage from "@/pages/rider/RiderHomePage";
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
       { index: true, element: <HomePage /> },
       { path: "login", element: <LoginPage /> },
       { path: "register", element: <RegisterPage /> },
+      { path: "verify-phone", element: <VerifyPhonePage /> },
 
       // One home per role. RequireRole keeps every other role out [AC-RBAC-07]
       {

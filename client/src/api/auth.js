@@ -34,3 +34,15 @@ export const registerRequest = async (details) => {
   const result = await api.post("/auth/register", details);
   return result.data;
 };
+
+// Checks the 6-digit code. If it is right, the phone is marked verified.
+// Returns the updated user (a customer becomes ACTIVE).
+export const verifyPhoneRequest = async (phone, code) => {
+  const result = await api.post("/auth/verify-phone", { phone, code });
+  return result.data;
+};
+
+// Texts a new code. The server allows one every 60 seconds.
+export const resendOtpRequest = async (phone) => {
+  await api.post("/auth/resend-otp", { phone });
+};

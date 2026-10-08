@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, useNavigate } from "react-router";
-import { CircleAlert } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router";
+import { CircleAlert, CircleCheck } from "lucide-react";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
@@ -14,6 +14,13 @@ import { homePathFor } from "@/utils/roleHome";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // A note handed over by the page before, e.g. "Phone verified. Log in to continue."
+  let notice = "";
+  if (location.state && location.state.message) {
+    notice = location.state.message;
+  }
   const setUser = useAuthStore((state) => state.setUser);
 
   // React Hook Form looks after the form: what was typed, the errors, and "is it sending?".
@@ -57,6 +64,16 @@ const LoginPage = () => {
         <Text muted className="mt-2">
           Log in to order from kitchens across Kumasi.
         </Text>
+
+        {notice && (
+          <div
+            role="status"
+            className="mt-6 flex items-start gap-2 rounded-lg border border-primary p-3 text-[15px] text-foreground"
+          >
+            <CircleCheck size={20} className="mt-0.5 shrink-0 text-primary" aria-hidden="true" />
+            <span>{notice}</span>
+          </div>
+        )}
 
         {/* noValidate: let our Zod messages show, not the browser's own pop-ups */}
         <form onSubmit={handleSubmit(onSubmit)} noValidate className="mt-8 flex flex-col gap-5">
