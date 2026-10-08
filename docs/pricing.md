@@ -43,3 +43,21 @@ total = subtotal + delivery fee + service fee − discount
 ## Shown = charged
 
 The checkout quote and order placement call the same `buildQuote` function, and the order stores a `pricing_snapshot` with the formula and inputs used. A later change to the rules never changes a past order (AC-CHK-03).
+
+## Who gets what
+
+All the customer's money lands in CibusHub's Paystack account. Each order freezes how it is shared when it is placed, in `server/src/utils/order/earnings.js` (`EARNINGS_RULES`):
+
+```
+commission          = divideAndRound(subtotal × 10, 100)      CibusHub keeps 10% of the food
+restaurant earnings = subtotal − commission                   what is left, so the parts always add up
+rider earnings      = divideAndRound(delivery fee × 100, 100)  the rider gets the whole delivery fee
+```
+
+Example: subtotal GHS 95.00, delivery GHS 10.72 → commission **GHS 9.50**, restaurant **GHS 85.50**, rider **GHS 10.72**.
+
+- The four columns (`commission_percent`, `commission_pesewas`, `restaurant_earnings_pesewas`, `rider_earnings_pesewas`) are frozen on the order, so a later rate change never changes a past order.
+- Customers never see them. The `Order` model hides them by default; owner, rider and admin queries use `Order.scope("withEarnings")`.
+- Earnings only count for `DELIVERED` orders. Cancelled or refunded orders earn nothing.
+- The service fee (0 now) and the Paystack fee belong to CibusHub. Promo discounts (later) are paid by CibusHub, so the commission is worked out on the subtotal before any discount.
+- Later: the rates move into the SUPER_ADMIN platform settings (AC-ADM), weekly payouts to restaurants and riders by Paystack Transfers, and rider tips (100% to the rider). None of these are built yet.
