@@ -19,6 +19,7 @@ import requireActive from "./middlewares/requireActive.js";
 import adminRestaurantRoutes from "./routes/admin/restaurant.routes.js";
 import adminOrderRoutes from "./routes/admin/order.routes.js";
 import customerAddressRoutes from "./routes/customer/address.routes.js";
+import customerMapsRoutes from "./routes/customer/maps.routes.js";
 import customerCheckoutRoutes from "./routes/customer/checkout.routes.js";
 import customerOrderRoutes from "./routes/customer/order.routes.js";
 import profileRoutes from "./routes/profile.routes.js";
@@ -124,6 +125,11 @@ app.use("/api/v1/customer", authenticate, requireActive, authorize("CUSTOMER"));
 // Customer's saved delivery addresses
 // ─────────────────────────────────────────────
 app.use("/api/v1/customer/addresses", customerAddressRoutes);
+
+// ─────────────────────────────────────────────
+// Customer map lookups for the address form: pin -> area, place search
+// ─────────────────────────────────────────────
+app.use("/api/v1/customer/maps", customerMapsRoutes);
 
 // ─────────────────────────────────────────────
 // Customer checkout: quote now, place order next

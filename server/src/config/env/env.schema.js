@@ -33,6 +33,11 @@ export const envSchema = zod.object({
   NALO_API_KEY: zod.string().optional(),
   NALO_SENDER_ID: zod.string().max(11, "NALO_SENDER_ID can be at most 11 characters").optional(),
 
+  // Maps lookups (pin -> area name, place search) through OpenStreetMap's Nominatim. Free, no key.
+  // Their rules ask every app to say who it is, so we send this email with each request.
+  GEOCODER_URL: zod.url().default("https://nominatim.openstreetmap.org"),
+  GEOCODER_CONTACT_EMAIL: zod.email().or(zod.literal("")).optional(),
+
   SUPER_ADMIN_NAME: zod.string().min(1).optional(),
   SUPER_ADMIN_EMAIL: zod.email().optional(),
   SUPER_ADMIN_PHONE: zod.string().min(1).optional(),

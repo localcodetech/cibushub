@@ -5,6 +5,7 @@ import { ownerRestaurantPaths } from "./paths/ownerRestaurant.paths.js";
 import { ownerMenuPaths } from "./paths/ownerMenu.paths.js";
 import { adminRestaurantPaths } from "./paths/adminRestaurant.paths.js";
 import { customerAddressPaths } from "./paths/customerAddress.paths.js";
+import { customerMapsPaths } from "./paths/customerMaps.paths.js";
 import { profilePaths } from "./paths/profile.paths.js";
 import { cartPaths } from "./paths/cart.paths.js";
 import { checkoutPaths } from "./paths/checkout.paths.js";
@@ -57,6 +58,7 @@ export const openApiDocument = {
     ...ownerMenuPaths,
     ...adminRestaurantPaths,
     ...customerAddressPaths,
+    ...customerMapsPaths,
     ...profilePaths,
     ...cartPaths,
     ...checkoutPaths,
