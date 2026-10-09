@@ -10,12 +10,22 @@ import { addressLabels } from "@/data/addressLabels";
 import { addressSchema } from "@/validators/address/addressSchema";
 import { getPlaceForPinRequest } from "@/api/addresses";
 
-// Quick taps that add a common note for the rider
+// Ready-made notes for the rider: tap to add, tap again to remove. They can't be edited.
 const QUICK_INSTRUCTIONS = [
   "Call when you arrive",
   "Call when at the junction",
   "Meet at the gate",
 ];
+
+// The server keeps instructions as one text, one note per line:
+// "Call when you arrive\nMeet at the gate\nBlue gate, second floor".
+// This splits a saved text back into the quick notes and the customer's own words.
+const splitInstructions = (text) => {
+  const lines = (text || "").split("\n");
+  const quickNotes = lines.filter((line) => QUICK_INSTRUCTIONS.includes(line));
+  const ownLines = lines.filter((line) => !QUICK_INSTRUCTIONS.includes(line));
+  return { quickNotes: quickNotes, ownNote: ownLines.join("\n").trim() };
+};
 
 // 6 decimal places is about 10 cm: more than enough, and keeps numbers short
 const roundCoordinate = (number) => Math.round(number * 1e6) / 1e6;
@@ -33,11 +43,15 @@ const AddressForm = ({ address, onSave }) => {
   // Counts pin moves, so an old, slow area lookup can't overwrite a newer one
   const latestLookup = useRef(0);
 
+  // When editing, pull the saved instructions apart into quick notes + own words
+  const savedInstructions = splitInstructions(address?.deliveryInstructions);
+  // The quick notes that are switched on, e.g. ["Call when you arrive"]
+  const [quickNotes, setQuickNotes] = useState(savedInstructions.quickNotes);
+
   const {
     register,
     handleSubmit,
     setValue,
-    getValues,
     getFieldState,
     control,
     setError,
@@ -50,7 +64,8 @@ const AddressForm = ({ address, onSave }) => {
       area: address?.area || "",
       ghanaPostGps: address?.ghanaPostGps || "",
       landmark: address?.landmark || "",
-      deliveryInstructions: address?.deliveryInstructions || "",
+      // Only the customer's own words; the quick notes live in quickNotes
+      deliveryInstructions: savedInstructions.ownNote,
     },
   });
 
@@ -123,18 +138,24 @@ const AddressForm = ({ address, onSave }) => {
     );
   };
 
-  // useWatch re-reads the box on every key press, so the quick note buttons know what is in it
-  const instructions = useWatch({ control, name: "deliveryInstructions" });
-
-  // A quick note button adds its text to the instructions box, only once
-  const handleQuickInstruction = (text) => {
-    const current = getValues("deliveryInstructions").trim();
-    if (current.includes(text)) {
-      return;
+  // Tap a quick note to switch it on; tap again to switch it off
+  const handleToggleQuickNote = (text) => {
+    if (quickNotes.includes(text)) {
+      setQuickNotes(quickNotes.filter((note) => note !== text));
+    } else {
+      setQuickNotes([...quickNotes, text]);
     }
-    const updated = current ? current + ". " + text : text;
-    setValue("deliveryInstructions", updated, { shouldDirty: true });
   };
+
+  // useWatch re-reads the box on every key press, for the preview below it
+  const ownNote = useWatch({ control, name: "deliveryInstructions" });
+
+  // What the rider will read: each quick note on its own line, then the customer's words.
+  // Kept in the same order as the buttons, whatever order they were tapped in.
+  const riderLines = QUICK_INSTRUCTIONS.filter((text) => quickNotes.includes(text));
+  if (ownNote.trim()) {
+    riderLines.push(ownNote.trim());
+  }
 
   const onSubmit = async (values) => {
     // No pin, no address: riders navigate by it [AC-CUST-04]
@@ -152,7 +173,8 @@ const AddressForm = ({ address, onSave }) => {
     if (values.area) details.area = values.area;
     if (values.ghanaPostGps) details.ghanaPostGps = values.ghanaPostGps.toUpperCase();
     if (values.landmark) details.landmark = values.landmark;
-    if (values.deliveryInstructions) details.deliveryInstructions = values.deliveryInstructions;
+    // One note per line [AC-CUST-03]
+    if (riderLines.length > 0) details.deliveryInstructions = riderLines.join("\n");
 
     try {
       await onSave(details);
@@ -247,41 +269,60 @@ const AddressForm = ({ address, onSave }) => {
       />
 
       <div className="flex flex-col gap-2">
-        <label htmlFor="deliveryInstructions" className="text-[15px] font-bold">
-          Instructions for the rider (optional)
-        </label>
+        <p className="text-[15px] font-bold">Instructions for the rider (optional)</p>
+
+        {/* Quick notes: on / off buttons. aria-pressed tells screen readers which are on */}
         <div className="flex flex-wrap gap-2">
           {QUICK_INSTRUCTIONS.map((text) => {
-            // Already in the box: show a tick and don't add it again
-            const isAdded = instructions.includes(text);
+            const isOn = quickNotes.includes(text);
 
             return (
               <button
                 key={text}
                 type="button"
-                disabled={isAdded}
-                onClick={() => handleQuickInstruction(text)}
+                aria-pressed={isOn}
+                onClick={() => handleToggleQuickNote(text)}
                 className={
-                  isAdded
+                  isOn
                     ? "min-h-10 rounded-full border border-primary bg-primary/10 px-3 text-[13px] font-bold text-primary"
                     : "min-h-10 rounded-full border border-border px-3 text-[13px] font-bold"
                 }
               >
-                {isAdded ? "✓ " : "+ "}
+                {isOn ? "✓ " : "+ "}
                 {text}
               </button>
             );
           })}
         </div>
+
+        {/* The customer's own words only; the quick notes never go in here */}
+        <label htmlFor="deliveryInstructions" className="mt-1 text-[13px] text-muted-foreground">
+          Anything else? (your own words)
+        </label>
         <textarea
           id="deliveryInstructions"
-          rows={3}
+          rows={2}
+          placeholder="e.g. Blue gate, second floor"
           aria-invalid={errors.deliveryInstructions ? true : false}
           className="rounded-lg border border-input bg-white px-3.5 py-3 text-base dark:bg-card"
           {...register("deliveryInstructions")}
         />
         {errors.deliveryInstructions && (
           <p className="text-[15px] text-destructive">{errors.deliveryInstructions.message}</p>
+        )}
+
+        {/* What the rider will read, one note per line */}
+        {riderLines.length > 0 && (
+          <div className="rounded-lg bg-muted px-3.5 py-3">
+            <p className="text-[13px] font-bold text-muted-foreground">The rider will see:</p>
+            <ul className="mt-1 list-disc pl-5 text-[15px]">
+              {riderLines.map((line) => (
+                <li key={line} className="whitespace-pre-line">
+                  {line}
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
       </div>
 

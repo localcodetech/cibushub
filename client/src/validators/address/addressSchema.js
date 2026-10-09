@@ -15,5 +15,6 @@ export const addressSchema = z.object({
       "Use the Ghana Post GPS format, e.g. AK-039-5028",
     ),
   landmark: z.string().trim().max(255, "Landmark is too long"),
-  deliveryInstructions: z.string().trim().max(500, "Instructions are too long"),
+  // Only the customer's own words. The server allows 500 in total; the quick notes use under 100
+  deliveryInstructions: z.string().trim().max(400, "Instructions are too long"),
 });
