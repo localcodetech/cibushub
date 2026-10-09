@@ -17,3 +17,10 @@ export const getRestaurantsRequest = async (filters) => {
   const result = await api.get("/restaurants?" + query.toString());
   return { restaurants: result.data, meta: result.meta };
 };
+
+// One approved restaurant with its opening hours and full menu [AC-DISC-10].
+// A pending, rejected or suspended restaurant answers 404, like it doesn't exist [AC-DISC-02].
+export const getRestaurantRequest = async (restaurantId) => {
+  const result = await api.get("/restaurants/" + restaurantId);
+  return result.data;
+};

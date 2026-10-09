@@ -2,7 +2,6 @@
 // Use this for EVERY price on screen. Never do maths on the text it returns.
 // Same output as the server's formatGhs (server/src/utils/money.js).
 
-
 export const formatMoney = (pesewas) => {
   // Discounts can be negative: format the size, then put the minus sign in front
   const sign = pesewas < 0 ? "-" : "";
