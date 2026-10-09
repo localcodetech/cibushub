@@ -13,7 +13,8 @@ import Text from "@/components/typography/Text";
 // />
 //
 // icon:    a Lucide icon (optional; an inbox by default)
-// action:  optional { label, to } for a button to the next step
+// action:  optional { label, to } for a link to the next step,
+//          or { label, onClick } for a button that runs code (e.g. "Clear filters")
 const EmptyState = ({ icon, title, message, action }) => {
   // A component passed in as a value: give it a capital name so JSX can draw it
   const Icon = icon || Inbox;
@@ -29,7 +30,16 @@ const EmptyState = ({ icon, title, message, action }) => {
           {message}
         </Text>
       )}
-      {action && (
+      {action && action.onClick && (
+        <button
+          type="button"
+          onClick={action.onClick}
+          className="mt-6 inline-flex min-h-11 items-center rounded-md bg-primary px-5 font-bold text-primary-foreground"
+        >
+          {action.label}
+        </button>
+      )}
+      {action && action.to && (
         <Link
           to={action.to}
           className="mt-6 inline-flex min-h-11 items-center rounded-md bg-primary px-5 font-bold text-primary-foreground"

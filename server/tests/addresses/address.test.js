@@ -189,3 +189,76 @@ describe("Who can use the address endpoints [AC-RBAC-03]", () => {
     expect(response.body.error.code).toBe("ACCOUNT_NOT_VERIFIED");
   });
 });
+
+describe("Default address [AC-CUST-07]", () => {
+  it("makes the first address the default, but not the second", async () => {
+    const first = await sendAs(customer, "post", addressesUrl, homeAddress);
+    const second = await sendAs(customer, "post", addressesUrl, { ...homeAddress, label: "WORK" });
+
+    expect(first.body.data.isDefault).toBe(true);
+    expect(second.body.data.isDefault).toBe(false);
+  });
+
+  it("keeps exactly one default when another is chosen", async () => {
+    const first = await sendAs(customer, "post", addressesUrl, homeAddress);
+    const second = await sendAs(customer, "post", addressesUrl, { ...homeAddress, label: "WORK" });
+
+    const response = await sendAs(
+      customer,
+      "post",
+      `${addressesUrl}/${second.body.data.id}/default`,
+    );
+
+    expect(response.status).toBe(200);
+    expect(response.body.data.isDefault).toBe(true);
+    const firstNow = await Address.findByPk(first.body.data.id);
+    expect(firstNow.isDefault).toBe(false);
+    expect(await Address.count({ where: { userId: customer.id, isDefault: true } })).toBe(1);
+  });
+
+  it("lists the default first", async () => {
+    await sendAs(customer, "post", addressesUrl, homeAddress);
+    const second = await sendAs(customer, "post", addressesUrl, { ...homeAddress, label: "WORK" });
+    await sendAs(customer, "post", `${addressesUrl}/${second.body.data.id}/default`);
+
+    const response = await sendAs(customer, "get", addressesUrl);
+
+    expect(response.body.data[0].id).toBe(second.body.data.id);
+  });
+
+  it("hands the default to the newest address left when the default is deleted", async () => {
+    const first = await sendAs(customer, "post", addressesUrl, homeAddress);
+    const second = await sendAs(customer, "post", addressesUrl, { ...homeAddress, label: "WORK" });
+
+    await sendAs(customer, "delete", `${addressesUrl}/${first.body.data.id}`);
+
+    const secondNow = await Address.findByPk(second.body.data.id);
+    expect(secondNow.isDefault).toBe(true);
+  });
+
+  it("can't make another customer's address the default [AC-RBAC-04]", async () => {
+    const theirs = await sendAs(otherCustomer, "post", addressesUrl, homeAddress);
+
+    const response = await sendAs(
+      customer,
+      "post",
+      `${addressesUrl}/${theirs.body.data.id}/default`,
+    );
+
+    expect(response.status).toBe(404);
+  });
+});
+
+describe("Address limit [AC-CUST-08]", () => {
+  it("refuses an 11th address", async () => {
+    for (let count = 0; count < 10; count++) {
+      await sendAs(customer, "post", addressesUrl, homeAddress);
+    }
+
+    const response = await sendAs(customer, "post", addressesUrl, homeAddress);
+
+    expect(response.status).toBe(409);
+    expect(response.body.error.code).toBe("ADDRESS_LIMIT_REACHED");
+    expect(await Address.count({ where: { userId: customer.id } })).toBe(10);
+  });
+});

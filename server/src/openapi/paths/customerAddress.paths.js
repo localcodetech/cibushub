@@ -58,9 +58,17 @@ export const customerAddressPaths = {
         deliveryInstructions: "Call when you reach the gate",
       }),
       responses: {
-        201: successResponse("Saved", exampleAddress),
+        201: successResponse("Saved (the first address becomes the default)", {
+          ...exampleAddress,
+          isDefault: true,
+        }),
         400: validationError,
         403: notCustomer,
+        409: errorResponse(
+          "Already 10 addresses",
+          "ADDRESS_LIMIT_REACHED",
+          "You can save up to 10 addresses. Delete one to add another",
+        ),
       },
     },
   },
@@ -82,10 +90,25 @@ export const customerAddressPaths = {
     delete: {
       tags,
       summary: "Delete one of my addresses",
+      description: "Deleting the default address makes the newest address left the default.",
       security: loggedIn,
       parameters: [addressId],
       responses: {
         200: successResponse("Deleted", null),
+        404: notFound,
+      },
+    },
+  },
+
+  "/api/v1/customer/addresses/{addressId}/default": {
+    post: {
+      tags,
+      summary: "Make this my default address",
+      description: "Exactly one address is the default; it is pre-selected at checkout.",
+      security: loggedIn,
+      parameters: [addressId],
+      responses: {
+        200: successResponse("Now the default", { ...exampleAddress, isDefault: true }),
         404: notFound,
       },
     },

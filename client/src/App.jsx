@@ -4,6 +4,9 @@ import RootLayout from "@/layouts/RootLayout";
 import HomePage from "@/pages/public/HomePage";
 import PrivacyPage from "@/pages/public/PrivacyPage";
 import TermsPage from "@/pages/public/TermsPage";
+import RestaurantsPage from "@/pages/public/RestaurantsPage";
+import RestaurantDetailPage from "@/pages/public/RestaurantDetailPage";
+import CartPage from "@/pages/public/CartPage";
 import LoginPage from "@/pages/auth/LoginPage";
 import RegisterPage from "@/pages/auth/RegisterPage";
 import VerifyPhonePage from "@/pages/auth/VerifyPhonePage";
@@ -22,6 +25,10 @@ import { useAuthStore } from "@/store/authStore";
 // A customer's phone never downloads the admin, owner or rider code.
 // lazy(): "fetch this page's code the first time it is needed".
 const CustomerHomePage = lazy(() => import("@/pages/customer/CustomerHomePage"));
+const AddressesPage = lazy(() => import("@/pages/customer/AddressesPage"));
+// The map library is big, so it only downloads when this page opens
+const AddressFormPage = lazy(() => import("@/pages/customer/AddressFormPage"));
+const ReceiptPage = lazy(() => import("@/pages/customer/ReceiptPage"));
 const OwnerDashboardPage = lazy(() => import("@/pages/owner/OwnerDashboardPage"));
 const RiderHomePage = lazy(() => import("@/pages/rider/RiderHomePage"));
 const AdminDashboardPage = lazy(() => import("@/pages/admin/AdminDashboardPage"));
@@ -43,6 +50,9 @@ const router = createBrowserRouter([
           { index: true, element: <HomePage /> },
           { path: "privacy", element: <PrivacyPage /> },
           { path: "terms", element: <TermsPage /> },
+          { path: "restaurants", element: <RestaurantsPage /> },
+          { path: "restaurants/:restaurantId", element: <RestaurantDetailPage /> },
+          { path: "cart", element: <CartPage /> },
           { path: "login", element: <LoginPage /> },
           { path: "register", element: <RegisterPage /> },
           { path: "verify-phone", element: <VerifyPhonePage /> },
@@ -57,6 +67,38 @@ const router = createBrowserRouter([
             element: (
               <RequireRole allowedRoles={["CUSTOMER"]}>
                 <CustomerHomePage />
+              </RequireRole>
+            ),
+          },
+          {
+            path: "customer/addresses",
+            element: (
+              <RequireRole allowedRoles={["CUSTOMER"]}>
+                <AddressesPage />
+              </RequireRole>
+            ),
+          },
+          {
+            path: "customer/addresses/new",
+            element: (
+              <RequireRole allowedRoles={["CUSTOMER"]}>
+                <AddressFormPage />
+              </RequireRole>
+            ),
+          },
+          {
+            path: "customer/addresses/:addressId/edit",
+            element: (
+              <RequireRole allowedRoles={["CUSTOMER"]}>
+                <AddressFormPage />
+              </RequireRole>
+            ),
+          },
+          {
+            path: "customer/orders/:orderId/receipt",
+            element: (
+              <RequireRole allowedRoles={["CUSTOMER"]}>
+                <ReceiptPage />
               </RequireRole>
             ),
           },
