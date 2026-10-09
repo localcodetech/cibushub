@@ -2,6 +2,7 @@ import {
   addAddress,
   editAddress,
   listMyAddresses,
+  makeDefaultAddress,
   removeAddress,
 } from "../../services/address/address.service.js";
 import { sendSuccess } from "../../utils/response.js";
@@ -28,4 +29,10 @@ export const deleteAddress = async (req, res) => {
   await removeAddress(req.params.addressId, req.user.id);
 
   return sendSuccess(res, null);
+};
+
+export const setDefaultAddress = async (req, res) => {
+  const address = await makeDefaultAddress(req.params.addressId, req.user.id);
+
+  return sendSuccess(res, address);
 };

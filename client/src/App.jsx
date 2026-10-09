@@ -25,6 +25,7 @@ import { useAuthStore } from "@/store/authStore";
 // A customer's phone never downloads the admin, owner or rider code.
 // lazy(): "fetch this page's code the first time it is needed".
 const CustomerHomePage = lazy(() => import("@/pages/customer/CustomerHomePage"));
+const AddressesPage = lazy(() => import("@/pages/customer/AddressesPage"));
 const OwnerDashboardPage = lazy(() => import("@/pages/owner/OwnerDashboardPage"));
 const RiderHomePage = lazy(() => import("@/pages/rider/RiderHomePage"));
 const AdminDashboardPage = lazy(() => import("@/pages/admin/AdminDashboardPage"));
@@ -63,6 +64,14 @@ const router = createBrowserRouter([
             element: (
               <RequireRole allowedRoles={["CUSTOMER"]}>
                 <CustomerHomePage />
+              </RequireRole>
+            ),
+          },
+          {
+            path: "customer/addresses",
+            element: (
+              <RequireRole allowedRoles={["CUSTOMER"]}>
+                <AddressesPage />
               </RequireRole>
             ),
           },
