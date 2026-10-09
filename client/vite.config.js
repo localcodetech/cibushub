@@ -65,6 +65,9 @@ export default defineConfig({
     host: "0.0.0.0",
     port: 5173,
     strictPort: true,
+    // Let the dev server answer through an https tunnel (Apple sign-in and Paystack
+    // callbacks need a real https address, e.g. https://dev.cibushubgh.com)
+    allowedHosts: [".cibushubgh.com", ".trycloudflare.com"],
     // The browser only talks to localhost:5173. Vite forwards /api to the
     // server container, so cookies and requests stay on one origin.
     proxy: {
