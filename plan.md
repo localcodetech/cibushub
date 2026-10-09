@@ -445,6 +445,7 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 1. Install and configure Tailwind CSS, shadcn/ui, Lucide icons and Framer Motion; define CibusHub colours, typography and spacing once.
 2. React Router with separate layouts for guest, customer, restaurant owner, rider and admin; lazy-load each area.
+   - *Decision (2026-10-09):* Step 6 ships one shared layout plus lazy-loaded role areas behind `RequireRole`. Each role's own layout (e.g. sidebar for owner/admin, bottom bar for customer/rider) is built with that area: Step 7 customer, Step 10 owner, Step 11 rider, Step 13 admin, because the dashboards are placeholders until then.
 3. API client that sends cookies with every request; TanStack Query for server state; Zustand for client state.
 4. Login, registration (per role), OTP and password reset screens using React Hook Form and Zod.
 5. Silent refresh: when a request returns 401, refresh once, then retry; on failure, log out cleanly.
