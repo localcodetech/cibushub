@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { registerSchema } from "@/validators/auth/registerSchema";
 import { registerRequest } from "@/api/auth";
 import { registerRoles } from "@/data/registerRoles";
+import SocialSignInButtons from "@/components/auth/SocialSignInButtons";
 
 // Sign-up for customers, restaurant owners and riders [AC-AUTH-01, AC-AUTH-05]
 
@@ -21,6 +22,8 @@ const RegisterPage = () => {
     register,
     handleSubmit,
     setError,
+    getValues,
+    trigger,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(registerSchema),
@@ -34,6 +37,16 @@ const RegisterPage = () => {
       acceptTerms: false,
     },
   });
+
+  // For the Google / Apple buttons: the chosen role, and the Terms box must be ticked.
+  // trigger("acceptTerms") runs that one rule, so its message shows under the box.
+  const getSignupDetails = () => {
+    if (getValues("acceptTerms") !== true) {
+      trigger("acceptTerms");
+      return null;
+    }
+    return { role: getValues("role"), acceptTerms: true };
+  };
 
   // Runs only when the Zod rules pass
   const onSubmit = async (values) => {
@@ -179,6 +192,9 @@ const RegisterPage = () => {
             {isSubmitting ? "Creating your account…" : "Continue to phone verification"}
           </Button>
         </form>
+
+        {/* Sign up with Google / Apple instead: uses the role and Terms box above */}
+        <SocialSignInButtons getSignupDetails={getSignupDetails} />
 
         <Text className="mt-6 text-center">
           Already have an account?{" "}

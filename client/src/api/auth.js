@@ -51,3 +51,17 @@ export const forgotPasswordRequest = async (identifier) => {
 export const resetPasswordRequest = async (identifier, code, newPassword) => {
   await api.post("/auth/reset-password", { identifier, code, newPassword });
 };
+
+// Signs in (or up) with the ID token from the Google / Apple button. Sets the login cookies.
+// details = { provider: "GOOGLE" | "APPLE", idToken, fullName?, role?, acceptTerms? }
+export const socialSignInRequest = async (details) => {
+  const result = await api.post("/auth/social", details);
+  return result.data;
+};
+
+// Saves the phone of a logged-in user who hasn't verified one, and texts a code.
+// Returns the updated user.
+export const addPhoneRequest = async (phone) => {
+  const result = await api.post("/auth/phone", { phone });
+  return result.data;
+};

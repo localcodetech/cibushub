@@ -70,6 +70,11 @@ const VerifyPhonePage = () => {
     return <Navigate to={homePathFor(user.role)} replace />;
   }
 
+  // Logged in but no phone yet (Google / Apple sign-up): add it first
+  if (user && !user.phone && !justRegistered) {
+    return <Navigate to="/add-phone" replace />;
+  }
+
   // No phone number at all (e.g. the page was opened directly): nothing to verify
   if (!phone) {
     return (
@@ -171,6 +176,13 @@ const VerifyPhonePage = () => {
             <button type="button" onClick={handleResend} className="font-bold text-primary">
               Send a new code
             </button>
+          )}
+
+          {/* Logged in: a mistyped number can be fixed before verifying */}
+          {user && (
+            <Link to="/add-phone" className="mt-3 block font-bold text-primary">
+              Wrong number? Change it
+            </Link>
           )}
 
           {resendMessage && (

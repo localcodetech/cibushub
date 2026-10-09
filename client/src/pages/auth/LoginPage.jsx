@@ -11,6 +11,7 @@ import { loginSchema } from "@/validators/auth/loginSchema";
 import { loginRequest } from "@/api/auth";
 import { useAuthStore } from "@/store/authStore";
 import { homePathFor } from "@/utils/roleHome";
+import SocialSignInButtons from "@/components/auth/SocialSignInButtons";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -115,6 +116,9 @@ const LoginPage = () => {
             {isSubmitting ? "Logging in…" : "Log in"}
           </Button>
         </form>
+
+        {/* "Continue with Google / Apple" (only shows once their IDs are set) */}
+        <SocialSignInButtons />
 
         <Text className="mt-6 text-center">
           New to CibusHub?{" "}

@@ -17,6 +17,11 @@ const RequireRole = ({ allowedRoles, children }) => {
     return <Navigate to="/login" replace />;
   }
 
+  // Signed in with Google / Apple and no phone yet: add it first
+  if (!user.phone) {
+    return <Navigate to="/add-phone" replace />;
+  }
+
   // Phone not verified yet: enter the SMS code first [AC-AUTH-01]
   if (!user.phoneVerifiedAt) {
     return <Navigate to="/verify-phone" replace />;

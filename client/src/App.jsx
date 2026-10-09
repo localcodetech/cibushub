@@ -7,6 +7,7 @@ import TermsPage from "@/pages/public/TermsPage";
 import LoginPage from "@/pages/auth/LoginPage";
 import RegisterPage from "@/pages/auth/RegisterPage";
 import VerifyPhonePage from "@/pages/auth/VerifyPhonePage";
+import AddPhonePage from "@/pages/auth/AddPhonePage";
 import PendingApprovalPage from "@/pages/auth/PendingApprovalPage";
 import ForgotPasswordPage from "@/pages/auth/ForgotPasswordPage";
 import ResetPasswordPage from "@/pages/auth/ResetPasswordPage";
@@ -45,6 +46,7 @@ const router = createBrowserRouter([
           { path: "login", element: <LoginPage /> },
           { path: "register", element: <RegisterPage /> },
           { path: "verify-phone", element: <VerifyPhonePage /> },
+          { path: "add-phone", element: <AddPhonePage /> },
           { path: "pending-approval", element: <PendingApprovalPage /> },
           { path: "forgot-password", element: <ForgotPasswordPage /> },
           { path: "reset-password", element: <ResetPasswordPage /> },
