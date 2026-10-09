@@ -75,7 +75,7 @@ const DetailSkeleton = () => {
     <Container>
       <div role="status" className="space-y-4 py-6">
         <span className="sr-only">Loading restaurant</span>
-        <Skeleton className="aspect-[21/9] w-full rounded-lg" />
+        <Skeleton className="aspect-21/9 w-full rounded-lg" />
         <Skeleton className="h-8 w-2/3" />
         <Skeleton className="h-4 w-1/3" />
         <Skeleton className="h-4 w-full" />

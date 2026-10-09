@@ -14,10 +14,10 @@ const RestaurantHeader = ({ restaurant }) => {
         <img
           src={restaurant.coverImageUrl}
           alt={restaurant.name}
-          className="aspect-[21/9] w-full rounded-lg object-cover"
+          className="aspect-21/9 w-full rounded-lg object-cover"
         />
       ) : (
-        <div className="flex aspect-[21/9] w-full items-center justify-center rounded-lg bg-muted">
+        <div className="flex aspect-21/9 w-full items-center justify-center rounded-lg bg-muted">
           <UtensilsCrossed size={40} className="text-muted-foreground" aria-hidden="true" />
         </div>
       )}
