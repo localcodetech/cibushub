@@ -110,6 +110,19 @@ export const useCartStore = create(
         });
       },
 
+      // The customer accepted a new price from the server's check [AC-CART-07].
+      // Saving it means the next check matches, so the warning goes away.
+      acceptNewPrice: (lineId, newUnitPricePesewas) => {
+        set((state) => ({
+          lines: state.lines.map((line) => {
+            if (line.lineId !== lineId) {
+              return line;
+            }
+            return { ...line, unitPricePesewas: newUnitPricePesewas };
+          }),
+        }));
+      },
+
       // Empties the cart: "Start new cart", or after the order is placed
       clearCart: () => {
         set({ lines: [], restaurant: null });

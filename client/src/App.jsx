@@ -6,6 +6,7 @@ import PrivacyPage from "@/pages/public/PrivacyPage";
 import TermsPage from "@/pages/public/TermsPage";
 import RestaurantsPage from "@/pages/public/RestaurantsPage";
 import RestaurantDetailPage from "@/pages/public/RestaurantDetailPage";
+import CartPage from "@/pages/public/CartPage";
 import LoginPage from "@/pages/auth/LoginPage";
 import RegisterPage from "@/pages/auth/RegisterPage";
 import VerifyPhonePage from "@/pages/auth/VerifyPhonePage";
@@ -47,6 +48,7 @@ const router = createBrowserRouter([
           { path: "terms", element: <TermsPage /> },
           { path: "restaurants", element: <RestaurantsPage /> },
           { path: "restaurants/:restaurantId", element: <RestaurantDetailPage /> },
+          { path: "cart", element: <CartPage /> },
           { path: "login", element: <LoginPage /> },
           { path: "register", element: <RegisterPage /> },
           { path: "verify-phone", element: <VerifyPhonePage /> },

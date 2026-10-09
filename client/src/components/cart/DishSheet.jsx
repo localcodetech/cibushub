@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { Minus, Plus } from "lucide-react";
 import Sheet from "@/components/common/Sheet";
+import QuantityStepper from "@/components/cart/QuantityStepper";
 import Text from "@/components/typography/Text";
 import { formatMoney } from "@/utils/money";
 import { describeOptionGroup, getOptionGroupProblem } from "@/utils/menu";
-
-const MAX_QUANTITY = 50;
 
 // The sheet that opens when a customer taps "Add" on a dish [AC-CART-01, AC-MENU-06].
 // They pick options, choose how many, see the price, and tap "Add to cart".
@@ -83,29 +81,7 @@ const DishSheet = ({ item, onAdd, onClose }) => {
         {/* Quantity stepper, 1 to 50 [AC-CART-03] */}
         <div className="flex items-center justify-between">
           <Text className="font-bold">Quantity</Text>
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              aria-label="One less"
-              disabled={quantity <= 1}
-              onClick={() => setQuantity(quantity - 1)}
-              className="flex size-11 items-center justify-center rounded-full border border-border disabled:opacity-40"
-            >
-              <Minus size={18} />
-            </button>
-            <span aria-live="polite" className="w-6 text-center font-bold">
-              {quantity}
-            </span>
-            <button
-              type="button"
-              aria-label="One more"
-              disabled={quantity >= MAX_QUANTITY}
-              onClick={() => setQuantity(quantity + 1)}
-              className="flex size-11 items-center justify-center rounded-full border border-border disabled:opacity-40"
-            >
-              <Plus size={18} />
-            </button>
-          </div>
+          <QuantityStepper quantity={quantity} onChange={setQuantity} label={item.name} />
         </div>
       </div>
 
