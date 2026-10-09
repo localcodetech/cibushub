@@ -10,15 +10,9 @@ export const loginRequest = async (identifier, password) => {
   return result.data;
 };
 
-// Who is logged in right now? Works only while the short access cookie (15 minutes) is valid.
+// Who is logged in right now? If the 15-minute cookie ran out, lib/api.js renews it first.
 export const getMeRequest = async () => {
   const result = await api.get("/auth/me");
-  return result.data;
-};
-
-// Swaps the long refresh cookie (7 days) for new cookies, and returns the user.
-export const refreshRequest = async () => {
-  const result = await api.post("/auth/refresh");
   return result.data;
 };
 

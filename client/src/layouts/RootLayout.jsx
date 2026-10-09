@@ -1,4 +1,6 @@
+import { Suspense } from "react";
 import { Outlet } from "react-router";
+import PageLoader from "@/components/common/PageLoader";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 
@@ -9,7 +11,10 @@ const RootLayout = () => {
     <div className="flex min-h-svh flex-col">
       <Navbar />
       <main className="flex-1">
-        <Outlet />
+        {/* While a lazy page's code downloads, show the spinner in its place */}
+        <Suspense fallback={<PageLoader />}>
+          <Outlet />
+        </Suspense>
       </main>
       <Footer />
     </div>

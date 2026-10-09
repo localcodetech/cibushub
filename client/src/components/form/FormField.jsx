@@ -30,7 +30,7 @@ const FormField = ({ id, label, hint, error, className, ...inputProps }) => {
         aria-invalid={error ? true : false}
         aria-describedby={error ? errorId : hint ? hintId : undefined}
         className={cn(
-          "h-12 rounded-lg border border-input bg-white px-3.5 text-base text-foreground",
+          "h-12 rounded-lg border border-input bg-white px-3.5 dark:bg-card text-base text-foreground",
           "placeholder:text-muted-foreground",
           "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none",
           error && "border-destructive",

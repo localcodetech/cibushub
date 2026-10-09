@@ -1,5 +1,7 @@
 import { create } from "zustand";
-import { getMeRequest, logoutRequest, refreshRequest } from "@/api/auth";
+import { getMeRequest, logoutRequest } from "@/api/auth";
+import { setSessionExpiredHandler } from "@/lib/api";
+import { authChannel } from "@/lib/authChannel";
 import { queryClient } from "@/lib/queryClient";
 
 // Remembers who is logged in, for every page to read.
@@ -37,26 +39,41 @@ export const useAuthStore = create((set) => ({
 
     queryClient.clear();
     set({ user: null });
+
+    // Tell the other open tabs, so they log out too
+    if (authChannel) {
+      authChannel.postMessage("logout");
+    }
   },
 
   // Runs once when the app opens, so a page refresh keeps the user logged in.
-  // 1. Ask /auth/me (works if the 15-minute access cookie is still valid).
-  // 2. If that fails, try /auth/refresh once (works for 7 days after login).
-  // 3. If both fail, the visitor is a guest.
+  // If the 15-minute cookie has run out, lib/api.js renews it on its own (silent refresh).
+  // If that fails too, the visitor is a guest.
   checkSession: async () => {
     try {
       const user = await getMeRequest();
-      set({ user: user, isCheckingSession: false });
-      return;
-    } catch {
-      // Access cookie missing or expired: try the refresh cookie below
-    }
-
-    try {
-      const user = await refreshRequest();
       set({ user: user, isCheckingSession: false });
     } catch {
       set({ user: null, isCheckingSession: false });
     }
   },
 }));
+
+// Forget the user on this device: no saved server data, no user.
+// The guards then send them out of private pages.
+const forgetUser = () => {
+  queryClient.clear();
+  useAuthStore.setState({ user: null });
+};
+
+// The session ended for good (both cookies expired): lib/api.js calls this
+setSessionExpiredHandler(forgetUser);
+
+// Another tab logged out: log out here too
+if (authChannel) {
+  authChannel.onmessage = (event) => {
+    if (event.data === "logout") {
+      forgetUser();
+    }
+  };
+}

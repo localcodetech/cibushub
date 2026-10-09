@@ -6,6 +6,7 @@ import { useAuthStore } from "@/store/authStore";
 import { homePathFor } from "@/utils/roleHome";
 import Container from "./Container";
 import MobileMenu from "./MobileMenu";
+import ThemeToggle from "@/components/common/ThemeToggle";
 
 const Navbar = () => {
   // true when the phone menu is open, false when it is closed
@@ -42,32 +43,38 @@ const Navbar = () => {
             CibusHub
           </Link>
 
-          {/* Big screens: the links sit in the bar */}
-          <nav aria-label="Main" className="hidden items-center gap-6 md:flex">
-            {links.map((link) => (
-              <Link key={link.to} to={link.to} className="font-bold hover:underline">
-                {link.label}
-              </Link>
-            ))}
+          {/* Right side: links (big screens), theme switch, menu button (phones) */}
+          <div className="flex items-center gap-2 md:gap-6">
+            {/* Big screens: the links sit in the bar */}
+            <nav aria-label="Main" className="hidden items-center gap-6 md:flex">
+              {links.map((link) => (
+                <Link key={link.to} to={link.to} className="font-bold hover:underline">
+                  {link.label}
+                </Link>
+              ))}
 
-            {/* Only a logged-in user can log out */}
-            {user && (
-              <button type="button" onClick={handleLogout} className="font-bold hover:underline">
-                Log out
-              </button>
-            )}
-          </nav>
+              {/* Only a logged-in user can log out */}
+              {user && (
+                <button type="button" onClick={handleLogout} className="font-bold hover:underline">
+                  Log out
+                </button>
+              )}
+            </nav>
 
-          {/* Phones: one button that opens and closes the menu */}
-          <button
-            type="button"
-            onClick={toggleMenu}
-            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={isMenuOpen}
-            className="flex size-11 items-center justify-center rounded-md md:hidden"
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+            {/* Light / dark switch, on every screen size */}
+            <ThemeToggle />
+
+            {/* Phones: one button that opens and closes the menu */}
+            <button
+              type="button"
+              onClick={toggleMenu}
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMenuOpen}
+              className="flex size-11 items-center justify-center rounded-md md:hidden"
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </Container>
 
