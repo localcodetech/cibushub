@@ -99,6 +99,63 @@ const request = async (method, path, body, extraHeaders, isRetry) => {
   return result;
 };
 
+// Downloads a file from the API (e.g. a PDF receipt) and saves it on the device.
+// Same login rules as request(): if the 15-minute cookie ran out, renew it and try once more.
+// fileName: the name the saved file gets, e.g. "CibusHub-receipt-CH-261009-006516.pdf"
+export const downloadFile = async (path, fileName) => {
+  const fetchFile = () => {
+    return fetch(API_URL + "/api/v1" + path, { credentials: "include" });
+  };
+
+  let response;
+  try {
+    response = await fetchFile();
+    if (response.status === 401) {
+      const renewed = await refreshOnce();
+      if (!renewed) {
+        handleSessionExpired();
+      } else {
+        response = await fetchFile();
+      }
+    }
+  } catch {
+    throw makeError(
+      0,
+      "NETWORK_ERROR",
+      "Can't reach CibusHub. Check your internet connection and try again.",
+    );
+  }
+
+  // Errors still come back as our JSON envelope
+  if (!response.ok) {
+    let serverError = {};
+    try {
+      const result = await response.json();
+      serverError = result.error || {};
+    } catch {
+      // Not JSON: keep the general message
+    }
+    throw makeError(
+      response.status,
+      serverError.code || "UNKNOWN_ERROR",
+      serverError.message || "Couldn't download the file. Please try again.",
+      serverError.details,
+    );
+  }
+
+  // The file arrives as a "blob" (raw bytes). We give it a temporary address in the browser,
+  // click an invisible link with download="name" to save it, then free the address.
+  const blob = await response.blob();
+  const blobUrl = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = blobUrl;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(blobUrl);
+};
+
 // Shortcuts, so a page writes api.post("/auth/login", { identifier, password })
 export const api = {
   get: (path, headers) => request("GET", path, undefined, headers),

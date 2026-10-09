@@ -5,7 +5,7 @@
 export const LEGAL_VERSION = "2026-10-09";
 export const LEGAL_LAST_UPDATED = "9 October 2026";
 
-// TODO before launch: replace with the real business name, address and support email
+// The business name, address and support email (Privacy, Terms, receipts)
 export const COMPANY_NAME = "CibusHub";
-export const COMPANY_ADDRESS = "[business address], Kumasi, Ghana";
-export const CONTACT_EMAIL = "[support email]";
+export const COMPANY_ADDRESS = "Prempeh Street, Adum, Kumasi, Ghana";
+export const CONTACT_EMAIL = "support@cibushubgh.com";

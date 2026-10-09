@@ -1,4 +1,4 @@
-import { api } from "@/lib/api";
+import { api, downloadFile } from "@/lib/api";
 
 // Every call to the customer's /orders endpoints lives here.
 
@@ -64,4 +64,12 @@ export const startPaymentRequest = async (orderId) => {
 export const getPaymentStatusRequest = async (orderId) => {
   const result = await api.get("/customer/orders/" + orderId + "/payment-status");
   return result.data;
+};
+
+// Saves the receipt as a PDF file on the device, made by the server [AC-PAY-17]
+export const downloadReceiptPdfRequest = async (orderId, orderNumber) => {
+  await downloadFile(
+    "/customer/orders/" + orderId + "/receipt/pdf",
+    "CibusHub-receipt-" + orderNumber + ".pdf",
+  );
 };

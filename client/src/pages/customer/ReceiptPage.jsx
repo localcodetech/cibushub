@@ -1,20 +1,21 @@
-import { useEffect } from "react";
+import { useState } from "react";
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Download, ReceiptText } from "lucide-react";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
-import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
 import ErrorState from "@/components/common/ErrorState";
 import ReceiptDocument from "@/components/receipt/ReceiptDocument";
-import { getReceiptRequest } from "@/api/orders";
+import { downloadReceiptPdfRequest, getReceiptRequest } from "@/api/orders";
 
 // /customer/orders/:orderId/receipt: what was paid, with a "Download PDF" button [AC-PAY-15, AC-PAY-17].
 // The prices come from the order's frozen copy, never today's menu.
 const ReceiptPage = () => {
   const { orderId } = useParams();
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadError, setDownloadError] = useState("");
 
   const {
     data: receipt,
@@ -29,32 +30,16 @@ const ReceiptPage = () => {
       error.status !== 404 && error.status !== 409 && failureCount < 3,
   });
 
-  // The browser names the saved PDF after the page title: "CibusHub receipt CH-1042.pdf"
-  useEffect(() => {
-    if (!receipt) {
-      return;
+  // Downloads the PDF the server makes: one tap, straight into Downloads [AC-PAY-17]
+  const handleDownloadPdf = async () => {
+    setIsDownloading(true);
+    setDownloadError("");
+    try {
+      await downloadReceiptPdfRequest(orderId, receipt.orderNumber);
+    } catch (error) {
+      setDownloadError(error.message);
     }
-    const oldTitle = document.title;
-    document.title = "CibusHub receipt " + receipt.orderNumber;
-    // Put the old title back when leaving the page
-    return () => {
-      document.title = oldTitle;
-    };
-  }, [receipt]);
-
-  // window.print() opens the browser's print window, where "Save as PDF" is one of the printers.
-  // Paper is white, so a dark theme is switched to light just for printing, then put back.
-  const handleDownloadPdf = () => {
-    const page = document.documentElement;
-    const wasDark = page.classList.contains("dark");
-
-    if (wasDark) {
-      page.classList.remove("dark");
-      // "afterprint" fires when the print window closes (printed, saved or cancelled)
-      window.addEventListener("afterprint", () => page.classList.add("dark"), { once: true });
-    }
-
-    window.print();
+    setIsDownloading(false);
   };
 
   if (isPending) {
@@ -110,18 +95,21 @@ const ReceiptPage = () => {
         <button
           type="button"
           onClick={handleDownloadPdf}
-          className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-md bg-primary px-4 font-bold text-primary-foreground"
+          disabled={isDownloading}
+          className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-md bg-primary px-4 font-bold text-primary-foreground disabled:opacity-60"
         >
           <Download size={18} aria-hidden="true" />
-          Download PDF
+          {isDownloading ? "Downloading…" : "Download PDF"}
         </button>
       </div>
 
-      <ReceiptDocument receipt={receipt} />
+      {downloadError && (
+        <p role="alert" className="mb-4 text-[15px] text-destructive print:hidden">
+          {downloadError}
+        </p>
+      )}
 
-      <Text size="caption" muted className="mt-3 text-center print:hidden">
-        Tip: in the print window, choose "Save as PDF" as the printer.
-      </Text>
+      <ReceiptDocument receipt={receipt} />
     </ReceiptLayout>
   );
 };

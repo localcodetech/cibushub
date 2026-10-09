@@ -158,3 +158,47 @@ describe("Receipt [AC-PAY-15]", () => {
     expect(response.status).toBe(404);
   });
 });
+
+// Collects a file response into a Buffer, so the test can look at its bytes
+const asFile = (response, done) => {
+  const pieces = [];
+  response.on("data", (piece) => pieces.push(piece));
+  response.on("end", () => done(null, Buffer.concat(pieces)));
+};
+
+describe("Receipt PDF download [AC-PAY-17]", () => {
+  it("downloads a PDF file named after the order", async () => {
+    await reconcilePayment(reference);
+
+    const response = await as(customer)
+      .get(`/api/v1/customer/orders/${order.id}/receipt/pdf`)
+      .buffer(true)
+      .parse(asFile);
+
+    expect(response.status).toBe(200);
+    expect(response.headers["content-type"]).toBe("application/pdf");
+    expect(response.headers["content-disposition"]).toBe(
+      `attachment; filename="CibusHub-receipt-${order.orderNumber}.pdf"`,
+    );
+    expect(response.headers["cache-control"]).toBe("no-store");
+    // Every PDF file starts with "%PDF"
+    expect(response.body.subarray(0, 4).toString()).toBe("%PDF");
+    expect(response.body.length).toBeGreaterThan(1000);
+  });
+
+  it("is not available before payment", async () => {
+    const response = await as(customer).get(`/api/v1/customer/orders/${order.id}/receipt/pdf`);
+
+    expect(response.status).toBe(409);
+    expect(response.body.error.code).toBe("RECEIPT_NOT_AVAILABLE");
+  });
+
+  it("returns 404 for someone else's order", async () => {
+    await reconcilePayment(reference);
+    const stranger = await createTestUser({ email: "kofi@example.com", phone: "+233551112222" });
+
+    const response = await as(stranger).get(`/api/v1/customer/orders/${order.id}/receipt/pdf`);
+
+    expect(response.status).toBe(404);
+  });
+});

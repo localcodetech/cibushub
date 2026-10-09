@@ -11,6 +11,7 @@ import {
   cancelOrder,
   getOrder,
   getReceipt,
+  downloadReceiptPdf,
   listOrders,
 } from "../../controllers/order/myOrders.controller.js";
 import { payForOrder } from "../../controllers/payment/startPayment.controller.js";
@@ -66,5 +67,10 @@ router.get("/:orderId/payment-status", paymentStatusLimiter, getPaymentStatus);
 // The receipt of one of my paid orders
 // ─────────────────────────────────────────────
 router.get("/:orderId/receipt", getReceipt);
+
+// ─────────────────────────────────────────────
+// The receipt as a PDF file to download
+// ─────────────────────────────────────────────
+router.get("/:orderId/receipt/pdf", downloadReceiptPdf);
 
 export default router;
