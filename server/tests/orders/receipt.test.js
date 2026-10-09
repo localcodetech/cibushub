@@ -121,6 +121,13 @@ describe("Receipt [AC-PAY-15]", () => {
 
     expect(response.status).toBe(200);
     expect(response.body.data).toMatchObject({
+      customerName: expect.any(String),
+      contactPhone: expect.stringMatching(/^\+233/),
+      placedAt: expect.any(String),
+      paymentStatus: "PAID",
+      restaurantAddress: expect.any(String),
+    });
+    expect(response.body.data).toMatchObject({
       orderNumber: order.orderNumber,
       paymentMethod: "Mobile money",
       paymentReference: reference,

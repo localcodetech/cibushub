@@ -3,6 +3,7 @@ import { formatGhs } from "../../utils/money.js";
 import { findOrderWithDetails } from "../../repositories/order.repository.js";
 import { findRestaurantById } from "../../repositories/restaurant.repository.js";
 import { findSuccessfulPayment } from "../../repositories/payment.repository.js";
+import { findUserById } from "../../repositories/user.repository.js";
 
 const PAYMENT_METHOD_NAMES = { mobile_money: "Mobile money", card: "Card" };
 
@@ -11,12 +12,25 @@ export const buildReceipt = async (orderId) => {
   const order = await findOrderWithDetails(orderId);
   const restaurant = await findRestaurantById(order.restaurantId);
   const payment = await findSuccessfulPayment(order.id);
+  const customer = await findUserById(order.customerId);
 
   return {
     orderId: order.id,
     orderNumber: order.orderNumber,
     customerId: order.customerId,
+    placedAt: order.createdAt,
+    paymentStatus: order.paymentStatus, // PAID, REFUNDED or PARTIALLY_REFUNDED
+    customerName: customer.fullName,
+    // The address and phone as they were when the order was placed (the order's own copy)
+    contactPhone: order.contactPhone,
+    deliveryArea: order.deliveryArea,
+    deliveryLandmark: order.deliveryLandmark,
+    deliveryGhanaPostGps: order.deliveryGhanaPostGps,
     restaurantName: restaurant.name,
+    restaurantAddress: [restaurant.addressLine, restaurant.area, restaurant.city]
+      .filter(Boolean)
+      .join(", "),
+    restaurantPhone: restaurant.phone,
     paidAt: payment ? payment.paidAt : null,
     paymentMethod: payment ? PAYMENT_METHOD_NAMES[payment.channel] || payment.channel : null,
     paymentReference: payment ? payment.reference : null,

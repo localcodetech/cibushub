@@ -14,8 +14,18 @@ import {
   listOrders,
 } from "../../controllers/order/myOrders.controller.js";
 import { payForOrder } from "../../controllers/payment/startPayment.controller.js";
+import { getPaymentStatus } from "../../controllers/payment/paymentStatus.controller.js";
+import { createRateLimiter } from "../../middlewares/rateLimit/createRateLimiter.js";
 
 const router = Router();
+
+// The "Confirming payment" page asks every few seconds; each ask may call Paystack
+const paymentStatusLimiter = createRateLimiter({
+  name: "payment-status",
+  windowSeconds: 60,
+  limit: 30,
+  keyBy: (req) => `user:${req.user.id}`,
+});
 
 // ─────────────────────────────────────────────
 // Place an order (same body as the quote, plus an Idempotency-Key header)
@@ -46,6 +56,11 @@ router.post("/:orderId/cancel", validate(cancelOrderSchema), cancelOrder);
 // Pay for my order with Paystack (card or mobile money); call again to retry after a failure
 // ─────────────────────────────────────────────
 router.post("/:orderId/payments", payForOrder);
+
+// ─────────────────────────────────────────────
+// Has my payment gone through? The server asks Paystack itself (the page never decides)
+// ─────────────────────────────────────────────
+router.get("/:orderId/payment-status", paymentStatusLimiter, getPaymentStatus);
 
 // ─────────────────────────────────────────────
 // The receipt of one of my paid orders

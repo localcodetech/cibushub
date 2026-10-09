@@ -92,6 +92,28 @@ export const customerOrderPaths = {
       },
     },
   },
+  "/api/v1/customer/orders/{orderId}/payment-status": {
+    get: {
+      tags,
+      summary: "Has my payment gone through? (the server asks Paystack itself)",
+      description:
+        "Used by the Confirming payment page every few seconds. state is PAID, PENDING, NOT_COMPLETED, FAILED, PROBLEM, CLOSED or NOT_STARTED. A final Paystack answer (success, failed) is recorded with the same code as the webhook; abandoned is reported but not saved. Limited to 30 asks a minute.",
+      security: loggedIn,
+      parameters: [orderId],
+      responses: {
+        200: successResponse("Payment state", {
+          state: "PAID",
+          message: null,
+          orderId: "8f2c3a1e-1b2c-4d5e-9f00-112233445566",
+          orderNumber: "CH-261009-545694",
+          orderStatus: "PAID",
+          totalPesewas: 5364,
+        }),
+        404: notFound,
+      },
+    },
+  },
+
   "/api/v1/customer/orders/{orderId}/payments": {
     post: {
       tags,
@@ -137,7 +159,16 @@ export const customerOrderPaths = {
       responses: {
         200: successResponse("The receipt", {
           orderNumber: "CH-261009-482193",
+          placedAt: "2026-10-09T22:09:31.000Z",
+          paymentStatus: "PAID",
+          customerName: "Ama Mensah",
+          contactPhone: "+233241234567",
+          deliveryArea: "Ayeduase",
+          deliveryLandmark: "Opposite the KNUST gate",
+          deliveryGhanaPostGps: "AK-039-5028",
           restaurantName: "Auntie Akos Kitchen",
+          restaurantAddress: "Asokwa Industrial Area, Gate 2, Asokwa, Kumasi",
+          restaurantPhone: "+233240000105",
           paidAt: "2026-10-09T12:05:00.000Z",
           paymentMethod: "Mobile money",
           paymentReference: "CH-261009-482193-9F3A1C",

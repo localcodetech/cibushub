@@ -57,3 +57,11 @@ export const startPaymentRequest = async (orderId) => {
   const result = await api.post("/customer/orders/" + orderId + "/payments");
   return result.data;
 };
+
+// Has my payment gone through? The server asks Paystack itself; the browser never decides [AC-PAY-09].
+// Returns { state, message, orderId, orderNumber, orderStatus, totalPesewas }.
+// state: PAID, PENDING, NOT_COMPLETED, FAILED, PROBLEM, CLOSED or NOT_STARTED
+export const getPaymentStatusRequest = async (orderId) => {
+  const result = await api.get("/customer/orders/" + orderId + "/payment-status");
+  return result.data;
+};

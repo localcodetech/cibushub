@@ -189,3 +189,25 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Printing and "Save as PDF" (the receipt page) [AC-PAY-17] */
+@media print {
+  /* A4 paper with even margins */
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+
+  /* White paper, whatever the screen theme */
+  html,
+  body {
+    background: #ffffff !important;
+  }
+
+  /* Browsers drop background colours when printing unless told not to:
+     keep the green header band and the total bar */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

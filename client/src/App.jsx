@@ -30,6 +30,7 @@ const AddressesPage = lazy(() => import("@/pages/customer/AddressesPage"));
 const AddressFormPage = lazy(() => import("@/pages/customer/AddressFormPage"));
 const ReceiptPage = lazy(() => import("@/pages/customer/ReceiptPage"));
 const CheckoutPage = lazy(() => import("@/pages/customer/CheckoutPage"));
+const PaymentResultPage = lazy(() => import("@/pages/customer/PaymentResultPage"));
 const OwnerDashboardPage = lazy(() => import("@/pages/owner/OwnerDashboardPage"));
 const RiderHomePage = lazy(() => import("@/pages/rider/RiderHomePage"));
 const AdminDashboardPage = lazy(() => import("@/pages/admin/AdminDashboardPage"));
@@ -108,6 +109,15 @@ const router = createBrowserRouter([
             element: (
               <RequireRole allowedRoles={["CUSTOMER"]}>
                 <CheckoutPage />
+              </RequireRole>
+            ),
+          },
+          {
+            // Paystack sends customers back here (the server's callback_url)
+            path: "orders/:orderId/payment",
+            element: (
+              <RequireRole allowedRoles={["CUSTOMER"]}>
+                <PaymentResultPage />
               </RequireRole>
             ),
           },

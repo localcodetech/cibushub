@@ -572,7 +572,7 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 ## Step 9 — Payments, Cancellations and Refunds
 
-**Status:** 🟢 IN PROGRESS (backend done; real test payment left)
+**Status:** 🟢 IN PROGRESS (backend done; MoMo test payment confirmed 2026-10-09 via the payment-status check; card test and webhook through the tunnel left)
 
 > **Goal.** Money is handled with server-side truth: Paystack payments, verified webhooks, safe retries, expiry, reconciliation and refunds.
 >
@@ -605,7 +605,7 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 ### Done when
 
-- [ ] Card and mobile money test payments mark orders PAID only after verification
+- [ ] Card and mobile money test payments mark orders PAID only after verification (MoMo ✅ CH-261009-006516; card still to test)
 - [x] Invalid signature is rejected with 401; duplicate event changes nothing (tests)
 - [x] Amount mismatch is flagged and not marked paid (test)
 - [x] Unpaid orders expire; refunds never exceed the amount paid
