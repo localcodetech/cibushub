@@ -7,6 +7,7 @@ import { homePathFor } from "@/utils/roleHome";
 import Container from "./Container";
 import MobileMenu from "./MobileMenu";
 import ThemeToggle from "@/components/common/ThemeToggle";
+import CartButton from "./CartButton";
 
 const Navbar = () => {
   // true when the phone menu is open, false when it is closed
@@ -16,6 +17,9 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   // Guests see "Log in" and "Sign up"; a logged-in user sees a link to their own home
+  // Only guests and customers order food, so only they see the cart
+  const canHaveCart = !user || user.role === "CUSTOMER";
+
   let links = guestLinks;
   if (user) {
     links = [{ label: "My dashboard", to: homePathFor(user.role) }];
@@ -60,6 +64,8 @@ const Navbar = () => {
                 </button>
               )}
             </nav>
+
+            {canHaveCart && <CartButton />}
 
             {/* Light / dark switch, on every screen size */}
             <ThemeToggle />

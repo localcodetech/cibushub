@@ -8,6 +8,7 @@ import ErrorState from "@/components/common/ErrorState";
 import RestaurantHeader from "@/components/restaurant/RestaurantHeader";
 import OpeningHours from "@/components/restaurant/OpeningHours";
 import MenuSection from "@/components/restaurant/MenuSection";
+import ViewCartBar from "@/components/cart/ViewCartBar";
 import { getRestaurantRequest } from "@/api/restaurants";
 
 // /restaurants/:restaurantId: one restaurant's profile, hours and menu [AC-DISC-10].
@@ -52,19 +53,22 @@ const RestaurantDetailPage = () => {
 
   return (
     <Container>
-      <div className="py-6">
+      {/* pb-24 leaves room at the bottom for the View cart bar */}
+      <div className="py-6 pb-24">
         <RestaurantHeader restaurant={data} />
 
         {/* Phones: menu, then hours below it. Laptops: menu on the left, hours on the right */}
         <div className="mt-6 grid gap-8 lg:grid-cols-3">
           <div className="lg:col-span-2">
-            <MenuSection menu={data.menu} />
+            <MenuSection restaurant={data} />
           </div>
           <aside>
             <OpeningHours openingHours={data.openingHours} />
           </aside>
         </div>
       </div>
+
+      <ViewCartBar restaurantId={data.id} />
     </Container>
   );
 };
