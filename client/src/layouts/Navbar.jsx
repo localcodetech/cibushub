@@ -40,7 +40,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="bg-primary text-primary-foreground">
+    <header className="bg-primary text-primary-foreground print:hidden">
       <Container>
         <div className="flex h-16 items-center justify-between">
           <Link to="/" onClick={closeMenu} className="font-heading text-2xl font-extrabold">
