@@ -26,6 +26,8 @@ import { useAuthStore } from "@/store/authStore";
 // lazy(): "fetch this page's code the first time it is needed".
 const CustomerHomePage = lazy(() => import("@/pages/customer/CustomerHomePage"));
 const AddressesPage = lazy(() => import("@/pages/customer/AddressesPage"));
+// The map library is big, so it only downloads when this page opens
+const AddressFormPage = lazy(() => import("@/pages/customer/AddressFormPage"));
 const OwnerDashboardPage = lazy(() => import("@/pages/owner/OwnerDashboardPage"));
 const RiderHomePage = lazy(() => import("@/pages/rider/RiderHomePage"));
 const AdminDashboardPage = lazy(() => import("@/pages/admin/AdminDashboardPage"));
@@ -72,6 +74,22 @@ const router = createBrowserRouter([
             element: (
               <RequireRole allowedRoles={["CUSTOMER"]}>
                 <AddressesPage />
+              </RequireRole>
+            ),
+          },
+          {
+            path: "customer/addresses/new",
+            element: (
+              <RequireRole allowedRoles={["CUSTOMER"]}>
+                <AddressFormPage />
+              </RequireRole>
+            ),
+          },
+          {
+            path: "customer/addresses/:addressId/edit",
+            element: (
+              <RequireRole allowedRoles={["CUSTOMER"]}>
+                <AddressFormPage />
               </RequireRole>
             ),
           },
