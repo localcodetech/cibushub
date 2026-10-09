@@ -3,12 +3,14 @@ import request from "supertest";
 import app from "../../src/app.js";
 import { User } from "../../src/models/index.js";
 import { lastCodeSentTo } from "../helpers/fakeSms.js";
+import { TERMS_VERSION } from "../../src/utils/legal.js";
 
 const validCustomer = {
   fullName: "Ama Mensah",
   email: "ama@example.com",
   phone: "024 123 4567",
   password: "Kofi2026",
+  acceptTerms: true,
 };
 
 const register = (body) => request(app).post("/api/v1/auth/register").send(body);
@@ -32,6 +34,27 @@ describe("POST /api/v1/auth/register", () => {
     const user = await User.scope("withPassword").findOne({ where: { email: "ama@example.com" } });
     expect(user.passwordHash).not.toBe("Kofi2026");
     expect(user.passwordHash.startsWith("$2b$")).toBe(true);
+  });
+
+  it("saves when the Terms were accepted, and which version [plan-review §3]", async () => {
+    const before = new Date();
+    await register(validCustomer);
+
+    const user = await User.findOne({ where: { email: "ama@example.com" } });
+    expect(user.termsVersion).toBe(TERMS_VERSION);
+    expect(user.termsAcceptedAt.getTime()).toBeGreaterThanOrEqual(before.getTime() - 1000);
+  });
+
+  it("refuses sign-up without accepting the Terms [plan-review §3]", async () => {
+    const notTicked = await register({ ...validCustomer, acceptTerms: false });
+    const missing = await register({ ...validCustomer, acceptTerms: undefined });
+
+    for (const response of [notTicked, missing]) {
+      expect(response.status).toBe(400);
+      expect(response.body.error.code).toBe("VALIDATION_ERROR");
+      expect(response.body.error.details[0].field).toBe("acceptTerms");
+    }
+    expect(await User.count()).toBe(0);
   });
 
   it("texts a 6-digit verification code [AC-AUTH-07]", async () => {

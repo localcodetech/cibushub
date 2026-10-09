@@ -37,6 +37,8 @@ erDiagram
         datetime phone_verified_at
         varchar avatar_url
         datetime last_login_at
+        datetime terms_accepted_at "sign-up consent (Act 843)"
+        varchar terms_version "which Terms version was accepted"
         datetime created_at
         datetime updated_at
         datetime deleted_at "soft delete"

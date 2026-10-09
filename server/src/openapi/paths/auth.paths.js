@@ -20,6 +20,8 @@ const exampleUser = {
   phoneVerifiedAt: "2026-10-06T10:01:22.000Z",
   avatarUrl: null,
   lastLoginAt: "2026-10-06T10:05:00.000Z",
+  termsAcceptedAt: "2026-10-06T10:01:22.000Z",
+  termsVersion: "2026-10-09",
   createdAt: "2026-10-06T10:01:22.000Z",
   updatedAt: "2026-10-06T10:05:00.000Z",
   deletedAt: null,
@@ -41,13 +43,15 @@ export const authPaths = {
     post: {
       tags,
       summary: "Register a new customer, restaurant owner or rider",
-      description: "Texts a 6-digit verification code. Admin roles can never be registered here.",
+      description:
+        "Texts a 6-digit verification code. acceptTerms must be true; the time and Terms version are saved. Admin roles can never be registered here.",
       requestBody: jsonBody(registerSchema, {
         fullName: "Ama Mensah",
         email: "ama@example.com",
         phone: "024 123 4567",
         password: "Kofi2026",
         role: "CUSTOMER",
+        acceptTerms: true,
       }),
       responses: {
         201: successResponse("Account created", { ...exampleUser, status: "PENDING_VERIFICATION" }),

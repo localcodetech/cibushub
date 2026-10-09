@@ -52,6 +52,13 @@ const User = sequelize.define(
     lastLoginAt: {
       type: DataTypes.DATE,
     },
+    // Sign-up consent to the Terms and Privacy Policy (Act 843)
+    termsAcceptedAt: {
+      type: DataTypes.DATE,
+    },
+    termsVersion: {
+      type: DataTypes.STRING(20),
+    },
   },
   {
     tableName: "users",

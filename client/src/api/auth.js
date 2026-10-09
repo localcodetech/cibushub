@@ -22,7 +22,7 @@ export const logoutRequest = async () => {
 };
 
 // Creates an account and texts a 6-digit code to the phone [AC-AUTH-01, AC-AUTH-05].
-// details = { fullName, email, phone, password, role }. No login cookies yet:
+// details = { fullName, email, phone, password, role, acceptTerms }. No login cookies yet:
 // the user verifies their phone first. Returns the new user.
 export const registerRequest = async (details) => {
   const result = await api.post("/auth/register", details);

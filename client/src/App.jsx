@@ -2,6 +2,8 @@ import { lazy } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import RootLayout from "@/layouts/RootLayout";
 import HomePage from "@/pages/public/HomePage";
+import PrivacyPage from "@/pages/public/PrivacyPage";
+import TermsPage from "@/pages/public/TermsPage";
 import LoginPage from "@/pages/auth/LoginPage";
 import RegisterPage from "@/pages/auth/RegisterPage";
 import VerifyPhonePage from "@/pages/auth/VerifyPhonePage";
@@ -38,6 +40,8 @@ const router = createBrowserRouter([
         children: [
           // "index" means the address "/" itself
           { index: true, element: <HomePage /> },
+          { path: "privacy", element: <PrivacyPage /> },
+          { path: "terms", element: <TermsPage /> },
           { path: "login", element: <LoginPage /> },
           { path: "register", element: <RegisterPage /> },
           { path: "verify-phone", element: <VerifyPhonePage /> },

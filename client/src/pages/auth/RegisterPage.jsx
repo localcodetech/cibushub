@@ -38,13 +38,14 @@ const RegisterPage = () => {
   // Runs only when the Zod rules pass
   const onSubmit = async (values) => {
     try {
-      // acceptTerms is only for this screen, so it is not sent to the server
       const user = await registerRequest({
         role: values.role,
         fullName: values.fullName,
         phone: values.phone,
         email: values.email,
         password: values.password,
+        // The server saves when, and which version of the Terms, was accepted
+        acceptTerms: values.acceptTerms,
       });
 
       // The server texted a code. The next page asks for it, so it needs the phone number.
