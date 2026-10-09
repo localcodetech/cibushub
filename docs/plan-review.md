@@ -322,7 +322,7 @@ Add these to the ER diagram as their steps arrive. The plan names Order, OrderIt
 
 | Item | Why it can't wait |
 |---|---|
-| SMS sender ID "CibusHub" with Hubtel or Arkesel | Network registration can take days to weeks (AC-NOTIF-06) |
+| SMS sender ID "CibusHub" with Nalo Solutions | Network registration can take days to weeks (AC-NOTIF-06) |
 | Domain name | Needed for D4. DNS and HTTPS setup takes time |
 | Paystack account | Test mode is instant; live business verification is not |
 | Google Cloud project with billing | Needed for Maps keys. Create a browser key and a server key and restrict them (AC-MAP-04) |

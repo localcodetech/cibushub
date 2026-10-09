@@ -6,6 +6,7 @@ import {
   findUserById,
 } from "../../../repositories/user.repository.js";
 import { sendOtp } from "../otp.service.js";
+import { TERMS_VERSION } from "../../../utils/legal.js";
 
 export const registerUser = async (data) => {
   const existing = await findUserByEmailOrPhone(data.email, data.phone);
@@ -27,6 +28,9 @@ export const registerUser = async (data) => {
       passwordHash,
       role: data.role,
       status,
+      // Proof of consent: when, and to which version of the Terms
+      termsAcceptedAt: new Date(),
+      termsVersion: TERMS_VERSION,
     });
   } catch (error) {
     if (error.name === "SequelizeUniqueConstraintError") {

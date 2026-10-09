@@ -12,7 +12,8 @@ const DUMMY_PASSWORD_HASH = "$2b$12$OUOm2EihBmFu5FN.MEVdaOp3U9QRmi9SWFMXaLzXHEXx
 export const loginUser = async (identifier, password, device) => {
   const user = await findUserForLogin(identifier);
 
-  if (!user) {
+  // No account, or a Google / Apple account with no password yet: same answer as a wrong password
+  if (!user || !user.passwordHash) {
     await verifyPassword(password, DUMMY_PASSWORD_HASH);
     throw new AppError(401, "INVALID_CREDENTIALS", "Invalid credentials");
   }

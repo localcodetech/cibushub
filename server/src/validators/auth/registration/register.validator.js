@@ -8,5 +8,9 @@ export const registerSchema = z
     phone: phoneField,
     password: passwordField,
     role: z.enum(["CUSTOMER", "RESTAURANT_OWNER", "RIDER"]).default("CUSTOMER"),
+    // The sign-up checkbox: must be ticked (true) [plan-review §3]
+    acceptTerms: z
+      .boolean({ error: "Please accept the Terms and Privacy Policy" })
+      .refine((value) => value === true, "Please accept the Terms and Privacy Policy"),
   })
   .strict();

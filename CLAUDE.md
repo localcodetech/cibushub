@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-CibusHub is a food ordering and delivery system (Ghana market): customers, restaurants, riders, admins. It is in its early scaffolding phase. The planned stack is React (Vite) + Express 5 + Sequelize/MySQL, with Redis, BullMQ, Socket.IO, Paystack, Hubtel/Arkesel, Resend/SendGrid, Google Maps and Cloudinary. Most of this does not exist yet.
+CibusHub is a food ordering and delivery system (Ghana market): customers, restaurants, riders, admins. It is in its early scaffolding phase. The planned stack is React (Vite) + Express 5 + Sequelize/MySQL, with Redis, BullMQ, Socket.IO, Paystack, Nalo Solutions (SMS), Resend/SendGrid, Google Maps and Cloudinary. Most of this does not exist yet.
 
 Two documents drive all work. Read the relevant sections before you implement anything:
 

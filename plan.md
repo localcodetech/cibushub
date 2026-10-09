@@ -5,7 +5,7 @@ Food Ordering & Delivery System · Restaurants, menus, orders, riders, tracking
 
 | | |
 |---|---|
-| **Stack** | React · Express.js 5 · Sequelize · MySQL, with Redis, BullMQ, Socket.IO, Paystack, Hubtel/Arkesel, Resend/SendGrid, Google Maps and Cloudinary |
+| **Stack** | React · Express.js 5 · Sequelize · MySQL, with Redis, BullMQ, Socket.IO, Paystack, Nalo Solutions (SMS), Resend/SendGrid, Google Maps and Cloudinary |
 | **Environment** | Ubuntu · Docker Desktop · Node 24 LTS · JavaScript (ES Modules) · npm |
 | **Source of truth** | CibusHub Acceptance Criteria v1.0. Every step names the criteria it must satisfy, by ID. |
 | **Working model** | You build, step by step; your senior advisor reviews each step like a pull request before you move on. |
@@ -70,7 +70,7 @@ Each step contains:
 | 3 | **Database and Redis** | AC-OPS-01, AC-API-05, AC-DB-01, AC-DB-03, AC-DB-07 … | ✅ DONE |
 | 4 | **Authentication and Role-Based Access** | AC-AUTH-01 to 20, AC-RBAC-01 to 06, AC-RBAC-09, AC-GLOBAL-03, AC-SEC-03 … | ✅ DONE |
 | 5 | **Restaurants and Menus (Backend)** | AC-REST-01 to 08, AC-MENU-01 to 10, AC-DISC-01, 02, 04, 05, 07, 08, 10, AC-IMG-01 to 04, AC-ADM-03 … | ✅ DONE |
-| 6 | **Frontend Foundation** | AC-RBAC-07, 08, AC-AUTH-03, 14, 16, AC-GLOBAL-05, AC-UX-01 to 05, AC-UX-09, 12 … | 🔵 NEXT |
+| 6 | **Frontend Foundation** | AC-RBAC-07, 08, AC-AUTH-03, 14, 16, AC-GLOBAL-05, AC-UX-01 to 05, AC-UX-09, 12 … | 🟢 IN PROGRESS |
 | 7 | **Customer Browsing, Addresses and Cart** | AC-CUST-01 to 08, 11, AC-DISC-01 to 10, AC-CART-01 to 08, AC-MAP-01, 02, 04, AC-IMG-05 … | 🟡 BACKEND DONE |
 | 8 | **Checkout and the Order Engine** | AC-CHK-01 to 12, AC-ORD-01 to 07, AC-CUST-09, 10, AC-MAP-06 | ✅ DONE (backend) |
 | 9 | **Payments, Cancellations and Refunds** | AC-PAY-01 to 16, AC-CANC-01 to 07, AC-JOB-01, 03, 04, AC-JOB-02, AC-OPS-06 | 🟢 IN PROGRESS |
@@ -348,7 +348,7 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 - Write the IDOR tests (customer A versus customer B) now; they become AC-SEC-13 later.
 - Generic messages protect users: never reveal whether an email or phone exists.
-- Keep an SMS provider interface so Hubtel or Arkesel can be plugged in at Step 12 without touching auth logic.
+- Keep an SMS provider interface so Nalo Solutions can be plugged in at Step 12 without touching auth logic.
 - Cookies with Secure require HTTPS; make the Secure flag depend on the environment for local development.
 
 ### Done when
@@ -397,7 +397,7 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 3. Menu: categories with display order, items with integer pesewa prices, availability, tags, option groups with min/max rules and option prices.
 4. Uploads: validate type by magic bytes and size, process with Sharp, store on Cloudinary; verification documents stored as private assets.
 5. Public endpoints: list (pagination, filters, sorting), detail with grouped menu, FULLTEXT search.
-6. Seed fictional restaurants across Accra neighbourhoods with local dishes, including deliberate edge cases (closed, pending, sold-out items, option groups).
+6. Seed fictional restaurants across Kumasi neighbourhoods with local dishes, including deliberate edge cases (closed, pending, sold-out items, option groups).
 
 ### Advisor tips
 
@@ -424,7 +424,7 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 ## Step 6 — Frontend Foundation
 
-**Status:** 🔵 NEXT
+**Status:** 🟢 IN PROGRESS (router, layout, login, session done; guards, logout, register/OTP, lazy loading, error boundary next)
 
 > **Goal.** A professional React foundation: design system, routing per role, data fetching, authentication screens and guards, with every screen handling loading, empty and error states.
 >
@@ -445,6 +445,7 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 1. Install and configure Tailwind CSS, shadcn/ui, Lucide icons and Framer Motion; define CibusHub colours, typography and spacing once.
 2. React Router with separate layouts for guest, customer, restaurant owner, rider and admin; lazy-load each area.
+   - *Decision (2026-10-09):* Step 6 ships one shared layout plus lazy-loaded role areas behind `RequireRole`. Each role's own layout (e.g. sidebar for owner/admin, bottom bar for customer/rider) is built with that area: Step 7 customer, Step 10 owner, Step 11 rider, Step 13 admin, because the dashboards are placeholders until then.
 3. API client that sends cookies with every request; TanStack Query for server state; Zustand for client state.
 4. Login, registration (per role), OTP and password reset screens using React Hook Form and Zod.
 5. Silent refresh: when a request returns 401, refresh once, then retry; on failure, log out cleanly.
@@ -732,12 +733,13 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 ### Build
 
-1. Email provider adapter (Resend, SendGrid or SES) and SMS adapter (Hubtel or Arkesel) behind interfaces.
+1. Email provider adapter (Resend, SendGrid or SES) and SMS adapter (Nalo Solutions) behind interfaces.
 2. Notification queue with retries and exponential backoff; deterministic job IDs.
 3. Branded HTML and plain-text templates for each event in AC-NOTIF-01.
 4. In-app notifications stored in MySQL and pushed by Socket.IO; unread counts and mark-as-read.
 5. Notification log with masked recipients.
 6. Receipt email with the receipt attached as a PDF, generated on the server (AC-PAY-17).
+7. Email verification after sign-up: send a 6-digit code to the email (reuse the "changeEmail" OTP flow in `otp.service.js`), fill `users.email_verified_at` when it is entered, add a client screen after phone verification, and mark addresses the provider reports as bouncing (AC-AUTH-01 "verification link by email"). Until then only the email's format is checked; the phone is the proven contact.
 
 ### Advisor tips
 

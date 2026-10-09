@@ -16,6 +16,8 @@ import { loginSchema } from "../validators/auth/session/login.validator.js";
 import { forgotPasswordSchema } from "../validators/auth/password/forgotPassword.validator.js";
 import { resetPasswordSchema } from "../validators/auth/password/resetPassword.validator.js";
 import { changePasswordSchema } from "../validators/auth/password/changePassword.validator.js";
+import { socialSignInSchema } from "../validators/auth/social/socialSignIn.validator.js";
+import { addPhoneSchema } from "../validators/auth/registration/addPhone.validator.js";
 import { register } from "../controllers/auth/registration/register.controller.js";
 import {
   resendOtp,
@@ -28,6 +30,8 @@ import { getMe } from "../controllers/auth/session/me.controller.js";
 import { forgotPassword } from "../controllers/auth/password/forgotPassword.controller.js";
 import { resetPassword } from "../controllers/auth/password/resetPassword.controller.js";
 import { changePassword } from "../controllers/auth/password/changePassword.controller.js";
+import { socialSignIn } from "../controllers/auth/social/socialSignIn.controller.js";
+import { addPhone } from "../controllers/auth/registration/addPhone.controller.js";
 
 const router = Router();
 
@@ -50,6 +54,16 @@ router.post("/resend-otp", validate(resendOtpSchema), otpLimiter, resendOtp);
 // Log in with email or phone and password
 // ─────────────────────────────────────────────
 router.post("/login", validate(loginSchema), loginIpLimiter, loginAccountLimiter, login);
+
+// ─────────────────────────────────────────────
+// Sign in or sign up with a Google / Apple ID token
+// ─────────────────────────────────────────────
+router.post("/social", validate(socialSignInSchema), loginIpLimiter, socialSignIn);
+
+// ─────────────────────────────────────────────
+// Add (or fix) the phone number of a logged-in user who hasn't verified one, and text a code
+// ─────────────────────────────────────────────
+router.post("/phone", authenticate, validate(addPhoneSchema), otpLimiter, addPhone);
 
 // ─────────────────────────────────────────────
 // Swap the refresh cookie for a new pair of tokens

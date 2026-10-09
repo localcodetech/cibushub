@@ -14,11 +14,20 @@ export const findUserByEmail = (email) => {
 };
 
 export const findUserByEmailOrPhone = (email, phone) => {
-  return User.findOne({
-    where: {
-      [Op.or]: [{ email }, { phone }],
-    },
-  });
+  // Only search by values we have. { phone: null } would match every
+  // Google / Apple user who hasn't added a phone yet.
+  const conditions = [];
+  if (email) {
+    conditions.push({ email });
+  }
+  if (phone) {
+    conditions.push({ phone });
+  }
+  if (conditions.length === 0) {
+    return null;
+  }
+
+  return User.findOne({ where: { [Op.or]: conditions } });
 };
 
 export const findUserForLogin = (identifier) => {

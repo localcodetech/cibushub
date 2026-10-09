@@ -18,14 +18,14 @@ const User = sequelize.define(
       allowNull: false,
       unique: true,
     },
+    // Empty only for a Google / Apple user who hasn't added their phone yet
     phone: {
       type: DataTypes.STRING(20),
-      allowNull: false,
       unique: true,
     },
+    // Empty for a Google / Apple user who never set a password
     passwordHash: {
       type: DataTypes.STRING(255),
-      allowNull: false,
     },
     role: {
       type: DataTypes.ENUM("CUSTOMER", "RESTAURANT_OWNER", "RIDER", "ADMIN", "SUPER_ADMIN"),
@@ -51,6 +51,13 @@ const User = sequelize.define(
     },
     lastLoginAt: {
       type: DataTypes.DATE,
+    },
+    // Sign-up consent to the Terms and Privacy Policy (Act 843)
+    termsAcceptedAt: {
+      type: DataTypes.DATE,
+    },
+    termsVersion: {
+      type: DataTypes.STRING(20),
     },
   },
   {

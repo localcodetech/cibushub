@@ -4,6 +4,7 @@
 import User from "./user.model.js";
 import Address from "./address.model.js";
 import RefreshToken from "./refreshToken.model.js";
+import OAuthAccount from "./oauthAccount.model.js";
 import Restaurant from "./restaurant/restaurant.model.js";
 import OpeningHours from "./restaurant/openingHours.model.js";
 import RestaurantDocument from "./restaurant/restaurantDocument.model.js";
@@ -30,6 +31,12 @@ Address.belongsTo(User, { foreignKey: "userId", as: "user" });
 // ─────────────────────────────────────────────
 User.hasMany(RefreshToken, { foreignKey: "userId", as: "refreshTokens" });
 RefreshToken.belongsTo(User, { foreignKey: "userId", as: "user" });
+
+// ─────────────────────────────────────────────
+// A user can link a Google and an Apple account
+// ─────────────────────────────────────────────
+User.hasMany(OAuthAccount, { foreignKey: "userId", as: "oauthAccounts" });
+OAuthAccount.belongsTo(User, { foreignKey: "userId", as: "user" });
 
 // ─────────────────────────────────────────────
 // An owner has many restaurants
@@ -126,6 +133,7 @@ export {
   User,
   Address,
   RefreshToken,
+  OAuthAccount,
   Restaurant,
   OpeningHours,
   RestaurantDocument,

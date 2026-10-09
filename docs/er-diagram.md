@@ -6,6 +6,7 @@ The database tables and how they connect ([AC-DB-05](../CibusHub_Acceptance_Crit
 erDiagram
     users ||--o{ addresses : "has"
     users ||--o{ refresh_tokens : "has sessions"
+    users ||--o{ oauth_accounts : "signs in with"
     users ||--o{ restaurants : "owns"
     users ||--o{ audit_logs : "acts (admin)"
     restaurants ||--o{ restaurant_opening_hours : "open on"
@@ -29,17 +30,29 @@ erDiagram
         uuid id PK
         varchar full_name
         varchar email UK
-        varchar phone UK "E.164, e.g. +233241234567"
-        varchar password_hash "bcrypt, never returned by the API"
+        varchar phone UK "E.164, e.g. +233241234567; empty until a Google/Apple user adds it"
+        varchar password_hash "bcrypt, never returned by the API; empty for Google/Apple-only users"
         enum role "CUSTOMER, RESTAURANT_OWNER, RIDER, ADMIN, SUPER_ADMIN"
         enum status "PENDING_VERIFICATION, PENDING_APPROVAL, ACTIVE, SUSPENDED"
         datetime email_verified_at
         datetime phone_verified_at
         varchar avatar_url
         datetime last_login_at
+        datetime terms_accepted_at "sign-up consent (Act 843)"
+        varchar terms_version "which Terms version was accepted"
         datetime created_at
         datetime updated_at
         datetime deleted_at "soft delete"
+    }
+
+    oauth_accounts {
+        uuid id PK
+        uuid user_id FK "users.id, ON DELETE CASCADE"
+        enum provider "GOOGLE, APPLE"
+        varchar provider_user_id "the provider's sub; UK with provider"
+        varchar email "as given by the provider (Apple may relay)"
+        datetime created_at
+        datetime updated_at
     }
 
     addresses {
