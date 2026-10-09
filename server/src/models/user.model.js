@@ -18,14 +18,14 @@ const User = sequelize.define(
       allowNull: false,
       unique: true,
     },
+    // Empty only for a Google / Apple user who hasn't added their phone yet
     phone: {
       type: DataTypes.STRING(20),
-      allowNull: false,
       unique: true,
     },
+    // Empty for a Google / Apple user who never set a password
     passwordHash: {
       type: DataTypes.STRING(255),
-      allowNull: false,
     },
     role: {
       type: DataTypes.ENUM("CUSTOMER", "RESTAURANT_OWNER", "RIDER", "ADMIN", "SUPER_ADMIN"),

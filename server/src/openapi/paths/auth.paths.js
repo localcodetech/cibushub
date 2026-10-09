@@ -7,6 +7,8 @@ import { loginSchema } from "../../validators/auth/session/login.validator.js";
 import { forgotPasswordSchema } from "../../validators/auth/password/forgotPassword.validator.js";
 import { resetPasswordSchema } from "../../validators/auth/password/resetPassword.validator.js";
 import { changePasswordSchema } from "../../validators/auth/password/changePassword.validator.js";
+import { socialSignInSchema } from "../../validators/auth/social/socialSignIn.validator.js";
+import { addPhoneSchema } from "../../validators/auth/registration/addPhone.validator.js";
 import { errorResponse, jsonBody, successResponse } from "../helpers.js";
 
 const exampleUser = {
@@ -119,6 +121,72 @@ export const authPaths = {
           "Account suspended",
           "ACCOUNT_SUSPENDED",
           "Your account has been suspended",
+        ),
+        429: rateLimited,
+      },
+    },
+  },
+
+  "/api/v1/auth/social": {
+    post: {
+      tags,
+      summary: "Sign in or sign up with Google or Apple",
+      description:
+        "Send the ID token the Google / Apple button gave the browser. A linked account logs in; an account with the same verified email is linked; otherwise a new account is created (only with acceptTerms: true), with no phone yet. Sets the same HttpOnly cookies as /login.",
+      requestBody: jsonBody(socialSignInSchema, {
+        provider: "GOOGLE",
+        idToken: "eyJhbGciOiJSUzI1NiIsImtpZCI6...",
+        role: "CUSTOMER",
+        acceptTerms: true,
+      }),
+      responses: {
+        200: successResponse("Returning user logged in, cookies set", exampleUser),
+        201: successResponse("New account created and logged in", {
+          ...exampleUser,
+          phone: null,
+          status: "PENDING_VERIFICATION",
+          phoneVerifiedAt: null,
+        }),
+        400: errorResponse(
+          "New account without accepting the Terms",
+          "TERMS_NOT_ACCEPTED",
+          "No account yet. Sign up first and accept the Terms and Privacy Policy",
+        ),
+        401: errorResponse(
+          "The token failed the signature, audience or expiry check",
+          "INVALID_SOCIAL_TOKEN",
+          "Sign-in failed. Please try again",
+        ),
+        403: errorResponse(
+          "Account suspended",
+          "ACCOUNT_SUSPENDED",
+          "Your account has been suspended",
+        ),
+        503: errorResponse(
+          "That provider's client ID is not set on the server",
+          "SOCIAL_LOGIN_UNAVAILABLE",
+          "This sign-in option is not available yet",
+        ),
+        429: rateLimited,
+      },
+    },
+  },
+
+  "/api/v1/auth/phone": {
+    post: {
+      tags,
+      summary: "Add or fix the phone of a logged-in user who hasn't verified one",
+      description:
+        "Used after Google / Apple sign-in. Saves the phone and texts a code; then call /verify-phone.",
+      requestBody: jsonBody(addPhoneSchema, { phone: "054 111 2222" }),
+      responses: {
+        200: successResponse("Phone saved, code sent", { ...exampleUser, phoneVerifiedAt: null }),
+        400: validationError,
+        401: errorResponse("Not logged in", "UNAUTHENTICATED", "Please log in to continue"),
+        409: errorResponse(
+          "Phone used by another account, or already verified (PHONE_ALREADY_VERIFIED)",
+          "PHONE_TAKEN",
+          "This phone number is already used by another account",
         ),
         429: rateLimited,
       },

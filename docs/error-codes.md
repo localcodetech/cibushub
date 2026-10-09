@@ -42,6 +42,12 @@ Add a row here in the same commit that introduces a new code.
 | `INVALID_CREDENTIALS` | 401 | Wrong email/phone or password (always the same message) | AC-AUTH-12 |
 | `ACCOUNT_NOT_VERIFIED` | 403 | Logged in, but phone not verified yet; feature blocked | AC-AUTH-08 |
 | `ACCOUNT_PENDING_APPROVAL` | 403 | Restaurant owner or rider waiting for admin approval | AC-AUTH-05 |
+| `TERMS_NOT_ACCEPTED` | 400 | Google / Apple sign-in would create a new account, but the Terms were not accepted (sign up first) | AC-AUTH-01 |
+| `INVALID_SOCIAL_TOKEN` | 401 | The Google / Apple ID token failed the signature, issuer, audience or expiry check | AC-AUTH-11 |
+| `SOCIAL_EMAIL_UNVERIFIED` | 400 | Google / Apple did not confirm the email, so it can't be linked or used for a new account | AC-AUTH-02 |
+| `SOCIAL_LOGIN_UNAVAILABLE` | 503 | That provider's client ID is not configured on the server | — |
+| `PHONE_TAKEN` | 409 | Adding a phone that another account already uses | AC-AUTH-02 |
+| `PHONE_ALREADY_VERIFIED` | 409 | Adding a phone when the account's phone is already verified (use profile change instead) | AC-CUST-02 |
 | `CATEGORY_NOT_EMPTY` | 409 | Deleting a menu category that still has items; move or delete them first | AC-MENU-02 |
 
 | `FILE_REQUIRED` | 400 | An upload request arrived without a file in the expected form field | AC-IMG-01 |

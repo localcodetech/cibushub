@@ -4,7 +4,8 @@ import { sendOtp } from "../otp.service.js";
 export const requestPasswordReset = async (identifier) => {
   const user = await findUserByEmailOrPhone(identifier, identifier);
 
-  if (!user || user.status === "SUSPENDED") {
+  // No phone yet (Google / Apple user): nowhere to send the code
+  if (!user || user.status === "SUSPENDED" || !user.phone) {
     return;
   }
 

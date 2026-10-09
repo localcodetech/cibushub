@@ -11,6 +11,12 @@ const maskPhone = (phone) => {
 // Sends one text message through Nalo Solutions.
 // It never throws: a failed SMS is written to the log and the caller carries on.
 export const sendSms = async (phone, message) => {
+  // A Google / Apple user may not have added a phone yet
+  if (!phone) {
+    logger.warn("SMS skipped: the user has no phone number");
+    return;
+  }
+
   // No Nalo key: print the message instead of sending it
   if (!env.NALO_API_KEY) {
     if (env.NODE_ENV === "development") {
