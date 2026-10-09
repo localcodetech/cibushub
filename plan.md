@@ -509,9 +509,9 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 ### Done when
 
-- [ ] Every [MUST] in AC-CUST, AC-DISC and AC-CART passes on a 360 px screen
-- [ ] An address cannot be saved without a pin
-- [ ] Changing an item's price in the database is detected at cart review
+- [x] Every [MUST] in AC-CUST, AC-DISC and AC-CART passes on a 360 px screen
+- [x] An address cannot be saved without a pin
+- [x] Changing an item's price in the database is detected at cart review
 
 ### Send for review
 

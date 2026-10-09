@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CircleAlert, LocateFixed } from "lucide-react";
 import FormField from "@/components/form/FormField";
@@ -39,6 +39,7 @@ const AddressForm = ({ address, onSave }) => {
     setValue,
     getValues,
     getFieldState,
+    control,
     setError,
     formState: { errors, isSubmitting },
   } = useForm({
@@ -122,9 +123,15 @@ const AddressForm = ({ address, onSave }) => {
     );
   };
 
-  // A quick note button adds its text to the instructions box
+  // useWatch re-reads the box on every key press, so the quick note buttons know what is in it
+  const instructions = useWatch({ control, name: "deliveryInstructions" });
+
+  // A quick note button adds its text to the instructions box, only once
   const handleQuickInstruction = (text) => {
     const current = getValues("deliveryInstructions").trim();
+    if (current.includes(text)) {
+      return;
+    }
     const updated = current ? current + ". " + text : text;
     setValue("deliveryInstructions", updated, { shouldDirty: true });
   };
@@ -133,6 +140,10 @@ const AddressForm = ({ address, onSave }) => {
     // No pin, no address: riders navigate by it [AC-CUST-04]
     if (!pin) {
       setPinMessage("Drop a pin on the map so the rider can find you.");
+      // The Save button is at the bottom; bring the map and the message into view
+      document
+        .getElementById("delivery-spot")
+        .scrollIntoView({ behavior: "smooth", block: "center" });
       return;
     }
 
@@ -153,7 +164,7 @@ const AddressForm = ({ address, onSave }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-6">
       {/* ── Where: search, current location, map ── */}
-      <fieldset className="flex flex-col gap-3">
+      <fieldset id="delivery-spot" className="flex flex-col gap-3">
         <legend className="mb-1 text-[15px] font-bold">Delivery spot</legend>
         <p className="text-[13px] text-muted-foreground">
           Tap the map or drag the pin to your exact door. The rider follows this pin.
@@ -240,16 +251,27 @@ const AddressForm = ({ address, onSave }) => {
           Instructions for the rider (optional)
         </label>
         <div className="flex flex-wrap gap-2">
-          {QUICK_INSTRUCTIONS.map((text) => (
-            <button
-              key={text}
-              type="button"
-              onClick={() => handleQuickInstruction(text)}
-              className="min-h-10 rounded-full border border-border px-3 text-[13px] font-bold"
-            >
-              + {text}
-            </button>
-          ))}
+          {QUICK_INSTRUCTIONS.map((text) => {
+            // Already in the box: show a tick and don't add it again
+            const isAdded = instructions.includes(text);
+
+            return (
+              <button
+                key={text}
+                type="button"
+                disabled={isAdded}
+                onClick={() => handleQuickInstruction(text)}
+                className={
+                  isAdded
+                    ? "min-h-10 rounded-full border border-primary bg-primary/10 px-3 text-[13px] font-bold text-primary"
+                    : "min-h-10 rounded-full border border-border px-3 text-[13px] font-bold"
+                }
+              >
+                {isAdded ? "✓ " : "+ "}
+                {text}
+              </button>
+            );
+          })}
         </div>
         <textarea
           id="deliveryInstructions"
