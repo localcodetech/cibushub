@@ -12,8 +12,6 @@ import { getReceiptRequest } from "@/api/orders";
 import { formatMoney } from "@/utils/money";
 import { formatDateTime } from "@/utils/date";
 
-
-
 // /customer/orders/:orderId/receipt: what was paid, with a "Download PDF" button [AC-PAY-15, AC-PAY-17].
 // The prices come from the order's frozen copy, never today's menu.
 const ReceiptPage = () => {

@@ -29,6 +29,7 @@ const AddressesPage = lazy(() => import("@/pages/customer/AddressesPage"));
 // The map library is big, so it only downloads when this page opens
 const AddressFormPage = lazy(() => import("@/pages/customer/AddressFormPage"));
 const ReceiptPage = lazy(() => import("@/pages/customer/ReceiptPage"));
+const CheckoutPage = lazy(() => import("@/pages/customer/CheckoutPage"));
 const OwnerDashboardPage = lazy(() => import("@/pages/owner/OwnerDashboardPage"));
 const RiderHomePage = lazy(() => import("@/pages/rider/RiderHomePage"));
 const AdminDashboardPage = lazy(() => import("@/pages/admin/AdminDashboardPage"));
@@ -99,6 +100,14 @@ const router = createBrowserRouter([
             element: (
               <RequireRole allowedRoles={["CUSTOMER"]}>
                 <ReceiptPage />
+              </RequireRole>
+            ),
+          },
+          {
+            path: "checkout",
+            element: (
+              <RequireRole allowedRoles={["CUSTOMER"]}>
+                <CheckoutPage />
               </RequireRole>
             ),
           },

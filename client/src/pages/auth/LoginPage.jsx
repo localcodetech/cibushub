@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { loginSchema } from "@/validators/auth/loginSchema";
 import { loginRequest } from "@/api/auth";
 import { useAuthStore } from "@/store/authStore";
-import { homePathFor } from "@/utils/roleHome";
+import { afterLoginPath } from "@/utils/roleHome";
 import SocialSignInButtons from "@/components/auth/SocialSignInButtons";
 
 const LoginPage = () => {
@@ -43,7 +43,8 @@ const LoginPage = () => {
     try {
       const user = await loginRequest(values.identifier, values.password);
       setUser(user); // remember who logged in, for every page
-      navigate(homePathFor(user.role)); // e.g. a rider goes to /rider
+      // Back to the page they came from (e.g. checkout), or their home: a rider goes to /rider
+      navigate(afterLoginPath(user, location));
     } catch (error) {
       // The server named the wrong fields: show each message under its field
       if (error.details.length > 0) {

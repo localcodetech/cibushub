@@ -71,8 +71,8 @@ Each step contains:
 | 4 | **Authentication and Role-Based Access** | AC-AUTH-01 to 20, AC-RBAC-01 to 06, AC-RBAC-09, AC-GLOBAL-03, AC-SEC-03 … | ✅ DONE |
 | 5 | **Restaurants and Menus (Backend)** | AC-REST-01 to 08, AC-MENU-01 to 10, AC-DISC-01, 02, 04, 05, 07, 08, 10, AC-IMG-01 to 04, AC-ADM-03 … | ✅ DONE |
 | 6 | **Frontend Foundation** | AC-RBAC-07, 08, AC-AUTH-03, 14, 16, AC-GLOBAL-05, AC-UX-01 to 05, AC-UX-09, 12 … | ✅ DONE |
-| 7 | **Customer Browsing, Addresses and Cart** | AC-CUST-01 to 08, 11, AC-DISC-01 to 10, AC-CART-01 to 08, AC-MAP-01, 02, 04, AC-IMG-05 … | 🟢 IN PROGRESS |
-| 8 | **Checkout and the Order Engine** | AC-CHK-01 to 12, AC-ORD-01 to 07, AC-CUST-09, 10, AC-MAP-06 | ✅ DONE (backend) |
+| 7 | **Customer Browsing, Addresses and Cart** | AC-CUST-01 to 08, 11, AC-DISC-01 to 10, AC-CART-01 to 08, AC-MAP-01, 02, 04, AC-IMG-05 … | ✅ DONE |
+| 8 | **Checkout and the Order Engine** | AC-CHK-01 to 12, AC-ORD-01 to 07, AC-CUST-09, 10, AC-MAP-06 | 🟢 IN PROGRESS |
 | 9 | **Payments, Cancellations and Refunds** | AC-PAY-01 to 16, AC-CANC-01 to 07, AC-JOB-01, 03, 04, AC-JOB-02, AC-OPS-06 | 🟢 IN PROGRESS |
 | 10 | **Restaurant Dashboard and Real-Time Updates** | AC-RORD-01 to 07, AC-RT-01, 02, 03, 07, 08, AC-RT-10, AC-JOB-02, AC-UX-06, 07 | ⚪ PLANNED |
 | 11 | **Riders, Assignment and Delivery** | AC-RIDER-01 to 07, AC-ASSIGN-01 to 08, AC-DEL-01 to 08, AC-RT-04, 05, 06, 09, AC-MAP-01, 03, 05 … | ⚪ PLANNED |
@@ -475,7 +475,7 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 ## Step 7 — Customer Browsing, Addresses and Cart
 
-**Status:** 🟢 IN PROGRESS (backend done; frontend being built)
+**Status:** ✅ DONE
 
 > **Goal.** Customers find restaurants, save precise delivery addresses on a map, and build a reliable cart.
 >
@@ -524,7 +524,7 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 ## Step 8 — Checkout and the Order Engine
 
-**Status:** ✅ DONE (backend)
+**Status:** 🟢 IN PROGRESS (backend done; checkout screens being built)
 
 > **Goal.** Orders are created correctly, atomically and safely, and move only through valid states.
 >

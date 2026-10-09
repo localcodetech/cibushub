@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { CircleAlert } from "lucide-react";
 import { socialSignInRequest } from "@/api/auth";
 import { loadScript } from "@/lib/loadScript";
 import { useAuthStore } from "@/store/authStore";
-import { homePathFor } from "@/utils/roleHome";
+import { afterLoginPath } from "@/utils/roleHome";
 import { isDarkTheme } from "@/utils/theme";
 
 // Public IDs from the Google and Apple developer consoles (safe to show in the browser).
@@ -21,6 +21,7 @@ const APPLE_SCRIPT =
 // when the Terms box isn't ticked (the sign-up page then shows its own message).
 const SocialSignInButtons = ({ getSignupDetails }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const setUser = useAuthStore((state) => state.setUser);
   const googleButtonRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState("");
@@ -51,7 +52,7 @@ const SocialSignInButtons = ({ getSignupDetails }) => {
     try {
       const user = await socialSignInRequest(details);
       setUser(user);
-      navigate(homePathFor(user.role));
+      navigate(afterLoginPath(user, location));
     } catch (error) {
       // New person on the login page: they must sign up (and accept the Terms) first
       if (error.code === "TERMS_NOT_ACCEPTED") {

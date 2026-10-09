@@ -1,4 +1,4 @@
-import { Navigate } from "react-router";
+import { Navigate, useLocation } from "react-router";
 import { useAuthStore } from "@/store/authStore";
 
 // A guard placed around a page, so only the right roles can open it [AC-RBAC-07],
@@ -11,10 +11,14 @@ import { useAuthStore } from "@/store/authStore";
 //   </RequireRole>
 const RequireRole = ({ allowedRoles, children }) => {
   const user = useAuthStore((state) => state.user);
+  const location = useLocation();
 
-  // Not logged in: go to the login page first
+  // Not logged in: go to the login page first, remembering this page so login
+  // can bring them back here (e.g. to checkout)
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return (
+      <Navigate to="/login" replace state={{ returnTo: location.pathname + location.search }} />
+    );
   }
 
   // Signed in with Google / Apple and no phone yet: add it first

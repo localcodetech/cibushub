@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { MapPinOff } from "lucide-react";
 import Container from "@/layouts/Container";
@@ -15,6 +15,7 @@ const AddressFormPage = () => {
   const { addressId } = useParams();
   const isEditing = Boolean(addressId);
   const navigate = useNavigate();
+  const location = useLocation();
   const queryClient = useQueryClient();
 
   // To edit, we need the address. It is in the list we already have (or fetch it)
@@ -37,7 +38,9 @@ const AddressFormPage = () => {
       await createAddressRequest(details);
     }
     await queryClient.invalidateQueries({ queryKey: ["addresses"] });
-    navigate("/customer/addresses");
+    // Opened from checkout? Go back there; otherwise to the list
+    const returnTo = location.state ? location.state.returnTo : null;
+    navigate(returnTo === "/checkout" ? "/checkout" : "/customer/addresses");
   };
 
   const title = isEditing ? "Edit address" : "Add an address";
