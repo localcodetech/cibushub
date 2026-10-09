@@ -1,7 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { AlertTriangle, MapPinned, ShoppingBag, Wallet } from "lucide-react";
+import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  AlertTriangle,
+  CircleCheck,
+  LoaderCircle,
+  MapPinned,
+  ShoppingBag,
+  Wallet,
+} from "lucide-react";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
@@ -12,7 +19,8 @@ import ErrorState from "@/components/common/ErrorState";
 import AddressPicker from "@/components/checkout/AddressPicker";
 import OrderSummary from "@/components/checkout/OrderSummary";
 import { getAddressesRequest } from "@/api/addresses";
-import { getCheckoutQuoteRequest } from "@/api/orders";
+import { getCheckoutQuoteRequest, placeOrderRequest, startPaymentRequest } from "@/api/orders";
+import { makeIdempotencyKey } from "@/lib/idempotencyKey";
 import { useCartStore } from "@/store/cartStore";
 import { formatMoney } from "@/utils/money";
 
@@ -23,11 +31,23 @@ const NOTE_MAX = 500;
 const CheckoutPage = () => {
   const restaurant = useCartStore((state) => state.restaurant);
   const lines = useCartStore((state) => state.lines);
+  const clearCart = useCartStore((state) => state.clearCart);
+  const queryClient = useQueryClient();
 
   // The address the customer picked. null means "use the default" (the first in the list)
   const [chosenAddressId, setChosenAddressId] = useState(null);
   const [restaurantNote, setRestaurantNote] = useState("");
   const [riderNote, setRiderNote] = useState("");
+
+  // One key for this checkout. A double tap or a retry sends the same key,
+  // so the server returns the same order instead of making two [AC-CHK-09].
+  // useState(fn) runs fn once, when the page opens.
+  const [idempotencyKey] = useState(makeIdempotencyKey);
+  // true from the tap until we leave for Paystack (or something fails)
+  const [isPlacing, setIsPlacing] = useState(false);
+  const [placeError, setPlaceError] = useState("");
+  // The saved order, once the server has created it
+  const [placedOrder, setPlacedOrder] = useState(null);
 
   const addressesQuery = useQuery({
     queryKey: ["addresses"],
@@ -49,6 +69,70 @@ const CheckoutPage = () => {
     enabled: Boolean(restaurant && addressId && lines.length > 0),
     placeholderData: keepPreviousData,
   });
+
+  // Ask Paystack for a payment page, then leave our site for it [AC-PAY-01].
+  // Paystack sends the customer back to /orders/:id/payment when they finish.
+  const goToPayment = async (order) => {
+    setIsPlacing(true);
+    setPlaceError("");
+    try {
+      const payment = await startPaymentRequest(order.id);
+      // assign() opens the page like clicking a link; we don't set isPlacing back, we are leaving
+      window.location.assign(payment.authorizationUrl);
+    } catch (error) {
+      setPlaceError(error.message);
+      setIsPlacing(false);
+    }
+  };
+
+  const handlePlaceOrder = async () => {
+    setIsPlacing(true);
+    setPlaceError("");
+
+    let order;
+    try {
+      order = await placeOrderRequest(
+        {
+          restaurantId: restaurant.id,
+          addressId: addressId,
+          lines: lines,
+          restaurantNote: restaurantNote.trim(),
+          riderNote: riderNote.trim(),
+        },
+        idempotencyKey,
+      );
+    } catch (error) {
+      setIsPlacing(false);
+      setPlaceError(error.message);
+      // Something changed (price, stock, closed): get a fresh quote so the page shows what [AC-CHK-05]
+      if (error.code === "CHECKOUT_BLOCKED") {
+        quoteQuery.refetch();
+      }
+      return;
+    }
+
+    // The order is saved. The cart has done its job; the order now holds the copy.
+    setPlacedOrder(order);
+    clearCart();
+    queryClient.invalidateQueries({ queryKey: ["orders"] });
+
+    await goToPayment(order);
+  };
+
+  // ── Order placed: on the way to Paystack, or payment couldn't start ──
+  // (Checked before "cart is empty", because the cart was just emptied on purpose.)
+  if (placedOrder) {
+    return (
+      <CheckoutLayout>
+        <PlacedOrderPanel
+          order={placedOrder}
+          isLeaving={isPlacing}
+          error={placeError}
+          onRetryPayment={() => goToPayment(placedOrder)}
+        />
+      </CheckoutLayout>
+    );
+  }
 
   // ── Nothing to check out ──
   if (lines.length === 0) {
@@ -175,16 +259,58 @@ const CheckoutPage = () => {
           </Card>
         )}
 
-        {/* Wired up in the next task: place the order, then pay */}
+        {placeError && (
+          <p role="alert" className="text-[15px] text-destructive">
+            {placeError}
+          </p>
+        )}
+
+        {/* Disabled while sending, so a second tap can't start a second request [AC-CHK-09] */}
         <button
           type="button"
-          disabled={!canPlaceOrder}
+          onClick={handlePlaceOrder}
+          disabled={!canPlaceOrder || isPlacing}
           className="min-h-12 w-full rounded-md bg-primary px-5 font-bold text-primary-foreground disabled:opacity-40"
         >
-          {quote ? "Place order · " + formatMoney(quote.totalPesewas) : "Place order"}
+          {isPlacing && "Placing order…"}
+          {!isPlacing && quote && "Place order · " + formatMoney(quote.totalPesewas)}
+          {!isPlacing && !quote && "Place order"}
         </button>
       </div>
     </CheckoutLayout>
+  );
+};
+
+// After the order is saved: "Taking you to Paystack…", or a "Pay" button if starting payment failed.
+// The order is safe either way; it waits as "pending payment" until paid or it expires.
+const PlacedOrderPanel = ({ order, isLeaving, error, onRetryPayment }) => {
+  return (
+    <Card className="text-center">
+      <CircleCheck size={40} className="mx-auto text-primary" aria-hidden="true" />
+      <p className="mt-3 font-heading text-lg font-bold">Order {order.orderNumber} placed</p>
+
+      {isLeaving && (
+        <p role="status" className="mt-2 inline-flex items-center gap-2 text-muted-foreground">
+          <LoaderCircle size={18} className="animate-spin" aria-hidden="true" />
+          Taking you to the payment page…
+        </p>
+      )}
+
+      {!isLeaving && error && (
+        <>
+          <p role="alert" className="mt-2 text-[15px] text-destructive">
+            {error}
+          </p>
+          <button
+            type="button"
+            onClick={onRetryPayment}
+            className="mt-4 min-h-12 w-full rounded-md bg-primary px-5 font-bold text-primary-foreground"
+          >
+            Pay {formatMoney(order.totalPesewas)}
+          </button>
+        </>
+      )}
+    </Card>
   );
 };
 

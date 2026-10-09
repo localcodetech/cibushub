@@ -32,3 +32,28 @@ export const getCheckoutQuoteRequest = async (order) => {
   });
   return result.data;
 };
+
+// Places the order. The server prices it again and saves it as PENDING_PAYMENT [AC-CHK-05, 06, 09].
+// idempotencyKey: the same key for retries of the same tap, so only one order is ever made.
+// Returns the order: { id, orderNumber, status, totalPesewas, ... }
+// 409 CHECKOUT_BLOCKED (with error.details listing each problem) if something changed.
+export const placeOrderRequest = async (order, idempotencyKey) => {
+  const body = {
+    restaurantId: order.restaurantId,
+    addressId: order.addressId,
+    items: toServerItems(order.lines),
+  };
+  // Optional notes are left out when empty; the server refuses empty text
+  if (order.restaurantNote) body.restaurantNote = order.restaurantNote;
+  if (order.riderNote) body.riderNote = order.riderNote;
+
+  const result = await api.post("/customer/orders", body, { "Idempotency-Key": idempotencyKey });
+  return result.data;
+};
+
+// Starts (or retries) paying with Paystack [AC-PAY-01].
+// Returns { authorizationUrl, reference, amountPesewas }: send the customer to authorizationUrl.
+export const startPaymentRequest = async (orderId) => {
+  const result = await api.post("/customer/orders/" + orderId + "/payments");
+  return result.data;
+};
