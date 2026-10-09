@@ -31,6 +31,8 @@ const AddressFormPage = lazy(() => import("@/pages/customer/AddressFormPage"));
 const ReceiptPage = lazy(() => import("@/pages/customer/ReceiptPage"));
 const CheckoutPage = lazy(() => import("@/pages/customer/CheckoutPage"));
 const PaymentResultPage = lazy(() => import("@/pages/customer/PaymentResultPage"));
+const OrdersPage = lazy(() => import("@/pages/customer/OrdersPage"));
+const OrderDetailPage = lazy(() => import("@/pages/customer/OrderDetailPage"));
 const OwnerDashboardPage = lazy(() => import("@/pages/owner/OwnerDashboardPage"));
 const RiderHomePage = lazy(() => import("@/pages/rider/RiderHomePage"));
 const AdminDashboardPage = lazy(() => import("@/pages/admin/AdminDashboardPage"));
@@ -118,6 +120,22 @@ const router = createBrowserRouter([
             element: (
               <RequireRole allowedRoles={["CUSTOMER"]}>
                 <PaymentResultPage />
+              </RequireRole>
+            ),
+          },
+          {
+            path: "customer/orders",
+            element: (
+              <RequireRole allowedRoles={["CUSTOMER"]}>
+                <OrdersPage />
+              </RequireRole>
+            ),
+          },
+          {
+            path: "customer/orders/:orderId",
+            element: (
+              <RequireRole allowedRoles={["CUSTOMER"]}>
+                <OrderDetailPage />
               </RequireRole>
             ),
           },

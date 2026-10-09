@@ -23,6 +23,12 @@ const CustomerHomePage = () => {
             Browse restaurants
           </Link>
           <Link
+            to="/customer/orders"
+            className="inline-flex min-h-11 items-center rounded-md border border-border px-5 font-bold"
+          >
+            My orders
+          </Link>
+          <Link
             to="/customer/addresses"
             className="inline-flex min-h-11 items-center rounded-md border border-border px-5 font-bold"
           >

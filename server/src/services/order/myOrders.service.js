@@ -7,6 +7,7 @@ import { scheduleRefund } from "../../jobs/enqueue.js";
 import { changeOrderStatus } from "./changeOrderStatus.service.js";
 import { refundableAmount, requestRefund } from "../refund/requestRefund.service.js";
 import { findOrderWithDetails, findOrdersByCustomer } from "../../repositories/order.repository.js";
+import { findRestaurantById } from "../../repositories/restaurant.repository.js";
 
 // [AC-CUST-09]
 export const listMyOrders = async (customerId, query) => {
@@ -36,8 +37,12 @@ export const getMyOrder = async (customerId, orderId) => {
     reason: entry.reason,
   }));
 
+  // Who to call about this order; the customer already saw these on the restaurant page
+  const restaurant = await findRestaurantById(order.restaurantId);
+
   return {
     ...order.toJSON(),
+    restaurant: { id: restaurant.id, name: restaurant.name, phone: restaurant.phone },
     timeline,
     // e.g. ["CANCELLED"] before the restaurant accepts, [] after: the app shows the right buttons
     customerActions: nextStatusesFor(order.status, "CUSTOMER"),

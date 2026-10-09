@@ -39,6 +39,11 @@ const exampleOrderDetail = {
       options: [],
     },
   ],
+  restaurant: {
+    id: "9b2f4c1e-3a7d-4e8f-9c21-5d6e7f8a9b0c",
+    name: "Auntie Akos Kitchen",
+    phone: "+233240000105",
+  },
   timeline: [{ status: "PENDING_PAYMENT", at: "2026-10-09T12:00:00.000Z", reason: null }],
   customerActions: ["CANCELLED"],
 };

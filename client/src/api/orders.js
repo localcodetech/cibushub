@@ -73,3 +73,24 @@ export const downloadReceiptPdfRequest = async (orderId, orderNumber) => {
     "CibusHub-receipt-" + orderNumber + ".pdf",
   );
 };
+
+// One page of my orders, newest first [AC-CUST-09].
+// Returns { orders: [{ id, orderNumber, status, totalPesewas, createdAt, restaurant }], meta }
+export const getMyOrdersRequest = async (page) => {
+  const result = await api.get("/customer/orders?page=" + page);
+  return { orders: result.data, meta: result.meta };
+};
+
+// One of my orders with items, timeline, refunds and what I can still do [AC-ORD-06].
+// customerActions is ["CANCELLED"] while I may still cancel, [] after the restaurant accepts.
+export const getMyOrderRequest = async (orderId) => {
+  const result = await api.get("/customer/orders/" + orderId);
+  return result.data;
+};
+
+// Cancels before the restaurant accepts. If it was paid, the server starts a full refund
+// [AC-CANC-01]. Returns the updated order.
+export const cancelOrderRequest = async (orderId, reason) => {
+  const result = await api.post("/customer/orders/" + orderId + "/cancel", { reason });
+  return result.data;
+};
