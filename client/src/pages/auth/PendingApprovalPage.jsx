@@ -28,6 +28,11 @@ const PendingApprovalPage = () => {
     return <Navigate to={homePathFor(user.role)} replace />;
   }
 
+  // Riders fill in their application first; that page also shows "under review" [AC-RIDER-01]
+  if (user.role === "RIDER") {
+    return <Navigate to="/rider/apply" replace />;
+  }
+
   const handleLogout = async () => {
     await logout();
     navigate("/login");

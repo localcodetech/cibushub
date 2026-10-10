@@ -29,7 +29,10 @@ const makeError = (status, code, message, details) => {
 // isRetry is true for the second try after a refresh, so we never loop.
 const request = async (method, path, body, extraHeaders, isRetry) => {
   const headers = { ...extraHeaders };
-  if (body) {
+  // A file upload (FormData) goes as it is: the browser sets its own Content-Type with the
+  // "boundary" that separates the parts. Everything else is sent as JSON.
+  const isFormData = body instanceof FormData;
+  if (body && !isFormData) {
     headers["Content-Type"] = "application/json";
   }
 
@@ -38,7 +41,7 @@ const request = async (method, path, body, extraHeaders, isRetry) => {
     response = await fetch(API_URL + "/api/v1" + path, {
       method,
       headers,
-      body: body ? JSON.stringify(body) : undefined,
+      body: body && !isFormData ? JSON.stringify(body) : body,
       // Send the login cookies with every request (they are HttpOnly: JavaScript can't read them)
       credentials: "include",
     });

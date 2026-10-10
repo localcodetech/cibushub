@@ -37,6 +37,7 @@ const OwnerLayout = lazy(() => import("@/layouts/OwnerLayout"));
 const OwnerDashboardPage = lazy(() => import("@/pages/owner/OwnerDashboardPage"));
 const OwnerHistoryPage = lazy(() => import("@/pages/owner/OwnerHistoryPage"));
 const RiderHomePage = lazy(() => import("@/pages/rider/RiderHomePage"));
+const RiderApplicationPage = lazy(() => import("@/pages/rider/RiderApplicationPage"));
 const AdminDashboardPage = lazy(() => import("@/pages/admin/AdminDashboardPage"));
 
 // The map of the app: which page shows for which address.
@@ -158,6 +159,15 @@ const router = createBrowserRouter([
             element: (
               <RequireRole allowedRoles={["RIDER"]}>
                 <RiderHomePage />
+              </RequireRole>
+            ),
+          },
+          {
+            // Filled in while the account waits for approval, so pending riders may open it
+            path: "rider/apply",
+            element: (
+              <RequireRole allowedRoles={["RIDER"]} allowPending>
+                <RiderApplicationPage />
               </RequireRole>
             ),
           },
