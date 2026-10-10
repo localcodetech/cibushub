@@ -268,6 +268,34 @@ describe("History and daily summary [AC-RORD-07]", () => {
     });
   });
 
+  it("leaves out an order cancelled before it was paid: the kitchen never saw it", async () => {
+    const unpaid = await request(app)
+      .post("/api/v1/customer/orders")
+      .set("Cookie", `access_token=${signAccessToken(customer)}`)
+      .set("Idempotency-Key", "tap-owner-unpaid")
+      .send({
+        restaurantId: restaurant.id,
+        addressId: (await Address.findOne({ where: { userId: customer.id } })).id,
+        items: [
+          {
+            menuItemId: order.items[0].menuItemId,
+            quantity: 1,
+            optionIds: [],
+            seenUnitPricePesewas: 3000,
+          },
+        ],
+      });
+    await as(customer).post(`/api/v1/customer/orders/${unpaid.body.data.id}/cancel`, {
+      reason: "Changed my mind",
+    });
+
+    const history = await as(owner).get(`${ordersUrl}/history?from=2026-10-09&to=2026-10-09`);
+    const summary = await as(owner).get(`${ordersUrl}/summary?date=2026-10-09`);
+
+    expect(history.body.data.map((seen) => seen.id)).toEqual([order.id]);
+    expect(summary.body.data).toMatchObject({ orderCount: 1, byStatus: { PAID: 1 } });
+  });
+
   it("rejects 'from' after 'to'", async () => {
     const response = await as(owner).get(`${ordersUrl}/history?from=2026-10-10&to=2026-10-09`);
 

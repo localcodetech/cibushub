@@ -33,3 +33,23 @@ export const markReadyRequest = async (orderId) => {
   const result = await api.post("/owner/orders/" + orderId + "/ready");
   return result.data;
 };
+
+// Past orders of one day, newest first, 20 a page [AC-RORD-07].
+// filters = { date: "2026-10-10", status?, page }
+// Returns { orders: [{ id, orderNumber, status, restaurant, placedAt, subtotalPesewas,
+//           restaurantEarningsPesewas }], meta }
+export const getOwnerHistoryRequest = async ({ date, status, page }) => {
+  const query = new URLSearchParams({ from: date, to: date, page: String(page) });
+  if (status) {
+    query.set("status", status);
+  }
+  const result = await api.get("/owner/orders/history?" + query.toString());
+  return { orders: result.data, meta: result.meta };
+};
+
+// One day in numbers [AC-RORD-07]:
+// { date, orderCount, byStatus: { DELIVERED: 4, ... }, salesPesewas, earningsPesewas }
+export const getOwnerSummaryRequest = async (date) => {
+  const result = await api.get("/owner/orders/summary?date=" + date);
+  return result.data;
+};

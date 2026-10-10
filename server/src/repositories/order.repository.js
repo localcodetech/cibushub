@@ -126,13 +126,19 @@ export const findOrderForKitchen = (orderId) => {
   });
 };
 
+// Orders the restaurant ever saw: never paid ones (still waiting, or cancelled before
+// payment) never reached the kitchen, so they stay out of its history and totals
+const REACHED_THE_KITCHEN = {
+  status: { [Op.ne]: "PENDING_PAYMENT" },
+  [Op.not]: { status: "CANCELLED", paymentStatus: "UNPAID" },
+};
+
 // Past and present orders for the history page, newest first, one page at a time
 export const findRestaurantOrderHistory = ({ restaurantIds, status, from, to, limit, offset }) => {
   const where = {
     restaurantId: { [Op.in]: restaurantIds },
-    // Unpaid orders never reached the kitchen
-    status: status ? status : { [Op.ne]: "PENDING_PAYMENT" },
     createdAt: { [Op.gte]: from, [Op.lt]: to },
+    [Op.and]: [REACHED_THE_KITCHEN, status ? { status } : {}],
   };
 
   return Order.scope("withEarnings").findAndCountAll({
@@ -150,8 +156,8 @@ export const summariseRestaurantOrders = ({ restaurantIds, from, to }) => {
   return Order.scope("withEarnings").findAll({
     where: {
       restaurantId: { [Op.in]: restaurantIds },
-      status: { [Op.ne]: "PENDING_PAYMENT" },
       createdAt: { [Op.gte]: from, [Op.lt]: to },
+      ...REACHED_THE_KITCHEN,
     },
     attributes: [
       "status",
