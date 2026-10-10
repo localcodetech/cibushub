@@ -62,15 +62,4 @@ describe("Delivery tables (plan-review C15, §2)", () => {
 
     await expect(offer()).rejects.toThrow();
   });
-
-  it("keeps the delivery code's hash out of normal reads", async () => {
-    const delivery = await newDelivery();
-    await Delivery.update({ deliveryCodeHash: "hashed-code" }, { where: { id: delivery.id } });
-
-    const normal = await Delivery.findByPk(delivery.id);
-    const withCode = await Delivery.scope("withCode").findByPk(delivery.id);
-
-    expect(normal.toJSON()).not.toHaveProperty("deliveryCodeHash");
-    expect(withCode.deliveryCodeHash).toBe("hashed-code");
-  });
 });

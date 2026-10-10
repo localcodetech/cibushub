@@ -193,8 +193,7 @@ erDiagram
         datetime picked_up_at
         int pickup_distance_metres
         boolean pickup_flagged "picked up more than 200 m away"
-        varchar delivery_code_hash "never sent to clients"
-        int code_attempts
+        int code_attempts "wrong delivery codes, locks at 5"
         datetime delivered_at
         datetime failed_at
         varchar failure_reason

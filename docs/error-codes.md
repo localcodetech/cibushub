@@ -60,6 +60,11 @@ Add a row here in the same commit that introduces a new code.
 | `ALREADY_ASSIGNED` | 409 | Assigning the rider who is already on the order | AC-ASSIGN-07 |
 | `DELIVERY_ALREADY_PICKED_UP` | 409 | Changing or removing the rider after the food was picked up | AC-ASSIGN-07, AC-ASSIGN-08 |
 | `NO_RIDER_ASSIGNED` | 409 | Unassigning when no rider is on the order | AC-ASSIGN-08 |
+| `FOOD_NOT_READY` | 409 | "Picked up" before the restaurant marked the order ready | AC-DEL-02 |
+| `PICKUP_FAR_FROM_RESTAURANT` | 409 | "Picked up" more than 200 m from the restaurant (or no known location); `details` has the distance; resend with `confirmFarAway: true` | AC-DEL-03 |
+| `NOT_PICKED_UP` | 409 | Entering the delivery code before pickup | AC-DEL-06 |
+| `WRONG_DELIVERY_CODE` | 400 | Wrong 4-digit code; message says how many attempts are left | AC-DEL-06 |
+| `DELIVERY_CODE_LOCKED` | 429 | 5 wrong codes; admins are alerted | AC-DEL-06 |
 | `RIDER_NOT_APPROVED` | 403 | Going online without an approved rider application | AC-RIDER-02, AC-RIDER-03 |
 | `APPLICATION_LOCKED` | 409 | Changing a rider application while it is under review or after approval | AC-RIDER-01 |
 | `APPLICATION_INCOMPLETE` | 400 | Submitting a rider application with something missing; `details` lists each (`PHOTO`, `GHANA_CARD`, `DRIVERS_LICENCE`, `DETAILS`) | AC-RIDER-01 |

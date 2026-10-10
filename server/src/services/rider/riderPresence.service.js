@@ -67,8 +67,11 @@ const storePoint = async (profile, point, now, previous) => {
   let historySavedAt = previous ? previous.historySavedAt : 0;
 
   if (nowMs - historySavedAt >= LOCATION_RULES.historyEveryMs) {
+    // On a delivery, the point belongs to that order's trail (disputes); after it, it doesn't
+    const activeDelivery = await findActiveDeliveryForRider(profile.id);
     await RiderLocation.create({
       riderProfileId: profile.id,
+      orderId: activeDelivery ? activeDelivery.orderId : null,
       latitude: point.latitude,
       longitude: point.longitude,
       accuracyMetres: point.accuracyMetres ? Math.round(point.accuracyMetres) : null,

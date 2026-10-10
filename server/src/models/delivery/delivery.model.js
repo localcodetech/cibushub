@@ -75,10 +75,6 @@ const Delivery = sequelize.define(
       allowNull: false,
       defaultValue: false,
     },
-    deliveryCodeHash: {
-      type: DataTypes.STRING(100),
-      allowNull: true,
-    },
     codeAttempts: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -103,9 +99,6 @@ const Delivery = sequelize.define(
   },
   {
     tableName: "deliveries",
-    // The code's hash never leaves the server unless asked for by name
-    defaultScope: { attributes: { exclude: ["deliveryCodeHash"] } },
-    scopes: { withCode: { attributes: { include: ["deliveryCodeHash"] } } },
   },
 );
 

@@ -15,7 +15,7 @@ Delivery facts get their own tables, and the order status stays exactly as AC-OR
 
 | Table | Holds |
 |---|---|
-| `deliveries` (one per order) | the rider, the delivery's own status, the search radius, pickup and drop-off times, pickup distance and flag, the hashed 4-digit code, failure reason |
+| `deliveries` (one per order) | the rider, the delivery's own status, the search radius, pickup and drop-off times, pickup distance and flag, wrong-code attempts, failure reason |
 | `delivery_offers` (one per rider asked) | when the rider was asked, how far they were, when the offer expires, and the outcome: `PENDING`, `ACCEPTED`, `DECLINED`, `EXPIRED`, `SUPERSEDED` |
 
 **The business rule (AC-ASSIGN-01):**
@@ -24,6 +24,10 @@ Delivery facts get their own tables, and the order status stays exactly as AC-OR
 2. A rider who accepts is recorded on the delivery (`ASSIGNED`). The order status does not change yet.
 3. The **order** moves to `RIDER_ASSIGNED` when both are true: the order is `READY_FOR_PICKUP` **and** the delivery has a rider. It happens at whichever moment comes second: the rider accepting, or the restaurant tapping "Ready for pickup".
 4. Pickup and delivery update both: the rider taps "Picked up" (delivery `PICKED_UP`, order `PICKED_UP`), then confirms with the customer's code (delivery and order `DELIVERED`).
+
+**The 4-digit delivery code (AC-DEL-06):** the customer must see it in their app, so a one-way hash can't be used. The code is worked out from the delivery's id with a server secret (HMAC), so it is never stored; a database leak doesn't reveal it, and nobody can guess it without the secret. It is shown to the customer only while the order is `PICKED_UP`. Five wrong codes lock it and admins are alerted.
+
+**Pickup (AC-DEL-02, AC-DEL-03):** "Picked up" works only once the order is `RIDER_ASSIGNED` (food ready). More than 200 m from the restaurant, or with no known location, the rider is warned and must confirm; the pickup is then saved with `pickup_flagged` and admins are alerted.
 
 **Delivery statuses:** `SEARCHING → ASSIGNED → PICKED_UP → DELIVERED`, with `FAILED` (customer unreachable, AC-DEL-08) and `CANCELLED` (the order was cancelled). A rider holds at most one `ASSIGNED` or `PICKED_UP` delivery (AC-RIDER-06).
 

@@ -45,6 +45,7 @@ const exampleOrderDetail = {
     phone: "+233240000105",
   },
   timeline: [{ status: "PENDING_PAYMENT", at: "2026-10-09T12:00:00.000Z", reason: null }],
+  deliveryCode: null,
   customerActions: ["CANCELLED"],
 };
 
@@ -59,7 +60,7 @@ export const customerOrderPaths = {
       tags,
       summary: "One of my orders, with its timeline",
       description:
-        "timeline lists every status reached, with times. customerActions lists what the customer may still do (e.g. CANCELLED before the restaurant accepts).",
+        "timeline lists every status reached, with times. customerActions lists what the customer may still do (e.g. CANCELLED before the restaurant accepts). deliveryCode is the 4-digit code to show the rider, only while the order is PICKED_UP.",
       security: loggedIn,
       parameters: [orderId],
       responses: { 200: successResponse("The order", exampleOrderDetail), 404: notFound },
