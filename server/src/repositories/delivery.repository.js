@@ -120,3 +120,30 @@ export const findOfferById = (offerId, transaction) => {
 export const findPendingOffersOfRider = (riderProfileId, transaction) => {
   return DeliveryOffer.findAll({ where: { riderProfileId, outcome: "PENDING" }, transaction });
 };
+
+// Records that this rider holds this delivery, as an ACCEPTED offer (an admin's pick):
+// it keeps the offer history complete, and the rider is never asked for it again
+export const recordAcceptedOffer = async (
+  { deliveryId, riderProfileId, pickupDistanceMetres, now },
+  transaction,
+) => {
+  const existing = await DeliveryOffer.findOne({
+    where: { deliveryId, riderProfileId },
+    transaction,
+  });
+  if (existing) {
+    return existing.update({ outcome: "ACCEPTED", respondedAt: now }, { transaction });
+  }
+  return DeliveryOffer.create(
+    {
+      deliveryId,
+      riderProfileId,
+      pickupDistanceMetres,
+      offeredAt: now,
+      expiresAt: now,
+      respondedAt: now,
+      outcome: "ACCEPTED",
+    },
+    { transaction },
+  );
+};

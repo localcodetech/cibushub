@@ -27,6 +27,9 @@ export const ORDER_TRANSITIONS = {
   },
   RIDER_ASSIGNED: {
     PICKED_UP: ["RIDER"],
+    // The rider can't continue before pickup (breakdown) or an admin takes them off:
+    // back to the pool while a new rider is found [AC-ASSIGN-08, ADR 003]
+    READY_FOR_PICKUP: ["RIDER", "ADMIN"],
     CANCELLED: ["ADMIN"],
   },
   PICKED_UP: {

@@ -84,3 +84,12 @@ export const findAvailableRiderProfiles = (ids, transaction) => {
     transaction,
   });
 };
+
+// A rider's row by its id, locked (an admin assigning them by hand)
+export const lockRiderProfileById = (id, transaction) => {
+  return RiderProfile.findByPk(id, { transaction, lock: transaction.LOCK.UPDATE });
+};
+
+export const findRiderProfileById = (id) => {
+  return RiderProfile.findByPk(id);
+};

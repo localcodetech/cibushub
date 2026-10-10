@@ -31,6 +31,13 @@ Delivery facts get their own tables, and the order status stays exactly as AC-OR
 
 **Locking (AC-ASSIGN-05):** "Accept" locks the rider's row, then the delivery, then the offer, then the order. "Ready for pickup" locks the delivery, then the order. Because every path takes locks in the same order, two riders tapping at once simply queue: the second finds the delivery `ASSIGNED` and gets `409 DELIVERY_TAKEN`. Accepting also closes the rider's other waiting offers (`SUPERSEDED`), and those deliveries search again.
 
+**Manual assignment and unassignment (AC-ASSIGN-07, 08):**
+
+- An admin can give the order to any approved, online, free rider until pickup. If the food is ready, the order moves to `RIDER_ASSIGNED` with the admin as actor and the reason in the status history. Replacing a rider writes two history rows: back to `READY_FOR_PICKUP` ("Rider replaced by an admin: …"), then `RIDER_ASSIGNED`. Every change also writes an audit log line.
+- An admin's pick is stored as an `ACCEPTED` offer, so the offer history stays complete.
+- The rider (breakdown) or an admin can take the rider off before pickup, with a reason. The delivery goes back to `SEARCHING` with a fresh search, and an order that showed `RIDER_ASSIGNED` returns to `READY_FOR_PICKUP`. That move was added to the state machine for this (decided with the product owner on 2026-10-10). The released rider has an offer on record, so they are never asked again for that delivery.
+- An admin cancelling the order also cancels its delivery, so the rider is free again.
+
 ## Consequences
 
 - The customer and restaurant still see the statuses from AC-ORD-01. The rider's screens read the delivery.

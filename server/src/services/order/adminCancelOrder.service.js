@@ -6,6 +6,16 @@ import { changeOrderStatus } from "./changeOrderStatus.service.js";
 import { refundableAmount, requestRefund } from "../refund/requestRefund.service.js";
 import { saveAuditLog } from "../../repositories/auditLog.repository.js";
 import { findOrderWithDetails, lockOrder } from "../../repositories/order.repository.js";
+import {
+  findDeliveryForOrderForUpdate,
+  supersedePendingOffers,
+  updateDelivery,
+} from "../../repositories/delivery.repository.js";
+import { findRiderProfileById } from "../../repositories/rider.repository.js";
+import { emitToUser } from "../../sockets/emitToUser.js";
+
+// A delivery is still going on unless it ended one of these ways
+const FINISHED_DELIVERY_STATUSES = ["DELIVERED", "FAILED", "CANCELLED"];
 
 // An admin cancels any order that is not finished, and chooses a full, partial or no refund.
 // Cancel + refund + audit row are saved together, or not at all [AC-CANC-03, AC-ADM-07]
@@ -13,8 +23,11 @@ import { findOrderWithDetails, lockOrder } from "../../repositories/order.reposi
 export const adminCancelOrder = async (admin, orderId, choice) => {
   const actor = { userId: admin.id, role: admin.role };
 
-  const refund = await retryOnDeadlock(() =>
+  const { refund, riderProfileId } = await retryOnDeadlock(() =>
     sequelize.transaction(async (transaction) => {
+      // The delivery first, then the order: the lock order every delivery path uses
+      const delivery = await findDeliveryForOrderForUpdate(orderId, transaction);
+
       // Look at it (locked) first, to record "before" in the audit log
       const before = await lockOrder(orderId, transaction);
       if (!before) {
@@ -63,9 +76,24 @@ export const adminCancelOrder = async (admin, orderId, choice) => {
         transaction,
       );
 
-      return created;
+      // A delivery in progress ends too, so its rider is free for new offers [AC-RIDER-06]
+      let releasedRiderId = null;
+      if (delivery && !FINISHED_DELIVERY_STATUSES.includes(delivery.status)) {
+        releasedRiderId = delivery.riderProfileId;
+        const now = new Date();
+        await updateDelivery(delivery, { status: "CANCELLED", cancelledAt: now }, transaction);
+        await supersedePendingOffers(delivery.id, now, transaction);
+      }
+
+      return { refund: created, riderProfileId: releasedRiderId };
     }),
   );
+
+  // The rider's app closes the delivery screen
+  if (riderProfileId) {
+    const rider = await findRiderProfileById(riderProfileId);
+    emitToUser(rider.userId, "delivery:unassigned", { orderId, reason: choice.reason });
+  }
 
   if (refund) {
     await scheduleRefund(refund.id);

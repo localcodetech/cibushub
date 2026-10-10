@@ -23,6 +23,7 @@ import riderApplicationRoutes from "./routes/rider/application.routes.js";
 import adminRiderRoutes from "./routes/admin/rider.routes.js";
 import riderStatusRoutes from "./routes/rider/status.routes.js";
 import riderOfferRoutes from "./routes/rider/offer.routes.js";
+import riderDeliveryRoutes from "./routes/rider/delivery.routes.js";
 import customerAddressRoutes from "./routes/customer/address.routes.js";
 import customerMapsRoutes from "./routes/customer/maps.routes.js";
 import customerCheckoutRoutes from "./routes/customer/checkout.routes.js";
@@ -187,6 +188,11 @@ app.use("/api/v1/rider/status", riderStatusRoutes);
 app.use("/api/v1/rider/offers", riderOfferRoutes);
 
 // ─────────────────────────────────────────────
+// My delivery: give it back before pickup (pickup and drop-off come next)
+// ─────────────────────────────────────────────
+app.use("/api/v1/rider/deliveries", riderDeliveryRoutes);
+
+// ─────────────────────────────────────────────
 // Every admin route: must be logged in as an active admin or super admin
 // ─────────────────────────────────────────────
 app.use("/api/v1/admin", authenticate, requireActive, authorize("ADMIN", "SUPER_ADMIN"));
@@ -197,7 +203,7 @@ app.use("/api/v1/admin", authenticate, requireActive, authorize("ADMIN", "SUPER_
 app.use("/api/v1/admin/restaurants", adminRestaurantRoutes);
 
 // ─────────────────────────────────────────────
-// Admin: cancel orders with a refund choice
+// Admin: cancel orders with a refund choice; assign, replace or remove the rider
 // ─────────────────────────────────────────────
 app.use("/api/v1/admin/orders", adminOrderRoutes);
 

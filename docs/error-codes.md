@@ -56,6 +56,10 @@ Add a row here in the same commit that introduces a new code.
 | `DELIVERY_TAKEN` | 409 | Accepting a delivery another rider already took ("This delivery has already been taken") | AC-ASSIGN-05 |
 | `RIDER_BUSY` | 409 | Accepting a delivery while already carrying one | AC-RIDER-06 |
 | `RIDER_NOT_AVAILABLE` | 409 | Accepting an offer while offline or no longer approved | AC-RIDER-03 |
+| `ORDER_NOT_ASSIGNABLE` | 409 | An admin assigning a rider to an order that isn't between acceptance and pickup | AC-ASSIGN-07 |
+| `ALREADY_ASSIGNED` | 409 | Assigning the rider who is already on the order | AC-ASSIGN-07 |
+| `DELIVERY_ALREADY_PICKED_UP` | 409 | Changing or removing the rider after the food was picked up | AC-ASSIGN-07, AC-ASSIGN-08 |
+| `NO_RIDER_ASSIGNED` | 409 | Unassigning when no rider is on the order | AC-ASSIGN-08 |
 | `RIDER_NOT_APPROVED` | 403 | Going online without an approved rider application | AC-RIDER-02, AC-RIDER-03 |
 | `APPLICATION_LOCKED` | 409 | Changing a rider application while it is under review or after approval | AC-RIDER-01 |
 | `APPLICATION_INCOMPLETE` | 400 | Submitting a rider application with something missing; `details` lists each (`PHOTO`, `GHANA_CARD`, `DRIVERS_LICENCE`, `DETAILS`) | AC-RIDER-01 |
