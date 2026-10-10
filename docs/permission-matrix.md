@@ -72,6 +72,7 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | `PUT /rider/application/photo`, `/documents/:type` | — | — | — | 🔒⏳ | — | — | authenticate, authorize, requireVerifiedPhone, upload |
 | `POST /rider/application/submit` | — | — | — | 🔒⏳ | — | — | authenticate, authorize, requireVerifiedPhone |
 | `GET /rider/status`, `POST /rider/status/online`, `/offline` | — | — | — | 🔒 | — | — | authenticate, authorize, requireActive, validate; approved riders only |
+| socket `order:join` | — | 🔒 | 🔒 | 🔒 | ✅ | ✅ | customer: own orders; owner: own restaurants' orders; rider: only the order they are carrying; refused joins are logged |
 | socket `rider:location` | — | — | — | 🔒 | — | — | handshake cookie; online riders only; 1 per 3 s, range and speed checked |
 | `GET /rider/offers/current`, `POST /rider/offers/:id/accept`, `/decline` | — | — | — | 🔒 | — | — | authenticate, authorize, requireActive; own offers only (404 otherwise); accept locks rider, delivery, offer, order in that order |
 | `GET /rider/deliveries/current` | — | — | — | 🔒 | — | — | authenticate, authorize, requireActive; own delivery only; customer name, pin and phone only after pickup |
@@ -83,6 +84,7 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | `POST /customer/checkout/quote` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate |
 | `POST /customer/orders` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate (headers + body) |
 | `GET /customer/orders`, `GET /customer/orders/:id` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate (query) |
+| `GET /customer/orders/:id/tracking` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize; own orders only (404 otherwise); 10 a minute; rider shown only while RIDER_ASSIGNED or PICKED_UP |
 | `POST /customer/orders/:id/cancel` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate; only before the restaurant accepts; full refund if paid |
 | `POST /customer/orders/:id/payments` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize; only while PENDING_PAYMENT |
 | `GET /customer/orders/:id/receipt` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize; only once paid |

@@ -1,6 +1,7 @@
 import { cancelMyOrder, getMyOrder, listMyOrders } from "../../services/order/myOrders.service.js";
 import { getMyReceipt } from "../../services/order/receipt.service.js";
 import { buildReceiptPdf } from "../../services/order/receiptPdf.service.js";
+import { getOrderTracking } from "../../services/delivery/tracking.service.js";
 import { sendSuccess } from "../../utils/response.js";
 
 export const listOrders = async (req, res) => {
@@ -39,4 +40,10 @@ export const downloadReceiptPdf = async (req, res) => {
     "Cache-Control": "no-store",
   });
   return res.send(pdf);
+};
+
+export const getTracking = async (req, res) => {
+  const tracking = await getOrderTracking(req.user.id, req.params.orderId);
+
+  return sendSuccess(res, tracking);
 };

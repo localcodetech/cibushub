@@ -45,6 +45,8 @@ const exampleKitchenOrder = {
   subtotalPesewas: 9000,
   restaurantEarningsPesewas: 8100,
   cancellationReason: null,
+  // Once a rider has the order: who is coming and how far away (until pickup)
+  rider: null,
   ownerActions: ["ACCEPTED", "REJECTED"],
 };
 

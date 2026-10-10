@@ -17,6 +17,7 @@ import {
   findRestaurantOrdersByStatus,
   summariseRestaurantOrders,
 } from "../../repositories/order.repository.js";
+import { ridersForKitchen } from "../delivery/tracking.service.js";
 
 // The orders a kitchen is still working on: from "paid, waiting for you" to "on the way"
 export const ACTIVE_STATUSES = [
@@ -51,7 +52,8 @@ const firstNameOf = (fullName) => (fullName || "").trim().split(/\s+/)[0] || "Cu
 
 // What the kitchen sees. Never the customer's phone or address: the rider handles delivery
 // [AC-RORD-02]. The money shown is the restaurant's own (subtotal and its earnings).
-const toKitchenOrder = (order) => {
+// rider: who is collecting it (name, photo, vehicle, minutes away), or null [AC-RORD-08]
+const toKitchenOrder = (order, rider = null) => {
   const paidEntry = (order.statusHistory || []).find((entry) => entry.toStatus === "PAID");
 
   return {
@@ -81,6 +83,7 @@ const toKitchenOrder = (order) => {
     subtotalPesewas: order.subtotalPesewas,
     restaurantEarningsPesewas: order.restaurantEarningsPesewas,
     cancellationReason: order.cancellationReason,
+    rider,
     // e.g. ["ACCEPTED", "REJECTED"] for a new order: the dashboard shows those buttons
     ownerActions: nextStatusesFor(order.status, "RESTAURANT_OWNER"),
   };
@@ -99,7 +102,8 @@ export const listOwnerBoard = async (ownerId, { restaurantId }) => {
     limit: BOARD_LIMIT,
   });
 
-  return orders.map(toKitchenOrder);
+  const riders = await ridersForKitchen(orders);
+  return orders.map((order) => toKitchenOrder(order, riders.get(order.id) || null));
 };
 
 // One order of one of my restaurants (anyone else's looks like it doesn't exist)
@@ -111,7 +115,8 @@ export const getOwnerOrder = async (ownerId, orderId) => {
     throw new AppError(404, "NOT_FOUND", "Order not found");
   }
 
-  return toKitchenOrder(order);
+  const riders = await ridersForKitchen([order]);
+  return toKitchenOrder(order, riders.get(order.id) || null);
 };
 
 // The owner moves one of their orders on. The state machine decides what is allowed when.

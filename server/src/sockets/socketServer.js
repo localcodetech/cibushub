@@ -10,6 +10,8 @@ import { findUserById } from "../repositories/user.repository.js";
 import { findRestaurantsByOwner } from "../repositories/restaurant.repository.js";
 import { findOrderById } from "../repositories/order.repository.js";
 import { recordRiderLocation } from "../services/rider/riderPresence.service.js";
+import { findRiderProfileByUserId } from "../repositories/rider.repository.js";
+import { findActiveDeliveryForRider } from "../repositories/delivery.repository.js";
 import { ADMINS_ROOM, orderRoom, restaurantRoom, userRoom } from "./rooms.js";
 
 // Live updates over Socket.IO [AC-RT-01, AC-RT-02].
@@ -41,8 +43,8 @@ const authenticateSocket = async (socket, next) => {
   }
 };
 
-// May this user follow this order? Its customer, its restaurant's owner, or an admin [AC-RT-02].
-// (The assigned rider is added in Step 11.)
+// May this user follow this order? Its customer, its restaurant's owner, its rider
+// (while carrying it), or an admin [AC-RT-02].
 export const canFollowOrder = async (user, orderId) => {
   const order = await findOrderById(orderId);
   if (!order) {
@@ -57,6 +59,11 @@ export const canFollowOrder = async (user, orderId) => {
   if (user.role === "RESTAURANT_OWNER") {
     const restaurants = await findRestaurantsByOwner(user.id);
     return restaurants.some((restaurant) => restaurant.id === order.restaurantId);
+  }
+  if (user.role === "RIDER") {
+    const profile = await findRiderProfileByUserId(user.id);
+    const delivery = profile ? await findActiveDeliveryForRider(profile.id) : null;
+    return Boolean(delivery) && delivery.orderId === order.id;
   }
   return false;
 };

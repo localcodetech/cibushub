@@ -15,6 +15,7 @@ import {
   saveLatestLocation,
 } from "./riderLocationStore.js";
 import { findActiveDeliveryForRider } from "../../repositories/delivery.repository.js";
+import { shareRiderLocation } from "../delivery/tracking.service.js";
 import { emitToUser } from "../../sockets/emitToUser.js";
 import { emitAdminAlert } from "../../sockets/emitAdminAlert.js";
 
@@ -146,6 +147,8 @@ export const recordRiderLocation = async (userId, point, now = new Date()) => {
   }
 
   await storePoint(profile, point, now, previous);
+  // On a delivery the customer is watching: their map moves [AC-RT-04]
+  await shareRiderLocation(profile.id, point, now.getTime());
   return { ok: true };
 };
 

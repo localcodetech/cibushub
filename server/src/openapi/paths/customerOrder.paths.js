@@ -55,6 +55,40 @@ const orderId = pathParameter("orderId", "One of your orders");
 const notFound = errorResponse("Not yours, or does not exist", "NOT_FOUND", "Order not found");
 
 export const customerOrderPaths = {
+  "/api/v1/customer/orders/{orderId}/tracking": {
+    get: {
+      tags,
+      summary: "Live tracking: the rider, where they are, and about how long",
+      description:
+        "Load once and every minute (for the ETA); the rider's moves arrive over the socket as rider:location in the order's room. The rider and their location are shown only while the order is RIDER_ASSIGNED or PICKED_UP, never after. The ETA is the straight line x 1.4 at an average city speed (etaBasis STRAIGHT_LINE). At most 10 a minute.",
+      security: [{ cookieAuth: [] }],
+      parameters: [pathParameter("orderId", "One of my orders")],
+      responses: {
+        200: successResponse("Tracking", {
+          orderId: "0f1e2d3c-4b5a-4968-8776-655443322110",
+          status: "PICKED_UP",
+          isTracked: true,
+          restaurant: { name: "Auntie Esi's Kitchen", latitude: 6.6885, longitude: -1.6244 },
+          dropoff: { latitude: 6.7045, longitude: -1.6155 },
+          rider: {
+            firstName: "Kwame",
+            photoUrl: null,
+            vehicleType: "MOTORBIKE",
+            plateNumber: "M-21-GR 1001",
+          },
+          riderLocation: { latitude: 6.6975, longitude: -1.62, at: "2026-10-10T12:41:05.000Z" },
+          etaMinutes: 6,
+          etaBasis: "STRAIGHT_LINE",
+        }),
+        404: errorResponse("Not mine, or no such order", "NOT_FOUND", "Order not found"),
+        429: errorResponse(
+          "Asked too often",
+          "RATE_LIMITED",
+          "Too many attempts. Please try again later",
+        ),
+      },
+    },
+  },
   "/api/v1/customer/orders/{orderId}": {
     get: {
       tags,

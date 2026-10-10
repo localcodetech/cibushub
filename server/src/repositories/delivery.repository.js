@@ -1,5 +1,5 @@
 import { Op, fn, col } from "sequelize";
-import { Delivery, DeliveryOffer, Order, Restaurant } from "../models/index.js";
+import { Delivery, DeliveryOffer, Order, Restaurant, RiderProfile, User } from "../models/index.js";
 import { ACTIVE_DELIVERY_STATUSES } from "../models/delivery/delivery.model.js";
 
 export const findDeliveryById = (deliveryId, transaction) => {
@@ -189,4 +189,28 @@ export const sumRiderEarnings = async ({ riderProfileId, from, to }) => {
     deliveryCount: Number(totals.deliveryCount || 0),
     earningsPesewas: Number(totals.earningsPesewas || 0),
   };
+};
+
+// The rider's delivery in hand with its order's status: is the customer being shown the rider?
+export const findActiveDeliveryWithOrder = (riderProfileId) => {
+  return Delivery.findOne({
+    where: { riderProfileId, status: ACTIVE_DELIVERY_STATUSES },
+    include: [{ model: Order.unscoped(), as: "order", attributes: ["id", "status"] }],
+  });
+};
+
+// For these orders: the deliveries that have a rider, with the rider's name and photo
+// (the customer's tracking card and the restaurant's board) [AC-RORD-08]
+export const findDeliveriesWithRider = (orderIds) => {
+  return Delivery.findAll({
+    where: { orderId: orderIds, status: ACTIVE_DELIVERY_STATUSES },
+    include: [
+      {
+        model: RiderProfile,
+        as: "rider",
+        attributes: ["id", "vehicleType", "plateNumber"],
+        include: [{ model: User, as: "user", attributes: ["fullName", "avatarUrl"] }],
+      },
+    ],
+  });
 };
