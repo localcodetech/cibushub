@@ -10,3 +10,12 @@ export const formatDateTime = (isoText) => {
     minute: "2-digit",
   }).format(new Date(isoText));
 };
+
+// Just the time in Ghana: "2026-10-09T19:05:00.000Z" -> "19:05"
+export const formatTime = (isoText) => {
+  return new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Africa/Accra",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(new Date(isoText));
+};

@@ -52,7 +52,14 @@ const toKitchenOrder = (order) => {
     id: order.id,
     orderNumber: order.orderNumber,
     status: order.status,
-    restaurant: order.restaurant ? { id: order.restaurant.id, name: order.restaurant.name } : null,
+    // prepTimeMinutes: the restaurant's usual time, offered first when accepting
+    restaurant: order.restaurant
+      ? {
+          id: order.restaurant.id,
+          name: order.restaurant.name,
+          prepTimeMinutes: order.restaurant.prepTimeMinutes,
+        }
+      : null,
     customerFirstName: firstNameOf(order.customer?.fullName),
     placedAt: order.createdAt,
     paidAt: paidEntry ? paidEntry.createdAt : null,

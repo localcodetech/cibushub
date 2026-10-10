@@ -99,7 +99,7 @@ const FOR_KITCHEN = {
   include: [
     { model: OrderItem, as: "items", include: [{ model: OrderItemOption, as: "options" }] },
     { model: OrderStatusHistory, as: "statusHistory" },
-    { model: Restaurant, as: "restaurant", attributes: ["id", "name"] },
+    { model: Restaurant, as: "restaurant", attributes: ["id", "name", "prepTimeMinutes"] },
     // Only the name: the kitchen never gets the customer's phone or address [AC-RORD-02]
     { model: User, as: "customer", attributes: ["fullName"] },
   ],
