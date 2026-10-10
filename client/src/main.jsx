@@ -5,11 +5,15 @@ import "./index.css";
 import App from "./App.jsx";
 import { useAuthStore } from "@/store/authStore";
 import { queryClient } from "@/lib/queryClient";
+import { startLiveUpdates } from "@/lib/liveUpdates";
 
 // Ask the server "who is logged in?" once, as the app starts.
 // It runs here, not inside a component, so it can never run twice
 // (two refreshes at the same moment would end the session on the server).
 useAuthStore.getState().checkSession();
+
+// Open the live connection whenever someone is logged in (and close it on logout)
+startLiveUpdates();
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

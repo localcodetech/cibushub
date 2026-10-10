@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { Outlet } from "react-router";
 import PageLoader from "@/components/common/PageLoader";
+import ConnectionIndicator from "@/components/common/ConnectionIndicator";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 
@@ -17,6 +18,7 @@ const RootLayout = () => {
         </Suspense>
       </main>
       <Footer />
+      <ConnectionIndicator />
     </div>
   );
 };
