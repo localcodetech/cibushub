@@ -6,6 +6,7 @@ import {
   OrderStatusHistory,
   Refund,
   Restaurant,
+  User,
 } from "../models/index.js";
 
 // An order with its frozen items, their options, and its status history in time order
@@ -88,5 +89,80 @@ export const findOverdueUnpaidOrders = (placedBefore, limit) => {
     attributes: ["id"],
     order: [["createdAt", "ASC"]],
     limit,
+  });
+};
+
+// ── Restaurant owner views [AC-RORD-02, AC-RORD-06, AC-RORD-07] ──
+
+// What the kitchen needs: items, options, history (for "paid at"), with the money split
+const FOR_KITCHEN = {
+  include: [
+    { model: OrderItem, as: "items", include: [{ model: OrderItemOption, as: "options" }] },
+    { model: OrderStatusHistory, as: "statusHistory" },
+    { model: Restaurant, as: "restaurant", attributes: ["id", "name"] },
+    // Only the name: the kitchen never gets the customer's phone or address [AC-RORD-02]
+    { model: User, as: "customer", attributes: ["fullName"] },
+  ],
+};
+
+// Orders of these restaurants in these statuses, oldest first (the board), at most `limit`
+export const findRestaurantOrdersByStatus = ({ restaurantIds, statuses, limit }) => {
+  return Order.scope("withEarnings").findAll({
+    where: { restaurantId: { [Op.in]: restaurantIds }, status: { [Op.in]: statuses } },
+    ...FOR_KITCHEN,
+    order: [
+      ["createdAt", "ASC"],
+      [{ model: OrderStatusHistory, as: "statusHistory" }, "createdAt", "ASC"],
+    ],
+    limit,
+  });
+};
+
+// One order with everything the kitchen needs (the service checks it is theirs)
+export const findOrderForKitchen = (orderId) => {
+  return Order.scope("withEarnings").findByPk(orderId, {
+    ...FOR_KITCHEN,
+    order: [[{ model: OrderStatusHistory, as: "statusHistory" }, "createdAt", "ASC"]],
+  });
+};
+
+// Past and present orders for the history page, newest first, one page at a time
+export const findRestaurantOrderHistory = ({ restaurantIds, status, from, to, limit, offset }) => {
+  const where = {
+    restaurantId: { [Op.in]: restaurantIds },
+    // Unpaid orders never reached the kitchen
+    status: status ? status : { [Op.ne]: "PENDING_PAYMENT" },
+    createdAt: { [Op.gte]: from, [Op.lt]: to },
+  };
+
+  return Order.scope("withEarnings").findAndCountAll({
+    where,
+    include: [{ model: Restaurant, as: "restaurant", attributes: ["id", "name"] }],
+    order: [["createdAt", "DESC"]],
+    limit,
+    offset,
+    distinct: true,
+  });
+};
+
+// How many orders per status, and the money, for these restaurants between two moments
+export const summariseRestaurantOrders = ({ restaurantIds, from, to }) => {
+  return Order.scope("withEarnings").findAll({
+    where: {
+      restaurantId: { [Op.in]: restaurantIds },
+      status: { [Op.ne]: "PENDING_PAYMENT" },
+      createdAt: { [Op.gte]: from, [Op.lt]: to },
+    },
+    attributes: [
+      "status",
+      [Order.sequelize.fn("COUNT", Order.sequelize.col("id")), "orderCount"],
+      [Order.sequelize.fn("SUM", Order.sequelize.col("subtotal_pesewas")), "salesPesewas"],
+      [
+        Order.sequelize.fn("SUM", Order.sequelize.col("restaurant_earnings_pesewas")),
+        "earningsPesewas",
+      ],
+    ],
+    group: ["status"],
+    raw: true,
   });
 };

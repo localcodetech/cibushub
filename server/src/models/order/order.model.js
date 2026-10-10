@@ -152,8 +152,13 @@ const Order = sequelize.define(
       type: DataTypes.STRING(64),
       allowNull: false,
     },
+    // Why it ended early: the customer's or admin's cancel reason, or the restaurant's rejection
     cancellationReason: {
       type: DataTypes.STRING(500),
+    },
+    // Set when the restaurant accepts: "ready around 19:40" [AC-RORD-03]
+    estimatedReadyAt: {
+      type: DataTypes.DATE,
     },
   },
   {

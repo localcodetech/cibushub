@@ -50,7 +50,7 @@ const applyStatusChange = async (transaction, options) => {
 
   // 5. Change the status (plus anything that must change with it, e.g. paymentStatus)
   const changes = { ...extraChanges, status: toStatus };
-  if (toStatus === "CANCELLED") {
+  if (toStatus === "CANCELLED" || toStatus === "REJECTED") {
     changes.cancellationReason = reason;
   }
   await updateOrder(order, changes, transaction);
