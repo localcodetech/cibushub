@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { CircleAlert } from "lucide-react";
 import { socialSignInRequest } from "@/api/auth";
+import TermsAgreementSheet from "@/components/auth/TermsAgreementSheet";
 import { loadScript } from "@/lib/loadScript";
 import { useAuthStore } from "@/store/authStore";
 import { afterLoginPath } from "@/utils/roleHome";
@@ -17,51 +18,64 @@ const APPLE_SCRIPT =
   "https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js";
 
 // "Continue with Google" and "Continue with Apple".
-// getSignupDetails: only on the sign-up page. Returns { role, acceptTerms: true }, or null
-// when the Terms box isn't ticked (the sign-up page then shows its own message).
+// getSignupDetails: only on the sign-up page. Returns { role, acceptTerms } from its form.
+// Someone new who hasn't agreed to the Terms gets a pop-up to agree, then carries on.
 const SocialSignInButtons = ({ getSignupDetails }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const setUser = useAuthStore((state) => state.setUser);
   const googleButtonRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState("");
-  const [needsSignUp, setNeedsSignUp] = useState(false);
   const [isSending, setIsSending] = useState(false);
+  // A Google / Apple sign-in kept aside while the Terms pop-up is open:
+  // { provider, idToken, fullName }, or null when the pop-up is closed
+  const [waitingForTerms, setWaitingForTerms] = useState(null);
 
-  // Send the ID token to our server, then go home (the guards take it from there)
-  const finishSignIn = async (provider, idToken, fullName) => {
+  // Send the ID token to our server, then go home (the guards take it from there).
+  // agreedInPopup: true when this is the retry after "Agree and continue".
+  const finishSignIn = async (provider, idToken, fullName, agreedInPopup) => {
     setErrorMessage("");
-    setNeedsSignUp(false);
 
     const details = { provider, idToken };
     if (fullName) {
       details.fullName = fullName;
     }
 
-    // On the sign-up page, a new account also needs the role and the Terms
+    // On the sign-up page: the chosen role, and whether its Terms box is ticked
     if (getSignupDetails) {
       const signupDetails = getSignupDetails();
-      if (!signupDetails) {
-        return;
-      }
       details.role = signupDetails.role;
-      details.acceptTerms = signupDetails.acceptTerms;
+      if (signupDetails.acceptTerms) {
+        details.acceptTerms = true;
+      }
+    }
+    if (agreedInPopup) {
+      details.acceptTerms = true;
     }
 
     setIsSending(true);
     try {
       const user = await socialSignInRequest(details);
+      setWaitingForTerms(null);
       setUser(user);
       navigate(afterLoginPath(user, location));
     } catch (error) {
-      // New person on the login page: they must sign up (and accept the Terms) first
+      // Someone new who hasn't agreed yet: keep this sign-in and ask in a pop-up.
+      // (People who already have an account never get here: the Terms are only for new ones.)
       if (error.code === "TERMS_NOT_ACCEPTED") {
-        setNeedsSignUp(true);
+        setWaitingForTerms({ provider, idToken, fullName });
+      } else {
+        setWaitingForTerms(null);
+        setErrorMessage(error.message);
       }
-      setErrorMessage(error.message);
     } finally {
       setIsSending(false);
     }
+  };
+
+  // "Agree and continue": the same Google / Apple sign-in again, now with the Terms accepted
+  const handleAgreeToTerms = () => {
+    finishSignIn(waitingForTerms.provider, waitingForTerms.idToken, waitingForTerms.fullName, true);
   };
 
   // Google draws its own button into our empty <div> (its brand rules require that).
@@ -162,18 +176,18 @@ const SocialSignInButtons = ({ getSignupDetails }) => {
           className="flex items-start gap-2 rounded-lg border border-destructive p-3 text-[15px] text-destructive"
         >
           <CircleAlert size={20} className="mt-0.5 shrink-0" aria-hidden="true" />
-          <span>
-            {errorMessage}
-            {needsSignUp && (
-              <>
-                {" "}
-                <Link to="/register" className="font-bold underline">
-                  Sign up
-                </Link>
-              </>
-            )}
-          </span>
+          <span>{errorMessage}</span>
         </div>
+      )}
+
+      {waitingForTerms && (
+        <TermsAgreementSheet
+          providerName={waitingForTerms.provider === "APPLE" ? "Apple" : "Google"}
+          isNewCustomer={!getSignupDetails}
+          isSending={isSending}
+          onAgree={handleAgreeToTerms}
+          onClose={() => setWaitingForTerms(null)}
+        />
       )}
     </div>
   );

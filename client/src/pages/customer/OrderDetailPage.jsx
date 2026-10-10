@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { MapPin, Phone, ReceiptText } from "lucide-react";
+import { MapPin, Phone, ReceiptText, RotateCcw } from "lucide-react";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
@@ -12,7 +12,12 @@ import ErrorState from "@/components/common/ErrorState";
 import OrderStatusBadge from "@/components/order/OrderStatusBadge";
 import OrderTimeline from "@/components/order/OrderTimeline";
 import CancelOrderSheet from "@/components/order/CancelOrderSheet";
+import ReorderSheet from "@/components/order/ReorderSheet";
+import NewCartSheet from "@/components/cart/NewCartSheet";
 import { cancelOrderRequest, getMyOrderRequest } from "@/api/orders";
+import { getRestaurantRequest } from "@/api/restaurants";
+import { isFromAnotherRestaurant, useCartStore } from "@/store/cartStore";
+import { planReorder } from "@/utils/reorder";
 import { CONTACT_EMAIL } from "@/data/legal/legalInfo";
 import { FINISHED_STATUSES } from "@/data/orderStatuses";
 import { formatMoney } from "@/utils/money";
@@ -36,6 +41,16 @@ const OrderDetailPage = () => {
   const [isCancelOpen, setIsCancelOpen] = useState(false);
   const [isCancelling, setIsCancelling] = useState(false);
   const [cancelError, setCancelError] = useState("");
+
+  const cartRestaurant = useCartStore((state) => state.restaurant);
+  const addLine = useCartStore((state) => state.addLine);
+  const clearCart = useCartStore((state) => state.clearCart);
+  const [isReordering, setIsReordering] = useState(false);
+  const [reorderError, setReorderError] = useState("");
+  // What Reorder did, shown in the sheet: { restaurant, toAdd, skipped }
+  const [reorderResult, setReorderResult] = useState(null);
+  // A reorder waiting for "Start a new cart?" because the cart has another restaurant's food
+  const [waitingReorder, setWaitingReorder] = useState(null);
 
   const {
     data: order,
@@ -71,6 +86,59 @@ const OrderDetailPage = () => {
       refetch();
     }
     setIsCancelling(false);
+  };
+
+  // Puts every dish we could match into the cart, at today's prices
+  const addToCart = (result) => {
+    for (const line of result.toAdd) {
+      addLine(result.restaurant, line.item, line.options, line.quantity);
+    }
+    setReorderResult(result);
+  };
+
+  // "Reorder" [AC-CUST-10]: match this order against today's menu, then fill the cart
+  const handleReorder = async () => {
+    setIsReordering(true);
+    setReorderError("");
+
+    let restaurant;
+    try {
+      // fetchQuery uses the saved copy if the restaurant page was opened recently
+      restaurant = await queryClient.fetchQuery({
+        queryKey: ["restaurant", order.restaurantId],
+        queryFn: () => getRestaurantRequest(order.restaurantId),
+      });
+    } catch (error) {
+      setReorderError(
+        error.status === 404 ? "This restaurant isn't on CibusHub any more." : error.message,
+      );
+      setIsReordering(false);
+      return;
+    }
+    setIsReordering(false);
+
+    const plan = planReorder(restaurant, order);
+    const result = { restaurant: restaurant, toAdd: plan.toAdd, skipped: plan.skipped };
+
+    // Nothing to add: just explain why
+    if (result.toAdd.length === 0) {
+      setReorderResult(result);
+      return;
+    }
+
+    // The cart holds another restaurant's food: ask first [AC-CART-02]
+    if (isFromAnotherRestaurant(cartRestaurant, restaurant.id)) {
+      setWaitingReorder(result);
+      return;
+    }
+
+    addToCart(result);
+  };
+
+  const handleStartNewCart = () => {
+    clearCart();
+    addToCart(waitingReorder);
+    setWaitingReorder(null);
   };
 
   if (isPending) {
@@ -225,6 +293,24 @@ const OrderDetailPage = () => {
       </Card>
 
       <div className="mt-8 flex flex-col gap-3">
+        {/* Only finished, delivered orders can be ordered again [AC-CUST-10] */}
+        {order.status === "DELIVERED" && (
+          <button
+            type="button"
+            onClick={handleReorder}
+            disabled={isReordering}
+            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-primary font-bold text-primary-foreground disabled:opacity-60"
+          >
+            <RotateCcw size={18} aria-hidden="true" />
+            {isReordering ? "Checking the menu…" : "Reorder"}
+          </button>
+        )}
+        {reorderError && (
+          <p role="alert" className="text-center text-[15px] text-destructive">
+            {reorderError}
+          </p>
+        )}
+
         {wasPaid && (
           <Link
             to={"/customer/orders/" + order.id + "/receipt"}
@@ -258,6 +344,19 @@ const OrderDetailPage = () => {
           </p>
         )}
       </div>
+
+      {reorderResult && (
+        <ReorderSheet result={reorderResult} onClose={() => setReorderResult(null)} />
+      )}
+
+      {waitingReorder && (
+        <NewCartSheet
+          currentName={cartRestaurant.name}
+          newName={waitingReorder.restaurant.name}
+          onConfirm={handleStartNewCart}
+          onClose={() => setWaitingReorder(null)}
+        />
+      )}
 
       {isCancelOpen && (
         <CancelOrderSheet

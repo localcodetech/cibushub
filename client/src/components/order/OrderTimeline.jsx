@@ -28,12 +28,14 @@ const OrderTimeline = ({ status, timeline }) => {
   return (
     <ol className="space-y-0">
       {steps.map((step, index) => {
-        const isDone = Boolean(reachedAt[step]);
         const isCurrent = step === status;
+        // The step it is at now always counts as reached, even if its history row is missing
+        const isDone = Boolean(reachedAt[step]) || isCurrent;
         const isLast = index === steps.length - 1;
         const isBadEnd = isCurrent && endedEarly;
         // The line down is green only when the NEXT step has happened too
-        const nextIsDone = !isLast && Boolean(reachedAt[steps[index + 1]]);
+        const nextIsDone =
+          !isLast && (Boolean(reachedAt[steps[index + 1]]) || steps[index + 1] === status);
 
         return (
           <li key={step} className="flex gap-3">
