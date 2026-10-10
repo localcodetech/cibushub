@@ -4,7 +4,7 @@ import request from "supertest";
 import { io as connectClient } from "socket.io-client";
 import app from "../../src/app.js";
 import redis from "../../src/config/redis.js";
-import { RiderLocation, RiderProfile } from "../../src/models/index.js";
+import { Delivery, RiderLocation, RiderProfile } from "../../src/models/index.js";
 import { signAccessToken } from "../../src/utils/auth/tokens.js";
 import { createSocketServer } from "../../src/sockets/socketServer.js";
 import {
@@ -12,10 +12,12 @@ import {
   sweepStaleRiders,
 } from "../../src/services/rider/riderPresence.service.js";
 import { createTestUser } from "../helpers/users.js";
+import { createPaidOrder } from "../helpers/orders.js";
 
 vi.mock("../../src/sockets/emitToUser.js", () => ({ emitToUser: vi.fn() }));
 vi.mock("../../src/sockets/emitAdminAlert.js", () => ({ emitAdminAlert: vi.fn() }));
 const { emitToUser } = await import("../../src/sockets/emitToUser.js");
+const { emitAdminAlert } = await import("../../src/sockets/emitAdminAlert.js");
 
 // Adum, Kumasi, and a point about 100 m away
 const ADUM = { latitude: 6.6885, longitude: -1.6244 };
@@ -198,13 +200,39 @@ describe("Stale riders [AC-RIDER-05]", () => {
     const stillFresh = await sweepStaleRiders(after(4 * 60));
     const stale = await sweepStaleRiders(after(5 * 60 + 1));
 
-    expect(stillFresh).toEqual({ checked: 1, wentOffline: 0 });
-    expect(stale).toEqual({ checked: 1, wentOffline: 1 });
+    expect(stillFresh).toEqual({ checked: 1, wentOffline: 0, flagged: 0 });
+    expect(stale).toEqual({ checked: 1, wentOffline: 1, flagged: 0 });
     expect((await RiderProfile.findByPk(profile.id)).isOnline).toBe(false);
     expect(emitToUser).toHaveBeenCalledWith(rider.id, "rider:status", {
       isOnline: false,
       reason: "NO_LOCATION",
     });
+  });
+});
+
+describe("Silent rider on a delivery (plan-review C10)", () => {
+  it("is kept online and flagged to admins instead", async () => {
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(T0);
+    await post(rider, "/online", ADUM);
+    const { order } = await createPaidOrder();
+    vi.useRealTimers();
+    await Delivery.create({
+      orderId: order.id,
+      riderProfileId: profile.id,
+      status: "PICKED_UP",
+      searchRadiusKm: 5,
+      searchStartedAt: T0,
+    });
+
+    const result = await sweepStaleRiders(after(10 * 60));
+
+    expect(result).toEqual({ checked: 1, wentOffline: 0, flagged: 1 });
+    expect((await RiderProfile.findByPk(profile.id)).isOnline).toBe(true);
+    expect(emitAdminAlert).toHaveBeenCalledWith(
+      "RIDER_SILENT_ON_DELIVERY",
+      expect.objectContaining({ riderProfileId: profile.id, orderId: order.id }),
+    );
   });
 });
 

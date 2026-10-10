@@ -15,6 +15,10 @@ erDiagram
     rider_profiles ||--o{ rider_documents : "verified by"
     rider_profiles ||--o{ rider_locations : "was at"
     orders |o--o{ rider_locations : "tracked by"
+    orders ||--o| deliveries : "delivered by"
+    rider_profiles |o--o{ deliveries : "carries"
+    deliveries ||--o{ delivery_offers : "offered as"
+    rider_profiles ||--o{ delivery_offers : "is offered"
     restaurants ||--o{ menu_categories : "has"
     restaurants ||--o{ menu_items : "sells"
     menu_categories ||--o{ menu_items : "groups"
@@ -172,6 +176,42 @@ erDiagram
         decimal longitude "9,6"
         int accuracy_metres
         datetime recorded_at "at most every 30 seconds"
+        datetime created_at
+        datetime updated_at
+    }
+
+    deliveries {
+        uuid id PK
+        uuid order_id FK "orders.id, unique, ON DELETE CASCADE"
+        uuid rider_profile_id FK "rider_profiles.id, ON DELETE SET NULL; empty while searching"
+        enum status "SEARCHING, ASSIGNED, PICKED_UP, DELIVERED, FAILED, CANCELLED"
+        decimal search_radius_km "4,1"
+        datetime search_started_at
+        datetime radius_widened_at
+        datetime admins_alerted_at
+        datetime assigned_at
+        datetime picked_up_at
+        int pickup_distance_metres
+        boolean pickup_flagged "picked up more than 200 m away"
+        varchar delivery_code_hash "never sent to clients"
+        int code_attempts
+        datetime delivered_at
+        datetime failed_at
+        varchar failure_reason
+        datetime cancelled_at
+        datetime created_at
+        datetime updated_at
+    }
+
+    delivery_offers {
+        uuid id PK
+        uuid delivery_id FK "deliveries.id, ON DELETE CASCADE"
+        uuid rider_profile_id FK "rider_profiles.id, ON DELETE CASCADE; unique with delivery_id"
+        int pickup_distance_metres
+        datetime offered_at
+        datetime expires_at "60 seconds later"
+        datetime responded_at
+        enum outcome "PENDING, ACCEPTED, DECLINED, EXPIRED, SUPERSEDED"
         datetime created_at
         datetime updated_at
     }
@@ -367,6 +407,10 @@ erDiagram
 | `rider_documents.rider_profile_id` | `rider_profiles.id` | one document per type | CASCADE |
 | `rider_locations.rider_profile_id` | `rider_profiles.id` | location history, at most every 30 s | CASCADE |
 | `rider_locations.order_id` | `orders.id` | the delivery the rider was on | SET NULL |
+| `deliveries.order_id` | `orders.id` | one delivery per order | CASCADE |
+| `deliveries.rider_profile_id` | `rider_profiles.id` | the rider carrying it | SET NULL |
+| `delivery_offers.delivery_id` | `deliveries.id` | offers made while searching | CASCADE |
+| `delivery_offers.rider_profile_id` | `rider_profiles.id` | each rider asked once per delivery | CASCADE |
 | `menu_categories.restaurant_id` | `restaurants.id` | a menu has many categories | CASCADE |
 | `menu_items.restaurant_id` | `restaurants.id` | kept for quick ownership checks and search | CASCADE |
 | `menu_items.category_id` | `menu_categories.id` | a category holds many items | RESTRICT |

@@ -14,7 +14,9 @@ import {
   getLatestLocation,
   saveLatestLocation,
 } from "./riderLocationStore.js";
+import { findActiveDeliveryForRider } from "../../repositories/delivery.repository.js";
 import { emitToUser } from "../../sockets/emitToUser.js";
+import { emitAdminAlert } from "../../sockets/emitAdminAlert.js";
 
 // The rules for live locations [AC-RT-05, AC-RT-06, AC-RIDER-05]
 export const LOCATION_RULES = {
@@ -145,15 +147,27 @@ export const recordRiderLocation = async (userId, point, now = new Date()) => {
 };
 
 // Every minute: online riders silent for 5 minutes go offline [AC-RIDER-05].
-// (Riders on an active delivery will be kept online and flagged instead, plan-review C10;
-// that check arrives with deliveries.)
+// A rider ON a delivery is never taken offline: phones pause GPS when the screen locks,
+// and the food is still on its way. Admins are alerted instead (plan-review C10).
 export const sweepStaleRiders = async (now = new Date()) => {
   const online = await findOnlineRiderProfiles();
   let wentOffline = 0;
+  let flagged = 0;
 
   for (const profile of online) {
     const lastSeen = await getLastSeen(profile.id);
     if (lastSeen && now.getTime() - lastSeen < LOCATION_RULES.staleAfterMs) {
+      continue;
+    }
+
+    const activeDelivery = await findActiveDeliveryForRider(profile.id);
+    if (activeDelivery) {
+      emitAdminAlert("RIDER_SILENT_ON_DELIVERY", {
+        riderProfileId: profile.id,
+        orderId: activeDelivery.orderId,
+        lastLocationAt: lastSeen ? new Date(lastSeen).toISOString() : null,
+      });
+      flagged += 1;
       continue;
     }
 
@@ -162,5 +176,5 @@ export const sweepStaleRiders = async (now = new Date()) => {
     wentOffline += 1;
   }
 
-  return { checked: online.length, wentOffline };
+  return { checked: online.length, wentOffline, flagged };
 };

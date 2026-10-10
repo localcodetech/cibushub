@@ -22,6 +22,8 @@ import Refund from "./order/refund.model.js";
 import RiderProfile from "./rider/riderProfile.model.js";
 import RiderDocument from "./rider/riderDocument.model.js";
 import RiderLocation from "./rider/riderLocation.model.js";
+import Delivery from "./delivery/delivery.model.js";
+import DeliveryOffer from "./delivery/deliveryOffer.model.js";
 
 // ─────────────────────────────────────────────
 // A user has many saved delivery addresses
@@ -142,6 +144,19 @@ RiderDocument.belongsTo(RiderProfile, { foreignKey: "riderProfileId", as: "rider
 RiderProfile.hasMany(RiderLocation, { foreignKey: "riderProfileId", as: "locations" });
 RiderLocation.belongsTo(RiderProfile, { foreignKey: "riderProfileId", as: "riderProfile" });
 
+// ─────────────────────────────────────────────
+// An order has one delivery; a rider carries many over time.
+// Each delivery has the offers made to riders while searching.
+// ─────────────────────────────────────────────
+Order.hasOne(Delivery, { foreignKey: "orderId", as: "delivery" });
+Delivery.belongsTo(Order, { foreignKey: "orderId", as: "order" });
+RiderProfile.hasMany(Delivery, { foreignKey: "riderProfileId", as: "deliveries" });
+Delivery.belongsTo(RiderProfile, { foreignKey: "riderProfileId", as: "rider" });
+Delivery.hasMany(DeliveryOffer, { foreignKey: "deliveryId", as: "offers" });
+DeliveryOffer.belongsTo(Delivery, { foreignKey: "deliveryId", as: "delivery" });
+RiderProfile.hasMany(DeliveryOffer, { foreignKey: "riderProfileId", as: "offers" });
+DeliveryOffer.belongsTo(RiderProfile, { foreignKey: "riderProfileId", as: "rider" });
+
 export {
   User,
   Address,
@@ -164,4 +179,6 @@ export {
   RiderProfile,
   RiderDocument,
   RiderLocation,
+  Delivery,
+  DeliveryOffer,
 };

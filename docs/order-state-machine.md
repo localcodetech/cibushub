@@ -33,4 +33,5 @@ stateDiagram-v2
 - **SUPER_ADMIN** may do everything ADMIN may.
 - **Terminal:** `DELIVERED`, `REJECTED`, `CANCELLED`. Nothing follows them. Refunds are tracked separately in `payment_status` (AC-ORD-07).
 - **Customers** may cancel only before the restaurant accepts (AC-CANC-01, AC-CANC-02).
+- **Riders:** the search for a rider starts at `ACCEPTED`, but the order only becomes `RIDER_ASSIGNED` once it is `READY_FOR_PICKUP` **and** a rider has accepted, whichever comes second. The rider is recorded on the `deliveries` row, not by an extra order status. See [ADR 003](adr/003-delivery-assignment.md).
 - Every change writes an `order_status_history` row in the same transaction as the status update (AC-ORD-04).
