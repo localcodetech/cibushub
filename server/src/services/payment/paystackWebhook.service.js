@@ -11,6 +11,7 @@ import {
 } from "../../repositories/payment.repository.js";
 import { requestRefund } from "../refund/requestRefund.service.js";
 import { emailReceipt } from "../notifications/receiptEmail.service.js";
+import { scheduleRestaurantTimeout } from "../../jobs/enqueue.js";
 
 const SYSTEM = { userId: null, role: "SYSTEM" };
 
@@ -127,6 +128,8 @@ export const reconcilePayment = async (reference) => {
   if (outcome === "ORDER_PAID") {
     const payment = await findPaymentByReference(reference);
     await emailReceipt(payment.orderId);
+    // The restaurant now has 5 minutes to answer [AC-RORD-04]
+    await scheduleRestaurantTimeout(payment.orderId);
   }
 
   return outcome;

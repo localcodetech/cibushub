@@ -166,3 +166,32 @@ export const summariseRestaurantOrders = ({ restaurantIds, from, to }) => {
     raw: true,
   });
 };
+
+// When the order became PAID (from its history), or null
+export const findPaidAt = async (orderId) => {
+  const entry = await OrderStatusHistory.findOne({
+    where: { orderId, toStatus: "PAID" },
+    order: [["createdAt", "ASC"]],
+  });
+  return entry ? entry.createdAt : null;
+};
+
+// PAID orders the restaurant still hasn't answered, paid before a moment (the timeout sweeper)
+export const findUnansweredPaidOrders = (paidBefore, limit) => {
+  return Order.findAll({
+    where: { status: "PAID" },
+    attributes: ["id"],
+    include: [
+      {
+        model: OrderStatusHistory,
+        as: "statusHistory",
+        attributes: [],
+        where: { toStatus: "PAID", createdAt: { [Op.lt]: paidBefore } },
+        required: true,
+      },
+    ],
+    order: [["createdAt", "ASC"]],
+    limit,
+    subQuery: false,
+  });
+};

@@ -1,11 +1,8 @@
-import sequelize from "../../config/database.js";
 import AppError from "../../utils/AppError.js";
-import { retryOnDeadlock } from "../../utils/database/retryOnDeadlock.js";
 import { buildPageMeta, toLimitAndOffset } from "../../utils/pagination.js";
 import { nextStatusesFor } from "../../utils/order/orderStateMachine.js";
-import { scheduleRefund } from "../../jobs/enqueue.js";
 import { changeOrderStatus } from "./changeOrderStatus.service.js";
-import { refundableAmount, requestRefund } from "../refund/requestRefund.service.js";
+import { rejectOrderWithRefund } from "./rejectOrder.service.js";
 import { findRestaurantsByOwner } from "../../repositories/restaurant.repository.js";
 import {
   findOrderById,
@@ -136,35 +133,16 @@ export const acceptOrder = async (ownerId, orderId, prepTimeMinutes) => {
   return getOwnerOrder(ownerId, orderId);
 };
 
-// Reject with a reason. A paid order is refunded in full, in the SAME transaction,
-// so "rejected" always means "money on its way back" [AC-RORD-03, AC-CANC-04]
+// Reject with a reason; a paid order is refunded in full [AC-RORD-03]
 export const rejectOrder = async (ownerId, orderId, reason) => {
   const restaurantIds = idsOf(await getOwnedRestaurants(ownerId));
-  const actor = { userId: ownerId, role: "RESTAURANT_OWNER" };
 
-  const refund = await retryOnDeadlock(() =>
-    sequelize.transaction(async (transaction) => {
-      const order = await changeOrderStatus({
-        orderId,
-        toStatus: "REJECTED",
-        actor,
-        reason,
-        isAllowedFor: (found) => restaurantIds.includes(found.restaurantId),
-        transaction,
-      });
-
-      const amountPesewas = await refundableAmount(order, transaction);
-      if (amountPesewas === 0) {
-        return null;
-      }
-      return requestRefund({ order, amountPesewas, reason, actor, transaction });
-    }),
-  );
-
-  // Send it to Paystack now (the every-5-minutes sweep is the safety net)
-  if (refund) {
-    await scheduleRefund(refund.id);
-  }
+  await rejectOrderWithRefund({
+    orderId,
+    actor: { userId: ownerId, role: "RESTAURANT_OWNER" },
+    reason,
+    isAllowedFor: (order) => restaurantIds.includes(order.restaurantId),
+  });
 
   return getOwnerOrder(ownerId, orderId);
 };
