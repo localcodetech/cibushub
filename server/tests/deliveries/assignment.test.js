@@ -94,6 +94,7 @@ describe("Sequential offers [AC-ASSIGN-02, AC-ASSIGN-03]", () => {
         restaurantName: "Auntie Esi's Kitchen",
         earningsPesewas: expect.any(Number),
         expiresAt: after(65),
+        secondsLeft: 60,
       }),
     );
     const [offerView] = emitToUser.mock.calls[0].slice(2);

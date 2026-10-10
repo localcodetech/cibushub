@@ -15,6 +15,8 @@ const exampleOffer = {
   earningsPesewas: 1500,
   offeredAt: "2026-10-10T12:00:05.000Z",
   expiresAt: "2026-10-10T12:01:05.000Z",
+  // Count down from this (the phone's clock may be wrong)
+  secondsLeft: 60,
 };
 
 export const riderOfferPaths = {

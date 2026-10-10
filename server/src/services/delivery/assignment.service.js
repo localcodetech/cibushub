@@ -55,7 +55,9 @@ export const openDelivery = async (orderId, now, transaction) => {
 
 // What the rider sees in the offer pop-up [AC-ASSIGN-03]: where to collect, how far,
 // roughly where it goes, and what they earn. Never the customer's name or phone yet.
-const toOfferView = (offer, order, restaurant) => ({
+// secondsLeft: the phone counts down from this, not from expiresAt, so a phone whose
+// clock is wrong still shows the right time.
+const toOfferView = (offer, order, restaurant, now) => ({
   offerId: offer.id,
   deliveryId: offer.deliveryId,
   restaurantName: restaurant.name,
@@ -66,6 +68,7 @@ const toOfferView = (offer, order, restaurant) => ({
   earningsPesewas: order.riderEarningsPesewas,
   offeredAt: offer.offeredAt,
   expiresAt: offer.expiresAt,
+  secondsLeft: Math.max(0, Math.round((offer.expiresAt.getTime() - now.getTime()) / 1000)),
 });
 
 // The nearest rider who may be asked, or null [AC-ASSIGN-02]:
@@ -174,7 +177,7 @@ export const offerNextRider = async (deliveryId, now = new Date()) => {
     );
 
     // Only once it is saved: the rider's phone shows the offer with its 60-second countdown
-    const view = toOfferView(offer, order, restaurant);
+    const view = toOfferView(offer, order, restaurant, now);
     transaction.afterCommit(() => emitToUser(chosen.profile.userId, "delivery:offer", view));
 
     return { result: "OFFERED", offerId: offer.id, riderProfileId: chosen.profile.id };
@@ -287,7 +290,7 @@ export const getMyPendingOffer = async (userId, now = new Date()) => {
   const delivery = await findDeliveryById(offer.deliveryId);
   const order = await Order.scope("withEarnings").findByPk(delivery.orderId);
   const restaurant = await Restaurant.findByPk(order.restaurantId);
-  return toOfferView(offer, order, restaurant);
+  return toOfferView(offer, order, restaurant, now);
 };
 
 // Every minute: one search step for each delivery still looking for a rider.
