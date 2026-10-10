@@ -11,6 +11,7 @@ import EmptyState from "@/components/common/EmptyState";
 import ErrorState from "@/components/common/ErrorState";
 import OrderStatusBadge from "@/components/order/OrderStatusBadge";
 import OrderTimeline from "@/components/order/OrderTimeline";
+import LiveTracking from "@/components/order/LiveTracking";
 import CancelOrderSheet from "@/components/order/CancelOrderSheet";
 import ReorderSheet from "@/components/order/ReorderSheet";
 import NewCartSheet from "@/components/cart/NewCartSheet";
@@ -29,6 +30,9 @@ import { useConnectionStore } from "@/store/connectionStore";
 // Checking now and then is the backup: rarely while live, more often while it is down.
 const REFRESH_WHILE_LIVE_MS = 60000;
 const REFRESH_WHILE_OFFLINE_MS = 20000;
+
+// While a rider has it, the customer watches them on a map [AC-RT-04]
+const TRACKED_STATUSES = ["RIDER_ASSIGNED", "PICKED_UP"];
 
 // While the kitchen works on it, the customer sees when it should be ready [AC-RORD-03]
 const SHOW_READY_TIME_FOR = ["ACCEPTED", "PREPARING"];
@@ -86,6 +90,8 @@ const OrderDetailPage = () => {
       if (event.orderId === orderId) {
         queryClient.invalidateQueries({ queryKey: ["order", orderId] });
         queryClient.invalidateQueries({ queryKey: ["orders"] });
+        // e.g. picked up: the map, ETA and code change straight away
+        queryClient.invalidateQueries({ queryKey: ["tracking", orderId] });
       }
     });
 
@@ -242,6 +248,9 @@ const OrderDetailPage = () => {
           <p className="font-heading text-2xl font-bold">{formatTime(order.estimatedReadyAt)}</p>
         </Card>
       )}
+
+      {/* The rider is on the way: live map, ETA and the delivery code [AC-RT-04] */}
+      {TRACKED_STATUSES.includes(order.status) && <LiveTracking order={order} />}
 
       <section className="mt-8">
         <Heading level={2} className="mb-4">

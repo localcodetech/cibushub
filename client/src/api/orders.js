@@ -94,3 +94,11 @@ export const cancelOrderRequest = async (orderId, reason) => {
   const result = await api.post("/customer/orders/" + orderId + "/cancel", { reason });
   return result.data;
 };
+
+// Live tracking of one of my orders [AC-RT-04]: { status, isTracked, restaurant, dropoff,
+// rider: { firstName, photoUrl, vehicleType, plateNumber } | null,
+// riderLocation: { latitude, longitude, at } | null, etaMinutes, etaBasis }
+export const getOrderTrackingRequest = async (orderId) => {
+  const result = await api.get("/customer/orders/" + orderId + "/tracking");
+  return result.data;
+};
