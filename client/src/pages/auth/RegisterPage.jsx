@@ -23,7 +23,6 @@ const RegisterPage = () => {
     handleSubmit,
     setError,
     getValues,
-    trigger,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(registerSchema),
@@ -38,14 +37,10 @@ const RegisterPage = () => {
     },
   });
 
-  // For the Google / Apple buttons: the chosen role, and the Terms box must be ticked.
-  // trigger("acceptTerms") runs that one rule, so its message shows under the box.
+  // For the Google / Apple buttons: the chosen role, and whether the Terms box is ticked.
+  // Not ticked? The buttons ask in a pop-up instead of stopping here.
   const getSignupDetails = () => {
-    if (getValues("acceptTerms") !== true) {
-      trigger("acceptTerms");
-      return null;
-    }
-    return { role: getValues("role"), acceptTerms: true };
+    return { role: getValues("role"), acceptTerms: getValues("acceptTerms") === true };
   };
 
   // Runs only when the Zod rules pass

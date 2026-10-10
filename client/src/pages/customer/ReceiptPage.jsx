@@ -1,23 +1,21 @@
-import { useEffect } from "react";
+import { useState } from "react";
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Download, ReceiptText } from "lucide-react";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
-import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
 import ErrorState from "@/components/common/ErrorState";
-import { getReceiptRequest } from "@/api/orders";
-import { formatMoney } from "@/utils/money";
-import { formatDateTime } from "@/utils/date";
-
-
+import ReceiptDocument from "@/components/receipt/ReceiptDocument";
+import { downloadReceiptPdfRequest, getReceiptRequest } from "@/api/orders";
 
 // /customer/orders/:orderId/receipt: what was paid, with a "Download PDF" button [AC-PAY-15, AC-PAY-17].
 // The prices come from the order's frozen copy, never today's menu.
 const ReceiptPage = () => {
   const { orderId } = useParams();
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadError, setDownloadError] = useState("");
 
   const {
     data: receipt,
@@ -32,32 +30,16 @@ const ReceiptPage = () => {
       error.status !== 404 && error.status !== 409 && failureCount < 3,
   });
 
-  // The browser names the saved PDF after the page title: "CibusHub receipt CH-1042.pdf"
-  useEffect(() => {
-    if (!receipt) {
-      return;
+  // Downloads the PDF the server makes: one tap, straight into Downloads [AC-PAY-17]
+  const handleDownloadPdf = async () => {
+    setIsDownloading(true);
+    setDownloadError("");
+    try {
+      await downloadReceiptPdfRequest(orderId, receipt.orderNumber);
+    } catch (error) {
+      setDownloadError(error.message);
     }
-    const oldTitle = document.title;
-    document.title = "CibusHub receipt " + receipt.orderNumber;
-    // Put the old title back when leaving the page
-    return () => {
-      document.title = oldTitle;
-    };
-  }, [receipt]);
-
-  // window.print() opens the browser's print window, where "Save as PDF" is one of the printers.
-  // Paper is white, so a dark theme is switched to light just for printing, then put back.
-  const handleDownloadPdf = () => {
-    const page = document.documentElement;
-    const wasDark = page.classList.contains("dark");
-
-    if (wasDark) {
-      page.classList.remove("dark");
-      // "afterprint" fires when the print window closes (printed, saved or cancelled)
-      window.addEventListener("afterprint", () => page.classList.add("dark"), { once: true });
-    }
-
-    window.print();
+    setIsDownloading(false);
   };
 
   if (isPending) {
@@ -107,101 +89,36 @@ const ReceiptPage = () => {
 
   return (
     <ReceiptLayout>
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <Heading level={1}>Receipt</Heading>
-          <Text muted className="mt-1">
-            Order {receipt.orderNumber} · {receipt.restaurantName}
-          </Text>
-          {receipt.paidAt && (
-            <Text size="small" muted>
-              Paid {formatDateTime(receipt.paidAt)}
-            </Text>
-          )}
-        </div>
-
-        {/* print:hidden keeps this button off the paper */}
+      {/* The bar above the receipt: on screen only, never on the paper */}
+      <div className="mb-4 flex items-center justify-between gap-4 print:hidden">
+        <Heading level={1}>Receipt</Heading>
         <button
           type="button"
           onClick={handleDownloadPdf}
-          className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-md border border-border px-4 font-bold print:hidden"
+          disabled={isDownloading}
+          className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-md bg-primary px-4 font-bold text-primary-foreground disabled:opacity-60"
         >
           <Download size={18} aria-hidden="true" />
-          Download PDF
+          {isDownloading ? "Downloading…" : "Download PDF"}
         </button>
       </div>
 
-      {/* Dishes */}
-      <ul className="mt-6 divide-y divide-border border-y border-border">
-        {receipt.items.map((item, index) => (
-          // Two lines can be the same dish with different options, so the index makes the key unique
-          <li key={item.name + index} className="flex justify-between gap-4 py-3">
-            <div className="min-w-0">
-              <p>
-                <span className="font-bold">{item.quantity} ×</span> {item.name}
-              </p>
-              {item.options.length > 0 && (
-                <p className="text-[15px] text-muted-foreground">{item.options.join(", ")}</p>
-              )}
-            </div>
-            <p className="shrink-0">{formatMoney(item.lineTotalPesewas)}</p>
-          </li>
-        ))}
-      </ul>
+      {downloadError && (
+        <p role="alert" className="mb-4 text-[15px] text-destructive print:hidden">
+          {downloadError}
+        </p>
+      )}
 
-      {/* Money summary */}
-      <dl className="mt-4 space-y-1 text-[15px]">
-        <SummaryRow label="Subtotal" pesewas={receipt.subtotalPesewas} />
-        <SummaryRow label="Delivery fee" pesewas={receipt.deliveryFeePesewas} />
-        <SummaryRow label="Service fee" pesewas={receipt.serviceFeePesewas} />
-        {receipt.discountPesewas > 0 && (
-          <SummaryRow label="Discount" pesewas={-receipt.discountPesewas} />
-        )}
-        <div className="flex justify-between border-t border-border pt-2 text-base font-bold">
-          <dt>Total paid</dt>
-          <dd>{formatMoney(receipt.totalPesewas)}</dd>
-        </div>
-      </dl>
-
-      {/* Payment details */}
-      <dl className="mt-6 space-y-1 text-[15px] text-muted-foreground">
-        {receipt.paymentMethod && (
-          <div className="flex justify-between gap-4">
-            <dt>Paid by</dt>
-            <dd>{receipt.paymentMethod}</dd>
-          </div>
-        )}
-        {receipt.paymentReference && (
-          <div className="flex justify-between gap-4">
-            <dt>Payment reference</dt>
-            <dd className="break-all">{receipt.paymentReference}</dd>
-          </div>
-        )}
-      </dl>
-
-      {/* Only on paper: the navbar (with the name) is hidden when printing */}
-      <p className="mt-8 hidden text-[13px] print:block">CibusHub · Food delivery in Kumasi</p>
+      <ReceiptDocument receipt={receipt} />
     </ReceiptLayout>
   );
 };
 
-// One "label ........ GHS 12.00" line
-const SummaryRow = ({ label, pesewas }) => {
-  return (
-    <div className="flex justify-between">
-      <dt className="text-muted-foreground">{label}</dt>
-      <dd>{formatMoney(pesewas)}</dd>
-    </div>
-  );
-};
-
-// print: classes only apply on paper / PDF: black text on white, no padding, full width
+// On paper: no page padding or width limit; the A4 margins come from @page in index.css
 const ReceiptLayout = ({ children }) => {
   return (
     <Container>
-      <section className="mx-auto max-w-xl py-8 print:max-w-none print:bg-white print:py-0 print:text-black">
-        {children}
-      </section>
+      <section className="mx-auto max-w-2xl py-8 print:max-w-none print:py-0">{children}</section>
     </Container>
   );
 };

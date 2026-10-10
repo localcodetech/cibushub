@@ -56,15 +56,15 @@ All of this is in [developer.apple.com/account](https://developer.apple.com/acco
    - Under Capabilities, tick **Sign In with Apple**, then **Continue → Register**.
 2. **Services ID.** This is what the website uses.
    - Click **+ → Services IDs**.
-   - Description: `CibusHub Web`. Identifier: `com.cibushubgh.web`.
+   - Description: `CibusHub Web`. Identifier: `com.cibushub.web`.
    - Register it, open it again, tick **Sign In with Apple** and click **Configure**:
      - Primary App ID: `com.cibushubgh.app`
      - Domains and Subdomains: `app.cibushubgh.com`, `dev.cibushubgh.com`
      - Return URLs: `https://app.cibushubgh.com/login`, `https://dev.cibushubgh.com/login`
    - **Next → Done → Continue → Save**.
-3. Put the Services ID (`com.cibushubgh.web`) in:
-   - `server/.env`: `APPLE_SERVICE_ID=com.cibushubgh.web`
-   - `client/.env`: `VITE_APPLE_SERVICE_ID=com.cibushubgh.web`
+3. Put the Services ID (`com.cibushub.web`) in:
+   - `server/.env`: `APPLE_SERVICE_ID=com.cibushub.web`
+   - `client/.env`: `VITE_APPLE_SERVICE_ID=com.cibushub.web`
    - `client/.env`: `VITE_APPLE_REDIRECT_URI=https://dev.cibushubgh.com/login` (on the live server: `https://app.cibushubgh.com/login`)
 
 Apple may give us a **private relay** email (`...@privaterelay.appleid.com`). To send emails to those addresses later (Step 12), register the sending domain under **Sign in with Apple for Email Communication** in the same Apple account.

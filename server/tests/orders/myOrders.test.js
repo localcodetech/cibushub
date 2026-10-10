@@ -137,6 +137,12 @@ describe("GET /api/v1/customer/orders/:orderId [AC-ORD-06]", () => {
       { status: "PENDING_PAYMENT", at: FRIDAY_NOON.toISOString(), reason: null },
     ]);
     expect(response.body.data.customerActions).toEqual(["CANCELLED"]);
+    // Who to call about it
+    expect(response.body.data.restaurant).toEqual({
+      id: order.restaurantId,
+      name: expect.any(String),
+      phone: expect.stringMatching(/^\+233/),
+    });
   });
 
   it("returns 404 for someone else's order [AC-RBAC-04]", async () => {
