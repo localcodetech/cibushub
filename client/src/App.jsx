@@ -36,7 +36,9 @@ const OrderDetailPage = lazy(() => import("@/pages/customer/OrderDetailPage"));
 const OwnerLayout = lazy(() => import("@/layouts/OwnerLayout"));
 const OwnerDashboardPage = lazy(() => import("@/pages/owner/OwnerDashboardPage"));
 const OwnerHistoryPage = lazy(() => import("@/pages/owner/OwnerHistoryPage"));
+const RiderLayout = lazy(() => import("@/layouts/RiderLayout"));
 const RiderHomePage = lazy(() => import("@/pages/rider/RiderHomePage"));
+const RiderDeliveryPage = lazy(() => import("@/pages/rider/RiderDeliveryPage"));
 const RiderApplicationPage = lazy(() => import("@/pages/rider/RiderApplicationPage"));
 const AdminDashboardPage = lazy(() => import("@/pages/admin/AdminDashboardPage"));
 
@@ -158,9 +160,13 @@ const router = createBrowserRouter([
             path: "rider",
             element: (
               <RequireRole allowedRoles={["RIDER"]}>
-                <RiderHomePage />
+                <RiderLayout />
               </RequireRole>
             ),
+            children: [
+              { index: true, element: <RiderHomePage /> },
+              { path: "delivery", element: <RiderDeliveryPage /> },
+            ],
           },
           {
             // Filled in while the account waits for approval, so pending riders may open it

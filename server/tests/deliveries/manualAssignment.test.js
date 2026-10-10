@@ -116,6 +116,16 @@ describe("Manual assignment [AC-ASSIGN-07]", () => {
     expect(row.reason).toContain("Rider is waiting at the restaurant");
   });
 
+  it("tells the rider when the kitchen marks the food ready [AC-DEL-02]", async () => {
+    const { user, profile } = await onlineRider();
+    await assign(profile);
+    await ownerTaps("preparing");
+
+    await ownerTaps("ready");
+
+    expect(emitToUser).toHaveBeenCalledWith(user.id, "delivery:ready", { orderId: order.id });
+  });
+
   it("replaces a rider: both moves are in the history and the old rider is told", async () => {
     await ownerTaps("preparing");
     await ownerTaps("ready");

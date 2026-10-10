@@ -1,4 +1,6 @@
 import { changeOrderStatus } from "../order/changeOrderStatus.service.js";
+import { findRiderProfileById } from "../../repositories/rider.repository.js";
+import { emitToUser } from "../../sockets/emitToUser.js";
 
 // ADR 003: the ORDER becomes RIDER_ASSIGNED once the food is ready AND a rider has accepted,
 // at whichever moment comes second. Called at both moments, inside their transactions,
@@ -23,5 +25,9 @@ export const moveOrderToRiderAssignedIfReady = async (
     onlyIfStatus: "READY_FOR_PICKUP",
     transaction,
   });
+
+  // The rider's delivery screen: "The food is ready, collect it" [AC-DEL-02]
+  const rider = await findRiderProfileById(delivery.riderProfileId);
+  transaction.afterCommit(() => emitToUser(rider.userId, "delivery:ready", { orderId: order.id }));
   return true;
 };
