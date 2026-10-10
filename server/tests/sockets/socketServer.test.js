@@ -189,3 +189,69 @@ describe("Order rooms [AC-RT-02]", () => {
     expect(answer).toEqual({ ok: true });
   });
 });
+
+// Collects every "order:updated" a client receives
+const recordUpdates = (client) => {
+  const received = [];
+  client.on("order:updated", (event) => received.push(event));
+  return received;
+};
+
+// Socket events travel through Redis, so give them a moment to arrive
+const settle = () => new Promise((resolve) => setTimeout(resolve, 400));
+
+const cancelAs = (user, reason = "Changed my mind") => {
+  return request(app)
+    .post(`/api/v1/customer/orders/${order.id}/cancel`)
+    .set("Cookie", `access_token=${signAccessToken(user)}`)
+    .send({ reason });
+};
+
+describe("Live order updates [AC-RT-03, AC-RORD-01]", () => {
+  it("tells the customer following the order and its restaurant, after the change is saved", async () => {
+    const customerClient = await connectAs(customer);
+    await joinOrder(customerClient, order.id);
+    const ownerClient = await connectAs(owner);
+    const customerHeard = recordUpdates(customerClient);
+    const ownerHeard = recordUpdates(ownerClient);
+
+    const response = await cancelAs(customer);
+    await settle();
+
+    expect(response.status).toBe(200);
+    const expected = {
+      orderId: order.id,
+      orderNumber: order.orderNumber,
+      status: "CANCELLED",
+      fromStatus: "PENDING_PAYMENT",
+    };
+    expect(customerHeard).toEqual([expect.objectContaining(expected)]);
+    // The owner hears it through their restaurant's room, without joining the order
+    expect(ownerHeard).toEqual([expect.objectContaining(expected)]);
+  });
+
+  it("tells nobody else", async () => {
+    const stranger = await createTestUser({ email: "kofi@example.com", phone: "+233551112222" });
+    const strangerClient = await connectAs(stranger);
+    await joinOrder(strangerClient, order.id); // refused
+    const strangerHeard = recordUpdates(strangerClient);
+
+    await cancelAs(customer);
+    await settle();
+
+    expect(strangerHeard).toEqual([]);
+  });
+
+  it("sends nothing when the change is refused and rolled back", async () => {
+    await cancelAs(customer); // CANCELLED is final
+    const customerClient = await connectAs(customer);
+    await joinOrder(customerClient, order.id);
+    const customerHeard = recordUpdates(customerClient);
+
+    const second = await cancelAs(customer);
+    await settle();
+
+    expect(second.status).toBe(409);
+    expect(customerHeard).toEqual([]);
+  });
+});
