@@ -25,6 +25,10 @@ vi.mock("../src/jobs/enqueue.js", async () => {
 
   return {
     UNPAID_ORDER_MINUTES: 30,
+    RESTAURANT_RESPONSE_MINUTES: 5,
+    scheduleRestaurantTimeout: async (orderId) => {
+      list.push({ name: "rejectUnansweredOrder", orderId });
+    },
     scheduleUnpaidOrderExpiry: async (orderId) => {
       list.push({ name: "expireUnpaidOrder", orderId });
     },

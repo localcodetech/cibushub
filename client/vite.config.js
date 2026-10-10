@@ -72,6 +72,8 @@ export default defineConfig({
     // server container, so cookies and requests stay on one origin.
     proxy: {
       "/api": "http://server:5000",
+      // Live updates (Socket.IO). ws: true also forwards the WebSocket upgrade.
+      "/socket.io": { target: "http://server:5000", ws: true },
     },
   },
 });

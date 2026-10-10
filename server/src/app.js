@@ -12,6 +12,7 @@ import healthRoutes from "./routes/health.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import publicRestaurantRoutes from "./routes/restaurant.routes.js";
 import ownerRestaurantRoutes from "./routes/owner/restaurant.routes.js";
+import ownerOrderRoutes from "./routes/owner/order.routes.js";
 import ownerMenuRoutes from "./routes/owner/menu.routes.js";
 import authenticate from "./middlewares/authenticate.js";
 import authorize from "./middlewares/authorize.js";
@@ -155,6 +156,11 @@ app.use("/api/v1/owner/restaurants", ownerRestaurantRoutes);
 // Owner's menus: categories, items, option groups, sold-out switches
 // ─────────────────────────────────────────────
 app.use("/api/v1/owner/restaurants/:restaurantId/menu", ownerMenuRoutes);
+
+// ─────────────────────────────────────────────
+// Owner's orders: board, accept or reject, preparing, ready, history, daily summary
+// ─────────────────────────────────────────────
+app.use("/api/v1/owner/orders", ownerOrderRoutes);
 
 // ─────────────────────────────────────────────
 // Every admin route: must be logged in as an active admin or super admin

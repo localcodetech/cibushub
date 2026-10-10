@@ -3,6 +3,7 @@ import AppError from "../../utils/AppError.js";
 import { retryOnDeadlock } from "../../utils/database/retryOnDeadlock.js";
 import { assertTransitionAllowed } from "../../utils/order/orderStateMachine.js";
 import { increaseStock } from "../../repositories/menu.repository.js";
+import { emitOrderChanged } from "../../sockets/emitOrderChange.js";
 import {
   addStatusHistory,
   findOrderItems,
@@ -49,7 +50,7 @@ const applyStatusChange = async (transaction, options) => {
 
   // 5. Change the status (plus anything that must change with it, e.g. paymentStatus)
   const changes = { ...extraChanges, status: toStatus };
-  if (toStatus === "CANCELLED") {
+  if (toStatus === "CANCELLED" || toStatus === "REJECTED") {
     changes.cancellationReason = reason;
   }
   await updateOrder(order, changes, transaction);
@@ -76,6 +77,10 @@ const applyStatusChange = async (transaction, options) => {
     },
     transaction,
   );
+
+  // 8. Tell the live screens, but only once the change is really saved [AC-RT-03].
+  //    afterCommit never runs if the transaction rolls back (or is retried after a deadlock).
+  transaction.afterCommit(() => emitOrderChanged(order, fromStatus));
 
   return order;
 };

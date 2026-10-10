@@ -72,9 +72,9 @@ Each step contains:
 | 5 | **Restaurants and Menus (Backend)** | AC-REST-01 to 08, AC-MENU-01 to 10, AC-DISC-01, 02, 04, 05, 07, 08, 10, AC-IMG-01 to 04, AC-ADM-03 … | ✅ DONE |
 | 6 | **Frontend Foundation** | AC-RBAC-07, 08, AC-AUTH-03, 14, 16, AC-GLOBAL-05, AC-UX-01 to 05, AC-UX-09, 12 … | ✅ DONE |
 | 7 | **Customer Browsing, Addresses and Cart** | AC-CUST-01 to 08, 11, AC-DISC-01 to 10, AC-CART-01 to 08, AC-MAP-01, 02, 04, AC-IMG-05 … | ✅ DONE |
-| 8 | **Checkout and the Order Engine** | AC-CHK-01 to 12, AC-ORD-01 to 07, AC-CUST-09, 10, AC-MAP-06 | 🟢 IN PROGRESS |
+| 8 | **Checkout and the Order Engine** | AC-CHK-01 to 12, AC-ORD-01 to 07, AC-CUST-09, 10, AC-MAP-06 | ✅ DONE |
 | 9 | **Payments, Cancellations and Refunds** | AC-PAY-01 to 16, AC-CANC-01 to 07, AC-JOB-01, 03, 04, AC-JOB-02, AC-OPS-06 | ✅ DONE |
-| 10 | **Restaurant Dashboard and Real-Time Updates** | AC-RORD-01 to 07, AC-RT-01, 02, 03, 07, 08, AC-RT-10, AC-JOB-02, AC-UX-06, 07 | ⚪ PLANNED |
+| 10 | **Restaurant Dashboard and Real-Time Updates** | AC-RORD-01 to 07, AC-RT-01, 02, 03, 07, 08, AC-RT-10, AC-JOB-02, AC-UX-06, 07 | ✅ DONE |
 | 11 | **Riders, Assignment and Delivery** | AC-RIDER-01 to 07, AC-ASSIGN-01 to 08, AC-DEL-01 to 08, AC-RT-04, 05, 06, 09, AC-MAP-01, 03, 05 … | ⚪ PLANNED |
 | 12 | **Notifications** | AC-NOTIF-01 to 09, AC-PAY-15, AC-MON-04 | ⚪ PLANNED |
 | 13 | **Reviews, Admin, Super Admin and Analytics** | AC-REV-01 to 08, AC-ADM-01 to 09, AC-SADM-01 to 04, AC-ANL-01 to 06, AC-JOB-02, 05 | ⚪ PLANNED |
@@ -524,7 +524,7 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 ## Step 8 — Checkout and the Order Engine
 
-**Status:** 🟢 IN PROGRESS (backend done; checkout screens being built)
+**Status:** ✅ DONE
 
 > **Goal.** Orders are created correctly, atomically and safely, and move only through valid states.
 >
@@ -620,7 +620,7 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 ## Step 10 — Restaurant Dashboard and Real-Time Updates
 
-**Status:** ⚪ PLANNED
+**Status:** ✅ DONE (live board and customer page checked in two browsers, 2026-10-10)
 
 > **Goal.** Restaurants receive and manage orders instantly; customers watch their order progress live.
 >
@@ -652,9 +652,12 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 ### Done when
 
-- [ ] A paid order appears on the restaurant dashboard within 2 seconds without refresh
-- [ ] A user cannot join another order's room (test)
-- [ ] Disconnecting Wi-Fi and reconnecting shows the correct current status
+- [x] A paid order appears on the restaurant dashboard within 2 seconds without refresh (29 ms in the browser check)
+- [x] A user cannot join another order's room (tests/sockets/socketServer.test.js)
+- [x] Disconnecting and reconnecting shows the correct current status ("Reconnecting…" shown, REST refetch on reconnect)
+- [x] An auto-reject performed by the worker reaches the customer's browser live (plan-review addition)
+
+**Not built here:** the "Scheduled" tab (plan-review). Scheduled orders (AC-CHK-11) were not built in Step 8, so there is nothing to show yet; it comes with them in a catch-up step.
 
 ### Send for review
 

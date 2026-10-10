@@ -33,7 +33,9 @@ const CheckoutPage = lazy(() => import("@/pages/customer/CheckoutPage"));
 const PaymentResultPage = lazy(() => import("@/pages/customer/PaymentResultPage"));
 const OrdersPage = lazy(() => import("@/pages/customer/OrdersPage"));
 const OrderDetailPage = lazy(() => import("@/pages/customer/OrderDetailPage"));
+const OwnerLayout = lazy(() => import("@/layouts/OwnerLayout"));
 const OwnerDashboardPage = lazy(() => import("@/pages/owner/OwnerDashboardPage"));
+const OwnerHistoryPage = lazy(() => import("@/pages/owner/OwnerHistoryPage"));
 const RiderHomePage = lazy(() => import("@/pages/rider/RiderHomePage"));
 const AdminDashboardPage = lazy(() => import("@/pages/admin/AdminDashboardPage"));
 
@@ -143,9 +145,13 @@ const router = createBrowserRouter([
             path: "owner",
             element: (
               <RequireRole allowedRoles={["RESTAURANT_OWNER"]}>
-                <OwnerDashboardPage />
+                <OwnerLayout />
               </RequireRole>
             ),
+            children: [
+              { index: true, element: <OwnerDashboardPage /> },
+              { path: "history", element: <OwnerHistoryPage /> },
+            ],
           },
           {
             path: "rider",

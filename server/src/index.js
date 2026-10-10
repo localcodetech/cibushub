@@ -3,6 +3,7 @@ import env from "./config/env/env.js";
 import logger from "./config/logger.js";
 import sequelize from "./config/database.js";
 import redis from "./config/redis.js";
+import { createSocketServer } from "./sockets/socketServer.js";
 
 // ─────────────────────────────────────────────
 // Start the API on the port from .env
@@ -13,13 +14,19 @@ const server = app.listen(env.PORT, "0.0.0.0", (error) => {
 });
 
 // ─────────────────────────────────────────────
+// Live updates: Socket.IO on the same server and port [AC-RT-01]
+// ─────────────────────────────────────────────
+const sockets = createSocketServer(server);
+
+// ─────────────────────────────────────────────
 // Graceful shutdown: finish requests, then close MySQL and Redis
 // ─────────────────────────────────────────────
 const shutdown = (signal) => {
   logger.info(`${signal} received, shutting down`);
 
-  server.close(async () => {
-    logger.info("Server closed");
+  // Closing Socket.IO also closes the HTTP server: open requests finish first
+  sockets.close().then(async () => {
+    logger.info("Server and sockets closed");
 
     await sequelize.close();
     logger.info("MySQL connection closed");

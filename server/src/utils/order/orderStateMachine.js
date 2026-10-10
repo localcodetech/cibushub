@@ -10,7 +10,7 @@ export const ORDER_TRANSITIONS = {
   },
   PAID: {
     ACCEPTED: ["RESTAURANT_OWNER"],
-    REJECTED: ["RESTAURANT_OWNER"],
+    REJECTED: ["RESTAURANT_OWNER", "SYSTEM"], // SYSTEM: no answer within 5 minutes [AC-RORD-04]
     CANCELLED: ["CUSTOMER", "ADMIN", "SYSTEM"], // customer: only before the restaurant accepts
   },
   ACCEPTED: {
