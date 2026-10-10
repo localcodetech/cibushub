@@ -13,6 +13,7 @@ import { checkoutPaths } from "./paths/checkout.paths.js";
 import { customerOrderListOperation, customerOrderPaths } from "./paths/customerOrder.paths.js";
 import { webhookPaths } from "./paths/webhook.paths.js";
 import { adminOrderPaths } from "./paths/adminOrder.paths.js";
+import { riderApplicationPaths } from "./paths/riderApplication.paths.js";
 import { successResponse, errorResponse } from "./helpers.js";
 
 export const openApiDocument = {
@@ -72,5 +73,6 @@ export const openApiDocument = {
     ...customerOrderPaths,
     ...webhookPaths,
     ...adminOrderPaths,
+    ...riderApplicationPaths,
   },
 };

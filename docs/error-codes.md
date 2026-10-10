@@ -50,6 +50,9 @@ Add a row here in the same commit that introduces a new code.
 | `PHONE_ALREADY_VERIFIED` | 409 | Adding a phone when the account's phone is already verified (use profile change instead) | AC-CUST-02 |
 | `CATEGORY_NOT_EMPTY` | 409 | Deleting a menu category that still has items; move or delete them first | AC-MENU-02 |
 
+| `DETAILS_REQUIRED` | 409 | Uploading a rider document before saving the vehicle and Ghana Card details | AC-RIDER-01 |
+| `APPLICATION_LOCKED` | 409 | Changing a rider application while it is under review or after approval | AC-RIDER-01 |
+| `APPLICATION_INCOMPLETE` | 400 | Submitting a rider application with something missing; `details` lists each (`PHOTO`, `GHANA_CARD`, `DRIVERS_LICENCE`, `DETAILS`) | AC-RIDER-01 |
 | `FILE_REQUIRED` | 400 | An upload request arrived without a file in the expected form field | AC-IMG-01 |
 | `FILE_TOO_LARGE` | 400 | An uploaded file is over 5 MB | AC-IMG-01 |
 | `INVALID_UPLOAD` | 400 | More than one file, or a file in the wrong form field | AC-IMG-01 |

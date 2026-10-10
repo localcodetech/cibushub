@@ -19,6 +19,7 @@ import authorize from "./middlewares/authorize.js";
 import requireActive from "./middlewares/requireActive.js";
 import adminRestaurantRoutes from "./routes/admin/restaurant.routes.js";
 import adminOrderRoutes from "./routes/admin/order.routes.js";
+import riderApplicationRoutes from "./routes/rider/application.routes.js";
 import customerAddressRoutes from "./routes/customer/address.routes.js";
 import customerMapsRoutes from "./routes/customer/maps.routes.js";
 import customerCheckoutRoutes from "./routes/customer/checkout.routes.js";
@@ -161,6 +162,16 @@ app.use("/api/v1/owner/restaurants/:restaurantId/menu", ownerMenuRoutes);
 // Owner's orders: board, accept or reject, preparing, ready, history, daily summary
 // ─────────────────────────────────────────────
 app.use("/api/v1/owner/orders", ownerOrderRoutes);
+
+// ─────────────────────────────────────────────
+// Every rider route: must be logged in as a rider
+// ─────────────────────────────────────────────
+app.use("/api/v1/rider", authenticate, authorize("RIDER"));
+
+// ─────────────────────────────────────────────
+// Rider application: vehicle, Ghana Card, photo, documents, submit for review
+// ─────────────────────────────────────────────
+app.use("/api/v1/rider/application", riderApplicationRoutes);
 
 // ─────────────────────────────────────────────
 // Every admin route: must be logged in as an active admin or super admin

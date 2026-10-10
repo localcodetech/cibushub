@@ -11,6 +11,8 @@ erDiagram
     users ||--o{ audit_logs : "acts (admin)"
     restaurants ||--o{ restaurant_opening_hours : "open on"
     restaurants ||--o{ restaurant_documents : "verified by"
+    users ||--o| rider_profiles : "rides as"
+    rider_profiles ||--o{ rider_documents : "verified by"
     restaurants ||--o{ menu_categories : "has"
     restaurants ||--o{ menu_items : "sells"
     menu_categories ||--o{ menu_items : "groups"
@@ -128,6 +130,30 @@ erDiagram
         uuid id PK
         uuid restaurant_id FK "restaurants.id, ON DELETE CASCADE"
         enum document_type "BUSINESS_REGISTRATION, FDA_CERTIFICATE, GHANA_CARD, OPERATING_LICENCE; unique per restaurant"
+        varchar public_id "private Cloudinary asset"
+        varchar format "pdf, jpg, png, webp"
+        datetime created_at
+        datetime updated_at
+    }
+
+    rider_profiles {
+        uuid id PK
+        uuid user_id FK "users.id, unique, ON DELETE CASCADE"
+        enum vehicle_type "MOTORBIKE, BICYCLE, CAR"
+        varchar plate_number "empty for bicycles"
+        varchar ghana_card_number "GHA-123456789-0"
+        enum status "DRAFT, PENDING_APPROVAL, APPROVED, REJECTED, SUSPENDED"
+        varchar rejection_reason
+        datetime submitted_at
+        datetime approved_at
+        datetime created_at
+        datetime updated_at
+    }
+
+    rider_documents {
+        uuid id PK
+        uuid rider_profile_id FK "rider_profiles.id, ON DELETE CASCADE"
+        enum document_type "GHANA_CARD, DRIVERS_LICENCE; unique per rider"
         varchar public_id "private Cloudinary asset"
         varchar format "pdf, jpg, png, webp"
         datetime created_at
@@ -321,6 +347,8 @@ erDiagram
 | `restaurants.owner_id` | `users.id` | an owner has many restaurants | RESTRICT |
 | `restaurant_opening_hours.restaurant_id` | `restaurants.id` | one row per weekday | CASCADE |
 | `restaurant_documents.restaurant_id` | `restaurants.id` | one document per type | CASCADE |
+| `rider_profiles.user_id` | `users.id` | one rider profile per rider account | CASCADE |
+| `rider_documents.rider_profile_id` | `rider_profiles.id` | one document per type | CASCADE |
 | `menu_categories.restaurant_id` | `restaurants.id` | a menu has many categories | CASCADE |
 | `menu_items.restaurant_id` | `restaurants.id` | kept for quick ownership checks and search | CASCADE |
 | `menu_items.category_id` | `menu_categories.id` | a category holds many items | RESTRICT |

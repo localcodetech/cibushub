@@ -19,6 +19,8 @@ import OrderItemOption from "./order/orderItemOption.model.js";
 import OrderStatusHistory from "./order/orderStatusHistory.model.js";
 import Payment from "./order/payment.model.js";
 import Refund from "./order/refund.model.js";
+import RiderProfile from "./rider/riderProfile.model.js";
+import RiderDocument from "./rider/riderDocument.model.js";
 
 // ─────────────────────────────────────────────
 // A user has many saved delivery addresses
@@ -129,6 +131,14 @@ Refund.belongsTo(Order, { foreignKey: "orderId", as: "order" });
 Payment.hasMany(Refund, { foreignKey: "paymentId", as: "refunds" });
 Refund.belongsTo(Payment, { foreignKey: "paymentId", as: "payment" });
 
+// ─────────────────────────────────────────────
+// A rider account has one rider profile (vehicle, Ghana Card), with private documents
+// ─────────────────────────────────────────────
+User.hasOne(RiderProfile, { foreignKey: "userId", as: "riderProfile" });
+RiderProfile.belongsTo(User, { foreignKey: "userId", as: "user" });
+RiderProfile.hasMany(RiderDocument, { foreignKey: "riderProfileId", as: "documents" });
+RiderDocument.belongsTo(RiderProfile, { foreignKey: "riderProfileId", as: "riderProfile" });
+
 export {
   User,
   Address,
@@ -148,4 +158,6 @@ export {
   OrderStatusHistory,
   Payment,
   Refund,
+  RiderProfile,
+  RiderDocument,
 };
