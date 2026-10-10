@@ -39,6 +39,7 @@ const OwnerHistoryPage = lazy(() => import("@/pages/owner/OwnerHistoryPage"));
 const RiderLayout = lazy(() => import("@/layouts/RiderLayout"));
 const RiderHomePage = lazy(() => import("@/pages/rider/RiderHomePage"));
 const RiderDeliveryPage = lazy(() => import("@/pages/rider/RiderDeliveryPage"));
+const RiderEarningsPage = lazy(() => import("@/pages/rider/RiderEarningsPage"));
 const RiderApplicationPage = lazy(() => import("@/pages/rider/RiderApplicationPage"));
 const AdminDashboardPage = lazy(() => import("@/pages/admin/AdminDashboardPage"));
 
@@ -166,6 +167,7 @@ const router = createBrowserRouter([
             children: [
               { index: true, element: <RiderHomePage /> },
               { path: "delivery", element: <RiderDeliveryPage /> },
+              { path: "earnings", element: <RiderEarningsPage /> },
             ],
           },
           {

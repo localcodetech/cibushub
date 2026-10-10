@@ -21,6 +21,7 @@ import Container from "./Container";
 const RIDER_LINKS = [
   { label: "Home", to: "/rider", end: true },
   { label: "Delivery", to: "/rider/delivery", end: false },
+  { label: "Earnings", to: "/rider/earnings", end: false },
 ];
 
 // The server says how many seconds are left; we turn that into a moment on THIS phone's

@@ -74,3 +74,13 @@ export const giveUpDeliveryRequest = async (reason) => {
   const result = await api.post("/rider/deliveries/current/unassign", { reason });
   return result.data;
 };
+
+// Completed deliveries and earnings for the day, week or month containing `date` [AC-RIDER-07].
+// Returns { summary: { period, from, to, deliveryCount, earningsPesewas },
+//           deliveries: [{ deliveryId, orderNumber, restaurantName, restaurantArea, dropoffArea,
+//                          distanceMetres, pickedUpAt, deliveredAt, earningsPesewas }], meta }
+export const getEarningsRequest = async ({ period, date, page }) => {
+  const query = new URLSearchParams({ period, date, page: String(page) });
+  const result = await api.get("/rider/earnings?" + query.toString());
+  return { ...result.data, meta: result.meta };
+};

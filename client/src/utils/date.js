@@ -33,3 +33,31 @@ export const formatDay = (dayText) => {
     year: "numeric",
   }).format(new Date(dayText + "T12:00:00Z"));
 };
+
+// The days a period covers, from the server's { from, to } (to is the start of the NEXT day):
+// "5 Oct – 11 Oct 2026"
+export const formatRange = (fromIso, toIso) => {
+  const lastDay = new Date(new Date(toIso).getTime() - 1);
+  const dayMonth = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Africa/Accra",
+    day: "numeric",
+    month: "short",
+  });
+  const year = new Intl.DateTimeFormat("en-GB", { timeZone: "Africa/Accra", year: "numeric" });
+  return (
+    dayMonth.format(new Date(fromIso)) +
+    " – " +
+    dayMonth.format(lastDay) +
+    " " +
+    year.format(lastDay)
+  );
+};
+
+// "2026-10-10" -> "October 2026"
+export const formatMonth = (dayText) => {
+  return new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Africa/Accra",
+    month: "long",
+    year: "numeric",
+  }).format(new Date(dayText + "T12:00:00Z"));
+};
