@@ -7,4 +7,7 @@ export const DELIVERY_RULES = {
 
   // Wrong delivery codes allowed before the code locks and admins are alerted
   maxCodeAttempts: 5,
+
+  // "Customer unreachable" only after the rider has really tried to call [AC-DEL-08]
+  minCallsBeforeUnreachable: 2,
 };

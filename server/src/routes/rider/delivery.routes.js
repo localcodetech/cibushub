@@ -5,12 +5,15 @@ import { unassignRiderSchema } from "../../validators/order/manualAssignment.val
 import {
   completeDeliverySchema,
   pickupSchema,
+  unreachableSchema,
 } from "../../validators/order/deliveryFlow.validator.js";
 import {
+  call,
   complete,
   current,
   giveUp,
   pickUp,
+  unreachable,
 } from "../../controllers/rider/riderDeliveries.controller.js";
 
 const router = Router();
@@ -27,6 +30,12 @@ router.get("/current", current);
 // ─────────────────────────────────────────────
 router.post("/current/pickup", validate(pickupSchema), pickUp);
 router.post("/current/complete", validate(completeDeliverySchema), complete);
+
+// ─────────────────────────────────────────────
+// At the door: "Call" (counted, returns the number), then "Customer unreachable"
+// ─────────────────────────────────────────────
+router.post("/current/call", call);
+router.post("/current/unreachable", validate(unreachableSchema), unreachable);
 
 // ─────────────────────────────────────────────
 // I can't continue (e.g. breakdown): give the order back before pickup

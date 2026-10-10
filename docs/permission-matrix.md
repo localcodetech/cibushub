@@ -64,6 +64,7 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | `POST /admin/riders/:id/approve` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize; audit logged |
 | `POST /admin/riders/:id/reject`, `/suspend` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; audit logged |
 | `POST /admin/orders/:id/rider`, `/rider/unassign` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; before pickup; audit logged |
+| `POST /admin/orders/:id/delivery/unlock-code` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; picked-up orders; audit logged |
 | `POST /admin/orders/:id/cancel` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; refund choice; audit logged |
 | `GET /owner/orders`, `/history`, `/summary`, `/:id` | — | — | 🔒 | — | — | — | authenticate, authorize, requireActive, validate (query) |
 | `POST /owner/orders/:id/accept`, `/reject`, `/preparing`, `/ready` | — | — | 🔒 | — | — | — | authenticate, authorize, requireActive, validate; own restaurants only |
@@ -74,7 +75,7 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | socket `rider:location` | — | — | — | 🔒 | — | — | handshake cookie; online riders only; 1 per 3 s, range and speed checked |
 | `GET /rider/offers/current`, `POST /rider/offers/:id/accept`, `/decline` | — | — | — | 🔒 | — | — | authenticate, authorize, requireActive; own offers only (404 otherwise); accept locks rider, delivery, offer, order in that order |
 | `GET /rider/deliveries/current` | — | — | — | 🔒 | — | — | authenticate, authorize, requireActive; own delivery only; customer name, pin and phone only after pickup |
-| `POST /rider/deliveries/current/pickup`, `/complete` | — | — | — | 🔒 | — | — | authenticate, authorize, requireActive, validate; own delivery; locks rider, delivery, order |
+| `POST /rider/deliveries/current/pickup`, `/complete`, `/call`, `/unreachable` | — | — | — | 🔒 | — | — | authenticate, authorize, requireActive, validate; own delivery; locks rider, delivery, order |
 | `POST /rider/deliveries/current/unassign` | — | — | — | 🔒 | — | — | authenticate, authorize, requireActive, validate; own delivery, before pickup |
 | `GET`, `POST /customer/addresses` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate |
 | `PATCH`, `DELETE /customer/addresses/:id` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate |

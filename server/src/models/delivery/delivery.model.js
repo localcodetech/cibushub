@@ -80,8 +80,31 @@ const Delivery = sequelize.define(
       allowNull: false,
       defaultValue: 0,
     },
+    // The rider's taps on "Call" during the drop-off, counted by the server [AC-DEL-08]
+    callAttempts: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    lastCallAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
     deliveredAt: {
       type: DataTypes.DATE,
+      allowNull: true,
+    },
+    // "Customer unreachable": when, and where the rider was
+    unreachableReportedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    reportedLatitude: {
+      type: DataTypes.DECIMAL(9, 6),
+      allowNull: true,
+    },
+    reportedLongitude: {
+      type: DataTypes.DECIMAL(9, 6),
       allowNull: true,
     },
     failedAt: {

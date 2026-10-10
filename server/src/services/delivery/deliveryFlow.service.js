@@ -8,16 +8,20 @@ import { changeOrderStatus } from "../order/changeOrderStatus.service.js";
 import { findOrderItems, lockOrder } from "../../repositories/order.repository.js";
 import {
   findActiveDeliveryForRider,
+  findDeliveryForOrderForUpdate,
   findDeliveryForUpdate,
   updateDelivery,
 } from "../../repositories/delivery.repository.js";
 import {
+  findRiderProfileById,
   findRiderProfileByUserId,
   lockRiderProfileByUserId,
 } from "../../repositories/rider.repository.js";
 import { Order, Restaurant, User } from "../../models/index.js";
 import { getLatestLocation } from "../rider/riderLocationStore.js";
+import { saveAuditLog } from "../../repositories/auditLog.repository.js";
 import { emitAdminAlert } from "../../sockets/emitAdminAlert.js";
+import { emitToUser } from "../../sockets/emitToUser.js";
 
 const noDelivery = () => new AppError(404, "NOT_FOUND", "You have no delivery in hand");
 
@@ -65,6 +69,13 @@ const toDeliveryView = async (delivery, order, restaurant) => {
     },
     dropoff,
     codeAttemptsLeft: DELIVERY_RULES.maxCodeAttempts - delivery.codeAttempts,
+    callAttempts: delivery.callAttempts,
+    // "Customer unreachable" appears once the rider has called enough times [AC-DEL-08]
+    canReportUnreachable:
+      pickedUp &&
+      !delivery.unreachableReportedAt &&
+      delivery.callAttempts >= DELIVERY_RULES.minCallsBeforeUnreachable,
+    unreachableReportedAt: delivery.unreachableReportedAt,
   };
 };
 
@@ -224,4 +235,129 @@ export const completeDelivery = async ({ userId, code, now = new Date() }) => {
   }
 
   return { orderId: outcome.orderId, delivered: true };
+};
+
+// The rider tapped "Call": counted here, then the phone dials [AC-DEL-04, AC-DEL-08].
+// The count is the proof of "attempted to call" that admins see with an unreachable report.
+export const recordCallAttempt = async ({ userId, now = new Date() }) => {
+  const result = await retryOnDeadlock(() =>
+    sequelize.transaction(async (transaction) => {
+      const { delivery } = await lockMyActiveDelivery(userId, transaction);
+      if (delivery.status !== "PICKED_UP") {
+        throw new AppError(409, "NOT_PICKED_UP", "Confirm pickup first");
+      }
+      await updateDelivery(
+        delivery,
+        { callAttempts: delivery.callAttempts + 1, lastCallAt: now },
+        transaction,
+      );
+      const order = await Order.findByPk(delivery.orderId, { transaction });
+      return { phone: order.contactPhone, callAttempts: delivery.callAttempts };
+    }),
+  );
+  return result;
+};
+
+// "Customer unreachable" [AC-DEL-08]. Policy (plan-review, ADR 003): the rider keeps the food
+// and waits; admins are alerted with where the rider is and how often they called; the
+// customer's app is told to call the rider. If the customer turns up, the code still works.
+// Otherwise an admin cancels the order (the delivery becomes FAILED) and chooses the refund.
+export const reportCustomerUnreachable = async ({ userId, note, ipAddress, now = new Date() }) => {
+  const report = await retryOnDeadlock(() =>
+    sequelize.transaction(async (transaction) => {
+      const { profile, delivery } = await lockMyActiveDelivery(userId, transaction);
+      if (delivery.status !== "PICKED_UP") {
+        throw new AppError(409, "NOT_PICKED_UP", "Confirm pickup first");
+      }
+      if (delivery.unreachableReportedAt) {
+        throw new AppError(409, "ALREADY_REPORTED", "You already reported this; support is on it");
+      }
+      if (delivery.callAttempts < DELIVERY_RULES.minCallsBeforeUnreachable) {
+        throw new AppError(
+          409,
+          "CALL_THE_CUSTOMER_FIRST",
+          `Call the customer at least ${DELIVERY_RULES.minCallsBeforeUnreachable} times first`,
+        );
+      }
+
+      const riderAt = await getLatestLocation(profile.id);
+      const reason = note ? `Customer unreachable: ${note}` : "Customer unreachable";
+      await updateDelivery(
+        delivery,
+        {
+          unreachableReportedAt: now,
+          reportedLatitude: riderAt ? riderAt.latitude : null,
+          reportedLongitude: riderAt ? riderAt.longitude : null,
+          failureReason: reason,
+        },
+        transaction,
+      );
+
+      const order = await Order.findByPk(delivery.orderId, { transaction });
+      await saveAuditLog(
+        {
+          actorId: userId,
+          action: "DELIVERY_UNREACHABLE_REPORTED",
+          targetType: "order",
+          targetId: order.id,
+          before: null,
+          after: { callAttempts: delivery.callAttempts, location: riderAt },
+          reason,
+          ipAddress,
+        },
+        transaction,
+      );
+
+      return {
+        orderId: order.id,
+        orderNumber: order.orderNumber,
+        customerId: order.customerId,
+        riderProfileId: profile.id,
+        callAttempts: delivery.callAttempts,
+        location: riderAt ? { latitude: riderAt.latitude, longitude: riderAt.longitude } : null,
+        note: note ?? null,
+      };
+    }),
+  );
+
+  const { customerId, ...alert } = report;
+  emitAdminAlert("CUSTOMER_UNREACHABLE", alert);
+  emitToUser(customerId, "delivery:unreachable", { orderId: report.orderId });
+
+  return getMyCurrentDelivery(userId);
+};
+
+// Admin: after 5 wrong codes, a check with the customer (e.g. by phone), then the rider
+// may try again [AC-DEL-06]
+export const adminUnlockDeliveryCode = async ({ orderId, reason, admin }) => {
+  const riderProfileId = await retryOnDeadlock(() =>
+    sequelize.transaction(async (transaction) => {
+      const delivery = await findDeliveryForOrderForUpdate(orderId, transaction);
+      if (!delivery) {
+        throw new AppError(404, "NOT_FOUND", "This order has no delivery");
+      }
+      if (delivery.status !== "PICKED_UP") {
+        throw new AppError(409, "NOT_PICKED_UP", "The food hasn't been picked up");
+      }
+      await updateDelivery(delivery, { codeAttempts: 0 }, transaction);
+      await saveAuditLog(
+        {
+          actorId: admin.id,
+          action: "DELIVERY_CODE_UNLOCKED",
+          targetType: "order",
+          targetId: orderId,
+          before: { codeAttempts: delivery.codeAttempts },
+          after: { codeAttempts: 0 },
+          reason,
+          ipAddress: admin.ipAddress,
+        },
+        transaction,
+      );
+      return delivery.riderProfileId;
+    }),
+  );
+
+  const rider = await findRiderProfileById(riderProfileId);
+  emitToUser(rider.userId, "delivery:code-unlocked", { orderId });
+  return { orderId, codeAttemptsLeft: DELIVERY_RULES.maxCodeAttempts };
 };

@@ -3,6 +3,7 @@ import {
   assignRiderSchema,
   unassignRiderSchema,
 } from "../../validators/order/manualAssignment.validator.js";
+import { unlockDeliveryCodeSchema } from "../../validators/order/deliveryFlow.validator.js";
 import { errorResponse, jsonBody, pathParameter, successResponse } from "../helpers.js";
 
 export const adminOrderPaths = {
@@ -89,6 +90,24 @@ export const adminOrderPaths = {
           "NO_RIDER_ASSIGNED",
           "No rider is assigned to this order",
         ),
+      },
+    },
+  },
+  "/api/v1/admin/orders/{orderId}/delivery/unlock-code": {
+    post: {
+      tags: ["Admin: Orders"],
+      summary: "Unlock the delivery code after 5 wrong tries",
+      description:
+        "After checking with the customer (e.g. by phone). The rider gets 5 new tries and a live notice. Audit logged.",
+      security: [{ cookieAuth: [] }],
+      parameters: [pathParameter("orderId", "A picked-up order")],
+      requestBody: jsonBody(unlockDeliveryCodeSchema, { reason: "Customer confirmed by phone" }),
+      responses: {
+        200: successResponse("Unlocked", {
+          orderId: "0f1e2d3c-4b5a-4968-8776-655443322110",
+          codeAttemptsLeft: 5,
+        }),
+        409: errorResponse("Not picked up", "NOT_PICKED_UP", "The food hasn't been picked up"),
       },
     },
   },

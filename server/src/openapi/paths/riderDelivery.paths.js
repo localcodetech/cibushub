@@ -2,6 +2,7 @@ import { unassignRiderSchema } from "../../validators/order/manualAssignment.val
 import {
   completeDeliverySchema,
   pickupSchema,
+  unreachableSchema,
 } from "../../validators/order/deliveryFlow.validator.js";
 import { errorResponse, jsonBody, successResponse } from "../helpers.js";
 
@@ -39,6 +40,9 @@ const exampleDelivery = {
     phone: "+233551234561",
   },
   codeAttemptsLeft: 5,
+  callAttempts: 0,
+  canReportUnreachable: false,
+  unreachableReportedAt: null,
 };
 
 export const riderDeliveryPaths = {
@@ -89,6 +93,37 @@ export const riderDeliveryPaths = {
           "Code locked",
           "DELIVERY_CODE_LOCKED",
           "Too many wrong codes. CibusHub support has been told and will contact you.",
+        ),
+      },
+    },
+  },
+  "/api/v1/rider/deliveries/current/call": {
+    post: {
+      tags,
+      summary: "Call the customer (counted)",
+      description:
+        "After pickup. The tap is counted (the proof of calling for an unreachable report), then the app dials the returned number.",
+      security: loggedIn,
+      responses: {
+        200: successResponse("Counted", { phone: "+233551234561", callAttempts: 1 }),
+        409: errorResponse("Not picked up yet", "NOT_PICKED_UP", "Confirm pickup first"),
+      },
+    },
+  },
+  "/api/v1/rider/deliveries/current/unreachable": {
+    post: {
+      tags,
+      summary: "Customer unreachable",
+      description:
+        "After at least 2 counted calls. Admins are alerted with the rider's location and call count; the customer's app is told. The rider keeps the food: the code still works if the customer turns up, otherwise an admin cancels (delivery FAILED) and chooses the refund.",
+      security: loggedIn,
+      requestBody: jsonBody(unreachableSchema, { note: "Blue gate locked, nobody answers" }),
+      responses: {
+        200: successResponse("Reported", { ...exampleDelivery, callAttempts: 2 }),
+        409: errorResponse(
+          "Not enough calls, or already reported",
+          "CALL_THE_CUSTOMER_FIRST",
+          "Call the customer at least 2 times first",
         ),
       },
     },

@@ -64,7 +64,9 @@ Add a row here in the same commit that introduces a new code.
 | `PICKUP_FAR_FROM_RESTAURANT` | 409 | "Picked up" more than 200 m from the restaurant (or no known location); `details` has the distance; resend with `confirmFarAway: true` | AC-DEL-03 |
 | `NOT_PICKED_UP` | 409 | Entering the delivery code before pickup | AC-DEL-06 |
 | `WRONG_DELIVERY_CODE` | 400 | Wrong 4-digit code; message says how many attempts are left | AC-DEL-06 |
-| `DELIVERY_CODE_LOCKED` | 429 | 5 wrong codes; admins are alerted | AC-DEL-06 |
+| `DELIVERY_CODE_LOCKED` | 429 | 5 wrong codes; admins are alerted and can unlock it | AC-DEL-06 |
+| `CALL_THE_CUSTOMER_FIRST` | 409 | "Customer unreachable" before 2 counted calls | AC-DEL-08 |
+| `ALREADY_REPORTED` | 409 | "Customer unreachable" sent twice for one delivery | AC-DEL-08 |
 | `RIDER_NOT_APPROVED` | 403 | Going online without an approved rider application | AC-RIDER-02, AC-RIDER-03 |
 | `APPLICATION_LOCKED` | 409 | Changing a rider application while it is under review or after approval | AC-RIDER-01 |
 | `APPLICATION_INCOMPLETE` | 400 | Submitting a rider application with something missing; `details` lists each (`PHOTO`, `GHANA_CARD`, `DRIVERS_LICENCE`, `DETAILS`) | AC-RIDER-01 |

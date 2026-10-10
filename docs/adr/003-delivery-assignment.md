@@ -29,6 +29,8 @@ Delivery facts get their own tables, and the order status stays exactly as AC-OR
 
 **Pickup (AC-DEL-02, AC-DEL-03):** "Picked up" works only once the order is `RIDER_ASSIGNED` (food ready). More than 200 m from the restaurant, or with no known location, the rider is warned and must confirm; the pickup is then saved with `pickup_flagged` and admins are alerted.
 
+**Failed delivery policy (AC-DEL-08, plan-review "no failed status"):** the rider's taps on "Call" are counted by the server. After at least 2, the rider may report "Customer unreachable" (once). Admins are alerted with the rider's location and call count, the customer's app is told to call the rider, and the report is kept on the delivery and in the audit log. The rider keeps the food and the order stays `PICKED_UP`: if the customer turns up, the code still completes it. Otherwise an admin cancels the order with a reason and chooses the refund (AC-CANC-03); the delivery then ends as `FAILED` instead of `CANCELLED`, and the rider is free. After 5 wrong codes, an admin can unlock the code once they have checked with the customer.
+
 **Delivery statuses:** `SEARCHING → ASSIGNED → PICKED_UP → DELIVERED`, with `FAILED` (customer unreachable, AC-DEL-08) and `CANCELLED` (the order was cancelled). A rider holds at most one `ASSIGNED` or `PICKED_UP` delivery (AC-RIDER-06).
 
 **Never twice:** a unique index on `(delivery_id, rider_profile_id)` means a rider who declined, or let an offer expire, is never asked again for the same delivery (AC-ASSIGN-04).

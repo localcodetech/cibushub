@@ -194,7 +194,12 @@ erDiagram
         int pickup_distance_metres
         boolean pickup_flagged "picked up more than 200 m away"
         int code_attempts "wrong delivery codes, locks at 5"
+        int call_attempts "rider's counted calls at the drop-off"
+        datetime last_call_at
         datetime delivered_at
+        datetime unreachable_reported_at
+        decimal reported_latitude "where the rider was"
+        decimal reported_longitude
         datetime failed_at
         varchar failure_reason
         datetime cancelled_at

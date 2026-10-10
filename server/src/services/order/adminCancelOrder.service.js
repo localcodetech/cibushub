@@ -76,12 +76,16 @@ export const adminCancelOrder = async (admin, orderId, choice) => {
         transaction,
       );
 
-      // A delivery in progress ends too, so its rider is free for new offers [AC-RIDER-06]
+      // A delivery in progress ends too, so its rider is free for new offers [AC-RIDER-06].
+      // After a "Customer unreachable" report it ends as FAILED, keeping the report [AC-DEL-08]
       let releasedRiderId = null;
       if (delivery && !FINISHED_DELIVERY_STATUSES.includes(delivery.status)) {
         releasedRiderId = delivery.riderProfileId;
         const now = new Date();
-        await updateDelivery(delivery, { status: "CANCELLED", cancelledAt: now }, transaction);
+        const ending = delivery.unreachableReportedAt
+          ? { status: "FAILED", failedAt: now }
+          : { status: "CANCELLED", cancelledAt: now };
+        await updateDelivery(delivery, ending, transaction);
         await supersedePendingOffers(delivery.id, now, transaction);
       }
 
