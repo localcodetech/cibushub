@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { MapPin, Phone, ReceiptText, RotateCcw } from "lucide-react";
@@ -21,11 +21,17 @@ import { planReorder } from "@/utils/reorder";
 import { CONTACT_EMAIL } from "@/data/legal/legalInfo";
 import { FINISHED_STATUSES } from "@/data/orderStatuses";
 import { formatMoney } from "@/utils/money";
-import { formatDateTime } from "@/utils/date";
+import { formatDateTime, formatTime } from "@/utils/date";
+import { followOrder, onOrderUpdated } from "@/lib/liveUpdates";
+import { useConnectionStore } from "@/store/connectionStore";
 
-// How often to look for news while the order is still moving.
-// (Instant updates arrive with the live connection in Step 10.)
-const REFRESH_EVERY_MS = 20000;
+// Changes normally arrive instantly over the live connection [AC-RT-03].
+// Checking now and then is the backup: rarely while live, more often while it is down.
+const REFRESH_WHILE_LIVE_MS = 60000;
+const REFRESH_WHILE_OFFLINE_MS = 20000;
+
+// While the kitchen works on it, the customer sees when it should be ready [AC-RORD-03]
+const SHOW_READY_TIME_FOR = ["ACCEPTED", "PREPARING"];
 
 const REFUND_STATUS_WORDS = {
   PENDING: "started",
@@ -38,6 +44,7 @@ const REFUND_STATUS_WORDS = {
 const OrderDetailPage = () => {
   const { orderId } = useParams();
   const queryClient = useQueryClient();
+  const isLive = useConnectionStore((state) => state.status === "connected");
   const [isCancelOpen, setIsCancelOpen] = useState(false);
   const [isCancelling, setIsCancelling] = useState(false);
   const [cancelError, setCancelError] = useState("");
@@ -64,12 +71,29 @@ const OrderDetailPage = () => {
     refetchInterval: (query) => {
       const current = query.state.data;
       if (current && !FINISHED_STATUSES.includes(current.status)) {
-        return REFRESH_EVERY_MS;
+        return isLive ? REFRESH_WHILE_LIVE_MS : REFRESH_WHILE_OFFLINE_MS;
       }
       return false;
     },
     retry: (failureCount, error) => error.status !== 404 && failureCount < 3,
   });
+
+  // Live: follow this order, and refetch it the moment the server says it changed.
+  // The event is only a nudge; the REST API answers with the real order.
+  useEffect(() => {
+    const stopFollowing = followOrder(orderId);
+    const stopListening = onOrderUpdated((event) => {
+      if (event.orderId === orderId) {
+        queryClient.invalidateQueries({ queryKey: ["order", orderId] });
+        queryClient.invalidateQueries({ queryKey: ["orders"] });
+      }
+    });
+
+    return () => {
+      stopListening();
+      stopFollowing();
+    };
+  }, [orderId, queryClient]);
 
   const handleCancel = async (reason) => {
     setIsCancelling(true);
@@ -209,6 +233,13 @@ const OrderDetailPage = () => {
           >
             Pay {formatMoney(order.totalPesewas)}
           </Link>
+        </Card>
+      )}
+
+      {SHOW_READY_TIME_FOR.includes(order.status) && order.estimatedReadyAt && (
+        <Card className="mt-6">
+          <p className="text-[15px] text-muted-foreground">Food ready around</p>
+          <p className="font-heading text-2xl font-bold">{formatTime(order.estimatedReadyAt)}</p>
         </Card>
       )}
 

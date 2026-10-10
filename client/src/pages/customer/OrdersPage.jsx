@@ -1,5 +1,6 @@
+import { useEffect } from "react";
 import { Link, useSearchParams } from "react-router";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ChevronRight, ReceiptText } from "lucide-react";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
@@ -11,11 +12,18 @@ import OrderStatusBadge from "@/components/order/OrderStatusBadge";
 import { getMyOrdersRequest } from "@/api/orders";
 import { formatMoney } from "@/utils/money";
 import { formatDateTime } from "@/utils/date";
+import { onOrderUpdated } from "@/lib/liveUpdates";
 
 // /customer/orders: my orders, newest first, 20 a page [AC-CUST-09]
 const OrdersPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
+  const queryClient = useQueryClient();
+
+  // Live: when any of my orders changes, the badges here update by themselves [AC-RT-03]
+  useEffect(() => {
+    return onOrderUpdated(() => queryClient.invalidateQueries({ queryKey: ["orders"] }));
+  }, [queryClient]);
 
   const { data, isPending, error, refetch } = useQuery({
     queryKey: ["orders", { page }],
