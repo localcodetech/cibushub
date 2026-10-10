@@ -24,6 +24,7 @@ import adminRiderRoutes from "./routes/admin/rider.routes.js";
 import riderStatusRoutes from "./routes/rider/status.routes.js";
 import riderOfferRoutes from "./routes/rider/offer.routes.js";
 import riderDeliveryRoutes from "./routes/rider/delivery.routes.js";
+import riderEarningsRoutes from "./routes/rider/earnings.routes.js";
 import customerAddressRoutes from "./routes/customer/address.routes.js";
 import customerMapsRoutes from "./routes/customer/maps.routes.js";
 import customerCheckoutRoutes from "./routes/customer/checkout.routes.js";
@@ -188,9 +189,14 @@ app.use("/api/v1/rider/status", riderStatusRoutes);
 app.use("/api/v1/rider/offers", riderOfferRoutes);
 
 // ─────────────────────────────────────────────
-// My delivery: give it back before pickup (pickup and drop-off come next)
+// My delivery: pickup, drop-off, code, unreachable, give it back before pickup
 // ─────────────────────────────────────────────
 app.use("/api/v1/rider/deliveries", riderDeliveryRoutes);
+
+// ─────────────────────────────────────────────
+// My earnings: completed deliveries per day, week, month
+// ─────────────────────────────────────────────
+app.use("/api/v1/rider/earnings", riderEarningsRoutes);
 
 // ─────────────────────────────────────────────
 // Every admin route: must be logged in as an active admin or super admin

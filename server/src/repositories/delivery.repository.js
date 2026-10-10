@@ -1,5 +1,5 @@
-import { Op } from "sequelize";
-import { Delivery, DeliveryOffer } from "../models/index.js";
+import { Op, fn, col } from "sequelize";
+import { Delivery, DeliveryOffer, Order, Restaurant } from "../models/index.js";
 import { ACTIVE_DELIVERY_STATUSES } from "../models/delivery/delivery.model.js";
 
 export const findDeliveryById = (deliveryId, transaction) => {
@@ -146,4 +146,47 @@ export const recordAcceptedOffer = async (
     },
     { transaction },
   );
+};
+
+// A rider's delivered orders in a time range, newest first [AC-RIDER-07].
+// Only what the earnings list needs: no customer name, phone or exact address.
+export const findDeliveredForRider = ({ riderProfileId, from, to, limit, offset }) => {
+  return Delivery.findAndCountAll({
+    where: { riderProfileId, status: "DELIVERED", deliveredAt: { [Op.gte]: from, [Op.lt]: to } },
+    attributes: ["id", "pickedUpAt", "deliveredAt"],
+    include: [
+      {
+        model: Order.scope("withEarnings"),
+        as: "order",
+        attributes: [
+          "id",
+          "orderNumber",
+          "deliveryArea",
+          "deliveryDistanceMeters",
+          "riderEarningsPesewas",
+        ],
+        include: [{ model: Restaurant, as: "restaurant", attributes: ["name", "area"] }],
+      },
+    ],
+    order: [["deliveredAt", "DESC"]],
+    limit,
+    offset,
+  });
+};
+
+// How many, and how much, for the same range (all pages together)
+export const sumRiderEarnings = async ({ riderProfileId, from, to }) => {
+  const totals = await Delivery.findOne({
+    where: { riderProfileId, status: "DELIVERED", deliveredAt: { [Op.gte]: from, [Op.lt]: to } },
+    attributes: [
+      [fn("COUNT", col("Delivery.id")), "deliveryCount"],
+      [fn("SUM", col("order.rider_earnings_pesewas")), "earningsPesewas"],
+    ],
+    include: [{ model: Order.unscoped(), as: "order", attributes: [] }],
+    raw: true,
+  });
+  return {
+    deliveryCount: Number(totals.deliveryCount || 0),
+    earningsPesewas: Number(totals.earningsPesewas || 0),
+  };
 };

@@ -76,6 +76,7 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | `GET /rider/offers/current`, `POST /rider/offers/:id/accept`, `/decline` | — | — | — | 🔒 | — | — | authenticate, authorize, requireActive; own offers only (404 otherwise); accept locks rider, delivery, offer, order in that order |
 | `GET /rider/deliveries/current` | — | — | — | 🔒 | — | — | authenticate, authorize, requireActive; own delivery only; customer name, pin and phone only after pickup |
 | `POST /rider/deliveries/current/pickup`, `/complete`, `/call`, `/unreachable` | — | — | — | 🔒 | — | — | authenticate, authorize, requireActive, validate; own delivery; locks rider, delivery, order |
+| `GET /rider/earnings` | — | — | — | 🔒 | — | — | authenticate, authorize, requireActive, validate; own delivered orders only, no customer details |
 | `POST /rider/deliveries/current/unassign` | — | — | — | 🔒 | — | — | authenticate, authorize, requireActive, validate; own delivery, before pickup |
 | `GET`, `POST /customer/addresses` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate |
 | `PATCH`, `DELETE /customer/addresses/:id` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate |
