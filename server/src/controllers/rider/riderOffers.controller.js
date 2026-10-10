@@ -1,4 +1,8 @@
-import { declineOffer, getMyPendingOffer } from "../../services/delivery/assignment.service.js";
+import {
+  acceptOffer,
+  declineOffer,
+  getMyPendingOffer,
+} from "../../services/delivery/assignment.service.js";
 import { sendSuccess } from "../../utils/response.js";
 
 export const getCurrentOffer = async (req, res) => {
@@ -11,4 +15,10 @@ export const decline = async (req, res) => {
   await declineOffer(req.user.id, req.params.offerId);
 
   return sendSuccess(res, { declined: true });
+};
+
+export const accept = async (req, res) => {
+  const assigned = await acceptOffer(req.user.id, req.params.offerId);
+
+  return sendSuccess(res, assigned);
 };

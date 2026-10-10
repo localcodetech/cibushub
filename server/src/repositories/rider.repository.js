@@ -12,6 +12,11 @@ export const findRiderProfileByUserId = (userId, transaction) => {
   return RiderProfile.findOne({ where: { userId }, transaction });
 };
 
+// The rider's own row, locked: one accept at a time per rider [AC-RIDER-06]
+export const lockRiderProfileByUserId = (userId, transaction) => {
+  return RiderProfile.findOne({ where: { userId }, transaction, lock: transaction.LOCK.UPDATE });
+};
+
 export const createRiderProfile = (data) => {
   return RiderProfile.create(data);
 };

@@ -9,10 +9,13 @@ import {
   findDeliveryById,
   findDeliveryByOrderId,
   findDeliveryForUpdate,
+  findActiveDeliveryForRider,
   findOfferForUpdate,
+  findOfferById,
   findOfferedRiderIds,
   findPendingOfferForDelivery,
   findPendingOfferForRider,
+  findPendingOffersOfRider,
   findRidersOnDeliveries,
   findRidersWithPendingOffers,
   findSearchingDeliveries,
@@ -23,7 +26,11 @@ import {
 import {
   findAvailableRiderProfiles,
   findRiderProfileByUserId,
+  lockRiderProfileByUserId,
 } from "../../repositories/rider.repository.js";
+import { lockOrder } from "../../repositories/order.repository.js";
+import { retryOnDeadlock } from "../../utils/database/retryOnDeadlock.js";
+import { moveOrderToRiderAssignedIfReady } from "./riderAssigned.service.js";
 import { findOnlineRidersNear, getLastSeen } from "../rider/riderLocationStore.js";
 import { scheduleDeliverySearch, scheduleOfferExpiry } from "../../jobs/enqueue.js";
 import { emitToUser } from "../../sockets/emitToUser.js";
@@ -201,6 +208,70 @@ export const declineOffer = async (userId, offerId, now = new Date()) => {
   });
 
   await scheduleDeliverySearch(offer.deliveryId);
+};
+
+// "Accept" [AC-ASSIGN-05]: exactly one rider gets a delivery, even if several tap at once.
+// Rows are always locked in the same order (rider, delivery, offer, order), so two accepts,
+// or an accept and the restaurant's "Ready", wait for each other instead of deadlocking.
+export const acceptOffer = async (userId, offerId, now = new Date()) => {
+  const result = await retryOnDeadlock(() =>
+    sequelize.transaction(async (transaction) => {
+      // 1. The rider: one accept at a time per rider [AC-RIDER-06]
+      const profile = await lockRiderProfileByUserId(userId, transaction);
+      const unlockedOffer = await findOfferById(offerId, transaction);
+      if (!profile || !unlockedOffer || unlockedOffer.riderProfileId !== profile.id) {
+        throw new AppError(404, "NOT_FOUND", "Offer not found");
+      }
+      if (profile.status !== "APPROVED" || !profile.isOnline) {
+        throw new AppError(409, "RIDER_NOT_AVAILABLE", "Go online to accept deliveries");
+      }
+      if (await findActiveDeliveryForRider(profile.id, transaction)) {
+        throw new AppError(409, "RIDER_BUSY", "Finish your current delivery first");
+      }
+
+      // 2. The delivery: whoever locks it first wins; the others find it taken
+      const delivery = await findDeliveryForUpdate(unlockedOffer.deliveryId, transaction);
+      if (delivery.status !== "SEARCHING") {
+        throw new AppError(409, "DELIVERY_TAKEN", "This delivery has already been taken");
+      }
+
+      // 3. The offer: still open?
+      const offer = await findOfferForUpdate(offerId, transaction);
+      if (offer.outcome !== "PENDING" || offer.expiresAt <= now) {
+        throw new AppError(409, "OFFER_CLOSED", "This offer is no longer open");
+      }
+
+      await updateOffer(offer, { outcome: "ACCEPTED", respondedAt: now }, transaction);
+      await updateDelivery(
+        delivery,
+        { status: "ASSIGNED", riderProfileId: profile.id, assignedAt: now },
+        transaction,
+      );
+      // Nobody else needs to answer for this delivery any more
+      await supersedePendingOffers(delivery.id, now, transaction);
+
+      // This rider's other waiting offers close too; those deliveries look again
+      const otherOffers = await findPendingOffersOfRider(profile.id, transaction);
+      for (const other of otherOffers) {
+        await updateOffer(other, { outcome: "SUPERSEDED", respondedAt: now }, transaction);
+      }
+
+      // 4. The order: if the food is already ready, the rider is assigned now (ADR 003)
+      const order = await lockOrder(delivery.orderId, transaction);
+      await moveOrderToRiderAssignedIfReady(order, delivery, transaction);
+
+      return {
+        deliveryId: delivery.id,
+        orderId: order.id,
+        reopenDeliveryIds: otherOffers.map((other) => other.deliveryId),
+      };
+    }),
+  );
+
+  for (const deliveryId of result.reopenDeliveryIds) {
+    await scheduleDeliverySearch(deliveryId);
+  }
+  return { deliveryId: result.deliveryId, orderId: result.orderId };
 };
 
 // The offer waiting for this rider, if any (the app asks after it reconnects)

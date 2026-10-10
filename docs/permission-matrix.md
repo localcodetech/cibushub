@@ -71,7 +71,7 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | `POST /rider/application/submit` | — | — | — | 🔒⏳ | — | — | authenticate, authorize, requireVerifiedPhone |
 | `GET /rider/status`, `POST /rider/status/online`, `/offline` | — | — | — | 🔒 | — | — | authenticate, authorize, requireActive, validate; approved riders only |
 | socket `rider:location` | — | — | — | 🔒 | — | — | handshake cookie; online riders only; 1 per 3 s, range and speed checked |
-| `GET /rider/offers/current`, `POST /rider/offers/:id/decline` | — | — | — | 🔒 | — | — | authenticate, authorize, requireActive; own offers only (404 otherwise) |
+| `GET /rider/offers/current`, `POST /rider/offers/:id/accept`, `/decline` | — | — | — | 🔒 | — | — | authenticate, authorize, requireActive; own offers only (404 otherwise); accept locks rider, delivery, offer, order in that order |
 | `GET`, `POST /customer/addresses` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate |
 | `PATCH`, `DELETE /customer/addresses/:id` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate |
 | `POST /customer/checkout/quote` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate |

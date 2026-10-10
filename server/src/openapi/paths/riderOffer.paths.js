@@ -28,6 +28,28 @@ export const riderOfferPaths = {
       responses: { 200: successResponse("The open offer, or null", exampleOffer) },
     },
   },
+  "/api/v1/rider/offers/{offerId}/accept": {
+    post: {
+      tags,
+      summary: "Accept an offer",
+      description:
+        "Exactly one rider wins a delivery, even if several accept at once. My other waiting offers close. If the food is already ready, the order becomes RIDER_ASSIGNED now; otherwise when the restaurant marks it ready.",
+      security: loggedIn,
+      parameters: [pathParameter("offerId", "One of my offers")],
+      responses: {
+        200: successResponse("The delivery is mine", {
+          deliveryId: exampleOffer.deliveryId,
+          orderId: "0f1e2d3c-4b5a-4968-8776-655443322110",
+        }),
+        404: errorResponse("Not my offer", "NOT_FOUND", "Offer not found"),
+        409: errorResponse(
+          "Taken by another rider (also OFFER_CLOSED, RIDER_BUSY, RIDER_NOT_AVAILABLE)",
+          "DELIVERY_TAKEN",
+          "This delivery has already been taken",
+        ),
+      },
+    },
+  },
   "/api/v1/rider/offers/{offerId}/decline": {
     post: {
       tags,

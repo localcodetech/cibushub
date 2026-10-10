@@ -3,6 +3,8 @@ import AppError from "../../utils/AppError.js";
 import { retryOnDeadlock } from "../../utils/database/retryOnDeadlock.js";
 import { scheduleDeliverySearch } from "../../jobs/enqueue.js";
 import { openDelivery } from "../delivery/assignment.service.js";
+import { moveOrderToRiderAssignedIfReady } from "../delivery/riderAssigned.service.js";
+import { findDeliveryForOrderForUpdate } from "../../repositories/delivery.repository.js";
 import { buildPageMeta, toLimitAndOffset } from "../../utils/pagination.js";
 import { nextStatusesFor } from "../../utils/order/orderStateMachine.js";
 import { changeOrderStatus } from "./changeOrderStatus.service.js";
@@ -116,7 +118,7 @@ export const getOwnerOrder = async (ownerId, orderId) => {
 const moveOrder = async (ownerId, orderId, toStatus, extra = {}) => {
   const restaurantIds = idsOf(await getOwnedRestaurants(ownerId));
 
-  await changeOrderStatus({
+  return changeOrderStatus({
     orderId,
     toStatus,
     actor: { userId: ownerId, role: "RESTAURANT_OWNER" },
@@ -173,8 +175,18 @@ export const startPreparing = async (ownerId, orderId) => {
   return getOwnerOrder(ownerId, orderId);
 };
 
+// If a rider already accepted, the order goes straight on to RIDER_ASSIGNED (ADR 003).
+// The delivery is locked before the order, the same order the rider's "Accept" uses.
 export const markReady = async (ownerId, orderId) => {
-  await moveOrder(ownerId, orderId, "READY_FOR_PICKUP");
+  await retryOnDeadlock(() =>
+    sequelize.transaction(async (transaction) => {
+      const delivery = await findDeliveryForOrderForUpdate(orderId, transaction);
+      const order = await moveOrder(ownerId, orderId, "READY_FOR_PICKUP", { transaction });
+      if (delivery) {
+        await moveOrderToRiderAssignedIfReady(order, delivery, transaction);
+      }
+    }),
+  );
   return getOwnerOrder(ownerId, orderId);
 };
 

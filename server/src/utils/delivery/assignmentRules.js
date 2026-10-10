@@ -4,7 +4,7 @@
 export const ASSIGNMENT_RULES = {
   // First search around the restaurant, then once more, wider
   searchRadiusKm: 5,
-  
+
   widenedRadiusKm: 10,
 
   // Each rider has this long to answer an offer

@@ -29,6 +29,8 @@ Delivery facts get their own tables, and the order status stays exactly as AC-OR
 
 **Never twice:** a unique index on `(delivery_id, rider_profile_id)` means a rider who declined, or let an offer expire, is never asked again for the same delivery (AC-ASSIGN-04).
 
+**Locking (AC-ASSIGN-05):** "Accept" locks the rider's row, then the delivery, then the offer, then the order. "Ready for pickup" locks the delivery, then the order. Because every path takes locks in the same order, two riders tapping at once simply queue: the second finds the delivery `ASSIGNED` and gets `409 DELIVERY_TAKEN`. Accepting also closes the rider's other waiting offers (`SUPERSEDED`), and those deliveries search again.
+
 ## Consequences
 
 - The customer and restaurant still see the statuses from AC-ORD-01. The rider's screens read the delivery.

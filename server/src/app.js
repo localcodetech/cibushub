@@ -182,7 +182,7 @@ app.use("/api/v1/rider/application", riderApplicationRoutes);
 app.use("/api/v1/rider/status", riderStatusRoutes);
 
 // ─────────────────────────────────────────────
-// Delivery offers: the one waiting for me, decline (accepting comes with deliveries)
+// Delivery offers: the one waiting for me, accept, decline
 // ─────────────────────────────────────────────
 app.use("/api/v1/rider/offers", riderOfferRoutes);
 

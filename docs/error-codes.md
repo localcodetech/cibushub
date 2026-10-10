@@ -53,6 +53,9 @@ Add a row here in the same commit that introduces a new code.
 | `DETAILS_REQUIRED` | 409 | Uploading a rider document before saving the vehicle and Ghana Card details | AC-RIDER-01 |
 | `GHANA_CARD_TAKEN` | 409 | The Ghana Card number is already on another rider's application (one card, one rider) | AC-RIDER-01 |
 | `OFFER_CLOSED` | 409 | Answering a delivery offer that expired, was declined or was taken by another rider | AC-ASSIGN-04, AC-ASSIGN-05 |
+| `DELIVERY_TAKEN` | 409 | Accepting a delivery another rider already took ("This delivery has already been taken") | AC-ASSIGN-05 |
+| `RIDER_BUSY` | 409 | Accepting a delivery while already carrying one | AC-RIDER-06 |
+| `RIDER_NOT_AVAILABLE` | 409 | Accepting an offer while offline or no longer approved | AC-RIDER-03 |
 | `RIDER_NOT_APPROVED` | 403 | Going online without an approved rider application | AC-RIDER-02, AC-RIDER-03 |
 | `APPLICATION_LOCKED` | 409 | Changing a rider application while it is under review or after approval | AC-RIDER-01 |
 | `APPLICATION_INCOMPLETE` | 400 | Submitting a rider application with something missing; `details` lists each (`PHOTO`, `GHANA_CARD`, `DRIVERS_LICENCE`, `DETAILS`) | AC-RIDER-01 |

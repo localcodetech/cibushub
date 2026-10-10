@@ -10,6 +10,11 @@ export const findDeliveryByOrderId = (orderId, transaction) => {
   return Delivery.findOne({ where: { orderId }, transaction });
 };
 
+// An order's delivery, locked (the restaurant marking the food ready)
+export const findDeliveryForOrderForUpdate = (orderId, transaction) => {
+  return Delivery.findOne({ where: { orderId }, transaction, lock: transaction.LOCK.UPDATE });
+};
+
 // One delivery, locked for the rest of the transaction (accepting, picking up, completing)
 export const findDeliveryForUpdate = (deliveryId, transaction) => {
   return Delivery.findByPk(deliveryId, { transaction, lock: transaction.LOCK.UPDATE });
@@ -105,4 +110,13 @@ export const findSearchingDeliveries = (limit) => {
     order: [["searchStartedAt", "ASC"]],
     limit,
   });
+};
+
+export const findOfferById = (offerId, transaction) => {
+  return DeliveryOffer.findByPk(offerId, { transaction });
+};
+
+// This rider's other waiting offers (closed when they accept one)
+export const findPendingOffersOfRider = (riderProfileId, transaction) => {
+  return DeliveryOffer.findAll({ where: { riderProfileId, outcome: "PENDING" }, transaction });
 };
