@@ -71,3 +71,11 @@ export const findRiderProfilesForAdmin = ({ status, limit, offset }) => {
 export const findOnlineRiderProfiles = () => {
   return RiderProfile.findAll({ where: { isOnline: true } });
 };
+
+// Approved, online riders among these ids (with their account, for messages)
+export const findAvailableRiderProfiles = (ids, transaction) => {
+  return RiderProfile.findAll({
+    where: { id: { [Op.in]: ids }, status: "APPROVED", isOnline: true },
+    transaction,
+  });
+};

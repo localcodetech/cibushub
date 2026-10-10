@@ -58,3 +58,32 @@ export const scheduleRestaurantTimeout = async (orderId) => {
     );
   }
 };
+
+// Look for a rider for this delivery now [AC-ASSIGN-01].
+// If Redis is down, the every-minute assignment sweep picks the delivery up instead.
+export const scheduleDeliverySearch = async (deliveryId) => {
+  try {
+    await getQueue(QUEUE_NAMES.assignment).add("offerDelivery", { deliveryId });
+  } catch (error) {
+    logger.error(
+      { err: error, deliveryId },
+      "Could not schedule the rider search; the assignment sweep will catch it",
+    );
+  }
+};
+
+// When an offer's 60 seconds are up, move on to the next rider [AC-ASSIGN-03, AC-ASSIGN-04]
+export const scheduleOfferExpiry = async (deliveryId, offerId, delayMs) => {
+  try {
+    await getQueue(QUEUE_NAMES.assignment).add(
+      "offerDelivery",
+      { deliveryId },
+      { delay: delayMs, jobId: `offer-expiry-${offerId}` },
+    );
+  } catch (error) {
+    logger.error(
+      { err: error, deliveryId, offerId },
+      "Could not schedule the offer expiry; the assignment sweep will catch it",
+    );
+  }
+};

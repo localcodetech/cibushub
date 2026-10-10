@@ -2,6 +2,10 @@ import { Op } from "sequelize";
 import { Delivery, DeliveryOffer } from "../models/index.js";
 import { ACTIVE_DELIVERY_STATUSES } from "../models/delivery/delivery.model.js";
 
+export const findDeliveryById = (deliveryId, transaction) => {
+  return Delivery.findByPk(deliveryId, { transaction });
+};
+
 export const findDeliveryByOrderId = (orderId, transaction) => {
   return Delivery.findOne({ where: { orderId }, transaction });
 };
@@ -39,4 +43,66 @@ export const findOfferedRiderIds = async (deliveryId, transaction) => {
     transaction,
   });
   return offers.map((offer) => offer.riderProfileId);
+};
+
+// The offer still waiting for an answer on this delivery, or null
+export const findPendingOfferForDelivery = (deliveryId, transaction) => {
+  return DeliveryOffer.findOne({ where: { deliveryId, outcome: "PENDING" }, transaction });
+};
+
+// Riders among these who are waiting to answer some offer right now
+export const findRidersWithPendingOffers = async (riderProfileIds, transaction) => {
+  const offers = await DeliveryOffer.findAll({
+    where: { riderProfileId: { [Op.in]: riderProfileIds }, outcome: "PENDING" },
+    attributes: ["riderProfileId"],
+    transaction,
+  });
+  return offers.map((offer) => offer.riderProfileId);
+};
+
+// Riders among these who are carrying a delivery right now [AC-RIDER-06]
+export const findRidersOnDeliveries = async (riderProfileIds, transaction) => {
+  const deliveries = await Delivery.findAll({
+    where: {
+      riderProfileId: { [Op.in]: riderProfileIds },
+      status: { [Op.in]: ACTIVE_DELIVERY_STATUSES },
+    },
+    attributes: ["riderProfileId"],
+    transaction,
+  });
+  return deliveries.map((delivery) => delivery.riderProfileId);
+};
+
+// A rider's offer, with its delivery, locked (answering it)
+export const findOfferForUpdate = (offerId, transaction) => {
+  return DeliveryOffer.findByPk(offerId, { transaction, lock: transaction.LOCK.UPDATE });
+};
+
+// The offer a rider is looking at right now, if any (the app asks after reconnecting)
+export const findPendingOfferForRider = (riderProfileId) => {
+  return DeliveryOffer.findOne({
+    where: { riderProfileId, outcome: "PENDING" },
+    order: [["offeredAt", "DESC"]],
+  });
+};
+
+export const updateOffer = (offer, changes, transaction) => {
+  return offer.update(changes, { transaction });
+};
+
+// Every offer still waiting on this delivery becomes SUPERSEDED (taken, or cancelled)
+export const supersedePendingOffers = (deliveryId, now, transaction) => {
+  return DeliveryOffer.update(
+    { outcome: "SUPERSEDED", respondedAt: now },
+    { where: { deliveryId, outcome: "PENDING" }, transaction },
+  );
+};
+
+// Deliveries still looking for a rider, oldest first (the assignment sweep)
+export const findSearchingDeliveries = (limit) => {
+  return Delivery.findAll({
+    where: { status: "SEARCHING" },
+    order: [["searchStartedAt", "ASC"]],
+    limit,
+  });
 };

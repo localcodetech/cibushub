@@ -1,4 +1,8 @@
+import sequelize from "../../config/database.js";
 import AppError from "../../utils/AppError.js";
+import { retryOnDeadlock } from "../../utils/database/retryOnDeadlock.js";
+import { scheduleDeliverySearch } from "../../jobs/enqueue.js";
+import { openDelivery } from "../delivery/assignment.service.js";
 import { buildPageMeta, toLimitAndOffset } from "../../utils/pagination.js";
 import { nextStatusesFor } from "../../utils/order/orderStateMachine.js";
 import { changeOrderStatus } from "./changeOrderStatus.service.js";
@@ -136,7 +140,16 @@ export const acceptOrder = async (ownerId, orderId, prepTimeMinutes) => {
   const minutes = prepTimeMinutes ?? restaurant.prepTimeMinutes;
   const estimatedReadyAt = new Date(Date.now() + minutes * 60 * 1000);
 
-  await moveOrder(ownerId, orderId, "ACCEPTED", { changes: { estimatedReadyAt } });
+  // Accepting and opening the delivery happen together: an accepted order always has one
+  const delivery = await retryOnDeadlock(() =>
+    sequelize.transaction(async (transaction) => {
+      await moveOrder(ownerId, orderId, "ACCEPTED", { changes: { estimatedReadyAt }, transaction });
+      return openDelivery(orderId, new Date(), transaction);
+    }),
+  );
+
+  // Riders can head over while the food cooks [AC-ASSIGN-01, ADR 003]
+  await scheduleDeliverySearch(delivery.id);
   return getOwnerOrder(ownerId, orderId);
 };
 

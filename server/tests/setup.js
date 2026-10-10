@@ -35,6 +35,12 @@ vi.mock("../src/jobs/enqueue.js", async () => {
     scheduleRefund: async (refundId) => {
       list.push({ name: "processRefund", refundId });
     },
+    scheduleDeliverySearch: async (deliveryId) => {
+      list.push({ name: "offerDelivery", deliveryId });
+    },
+    scheduleOfferExpiry: async (deliveryId, offerId, delayMs) => {
+      list.push({ name: "offerDelivery", deliveryId, offerId, delayMs });
+    },
   };
 });
 

@@ -64,3 +64,20 @@ export const getLastSeen = async (riderId) => {
   const score = await redis.zscore(LAST_SEEN, riderId);
   return score === null ? null : Number(score);
 };
+
+// Online riders within radiusKm of a point, nearest first: [{ riderId, metres }] [AC-ASSIGN-02]
+export const findOnlineRidersNear = async (point, radiusKm) => {
+  const found = await redis.geosearch(
+    ONLINE_GEO,
+    "FROMLONLAT",
+    point.longitude,
+    point.latitude,
+    "BYRADIUS",
+    radiusKm,
+    "km",
+    "ASC",
+    "WITHDIST",
+  );
+  // Redis answers [["riderId", "1234.5678"], ...], distances in the unit asked for (km)
+  return found.map(([riderId, km]) => ({ riderId, metres: Math.round(Number(km) * 1000) }));
+};

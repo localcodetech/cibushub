@@ -10,11 +10,12 @@ import { createOwner, createTestRestaurant } from "./restaurants.js";
 // A paid order, ready for the kitchen: owner, approved restaurant (Adum), customer and address.
 // Place it while the restaurant is open: fake the clock to e.g. Saturday 12:00 Accra first.
 // Marked PAID straight away (no Paystack payment), so nothing here ever triggers a refund.
-export const createPaidOrder = async () => {
+// For a second, independent order in the same test, pass a different number: createPaidOrder(2)
+export const createPaidOrder = async (number = 1) => {
   const owner = await createOwner({
     status: "ACTIVE",
-    email: "owner@example.com",
-    phone: "+233201112222",
+    email: `owner${number}@example.com`,
+    phone: `+23320111222${number}`,
   });
   const restaurant = await createTestRestaurant(owner, { status: "APPROVED" });
   const category = await MenuCategory.create({ restaurantId: restaurant.id, name: "Rice" });
@@ -26,8 +27,8 @@ export const createPaidOrder = async () => {
   });
   const customer = await createTestUser({
     fullName: "Ama Owusu",
-    email: "ama@example.com",
-    phone: "+233551234567",
+    email: `ama${number}@example.com`,
+    phone: `+23355123456${number}`,
   });
   // About 2 km from the restaurant
   const address = await Address.create({

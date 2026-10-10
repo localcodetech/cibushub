@@ -20,9 +20,11 @@ Work that must happen later or on a timer runs in a separate **worker** process 
 | `reconcilePayments` | payments | every 10 minutes | Verifies payments still PENDING after 10 min with Paystack (missed webhooks) |
 | `processRefund` | payments | right after a refund is asked for | Moves one refund a step: send to Paystack, or check if it finished |
 | `processPendingRefunds` | payments | every 5 minutes | Moves every PENDING refund a step (also catches lost `processRefund` jobs) |
-| `rejectUnansweredOrder` | maintenance | 5 min after an order is paid (delayed) | If the restaurant still hasn't answered, rejects with reason `RESTAURANT_TIMEOUT` and refunds in full, in one transaction |
+| `rejectUnansweredOrder` | payments | 5 min after an order is paid (delayed) | If the restaurant still hasn't answered, rejects with reason `RESTAURANT_TIMEOUT` and refunds in full, in one transaction |
 | `sweepUnansweredOrders` | maintenance | every minute | Safety net: rejects PAID orders unanswered for over 5 minutes even if their delayed job was lost |
 | `sweepStaleRiders` | maintenance | every minute | Takes online riders with no location for 5 minutes offline and tells their app (`rider:status`) |
+| `offerDelivery` | assignment | when the restaurant accepts, after a decline, and 60.5 s after each offer (delayed) | One search step: expires a stale offer, offers the nearest eligible rider within 5 km (once widened to 10 km), or alerts admins and the customer after 10 minutes without a rider |
+| `sweepSearchingDeliveries` | assignment | every minute | Runs a search step for every delivery still looking for a rider: catches lost jobs and asks riders who came online since |
 | `cleanupExpiredTokens` | maintenance | daily 03:00 Accra | Deletes expired login sessions |
 
 ## Rules
