@@ -52,6 +52,7 @@ Add a row here in the same commit that introduces a new code.
 
 | `DETAILS_REQUIRED` | 409 | Uploading a rider document before saving the vehicle and Ghana Card details | AC-RIDER-01 |
 | `GHANA_CARD_TAKEN` | 409 | The Ghana Card number is already on another rider's application (one card, one rider) | AC-RIDER-01 |
+| `RIDER_NOT_APPROVED` | 403 | Going online without an approved rider application | AC-RIDER-02, AC-RIDER-03 |
 | `APPLICATION_LOCKED` | 409 | Changing a rider application while it is under review or after approval | AC-RIDER-01 |
 | `APPLICATION_INCOMPLETE` | 400 | Submitting a rider application with something missing; `details` lists each (`PHOTO`, `GHANA_CARD`, `DRIVERS_LICENCE`, `DETAILS`) | AC-RIDER-01 |
 | `FILE_REQUIRED` | 400 | An upload request arrived without a file in the expected form field | AC-IMG-01 |

@@ -9,6 +9,7 @@ import { verifyAccessToken } from "../utils/auth/tokens.js";
 import { findUserById } from "../repositories/user.repository.js";
 import { findRestaurantsByOwner } from "../repositories/restaurant.repository.js";
 import { findOrderById } from "../repositories/order.repository.js";
+import { recordRiderLocation } from "../services/rider/riderPresence.service.js";
 import { ADMINS_ROOM, orderRoom, restaurantRoom, userRoom } from "./rooms.js";
 
 // Live updates over Socket.IO [AC-RT-01, AC-RT-02].
@@ -104,6 +105,20 @@ const handleConnection = async (socket) => {
       socket.leave(orderRoom(orderId));
     }
   });
+
+  // A rider's phone sends its position every 5 to 10 seconds while online [AC-RT-04, AC-RT-05].
+  // The answer says whether it was kept: { ok: true } or { ok: false, reason }.
+  if (socket.data.user.role === "RIDER") {
+    socket.on("rider:location", async (point, reply) => {
+      const answer = typeof reply === "function" ? reply : () => {};
+      try {
+        answer(await recordRiderLocation(socket.data.user.id, point));
+      } catch (error) {
+        logger.error({ err: error, userId: socket.data.user.id }, "Rider location failed");
+        answer({ ok: false, reason: "ERROR" });
+      }
+    });
+  }
 
   await joinOwnRooms(socket);
 };

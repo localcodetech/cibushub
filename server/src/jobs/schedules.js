@@ -16,6 +16,12 @@ const SCHEDULES = [
     repeat: { every: 60 * 1000 }, // every minute [AC-RORD-04]
   },
   {
+    id: "sweep-stale-riders",
+    queue: QUEUE_NAMES.maintenance,
+    name: "sweepStaleRiders",
+    repeat: { every: 60 * 1000 }, // every minute [AC-RIDER-05]
+  },
+  {
     id: "reconcile-payments",
     queue: QUEUE_NAMES.payments,
     name: "reconcilePayments",

@@ -41,6 +41,16 @@ const RiderProfile = sequelize.define(
       allowNull: false,
       defaultValue: "DRAFT",
     },
+    // "Send me delivery offers" [AC-RIDER-03]; the live position itself is in Redis
+    isOnline: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
+    wentOnlineAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
     rejectionReason: {
       type: DataTypes.STRING(500),
       allowNull: true,

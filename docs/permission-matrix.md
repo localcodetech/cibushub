@@ -69,6 +69,8 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | `GET`, `PUT /rider/application` | — | — | — | 🔒⏳ | — | — | authenticate, authorize, requireVerifiedPhone, validate |
 | `PUT /rider/application/photo`, `/documents/:type` | — | — | — | 🔒⏳ | — | — | authenticate, authorize, requireVerifiedPhone, upload |
 | `POST /rider/application/submit` | — | — | — | 🔒⏳ | — | — | authenticate, authorize, requireVerifiedPhone |
+| `GET /rider/status`, `POST /rider/status/online`, `/offline` | — | — | — | 🔒 | — | — | authenticate, authorize, requireActive, validate; approved riders only |
+| socket `rider:location` | — | — | — | 🔒 | — | — | handshake cookie; online riders only; 1 per 3 s, range and speed checked |
 | `GET`, `POST /customer/addresses` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate |
 | `PATCH`, `DELETE /customer/addresses/:id` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate |
 | `POST /customer/checkout/quote` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate |

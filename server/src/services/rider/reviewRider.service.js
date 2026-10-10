@@ -2,6 +2,7 @@ import sequelize from "../../config/database.js";
 import AppError from "../../utils/AppError.js";
 import { buildPageMeta, toLimitAndOffset } from "../../utils/pagination.js";
 import { signedDocumentUrl } from "../upload/cloudinary.service.js";
+import { forgetRider } from "./riderLocationStore.js";
 import { updateUser } from "../../repositories/user.repository.js";
 import { saveAuditLog } from "../../repositories/auditLog.repository.js";
 import {
@@ -143,9 +144,16 @@ export const rejectRider = async (riderId, reason, admin) => {
   return getRiderForAdmin(riderId);
 };
 
-// Suspend an approved rider: no more offers until reinstated
+// Suspend an approved rider: taken offline at once, no more offers until reinstated
 export const suspendRider = async (riderId, reason, admin) => {
-  const profile = await changeRiderStatus({ riderId, newStatus: "SUSPENDED", admin, reason });
+  const profile = await changeRiderStatus({
+    riderId,
+    newStatus: "SUSPENDED",
+    admin,
+    reason,
+    changes: { isOnline: false, wentOnlineAt: null },
+  });
+  await forgetRider(profile.id);
 
   await notifyRiderSuspended(profile.user, reason);
   return getRiderForAdmin(riderId);

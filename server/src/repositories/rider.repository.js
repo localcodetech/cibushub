@@ -66,3 +66,8 @@ export const findRiderProfilesForAdmin = ({ status, limit, offset }) => {
     offset,
   });
 };
+
+// Every rider who is online right now (for the stale-rider sweep)
+export const findOnlineRiderProfiles = () => {
+  return RiderProfile.findAll({ where: { isOnline: true } });
+};

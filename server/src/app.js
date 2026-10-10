@@ -21,6 +21,7 @@ import adminRestaurantRoutes from "./routes/admin/restaurant.routes.js";
 import adminOrderRoutes from "./routes/admin/order.routes.js";
 import riderApplicationRoutes from "./routes/rider/application.routes.js";
 import adminRiderRoutes from "./routes/admin/rider.routes.js";
+import riderStatusRoutes from "./routes/rider/status.routes.js";
 import customerAddressRoutes from "./routes/customer/address.routes.js";
 import customerMapsRoutes from "./routes/customer/maps.routes.js";
 import customerCheckoutRoutes from "./routes/customer/checkout.routes.js";
@@ -173,6 +174,11 @@ app.use("/api/v1/rider", authenticate, authorize("RIDER"));
 // Rider application: vehicle, Ghana Card, photo, documents, submit for review
 // ─────────────────────────────────────────────
 app.use("/api/v1/rider/application", riderApplicationRoutes);
+
+// ─────────────────────────────────────────────
+// Rider online / offline (live location arrives over the socket)
+// ─────────────────────────────────────────────
+app.use("/api/v1/rider/status", riderStatusRoutes);
 
 // ─────────────────────────────────────────────
 // Every admin route: must be logged in as an active admin or super admin
