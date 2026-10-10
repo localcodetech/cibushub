@@ -34,6 +34,7 @@ const RiderProfile = sequelize.define(
     ghanaCardNumber: {
       type: DataTypes.STRING(20),
       allowNull: false,
+      unique: true,
     },
     status: {
       type: DataTypes.ENUM(...RIDER_STATUSES),

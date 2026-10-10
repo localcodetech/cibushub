@@ -8,6 +8,7 @@ import {
   createRiderProfile,
   findRiderDocumentByType,
   findRiderDocuments,
+  findRiderProfileByGhanaCard,
   findRiderProfileByUserId,
   updateRiderDocument,
   updateRiderProfile,
@@ -78,6 +79,26 @@ const assertEditable = (profile) => {
   }
 };
 
+const ghanaCardTaken = () =>
+  new AppError(
+    409,
+    "GHANA_CARD_TAKEN",
+    "This Ghana Card is already registered to another rider. Contact support if this is your card",
+  );
+
+// MySQL names the clashing index (rider_profiles_ghana_card_unique) or column in error.fields
+const isGhanaCardClash = (error) =>
+  error.name === "SequelizeUniqueConstraintError" &&
+  Object.keys(error.fields || {}).some((field) => field.includes("ghana_card"));
+
+// One Ghana Card, one rider. (The database's unique index catches two saves at the same moment.)
+const assertGhanaCardFree = async (ghanaCardNumber, userId) => {
+  const holder = await findRiderProfileByGhanaCard(ghanaCardNumber);
+  if (holder && holder.userId !== userId) {
+    throw ghanaCardTaken();
+  }
+};
+
 export const getMyRiderApplication = async (userId) => {
   const { user, profile, documents } = await loadApplication(userId);
   return toRiderView(profile, user, documents);
@@ -87,6 +108,7 @@ export const getMyRiderApplication = async (userId) => {
 export const saveRiderDetails = async (userId, details) => {
   const existing = await findRiderProfileByUserId(userId);
   assertEditable(existing);
+  await assertGhanaCardFree(details.ghanaCardNumber, userId);
 
   const changes = {
     vehicleType: details.vehicleType,
@@ -95,10 +117,18 @@ export const saveRiderDetails = async (userId, details) => {
     ghanaCardNumber: details.ghanaCardNumber,
   };
 
-  if (existing) {
-    await updateRiderProfile(existing, changes);
-  } else {
-    await createRiderProfile({ userId, ...changes });
+  try {
+    if (existing) {
+      await updateRiderProfile(existing, changes);
+    } else {
+      await createRiderProfile({ userId, ...changes });
+    }
+  } catch (error) {
+    // Only the Ghana Card clash gets this message; anything else is a real error
+    if (isGhanaCardClash(error)) {
+      throw ghanaCardTaken();
+    }
+    throw error;
   }
 
   return getMyRiderApplication(userId);

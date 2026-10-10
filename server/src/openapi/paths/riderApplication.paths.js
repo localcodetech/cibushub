@@ -53,7 +53,11 @@ export const riderApplicationPaths = {
       responses: {
         200: successResponse("Saved", exampleApplication),
         400: errorResponse("Invalid details", "VALIDATION_ERROR", "Enter the plate number"),
-        409: locked,
+        409: errorResponse(
+          "Locked, or the Ghana Card is on another rider's application",
+          "GHANA_CARD_TAKEN",
+          "This Ghana Card is already registered to another rider",
+        ),
       },
     },
   },

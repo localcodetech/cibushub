@@ -59,7 +59,16 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | `GET /admin/restaurants/:id/documents` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize |
 | `POST /admin/restaurants/:id/approve` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize; audit logged |
 | `POST /admin/restaurants/:id/reject`, `/suspend` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; audit logged |
+| `GET /admin/riders`, `GET /admin/riders/:id` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate (query) |
+| `GET /admin/riders/:id/documents` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize |
+| `POST /admin/riders/:id/approve` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize; audit logged |
+| `POST /admin/riders/:id/reject`, `/suspend` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; audit logged |
 | `POST /admin/orders/:id/cancel` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; refund choice; audit logged |
+| `GET /owner/orders`, `/history`, `/summary`, `/:id` | — | — | 🔒 | — | — | — | authenticate, authorize, requireActive, validate (query) |
+| `POST /owner/orders/:id/accept`, `/reject`, `/preparing`, `/ready` | — | — | 🔒 | — | — | — | authenticate, authorize, requireActive, validate; own restaurants only |
+| `GET`, `PUT /rider/application` | — | — | — | 🔒⏳ | — | — | authenticate, authorize, requireVerifiedPhone, validate |
+| `PUT /rider/application/photo`, `/documents/:type` | — | — | — | 🔒⏳ | — | — | authenticate, authorize, requireVerifiedPhone, upload |
+| `POST /rider/application/submit` | — | — | — | 🔒⏳ | — | — | authenticate, authorize, requireVerifiedPhone |
 | `GET`, `POST /customer/addresses` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate |
 | `PATCH`, `DELETE /customer/addresses/:id` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate |
 | `POST /customer/checkout/quote` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate |
@@ -77,6 +86,7 @@ Notes:
 - "Register" is guest-only in practice: an existing account gets `409 ACCOUNT_EXISTS`. Admin roles can never be registered ([AC-AUTH-06](../CibusHub_Acceptance_Criteria.md)); admins are created by a super admin.
 - `/me` and `change-password` work for unverified and pending accounts on purpose, so the app can show "verify your phone" or "waiting for approval" and the user can still secure their account.
 - Every feature added from Step 5 onward uses `authenticate, requireActive, authorize(...)` and gets a row here.
+- Rider application routes work the same way: a rider `PENDING_APPROVAL` fills in and submits their application; going online needs approval.
 - Owner onboarding routes use `requireVerifiedPhone` instead of `requireActive`, so an owner still `PENDING_APPROVAL` can submit, edit and upload documents. Running the business (menu, accepting orders) needs `requireActive`.
 - Another owner's restaurant, item or document returns `404 NOT_FOUND`, never `403`, so IDs cannot be probed ([AC-RBAC-04](../CibusHub_Acceptance_Criteria.md)).
 

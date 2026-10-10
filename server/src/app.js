@@ -20,6 +20,7 @@ import requireActive from "./middlewares/requireActive.js";
 import adminRestaurantRoutes from "./routes/admin/restaurant.routes.js";
 import adminOrderRoutes from "./routes/admin/order.routes.js";
 import riderApplicationRoutes from "./routes/rider/application.routes.js";
+import adminRiderRoutes from "./routes/admin/rider.routes.js";
 import customerAddressRoutes from "./routes/customer/address.routes.js";
 import customerMapsRoutes from "./routes/customer/maps.routes.js";
 import customerCheckoutRoutes from "./routes/customer/checkout.routes.js";
@@ -187,6 +188,11 @@ app.use("/api/v1/admin/restaurants", adminRestaurantRoutes);
 // Admin: cancel orders with a refund choice
 // ─────────────────────────────────────────────
 app.use("/api/v1/admin/orders", adminOrderRoutes);
+
+// ─────────────────────────────────────────────
+// Admin: review rider applications, approve, reject, suspend
+// ─────────────────────────────────────────────
+app.use("/api/v1/admin/riders", adminRiderRoutes);
 
 // ─────────────────────────────────────────────
 // Interactive API docs (turned off in production)
