@@ -23,6 +23,7 @@ import RiderProfile from "./rider/riderProfile.model.js";
 import RiderDocument from "./rider/riderDocument.model.js";
 import RiderLocation from "./rider/riderLocation.model.js";
 import NotificationLog from "./notification/notificationLog.model.js";
+import Notification from "./notification/notification.model.js";
 import Delivery from "./delivery/delivery.model.js";
 import DeliveryOffer from "./delivery/deliveryOffer.model.js";
 
@@ -146,6 +147,12 @@ RiderProfile.hasMany(RiderLocation, { foreignKey: "riderProfileId", as: "locatio
 RiderLocation.belongsTo(RiderProfile, { foreignKey: "riderProfileId", as: "riderProfile" });
 
 // ─────────────────────────────────────────────
+// A user has many in-app notifications
+// ─────────────────────────────────────────────
+User.hasMany(Notification, { foreignKey: "userId", as: "notifications" });
+Notification.belongsTo(User, { foreignKey: "userId", as: "user" });
+
+// ─────────────────────────────────────────────
 // An order has one delivery; a rider carries many over time.
 // Each delivery has the offers made to riders while searching.
 // ─────────────────────────────────────────────
@@ -159,6 +166,7 @@ RiderProfile.hasMany(DeliveryOffer, { foreignKey: "riderProfileId", as: "offers"
 DeliveryOffer.belongsTo(RiderProfile, { foreignKey: "riderProfileId", as: "rider" });
 
 export {
+  Notification,
   NotificationLog,
   User,
   Address,

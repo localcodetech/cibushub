@@ -31,6 +31,7 @@ import customerMapsRoutes from "./routes/customer/maps.routes.js";
 import customerCheckoutRoutes from "./routes/customer/checkout.routes.js";
 import customerOrderRoutes from "./routes/customer/order.routes.js";
 import profileRoutes from "./routes/profile.routes.js";
+import notificationRoutes from "./routes/notification.routes.js";
 import cartRoutes from "./routes/cart.routes.js";
 import webhookRoutes from "./routes/webhook.routes.js";
 import { globalLimiter } from "./middlewares/rateLimit/globalLimiter.js";
@@ -123,6 +124,12 @@ app.use("/api/v1/cart", cartRoutes);
 // My profile (any role): change name, upload photo
 // ─────────────────────────────────────────────
 app.use("/api/v1/profile", authenticate, requireActive, profileRoutes);
+
+// ─────────────────────────────────────────────
+// My in-app notifications (any role, even while waiting for approval:
+// a rider still needs to read "your application was not approved")
+// ─────────────────────────────────────────────
+app.use("/api/v1/notifications", authenticate, notificationRoutes);
 
 // ─────────────────────────────────────────────
 // Every customer route: must be logged in as an active customer

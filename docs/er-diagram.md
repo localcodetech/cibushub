@@ -9,6 +9,7 @@ erDiagram
     users ||--o{ oauth_accounts : "signs in with"
     users ||--o{ restaurants : "owns"
     users ||--o{ audit_logs : "acts (admin)"
+    users ||--o{ notifications : "reads"
     restaurants ||--o{ restaurant_opening_hours : "open on"
     restaurants ||--o{ restaurant_documents : "verified by"
     users ||--o| rider_profiles : "rides as"
@@ -179,6 +180,19 @@ erDiagram
         varchar provider_message_id
         varchar last_error
         datetime sent_at
+        datetime created_at
+        datetime updated_at
+    }
+
+    notifications {
+        bigint id PK
+        uuid user_id FK "users.id, ON DELETE CASCADE"
+        varchar type "e.g. order.accepted, rider.approved"
+        varchar title
+        varchar body
+        varchar link "where tapping it goes in the app"
+        varchar dedupe_key UK "e.g. order:<id>:status:ACCEPTED:in-app; shown once per event"
+        datetime read_at "empty = unread"
         datetime created_at
         datetime updated_at
     }

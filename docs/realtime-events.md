@@ -21,6 +21,8 @@ to join and the server checks (AC-RT-02).
 | `order:returning` | `restaurant:<id>` | The rider is bringing an order's food back | orderId, orderNumber |
 | `order:returned` | `restaurant:<id>` | The rider confirmed the food is back | orderId |
 | `rider:status` | `user:<rider>` | The server took the rider offline (no location for 5 minutes) | isOnline, reason |
+| `notification:new` | `user:<id>` | A new in-app notification was saved (AC-NOTIF-07) | notification, unreadCount |
+| `notification:unread` | `user:<id>` | Notifications were read on another screen | unreadCount |
 | `admin:alert` | `admins` | Something needs an admin (applications, flagged pickups, locked codes and codes still locked after 15 minutes, door problems, food returning, flagged returns, slow searches, emails/SMS that failed for good) | type and details |
 
 Sent by the phone:

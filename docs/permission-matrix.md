@@ -93,6 +93,7 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | `PATCH /profile` | — | 🔒 | 🔒 | 🔒 | 🔒 | 🔒 | authenticate, requireActive, validate |
 | `PUT /profile/avatar` | — | 🔒 | 🔒 | 🔒 | 🔒 | 🔒 | authenticate, requireActive, upload |
 | `POST /profile/phone`, `/phone/confirm`, `/email`, `/email/confirm` | — | 🔒 | 🔒 | 🔒 | 🔒 | 🔒 | authenticate, requireActive, validate, otpLimiter |
+| `GET /notifications`, `POST /notifications/:id/read`, `/read-all` | — | 🔒⏳ | 🔒⏳ | 🔒⏳ | 🔒 | 🔒 | authenticate, validate; only my own (someone else's is 404); open while waiting for approval |
 
 Notes:
 
