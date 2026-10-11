@@ -55,6 +55,7 @@ const AdminUsersPage = lazy(() => import("@/pages/admin/AdminUsersPage"));
 const AdminUserDetailPage = lazy(() => import("@/pages/admin/AdminUserDetailPage"));
 const AdminAuditLogPage = lazy(() => import("@/pages/admin/AdminAuditLogPage"));
 const AdminReviewsPage = lazy(() => import("@/pages/admin/AdminReviewsPage"));
+const SuperAdminAdminsPage = lazy(() => import("@/pages/admin/SuperAdminAdminsPage"));
 const AdminRiderMapPage = lazy(() => import("@/pages/admin/AdminRiderMapPage"));
 const AdminRiderDetailPage = lazy(() => import("@/pages/admin/AdminRiderDetailPage"));
 const NotificationsPage = lazy(() => import("@/pages/NotificationsPage"));
@@ -220,6 +221,15 @@ const router = createBrowserRouter([
               { path: "users/:userId", element: <AdminUserDetailPage /> },
               { path: "audit-log", element: <AdminAuditLogPage /> },
               { path: "reviews", element: <AdminReviewsPage /> },
+              {
+                // Super admins only, inside the admin area [AC-SADM-01]
+                path: "admins",
+                element: (
+                  <RequireRole allowedRoles={["SUPER_ADMIN"]}>
+                    <SuperAdminAdminsPage />
+                  </RequireRole>
+                ),
+              },
             ],
           },
 

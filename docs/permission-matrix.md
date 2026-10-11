@@ -70,6 +70,8 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | `GET /admin/users`, `GET /admin/users/:id` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate (query) |
 | `POST /admin/users/:id/suspend`, `/reactivate` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; reason required; not admin accounts; signs out everywhere; audit logged |
 | `GET /admin/audit-logs`, `GET /admin/audit-logs/actions` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate (query); read-only |
+| `GET /super-admin/admins`, `POST /super-admin/admins` | — | — | — | — | — | ✅ | authenticate, requireActive, authorize (SUPER_ADMIN), validate; creating audited |
+| `POST /super-admin/admins/:id/suspend`, `/reactivate`, `/remove`, `PATCH /super-admin/admins/:id/role` | — | — | — | — | — | ✅ | authenticate, requireActive, authorize (SUPER_ADMIN), validate; reason required; never own account; never the last active super admin; audited |
 | `GET /admin/notifications` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate (query); recipients masked, no message text |
 | `GET /admin/reviews`, `POST /admin/reviews/:id/hide`, `/show` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; reason required; audit logged |
 | `GET /admin/riders`, `GET /admin/riders/:id` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate (query) |
