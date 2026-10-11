@@ -53,6 +53,9 @@ Add a row here in the same commit that introduces a new code.
 | `REVIEW_ALREADY_HIDDEN` | 409 | Hiding a review that is already hidden | AC-REV-07 |
 | `REVIEW_NOT_HIDDEN` | 409 | Showing a review that isn't hidden | AC-REV-07 |
 | `REFUND_NOT_FAILED` | 409 | Retrying a refund that hasn't failed | AC-ADM-06 |
+| `ADMIN_ACCOUNT` | 403 | An admin trying to suspend or reactivate another admin (super admin only) | AC-ADM-02, AC-SADM-01 |
+| `ALREADY_SUSPENDED` | 409 | Suspending an account that is already suspended | AC-ADM-02 |
+| `NOT_SUSPENDED` | 409 | Reactivating an account that isn't suspended | AC-ADM-02 |
 | `TERMS_NOT_ACCEPTED` | 400 | Google / Apple sign-in would create a new account, but the Terms were not accepted (sign up first) | AC-AUTH-01 |
 | `INVALID_SOCIAL_TOKEN` | 401 | The Google / Apple ID token failed the signature, issuer, audience or expiry check | AC-AUTH-11 |
 | `SOCIAL_EMAIL_UNVERIFIED` | 400 | Google / Apple did not confirm the email, so it can't be linked or used for a new account | AC-AUTH-02 |

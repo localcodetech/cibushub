@@ -11,6 +11,7 @@ const ADMIN_LINKS = [
   { label: "Orders", to: "/admin/orders", end: false },
   { label: "Riders", to: "/admin/riders", end: false },
   { label: "Payments", to: "/admin/payments", end: false },
+  { label: "Users", to: "/admin/users", end: false },
 ];
 
 // The frame around every admin page: the admin menu on top, then the page.

@@ -197,3 +197,35 @@ export const retryRefundRequest = async (refundId, reason) => {
   const result = await api.post("/admin/refunds/" + refundId + "/retry", { reason });
   return result.data;
 };
+
+// ─────────────────────────────────────────────
+// Users [AC-ADM-02]
+// ─────────────────────────────────────────────
+
+// filters = { q (name, email or phone), role, status, page }. Returns { users, meta }.
+export const getAdminUsersRequest = async (filters) => {
+  const query = new URLSearchParams({ page: String(filters.page) });
+  for (const name of ["q", "role", "status"]) {
+    if (filters[name]) {
+      query.set(name, filters[name]);
+    }
+  }
+  const result = await api.get("/admin/users?" + query.toString());
+  return { users: result.data, meta: result.meta };
+};
+
+// One account, with its orders count, restaurants or rider application
+export const getAdminUserRequest = async (userId) => {
+  const result = await api.get("/admin/users/" + userId);
+  return result.data;
+};
+
+export const suspendUserRequest = async (userId, reason) => {
+  const result = await api.post("/admin/users/" + userId + "/suspend", { reason });
+  return result.data;
+};
+
+export const reactivateUserRequest = async (userId, reason) => {
+  const result = await api.post("/admin/users/" + userId + "/reactivate", { reason });
+  return result.data;
+};

@@ -279,6 +279,11 @@ export const findOrderForAdmin = (orderId) => {
   });
 };
 
+// How many orders a customer has placed (paid or later), for admins
+export const countCustomerOrders = (customerId) => {
+  return Order.count({ where: { customerId, status: { [Op.ne]: "PENDING_PAYMENT" } } });
+};
+
 // ─────────────────────────────────────────────
 // One restaurant's performance, for admins [AC-ADM-03]
 // ─────────────────────────────────────────────

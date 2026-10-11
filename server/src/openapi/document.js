@@ -25,6 +25,7 @@ import { ownerReviewPaths } from "./paths/ownerReview.paths.js";
 import { adminReviewPaths } from "./paths/adminReview.paths.js";
 import { adminDashboardPaths } from "./paths/adminDashboard.paths.js";
 import { adminPaymentPaths } from "./paths/adminPayment.paths.js";
+import { adminUserPaths } from "./paths/adminUser.paths.js";
 import { successResponse, errorResponse } from "./helpers.js";
 
 export const openApiDocument = {
@@ -96,5 +97,6 @@ export const openApiDocument = {
     ...adminReviewPaths,
     ...adminDashboardPaths,
     ...adminPaymentPaths,
+    ...adminUserPaths,
   },
 };
