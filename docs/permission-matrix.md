@@ -91,6 +91,7 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | `GET /customer/orders/:id/tracking` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize; own orders only (404 otherwise); 10 a minute; rider shown only while RIDER_ASSIGNED or PICKED_UP |
 | `POST /customer/orders/:id/cancel` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate; only before the restaurant accepts; full refund if paid |
 | `POST /customer/orders/:id/payments` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize; only while PENDING_PAYMENT |
+| `GET /customer/orders/:id/review`, `POST` and `PATCH` the same | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate; only my own delivered order, 7-day window, 24-hour edit |
 | `GET /customer/orders/:id/receipt` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize; only once paid |
 | `PATCH /profile` | — | 🔒 | 🔒 | 🔒 | 🔒 | 🔒 | authenticate, requireActive, validate |
 | `PATCH /profile/preferences` | — | 🔒 | 🔒 | 🔒 | 🔒 | 🔒 | authenticate, requireActive, validate; only offers and news can be switched off |

@@ -24,6 +24,7 @@ import RiderDocument from "./rider/riderDocument.model.js";
 import RiderLocation from "./rider/riderLocation.model.js";
 import NotificationLog from "./notification/notificationLog.model.js";
 import Notification from "./notification/notification.model.js";
+import Review from "./review/review.model.js";
 import Delivery from "./delivery/delivery.model.js";
 import DeliveryOffer from "./delivery/deliveryOffer.model.js";
 
@@ -147,6 +148,16 @@ RiderProfile.hasMany(RiderLocation, { foreignKey: "riderProfileId", as: "locatio
 RiderLocation.belongsTo(RiderProfile, { foreignKey: "riderProfileId", as: "riderProfile" });
 
 // ─────────────────────────────────────────────
+// A delivered order has at most one review; a restaurant has many
+// ─────────────────────────────────────────────
+Order.hasOne(Review, { foreignKey: "orderId", as: "review" });
+Review.belongsTo(Order, { foreignKey: "orderId", as: "order" });
+Restaurant.hasMany(Review, { foreignKey: "restaurantId", as: "reviews" });
+Review.belongsTo(Restaurant, { foreignKey: "restaurantId", as: "restaurant" });
+User.hasMany(Review, { foreignKey: "customerId", as: "reviews" });
+Review.belongsTo(User, { foreignKey: "customerId", as: "customer" });
+
+// ─────────────────────────────────────────────
 // A user has many in-app notifications
 // ─────────────────────────────────────────────
 User.hasMany(Notification, { foreignKey: "userId", as: "notifications" });
@@ -167,6 +178,7 @@ DeliveryOffer.belongsTo(RiderProfile, { foreignKey: "riderProfileId", as: "rider
 
 export {
   Notification,
+  Review,
   NotificationLog,
   User,
   Address,

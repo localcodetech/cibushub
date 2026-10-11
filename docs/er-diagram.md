@@ -26,6 +26,8 @@ erDiagram
     menu_items ||--o{ menu_option_groups : "has"
     menu_option_groups ||--o{ menu_options : "has"
     users ||--o{ orders : "places"
+    orders ||--o| reviews : "reviewed in"
+    restaurants ||--o{ reviews : "rated in"
     restaurants ||--o{ orders : "receives"
     orders ||--|{ order_items : "contains"
     order_items ||--o{ order_item_options : "with"
@@ -120,6 +122,8 @@ erDiagram
         decimal delivery_radius_km
         int prep_time_minutes
         datetime approved_at
+        int rating_total "sum of all stars; average = rating_total / review_count"
+        int review_count
         datetime created_at
         datetime updated_at
         datetime deleted_at "soft delete"
@@ -158,7 +162,22 @@ erDiagram
         varchar rejection_reason
         datetime submitted_at
         datetime approved_at
+        int rating_total "sum of the riders' stars from reviews"
+        int rating_count
         datetime created_at
+        datetime updated_at
+    }
+
+    reviews {
+        uuid id PK
+        uuid order_id FK,UK "orders.id; one review per order"
+        uuid customer_id FK "users.id"
+        uuid restaurant_id FK "restaurants.id"
+        uuid rider_profile_id FK "rider_profiles.id, set only when the rider was rated"
+        tinyint rating "1-5, required"
+        tinyint rider_rating "1-5, optional"
+        varchar comment "max 500, plain text"
+        datetime created_at "edit allowed for 24 h after this"
         datetime updated_at
     }
 

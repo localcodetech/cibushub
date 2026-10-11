@@ -108,6 +108,17 @@ const Restaurant = sequelize.define(
     approvedAt: {
       type: DataTypes.DATE,
     },
+    // All the stars ever given, and how many reviews: average = total / count [AC-REV-04]
+    ratingTotal: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    reviewCount: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+      defaultValue: 0,
+    },
   },
   {
     tableName: "restaurants",

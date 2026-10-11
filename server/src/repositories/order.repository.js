@@ -187,6 +187,15 @@ export const findPaidAt = async (orderId) => {
   return entry ? entry.createdAt : null;
 };
 
+// When the order was DELIVERED (from its history), or null
+export const findDeliveredAt = async (orderId) => {
+  const entry = await OrderStatusHistory.findOne({
+    where: { orderId, toStatus: "DELIVERED" },
+    order: [["createdAt", "ASC"]],
+  });
+  return entry ? entry.createdAt : null;
+};
+
 // PAID orders the restaurant still hasn't answered, paid before a moment (the timeout sweeper)
 export const findUnansweredPaidOrders = (paidBefore, limit) => {
   return Order.findAll({

@@ -1,0 +1,25 @@
+import { z } from "zod";
+import { REVIEW_RULES } from "../../utils/review/reviewRules.js";
+
+const stars = z
+  .number({ error: "Choose 1 to 5 stars" })
+  .int("Choose 1 to 5 stars")
+  .min(1, "Choose 1 to 5 stars")
+  .max(5, "Choose 1 to 5 stars");
+
+// Writing or changing a review [AC-REV-02]: the restaurant's stars are required,
+// the rider's stars and the comment are optional. An empty comment is no comment.
+// The text is kept exactly as typed and always shown as plain text [AC-REV-08].
+export const reviewSchema = z
+  .object({
+    rating: stars,
+    riderRating: stars.nullable().optional(),
+    comment: z
+      .string()
+      .trim()
+      .max(REVIEW_RULES.commentMaxLength, `At most ${REVIEW_RULES.commentMaxLength} characters`)
+      .transform((text) => (text === "" ? null : text))
+      .nullable()
+      .optional(),
+  })
+  .strict();
