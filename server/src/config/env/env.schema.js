@@ -33,6 +33,13 @@ export const envSchema = zod.object({
   NALO_API_KEY: zod.string().optional(),
   NALO_SENDER_ID: zod.string().max(11, "NALO_SENDER_ID can be at most 11 characters").optional(),
 
+  // Email through Resend. Without a key, emails are only printed (development).
+  // EMAIL_FROM must use a domain verified in Resend, e.g. "CibusHub <noreply@cibushubgh.com>"
+  RESEND_API_KEY: zod.string().startsWith("re_", "RESEND_API_KEY must start with re_").optional(),
+  EMAIL_FROM: zod.string().min(3).default("CibusHub <noreply@cibushubgh.com>"),
+  // Where customers' replies go (optional), e.g. support@cibushubgh.com
+  EMAIL_REPLY_TO: zod.email().optional(),
+
   // Maps lookups (pin -> area name, place search) through OpenStreetMap's Nominatim. Free, no key.
   // Their rules ask every app to say who it is, so we send this email with each request.
   GEOCODER_URL: zod.url().default("https://nominatim.openstreetmap.org"),

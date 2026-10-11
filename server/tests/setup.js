@@ -3,6 +3,7 @@ import env from "../src/config/env/env.js";
 import sequelize from "../src/config/database.js";
 import redis from "../src/config/redis.js";
 import { sentSms } from "./helpers/fakeSms.js";
+import { sentEmails } from "./helpers/fakeEmail.js";
 import { scheduledJobs } from "./helpers/fakeJobs.js";
 
 if (env.NODE_ENV !== "test" || !env.MYSQL_DATABASE.endsWith("_test")) {
@@ -15,6 +16,19 @@ vi.mock("../src/services/notifications/sms.service.js", async () => {
   return {
     sendSms: async (phone, message) => {
       inbox.push({ phone, message });
+    },
+  };
+});
+
+// Emails are only collected in tests: a real RESEND_API_KEY in .env must never send from a test
+vi.mock("../src/services/notifications/email.service.js", async () => {
+  const { sentEmails: inbox } = await import("./helpers/fakeEmail.js");
+
+  return {
+    maskEmail: (email) => email,
+    sendEmail: async (to, subject, text, options = {}) => {
+      inbox.push({ to, subject, text, ...options });
+      return { ok: true, id: "test-email-" + inbox.length };
     },
   };
 });
@@ -60,6 +74,7 @@ const emptyAllTables = async () => {
 
 beforeEach(async () => {
   sentSms.length = 0;
+  sentEmails.length = 0;
   scheduledJobs.length = 0;
   await redis.flushdb();
   await emptyAllTables();

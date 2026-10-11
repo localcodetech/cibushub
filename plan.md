@@ -75,7 +75,7 @@ Each step contains:
 | 8 | **Checkout and the Order Engine** | AC-CHK-01 to 12, AC-ORD-01 to 07, AC-CUST-09, 10, AC-MAP-06 | ✅ DONE |
 | 9 | **Payments, Cancellations and Refunds** | AC-PAY-01 to 16, AC-CANC-01 to 07, AC-JOB-01, 03, 04, AC-JOB-02, AC-OPS-06 | ✅ DONE |
 | 10 | **Restaurant Dashboard and Real-Time Updates** | AC-RORD-01 to 07, AC-RT-01, 02, 03, 07, 08, AC-RT-10, AC-JOB-02, AC-UX-06, 07 | ✅ DONE |
-| 11 | **Riders, Assignment and Delivery** | AC-RIDER-01 to 07, AC-ASSIGN-01 to 08, AC-DEL-01 to 08, AC-RT-04, 05, 06, 09, AC-MAP-01, 03, 05 … | ⚪ PLANNED |
+| 11 | **Riders, Assignment and Delivery** | AC-RIDER-01 to 07, AC-ASSIGN-01 to 08, AC-DEL-01 to 08, AC-RT-04, 05, 06, 09, AC-MAP-01, 03, 05 … | 🟢 IN PROGRESS |
 | 12 | **Notifications** | AC-NOTIF-01 to 09, AC-PAY-15, AC-MON-04 | ⚪ PLANNED |
 | 13 | **Reviews, Admin, Super Admin and Analytics** | AC-REV-01 to 08, AC-ADM-01 to 09, AC-SADM-01 to 04, AC-ANL-01 to 06, AC-JOB-02, 05 | ⚪ PLANNED |
 | 14 | **Hardening and Quality** | AC-TEST-01 to 05, 07, AC-SEC-06, 11, 13, AC-PERF-01, 02, 05, 07, AC-UX-08, 10, 11, AC-API-03, 04 … | ⚪ PLANNED |
@@ -669,7 +669,7 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 ## Step 11 — Riders, Assignment and Delivery
 
-**Status:** ⚪ PLANNED
+**Status:** 🟢 IN PROGRESS (built; real-phone tracking check left)
 
 > **Goal.** Approved riders go online, receive fair delivery offers, and complete deliveries that customers can track live.
 >
@@ -704,10 +704,10 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 ### Done when
 
-- [ ] Two riders accepting at once: exactly one succeeds (test)
-- [ ] Offer passes to the next rider after 60 seconds
+- [x] Two riders accepting at once: exactly one succeeds (test)
+- [x] Offer passes to the next rider after 60 seconds
 - [ ] Customer sees the rider move on a real phone
-- [ ] Delivery cannot complete without the correct code
+- [x] Delivery cannot complete without the correct code
 
 ### Send for review
 
