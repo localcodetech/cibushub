@@ -41,10 +41,12 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | `POST /auth/forgot-password` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | validate, otpLimiter |
 | `POST /auth/reset-password` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | validate, otpLimiter |
 | `POST /auth/change-password` | — | 🔒⏳ | 🔒⏳ | 🔒⏳ | 🔒 | 🔒 | authenticate, validate |
+| `POST /auth/email/send-code`, `/email/verify` | — | 🔒⏳ | 🔒⏳ | 🔒⏳ | 🔒 | 🔒 | authenticate, validate (verify), otpLimiter; only my own email |
 | `GET /restaurants` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | validate (query) |
 | `GET /restaurants/:id` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | — (404 unless approved) |
 | `POST /cart/check` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | validate (read-only, no login) |
 | `POST /webhooks/paystack` | Paystack only | — | — | — | — | — | valid HMAC-SHA512 signature (no login, no CSRF origin) |
+| `POST /webhooks/resend` | Resend only | — | — | — | — | — | valid Svix HMAC-SHA256 signature, at most 5 minutes old (no login, no CSRF origin) |
 | `POST /owner/restaurants` | — | — | 🔒⏳ | — | — | — | authenticate, authorize, requireVerifiedPhone, validate |
 | `GET /owner/restaurants`, `GET /owner/restaurants/:id` | — | — | 🔒⏳ | — | — | — | authenticate, authorize, requireVerifiedPhone |
 | `PATCH /owner/restaurants/:id` | — | — | 🔒⏳ | — | — | — | authenticate, authorize, requireVerifiedPhone, validate |
@@ -59,24 +61,49 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | `GET /admin/restaurants/:id/documents` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize |
 | `POST /admin/restaurants/:id/approve` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize; audit logged |
 | `POST /admin/restaurants/:id/reject`, `/suspend` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; audit logged |
+| `GET /admin/notifications` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate (query); recipients masked, no message text |
+| `GET /admin/riders`, `GET /admin/riders/:id` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate (query) |
+| `GET /admin/riders/:id/documents` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize |
+| `POST /admin/riders/:id/approve` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize; audit logged |
+| `POST /admin/riders/:id/reject`, `/suspend` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; audit logged |
+| `POST /admin/orders/:id/rider`, `/rider/unassign` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; before pickup; audit logged |
+| `POST /admin/orders/:id/delivery/unlock-code` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; picked-up orders; audit logged |
 | `POST /admin/orders/:id/cancel` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; refund choice; audit logged |
+| `GET /owner/orders`, `/history`, `/summary`, `/:id` | — | — | 🔒 | — | — | — | authenticate, authorize, requireActive, validate (query) |
+| `POST /owner/orders/:id/accept`, `/reject`, `/preparing`, `/ready` | — | — | 🔒 | — | — | — | authenticate, authorize, requireActive, validate; own restaurants only |
+| `GET`, `PUT /rider/application` | — | — | — | 🔒⏳ | — | — | authenticate, authorize, requireVerifiedPhone, validate |
+| `PUT /rider/application/photo`, `/documents/:type` | — | — | — | 🔒⏳ | — | — | authenticate, authorize, requireVerifiedPhone, upload |
+| `POST /rider/application/submit` | — | — | — | 🔒⏳ | — | — | authenticate, authorize, requireVerifiedPhone |
+| `GET /rider/status`, `POST /rider/status/online`, `/offline` | — | — | — | 🔒 | — | — | authenticate, authorize, requireActive, validate; approved riders only |
+| socket `order:join` | — | 🔒 | 🔒 | 🔒 | ✅ | ✅ | customer: own orders; owner: own restaurants' orders; rider: only the order they are carrying; refused joins are logged |
+| socket `rider:location` | — | — | — | 🔒 | — | — | handshake cookie; online riders only; 1 per 3 s, range and speed checked |
+| `GET /rider/offers/current`, `POST /rider/offers/:id/accept`, `/decline` | — | — | — | 🔒 | — | — | authenticate, authorize, requireActive; own offers only (404 otherwise); accept locks rider, delivery, offer, order in that order |
+| `GET /rider/deliveries/current` | — | — | — | 🔒 | — | — | authenticate, authorize, requireActive; own delivery only; customer name, pin and phone only after pickup |
+| `POST /rider/deliveries/current/pickup`, `/complete`, `/call`, `/problem`, `/returned` | — | — | — | 🔒 | — | — | authenticate, authorize, requireActive, validate; own delivery; locks rider, delivery, order |
+| `GET /rider/earnings` | — | — | — | 🔒 | — | — | authenticate, authorize, requireActive, validate; own delivered orders only, no customer details |
+| `POST /rider/deliveries/current/unassign` | — | — | — | 🔒 | — | — | authenticate, authorize, requireActive, validate; own delivery, before pickup |
 | `GET`, `POST /customer/addresses` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate |
 | `PATCH`, `DELETE /customer/addresses/:id` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate |
 | `POST /customer/checkout/quote` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate |
 | `POST /customer/orders` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate (headers + body) |
 | `GET /customer/orders`, `GET /customer/orders/:id` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate (query) |
+| `POST /customer/orders/:id/confirm-received` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize; own order; only while PICKED_UP with the delivery code locked; audit logged |
+| `GET /customer/orders/:id/tracking` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize; own orders only (404 otherwise); 10 a minute; rider shown only while RIDER_ASSIGNED or PICKED_UP |
 | `POST /customer/orders/:id/cancel` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize, validate; only before the restaurant accepts; full refund if paid |
 | `POST /customer/orders/:id/payments` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize; only while PENDING_PAYMENT |
 | `GET /customer/orders/:id/receipt` | — | 🔒 | — | — | — | — | authenticate, requireActive, authorize; only once paid |
 | `PATCH /profile` | — | 🔒 | 🔒 | 🔒 | 🔒 | 🔒 | authenticate, requireActive, validate |
+| `PATCH /profile/preferences` | — | 🔒 | 🔒 | 🔒 | 🔒 | 🔒 | authenticate, requireActive, validate; only offers and news can be switched off |
 | `PUT /profile/avatar` | — | 🔒 | 🔒 | 🔒 | 🔒 | 🔒 | authenticate, requireActive, upload |
 | `POST /profile/phone`, `/phone/confirm`, `/email`, `/email/confirm` | — | 🔒 | 🔒 | 🔒 | 🔒 | 🔒 | authenticate, requireActive, validate, otpLimiter |
+| `GET /notifications`, `POST /notifications/:id/read`, `/read-all` | — | 🔒⏳ | 🔒⏳ | 🔒⏳ | 🔒 | 🔒 | authenticate, validate; only my own (someone else's is 404); open while waiting for approval |
 
 Notes:
 
 - "Register" is guest-only in practice: an existing account gets `409 ACCOUNT_EXISTS`. Admin roles can never be registered ([AC-AUTH-06](../CibusHub_Acceptance_Criteria.md)); admins are created by a super admin.
 - `/me` and `change-password` work for unverified and pending accounts on purpose, so the app can show "verify your phone" or "waiting for approval" and the user can still secure their account.
 - Every feature added from Step 5 onward uses `authenticate, requireActive, authorize(...)` and gets a row here.
+- Rider application routes work the same way: a rider `PENDING_APPROVAL` fills in and submits their application; going online needs approval.
 - Owner onboarding routes use `requireVerifiedPhone` instead of `requireActive`, so an owner still `PENDING_APPROVAL` can submit, edit and upload documents. Running the business (menu, accepting orders) needs `requireActive`.
 - Another owner's restaurant, item or document returns `404 NOT_FOUND`, never `403`, so IDs cannot be probed ([AC-RBAC-04](../CibusHub_Acceptance_Criteria.md)).
 

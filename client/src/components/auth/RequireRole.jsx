@@ -5,11 +5,14 @@ import { useAuthStore } from "@/store/authStore";
 // and only once their phone is verified and their account approved.
 // The page inside is never drawn for anyone else, so it never fetches its data.
 //
+// allowPending: let accounts still waiting for approval in (e.g. the rider application,
+// which must be filled in BEFORE an admin can approve it)
+//
 // In the router:
 //   <RequireRole allowedRoles={["ADMIN", "SUPER_ADMIN"]}>
 //     <AdminDashboardPage />
 //   </RequireRole>
-const RequireRole = ({ allowedRoles, children }) => {
+const RequireRole = ({ allowedRoles, allowPending = false, children }) => {
   const user = useAuthStore((state) => state.user);
   const location = useLocation();
 
@@ -32,7 +35,7 @@ const RequireRole = ({ allowedRoles, children }) => {
   }
 
   // Restaurant owner or rider waiting for an admin: show the "under review" page [AC-AUTH-05]
-  if (user.status === "PENDING_APPROVAL") {
+  if (user.status === "PENDING_APPROVAL" && !allowPending) {
     return <Navigate to="/pending-approval" replace />;
   }
 

@@ -118,3 +118,25 @@ export const onOrderUpdated = (handler) => {
   socket.on("order:updated", handler);
   return () => socket.off("order:updated", handler);
 };
+
+// Run handler(details) for one kind of server event, e.g. "delivery:offer" for riders.
+// Returns a function that stops listening.
+export const onLiveEvent = (eventName, handler) => {
+  socket.on(eventName, handler);
+  return () => socket.off(eventName, handler);
+};
+
+// A rider's position, sent over the open connection [AC-RT-04, AC-RT-05].
+// Resolves with the server's answer: { ok: true } or { ok: false, reason }.
+// Not connected: resolves { ok: false, reason: "NOT_CONNECTED" } (the next one will go).
+export const sendRiderLocation = (point) => {
+  if (!socket.connected) {
+    return Promise.resolve({ ok: false, reason: "NOT_CONNECTED" });
+  }
+  return new Promise((resolve) => {
+    // timeout: don't wait forever for an answer on a bad network
+    socket.timeout(5000).emit("rider:location", point, (error, answer) => {
+      resolve(error ? { ok: false, reason: "NO_ANSWER" } : answer);
+    });
+  });
+};

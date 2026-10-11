@@ -58,3 +58,56 @@ export const scheduleRestaurantTimeout = async (orderId) => {
     );
   }
 };
+
+// Look for a rider for this delivery now [AC-ASSIGN-01].
+// If Redis is down, the every-minute assignment sweep picks the delivery up instead.
+export const scheduleDeliverySearch = async (deliveryId) => {
+  try {
+    await getQueue(QUEUE_NAMES.assignment).add("offerDelivery", { deliveryId });
+  } catch (error) {
+    logger.error(
+      { err: error, deliveryId },
+      "Could not schedule the rider search; the assignment sweep will catch it",
+    );
+  }
+};
+
+// When an offer's 60 seconds are up, move on to the next rider [AC-ASSIGN-03, AC-ASSIGN-04]
+export const scheduleOfferExpiry = async (deliveryId, offerId, delayMs) => {
+  try {
+    await getQueue(QUEUE_NAMES.assignment).add(
+      "offerDelivery",
+      { deliveryId },
+      { delay: delayMs, jobId: `offer-expiry-${offerId}` },
+    );
+  } catch (error) {
+    logger.error(
+      { err: error, deliveryId, offerId },
+      "Could not schedule the offer expiry; the assignment sweep will catch it",
+    );
+  }
+};
+
+// Send one email or SMS in the background [AC-NOTIF-02, AC-NOTIF-03]: 3 tries, waiting
+// 30 s, then 60 s. The job id is the log row's id, so one message is queued only once.
+// Answers false if Redis can't take it; the caller then sends right away (AC-MON-04).
+export const scheduleNotification = async (logId, payload) => {
+  try {
+    await getQueue(QUEUE_NAMES.notifications).add(
+      "sendNotification",
+      { logId, payload },
+      {
+        jobId: `notification-${logId}`,
+        attempts: 3,
+        backoff: { type: "exponential", delay: 30000 },
+        // The log row is the record; the job (which holds the text, maybe a code) goes
+        removeOnComplete: true,
+        removeOnFail: { age: 24 * 60 * 60 },
+      },
+    );
+    return true;
+  } catch (error) {
+    logger.error({ err: error, logId }, "Could not queue notification; sending it now");
+    return false;
+  }
+};

@@ -2,9 +2,9 @@ const EARTH_RADIUS_KM = 6371;
 
 const toRadians = (degrees) => (degrees * Math.PI) / 180;
 
-// Straight-line ("as the crow flies") distance between two map pins, in km.
+// Straight-line ("as the crow flies") distance between two map pins, in metres, not rounded.
 // Uses the haversine formula, which accounts for the Earth being round.
-export const distanceInKm = (from, to) => {
+export const distanceInMetres = (from, to) => {
   const latitudeChange = toRadians(to.latitude - from.latitude);
   const longitudeChange = toRadians(to.longitude - from.longitude);
 
@@ -16,6 +16,10 @@ export const distanceInKm = (from, to) => {
 
   const angle = 2 * Math.atan2(Math.sqrt(halfChord), Math.sqrt(1 - halfChord));
 
-  // Rounded to 1 decimal place, e.g. 3.4 km
-  return Math.round(EARTH_RADIUS_KM * angle * 10) / 10;
+  return EARTH_RADIUS_KM * 1000 * angle;
+};
+
+// The same in km, rounded to 1 decimal place, e.g. 3.4 km
+export const distanceInKm = (from, to) => {
+  return Math.round(distanceInMetres(from, to) / 100) / 10;
 };

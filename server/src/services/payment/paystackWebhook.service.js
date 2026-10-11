@@ -3,7 +3,7 @@ import logger from "../../config/logger.js";
 import { retryOnDeadlock } from "../../utils/database/retryOnDeadlock.js";
 import { verifyTransaction } from "./paystack.client.js";
 import { changeOrderStatus } from "../order/changeOrderStatus.service.js";
-import { lockOrder, updateOrder } from "../../repositories/order.repository.js";
+import { findOrderById, lockOrder, updateOrder } from "../../repositories/order.repository.js";
 import {
   findPaymentByReference,
   lockPaymentByReference,
@@ -11,6 +11,10 @@ import {
 } from "../../repositories/payment.repository.js";
 import { requestRefund } from "../refund/requestRefund.service.js";
 import { emailReceipt } from "../notifications/receiptEmail.service.js";
+import { emailAdmins } from "../notifications/adminAlertEmail.service.js";
+import { notifyAdminsInApp } from "../notifications/inApp.service.js";
+import { paymentMismatchEmail } from "../notifications/templates/emails.js";
+import { emitAdminAlert } from "../../sockets/emitAdminAlert.js";
 import { scheduleRestaurantTimeout } from "../../jobs/enqueue.js";
 
 const SYSTEM = { userId: null, role: "SYSTEM" };
@@ -66,7 +70,7 @@ const applyVerification = async (reference, verified, transaction) => {
   if (!amountIsRight) {
     await updatePayment(payment, { ...paymentDetails, status: "AMOUNT_MISMATCH" }, transaction);
 
-    // Admin alert: logged at error level now; the admin notifications step turns this into a message
+    // Logged here; the admins are alerted once the transaction is saved (reconcilePayment)
     logger.error(
       {
         alert: "PAYMENT_AMOUNT_MISMATCH",
@@ -115,6 +119,42 @@ const applyVerification = async (reference, verified, transaction) => {
   return "PAID_AFTER_CLOSE";
 };
 
+// Live alert + email to every admin. Never throws: the payment is already recorded.
+const alertAdminsOfMismatch = async (reference, verified) => {
+  try {
+    const payment = await findPaymentByReference(reference);
+    const order = await findOrderById(payment.orderId);
+    const details = {
+      reference,
+      orderId: order.id,
+      orderNumber: order.orderNumber,
+      expectedPesewas: order.totalPesewas,
+      receivedPesewas: verified.amountPesewas,
+      currency: verified.currency,
+    };
+    emitAdminAlert("PAYMENT_AMOUNT_MISMATCH", details);
+    await notifyAdminsInApp({
+      type: "admin.payment_amount_mismatch",
+      key: `payment:${payment.id}:mismatch`,
+      title: "Payment amount mismatch",
+      body: `Paystack payment ${reference} doesn't match order ${order.orderNumber}. The order was NOT marked paid.`,
+    });
+    await emailAdmins({
+      type: "PAYMENT_AMOUNT_MISMATCH",
+      key: `payment:${payment.id}:mismatch`,
+      email: paymentMismatchEmail({
+        reference,
+        orderNumber: order.orderNumber,
+        expected: order.totalPesewas,
+        received: verified.amountPesewas,
+        currency: verified.currency,
+      }),
+    });
+  } catch (error) {
+    logger.error({ err: error, reference }, "Could not alert admins about a payment mismatch");
+  }
+};
+
 // Asks Paystack about one payment and records the answer. Used by the webhook, the
 // reconciliation job and the unpaid-order expiry job [AC-PAY-05, AC-PAY-12]
 export const reconcilePayment = async (reference) => {
@@ -130,6 +170,11 @@ export const reconcilePayment = async (reference) => {
     await emailReceipt(payment.orderId);
     // The restaurant now has 5 minutes to answer [AC-RORD-04]
     await scheduleRestaurantTimeout(payment.orderId);
+  }
+
+  // Only the delivery that found the mismatch gets this outcome, so admins hear once [AC-PAY-06]
+  if (outcome === "AMOUNT_MISMATCH") {
+    await alertAdminsOfMismatch(reference, verified);
   }
 
   return outcome;

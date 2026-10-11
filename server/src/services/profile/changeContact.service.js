@@ -1,14 +1,14 @@
 import redis from "../../config/redis.js";
 import AppError from "../../utils/AppError.js";
 import { sendOtp, verifyOtp } from "../auth/otp.service.js";
-import { sendSms } from "../notifications/sms.service.js";
-import { sendEmail } from "../notifications/email.service.js";
 import {
   findUserByEmail,
   findUserById,
   findUserByPhone,
   updateUser,
 } from "../../repositories/user.repository.js";
+import { notify } from "../notifications/notify.service.js";
+import { emailChangedEmail } from "../notifications/templates/emails.js";
 
 // How long the new phone/email waits for its code before the request is forgotten
 const PENDING_SECONDS = 15 * 60;
@@ -69,10 +69,12 @@ export const confirmPhoneChange = async (userId, code) => {
   await redis.del(pendingKey("phone", userId));
 
   // Warn the old number, in case this was not the real owner
-  await sendSms(
-    oldPhone,
-    "Your CibusHub phone number was just changed. If this was not you, contact support now.",
-  );
+  await notify({
+    channel: "SMS",
+    to: oldPhone,
+    template: "account.phone-changed",
+    text: "Your CibusHub phone number was just changed. If this was not you, contact support now.",
+  });
 
   return user;
 };
@@ -113,7 +115,7 @@ export const confirmEmailChange = async (userId, code) => {
   const oldEmail = user.email;
 
   try {
-    await updateUser(user, { email: newEmail, emailVerifiedAt: new Date() });
+    await updateUser(user, { email: newEmail, emailVerifiedAt: new Date(), emailBouncedAt: null });
   } catch (error) {
     if (error.name === "SequelizeUniqueConstraintError") {
       throw alreadyUsed();
@@ -123,11 +125,12 @@ export const confirmEmailChange = async (userId, code) => {
 
   await redis.del(pendingKey("email", userId));
 
-  await sendEmail(
-    oldEmail,
-    "Your CibusHub email was changed",
-    `Your CibusHub email was just changed to ${newEmail}. If this was not you, contact support now.`,
-  );
+  await notify({
+    channel: "EMAIL",
+    to: oldEmail,
+    template: "account.email-changed",
+    ...emailChangedEmail({ newEmail }),
+  });
 
   return user;
 };

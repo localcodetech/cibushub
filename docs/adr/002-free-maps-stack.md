@@ -14,7 +14,7 @@ The acceptance criteria were written with Google Maps in mind (AC-MAP-01 to 06).
 |---|---|---|
 | Show maps and drag the pin | Leaflet (`react-leaflet`) with OpenStreetMap tiles | Browser |
 | Pin → area name, place search (AC-MAP-02) | OpenStreetMap Nominatim | Server only: `services/maps/nominatim.client.js` |
-| Route ETA (AC-MAP-03) | Straight-line distance (`utils/distance.js`) and an average speed | Server, Step 11 |
+| Route ETA (AC-MAP-03) | Straight-line distance × 1.4 (winding roads) at an average city speed: motorbike 25, car 20, bicycle 12 km/h (`utils/delivery/eta.js`) | Server, Step 11 |
 
 Rules that come with it:
 

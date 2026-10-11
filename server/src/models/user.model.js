@@ -40,6 +40,10 @@ const User = sequelize.define(
     emailVerifiedAt: {
       type: DataTypes.DATE,
     },
+    // Resend said mail to this address bounced; ordinary emails stop until it is fixed
+    emailBouncedAt: {
+      type: DataTypes.DATE,
+    },
     phoneVerifiedAt: {
       type: DataTypes.DATE,
     },
@@ -58,6 +62,15 @@ const User = sequelize.define(
     },
     termsVersion: {
       type: DataTypes.STRING(20),
+    },
+    // Offers and news only with a yes [AC-NOTIF-09]; order messages are always sent
+    marketingOptIn: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
+    marketingOptInChangedAt: {
+      type: DataTypes.DATE,
     },
   },
   {

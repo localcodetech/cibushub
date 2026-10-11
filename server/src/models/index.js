@@ -19,6 +19,13 @@ import OrderItemOption from "./order/orderItemOption.model.js";
 import OrderStatusHistory from "./order/orderStatusHistory.model.js";
 import Payment from "./order/payment.model.js";
 import Refund from "./order/refund.model.js";
+import RiderProfile from "./rider/riderProfile.model.js";
+import RiderDocument from "./rider/riderDocument.model.js";
+import RiderLocation from "./rider/riderLocation.model.js";
+import NotificationLog from "./notification/notificationLog.model.js";
+import Notification from "./notification/notification.model.js";
+import Delivery from "./delivery/delivery.model.js";
+import DeliveryOffer from "./delivery/deliveryOffer.model.js";
 
 // ─────────────────────────────────────────────
 // A user has many saved delivery addresses
@@ -129,7 +136,38 @@ Refund.belongsTo(Order, { foreignKey: "orderId", as: "order" });
 Payment.hasMany(Refund, { foreignKey: "paymentId", as: "refunds" });
 Refund.belongsTo(Payment, { foreignKey: "paymentId", as: "payment" });
 
+// ─────────────────────────────────────────────
+// A rider account has one rider profile (vehicle, Ghana Card), with private documents
+// ─────────────────────────────────────────────
+User.hasOne(RiderProfile, { foreignKey: "userId", as: "riderProfile" });
+RiderProfile.belongsTo(User, { foreignKey: "userId", as: "user" });
+RiderProfile.hasMany(RiderDocument, { foreignKey: "riderProfileId", as: "documents" });
+RiderDocument.belongsTo(RiderProfile, { foreignKey: "riderProfileId", as: "riderProfile" });
+RiderProfile.hasMany(RiderLocation, { foreignKey: "riderProfileId", as: "locations" });
+RiderLocation.belongsTo(RiderProfile, { foreignKey: "riderProfileId", as: "riderProfile" });
+
+// ─────────────────────────────────────────────
+// A user has many in-app notifications
+// ─────────────────────────────────────────────
+User.hasMany(Notification, { foreignKey: "userId", as: "notifications" });
+Notification.belongsTo(User, { foreignKey: "userId", as: "user" });
+
+// ─────────────────────────────────────────────
+// An order has one delivery; a rider carries many over time.
+// Each delivery has the offers made to riders while searching.
+// ─────────────────────────────────────────────
+Order.hasOne(Delivery, { foreignKey: "orderId", as: "delivery" });
+Delivery.belongsTo(Order, { foreignKey: "orderId", as: "order" });
+RiderProfile.hasMany(Delivery, { foreignKey: "riderProfileId", as: "deliveries" });
+Delivery.belongsTo(RiderProfile, { foreignKey: "riderProfileId", as: "rider" });
+Delivery.hasMany(DeliveryOffer, { foreignKey: "deliveryId", as: "offers" });
+DeliveryOffer.belongsTo(Delivery, { foreignKey: "deliveryId", as: "delivery" });
+RiderProfile.hasMany(DeliveryOffer, { foreignKey: "riderProfileId", as: "offers" });
+DeliveryOffer.belongsTo(RiderProfile, { foreignKey: "riderProfileId", as: "rider" });
+
 export {
+  Notification,
+  NotificationLog,
   User,
   Address,
   RefreshToken,
@@ -148,4 +186,9 @@ export {
   OrderStatusHistory,
   Payment,
   Refund,
+  RiderProfile,
+  RiderDocument,
+  RiderLocation,
+  Delivery,
+  DeliveryOffer,
 };

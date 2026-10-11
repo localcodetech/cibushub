@@ -6,6 +6,7 @@ import { signAccessToken } from "../../src/utils/auth/tokens.js";
 import { createTestUser } from "../helpers/users.js";
 import { createOwner, createTestRestaurant } from "../helpers/restaurants.js";
 import { sentSms } from "../helpers/fakeSms.js";
+import { sentEmails } from "../helpers/fakeEmail.js";
 
 let admin;
 let owner;
@@ -29,7 +30,7 @@ const postAs = (user, path, body = {}) => {
 const reviewUrl = (restaurant, action) => `/api/v1/admin/restaurants/${restaurant.id}/${action}`;
 
 describe("POST /api/v1/admin/restaurants/:restaurantId/approve", () => {
-  it("approves a pending restaurant and texts the owner [AC-REST-02]", async () => {
+  it("approves a pending restaurant and texts and emails the owner [AC-REST-02, AC-NOTIF-01]", async () => {
     const restaurant = await createTestRestaurant(owner);
 
     const response = await postAs(admin, reviewUrl(restaurant, "approve"));
@@ -39,6 +40,9 @@ describe("POST /api/v1/admin/restaurants/:restaurantId/approve", () => {
     expect(response.body.data.approvedAt).not.toBeNull();
     expect(sentSms.at(-1).phone).toBe(owner.phone);
     expect(sentSms.at(-1).message).toContain("approved");
+    expect(sentEmails).toHaveLength(1);
+    expect(sentEmails[0]).toMatchObject({ to: owner.email });
+    expect(sentEmails[0].subject).toContain("approved");
   });
 
   it("activates the owner's account on their first approval [AC-AUTH-05]", async () => {
@@ -78,7 +82,7 @@ describe("POST /api/v1/admin/restaurants/:restaurantId/approve", () => {
 });
 
 describe("POST /api/v1/admin/restaurants/:restaurantId/reject", () => {
-  it("rejects with a reason, saves it and texts the owner [AC-REST-02]", async () => {
+  it("rejects with a reason, saves it and texts and emails the owner [AC-REST-02, AC-NOTIF-01]", async () => {
     const restaurant = await createTestRestaurant(owner);
 
     const response = await postAs(admin, reviewUrl(restaurant, "reject"), {
@@ -89,6 +93,7 @@ describe("POST /api/v1/admin/restaurants/:restaurantId/reject", () => {
     expect(response.body.data.status).toBe("REJECTED");
     expect(response.body.data.rejectionReason).toBe("The FDA certificate photo is blurry");
     expect(sentSms.at(-1).message).toContain("The FDA certificate photo is blurry");
+    expect(sentEmails.at(-1).text).toContain("The FDA certificate photo is blurry");
   });
 
   it("requires a reason [AC-REST-02]", async () => {

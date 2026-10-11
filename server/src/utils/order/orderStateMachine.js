@@ -27,11 +27,17 @@ export const ORDER_TRANSITIONS = {
   },
   RIDER_ASSIGNED: {
     PICKED_UP: ["RIDER"],
+    // The rider can't continue before pickup (breakdown) or an admin takes them off:
+    // back to the pool while a new rider is found [AC-ASSIGN-08, ADR 003]
+    READY_FOR_PICKUP: ["RIDER", "ADMIN"],
     CANCELLED: ["ADMIN"],
   },
   PICKED_UP: {
-    DELIVERED: ["RIDER"],
-    CANCELLED: ["ADMIN"],
+    // RIDER: with the customer's code. CUSTOMER: only after the code locked (5 wrong tries),
+    // "I've received my food" (the service checks the lock) [AC-DEL-06]
+    DELIVERED: ["RIDER", "CUSTOMER"],
+    // SYSTEM: nobody took the food at the door within 10 minutes (no refund, food returned)
+    CANCELLED: ["ADMIN", "SYSTEM"],
   },
   // The end of the road: nothing may follow these [AC-ORD-07]
   DELIVERED: {},

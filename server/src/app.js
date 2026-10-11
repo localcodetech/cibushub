@@ -19,11 +19,19 @@ import authorize from "./middlewares/authorize.js";
 import requireActive from "./middlewares/requireActive.js";
 import adminRestaurantRoutes from "./routes/admin/restaurant.routes.js";
 import adminOrderRoutes from "./routes/admin/order.routes.js";
+import riderApplicationRoutes from "./routes/rider/application.routes.js";
+import adminRiderRoutes from "./routes/admin/rider.routes.js";
+import adminNotificationRoutes from "./routes/admin/notification.routes.js";
+import riderStatusRoutes from "./routes/rider/status.routes.js";
+import riderOfferRoutes from "./routes/rider/offer.routes.js";
+import riderDeliveryRoutes from "./routes/rider/delivery.routes.js";
+import riderEarningsRoutes from "./routes/rider/earnings.routes.js";
 import customerAddressRoutes from "./routes/customer/address.routes.js";
 import customerMapsRoutes from "./routes/customer/maps.routes.js";
 import customerCheckoutRoutes from "./routes/customer/checkout.routes.js";
 import customerOrderRoutes from "./routes/customer/order.routes.js";
 import profileRoutes from "./routes/profile.routes.js";
+import notificationRoutes from "./routes/notification.routes.js";
 import cartRoutes from "./routes/cart.routes.js";
 import webhookRoutes from "./routes/webhook.routes.js";
 import { globalLimiter } from "./middlewares/rateLimit/globalLimiter.js";
@@ -78,7 +86,8 @@ app.use(globalLimiter);
 app.use(checkOrigin);
 
 // ─────────────────────────────────────────────
-// Payment webhooks: BEFORE the JSON reader, because the signature is checked on the raw bytes
+// Webhooks (Paystack payments, Resend emails): BEFORE the JSON reader, because the signature
+// is checked on the raw bytes
 // ─────────────────────────────────────────────
 app.use("/api/v1/webhooks", webhookRoutes);
 
@@ -116,6 +125,12 @@ app.use("/api/v1/cart", cartRoutes);
 // My profile (any role): change name, upload photo
 // ─────────────────────────────────────────────
 app.use("/api/v1/profile", authenticate, requireActive, profileRoutes);
+
+// ─────────────────────────────────────────────
+// My in-app notifications (any role, even while waiting for approval:
+// a rider still needs to read "your application was not approved")
+// ─────────────────────────────────────────────
+app.use("/api/v1/notifications", authenticate, notificationRoutes);
 
 // ─────────────────────────────────────────────
 // Every customer route: must be logged in as an active customer
@@ -163,6 +178,36 @@ app.use("/api/v1/owner/restaurants/:restaurantId/menu", ownerMenuRoutes);
 app.use("/api/v1/owner/orders", ownerOrderRoutes);
 
 // ─────────────────────────────────────────────
+// Every rider route: must be logged in as a rider
+// ─────────────────────────────────────────────
+app.use("/api/v1/rider", authenticate, authorize("RIDER"));
+
+// ─────────────────────────────────────────────
+// Rider application: vehicle, Ghana Card, photo, documents, submit for review
+// ─────────────────────────────────────────────
+app.use("/api/v1/rider/application", riderApplicationRoutes);
+
+// ─────────────────────────────────────────────
+// Rider online / offline (live location arrives over the socket)
+// ─────────────────────────────────────────────
+app.use("/api/v1/rider/status", riderStatusRoutes);
+
+// ─────────────────────────────────────────────
+// Delivery offers: the one waiting for me, accept, decline
+// ─────────────────────────────────────────────
+app.use("/api/v1/rider/offers", riderOfferRoutes);
+
+// ─────────────────────────────────────────────
+// My delivery: pickup, drop-off, code, unreachable, give it back before pickup
+// ─────────────────────────────────────────────
+app.use("/api/v1/rider/deliveries", riderDeliveryRoutes);
+
+// ─────────────────────────────────────────────
+// My earnings: completed deliveries per day, week, month
+// ─────────────────────────────────────────────
+app.use("/api/v1/rider/earnings", riderEarningsRoutes);
+
+// ─────────────────────────────────────────────
 // Every admin route: must be logged in as an active admin or super admin
 // ─────────────────────────────────────────────
 app.use("/api/v1/admin", authenticate, requireActive, authorize("ADMIN", "SUPER_ADMIN"));
@@ -173,9 +218,19 @@ app.use("/api/v1/admin", authenticate, requireActive, authorize("ADMIN", "SUPER_
 app.use("/api/v1/admin/restaurants", adminRestaurantRoutes);
 
 // ─────────────────────────────────────────────
-// Admin: cancel orders with a refund choice
+// Admin: cancel orders with a refund choice; assign, replace or remove the rider
 // ─────────────────────────────────────────────
 app.use("/api/v1/admin/orders", adminOrderRoutes);
+
+// ─────────────────────────────────────────────
+// Admin: review rider applications, approve, reject, suspend
+// ─────────────────────────────────────────────
+app.use("/api/v1/admin/riders", adminRiderRoutes);
+
+// ─────────────────────────────────────────────
+// Admin: every email and SMS sent, and which ones failed
+// ─────────────────────────────────────────────
+app.use("/api/v1/admin/notifications", adminNotificationRoutes);
 
 // ─────────────────────────────────────────────
 // Interactive API docs (turned off in production)

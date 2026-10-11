@@ -45,6 +45,8 @@ const exampleOrderDetail = {
     phone: "+233240000105",
   },
   timeline: [{ status: "PENDING_PAYMENT", at: "2026-10-09T12:00:00.000Z", reason: null }],
+  deliveryCode: null,
+  canConfirmReceived: false,
   customerActions: ["CANCELLED"],
 };
 
@@ -54,12 +56,65 @@ const orderId = pathParameter("orderId", "One of your orders");
 const notFound = errorResponse("Not yours, or does not exist", "NOT_FOUND", "Order not found");
 
 export const customerOrderPaths = {
+  "/api/v1/customer/orders/{orderId}/confirm-received": {
+    post: {
+      tags,
+      summary: "I've received my food (after the rider's code locked)",
+      description:
+        "Only while the order is PICKED_UP and the rider has entered a wrong code 5 times (canConfirmReceived is true on the order). The order becomes DELIVERED with the customer as the actor, and the rider is told.",
+      security: [{ cookieAuth: [] }],
+      parameters: [pathParameter("orderId", "One of my orders")],
+      responses: {
+        200: successResponse("Delivered: the updated order", exampleOrderDetail),
+        404: errorResponse("Not mine, or no such order", "NOT_FOUND", "Order not found"),
+        409: errorResponse(
+          "The rider can still enter the code",
+          "CODE_NOT_LOCKED",
+          "Give your rider the 4-digit code to finish the delivery",
+        ),
+      },
+    },
+  },
+  "/api/v1/customer/orders/{orderId}/tracking": {
+    get: {
+      tags,
+      summary: "Live tracking: the rider, where they are, and about how long",
+      description:
+        "Load once and every minute (for the ETA); the rider's moves arrive over the socket as rider:location in the order's room. The rider and their location are shown only while the order is RIDER_ASSIGNED or PICKED_UP, never after. The ETA is the straight line x 1.4 at an average city speed (etaBasis STRAIGHT_LINE). At most 10 a minute.",
+      security: [{ cookieAuth: [] }],
+      parameters: [pathParameter("orderId", "One of my orders")],
+      responses: {
+        200: successResponse("Tracking", {
+          orderId: "0f1e2d3c-4b5a-4968-8776-655443322110",
+          status: "PICKED_UP",
+          isTracked: true,
+          restaurant: { name: "Auntie Esi's Kitchen", latitude: 6.6885, longitude: -1.6244 },
+          dropoff: { latitude: 6.7045, longitude: -1.6155 },
+          rider: {
+            firstName: "Kwame",
+            photoUrl: null,
+            vehicleType: "MOTORBIKE",
+            plateNumber: "M-21-GR 1001",
+          },
+          riderLocation: { latitude: 6.6975, longitude: -1.62, at: "2026-10-10T12:41:05.000Z" },
+          etaMinutes: 6,
+          etaBasis: "STRAIGHT_LINE",
+        }),
+        404: errorResponse("Not mine, or no such order", "NOT_FOUND", "Order not found"),
+        429: errorResponse(
+          "Asked too often",
+          "RATE_LIMITED",
+          "Too many attempts. Please try again later",
+        ),
+      },
+    },
+  },
   "/api/v1/customer/orders/{orderId}": {
     get: {
       tags,
       summary: "One of my orders, with its timeline",
       description:
-        "timeline lists every status reached, with times. customerActions lists what the customer may still do (e.g. CANCELLED before the restaurant accepts).",
+        "timeline lists every status reached, with times. customerActions lists what the customer may still do (e.g. CANCELLED before the restaurant accepts). deliveryCode is the 4-digit code to show the rider, only while the order is PICKED_UP.",
       security: loggedIn,
       parameters: [orderId],
       responses: { 200: successResponse("The order", exampleOrderDetail), 404: notFound },

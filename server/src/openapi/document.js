@@ -13,6 +13,14 @@ import { checkoutPaths } from "./paths/checkout.paths.js";
 import { customerOrderListOperation, customerOrderPaths } from "./paths/customerOrder.paths.js";
 import { webhookPaths } from "./paths/webhook.paths.js";
 import { adminOrderPaths } from "./paths/adminOrder.paths.js";
+import { riderApplicationPaths } from "./paths/riderApplication.paths.js";
+import { adminRiderPaths } from "./paths/adminRider.paths.js";
+import { adminNotificationPaths } from "./paths/adminNotification.paths.js";
+import { riderStatusPaths } from "./paths/riderStatus.paths.js";
+import { riderOfferPaths } from "./paths/riderOffer.paths.js";
+import { riderDeliveryPaths } from "./paths/riderDelivery.paths.js";
+import { riderEarningsPaths } from "./paths/riderEarnings.paths.js";
+import { notificationPaths } from "./paths/notification.paths.js";
 import { successResponse, errorResponse } from "./helpers.js";
 
 export const openApiDocument = {
@@ -72,5 +80,13 @@ export const openApiDocument = {
     ...customerOrderPaths,
     ...webhookPaths,
     ...adminOrderPaths,
+    ...riderApplicationPaths,
+    ...adminRiderPaths,
+    ...adminNotificationPaths,
+    ...riderStatusPaths,
+    ...riderOfferPaths,
+    ...riderDeliveryPaths,
+    ...riderEarningsPaths,
+    ...notificationPaths,
   },
 };

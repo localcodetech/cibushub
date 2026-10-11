@@ -6,7 +6,10 @@ import { signAccessToken } from "../../src/utils/auth/tokens.js";
 import { createTestUser } from "../helpers/users.js";
 import { createOwner, createTestRestaurant } from "../helpers/restaurants.js";
 import { scheduledJobs } from "../helpers/fakeJobs.js";
-import { Order, Refund } from "../../src/models/index.js";
+import { sentSms } from "../helpers/fakeSms.js";
+import { sentEmails } from "../helpers/fakeEmail.js";
+import { notifyOrderStatus } from "../../src/services/notifications/orderStatusNotice.service.js";
+import { Delivery, Notification, Order, Refund, RiderProfile } from "../../src/models/index.js";
 import { reconcilePayment } from "../../src/services/payment/paystackWebhook.service.js";
 
 vi.mock("../../src/services/payment/paystack.client.js", () => ({
@@ -17,11 +20,6 @@ vi.mock("../../src/services/payment/paystack.client.js", () => ({
   verifyTransaction: vi.fn(),
   createRefund: vi.fn(),
   fetchRefund: vi.fn(),
-}));
-
-// Pretend email: the receipt email is not what these tests are about
-vi.mock("../../src/services/notifications/email.service.js", () => ({
-  sendEmail: async () => {},
 }));
 
 const paystack = await import("../../src/services/payment/paystack.client.js");
@@ -207,6 +205,114 @@ describe("Accept or reject [AC-RORD-03]", () => {
 
     expect(again.status).toBe(409);
     expect(again.body.error.code).toBe("INVALID_STATUS_TRANSITION");
+  });
+});
+
+describe("The customer hears about it [AC-NOTIF-01, AC-NOTIF-04, AC-NOTIF-06]", () => {
+  const smsTo = (phone) => sentSms.filter((sms) => sms.phone === phone);
+
+  it("accepted: an SMS with the order number and when it will be ready (Ghana time)", async () => {
+    await as(owner).post(`${ordersUrl}/${order.id}/accept`, { prepTimeMinutes: 25 });
+
+    const messages = smsTo(customer.phone);
+    expect(messages).toHaveLength(1);
+    expect(messages[0].message).toContain(order.orderNumber);
+    expect(messages[0].message).toContain("around 12:25"); // Ghana is UTC all year
+    expect(messages[0].message.length).toBeLessThanOrEqual(160);
+  });
+
+  it("rejected: an SMS and an email with the restaurant's reason", async () => {
+    await as(owner).post(`${ordersUrl}/${order.id}/reject`, { reason: "Kitchen closing early" });
+
+    expect(smsTo(customer.phone)[0].message).toContain("full refund");
+    const email = sentEmails.find((sent) => sent.subject.includes("couldn't go ahead"));
+    expect(email.to).toBe("ama@example.com");
+    expect(email.text).toContain("Kitchen closing early");
+    expect(email.html).toContain("Sorry, your order couldn&#39;t go ahead");
+  });
+
+  it("picked up: an SMS without the delivery code; delivered: an email", async () => {
+    const saved = await Order.findByPk(order.id);
+
+    saved.status = "PICKED_UP";
+    await notifyOrderStatus(saved);
+    saved.status = "DELIVERED";
+    await notifyOrderStatus(saved);
+
+    const [pickedUp] = smsTo(customer.phone);
+    expect(pickedUp.message).toContain("on the way");
+    expect(pickedUp.message).not.toMatch(/\b\d{4}\b/); // no 4-digit code
+    expect(sentEmails.map((sent) => sent.subject)).toContain(
+      `Order ${order.orderNumber} was delivered`,
+    );
+  });
+
+  it("is sent once only, even if the same status is announced twice", async () => {
+    const saved = await Order.findByPk(order.id);
+    saved.status = "PICKED_UP";
+
+    await notifyOrderStatus(saved);
+    await notifyOrderStatus(saved);
+
+    expect(smsTo(customer.phone)).toHaveLength(1);
+  });
+});
+
+describe("Everyone involved sees it in the app [AC-NOTIF-01, AC-NOTIF-07]", () => {
+  const inAppFor = async (user) =>
+    (await Notification.findAll({ where: { userId: user.id }, order: [["id", "ASC"]] })).map(
+      (notification) => notification.title,
+    );
+
+  it("paid: the customer and the restaurant owner", async () => {
+    expect(await inAppFor(customer)).toEqual(["Order paid"]);
+    expect(await inAppFor(owner)).toEqual(["New order"]);
+  });
+
+  it("rejected: the customer and every active admin", async () => {
+    const admin = await createTestUser({
+      role: "ADMIN",
+      email: "admin@example.com",
+      phone: "+233200000001",
+    });
+
+    await as(owner).post(`${ordersUrl}/${order.id}/reject`, { reason: "Kitchen closing early" });
+
+    expect(await inAppFor(customer)).toContain("Order couldn't go ahead");
+    const [adminNotice] = await Notification.findAll({ where: { userId: admin.id } });
+    expect(adminNotice.title).toBe("Order rejected");
+    expect(adminNotice.body).toContain("Kitchen closing early");
+  });
+
+  it("delivered: the customer, the owner and the rider who carried it, each once", async () => {
+    const riderUser = await createTestUser({
+      role: "RIDER",
+      email: "yaw@example.com",
+      phone: "+233241110000",
+    });
+    const profile = await RiderProfile.create({
+      userId: riderUser.id,
+      vehicleType: "MOTORBIKE",
+      plateNumber: "M-21-GR 1234",
+      ghanaCardNumber: "GHA-123456789-0",
+      status: "APPROVED",
+    });
+    await Delivery.create({
+      orderId: order.id,
+      riderProfileId: profile.id,
+      status: "DELIVERED",
+      searchRadiusKm: 5,
+      searchStartedAt: FRIDAY_NOON,
+    });
+    const saved = await Order.findByPk(order.id);
+    saved.status = "DELIVERED";
+
+    await notifyOrderStatus(saved);
+    await notifyOrderStatus(saved); // announced twice: still once each [AC-NOTIF-04]
+
+    expect(await inAppFor(customer)).toEqual(["Order paid", "Delivered"]);
+    expect(await inAppFor(owner)).toEqual(["New order", "Order delivered"]);
+    expect(await inAppFor(riderUser)).toEqual(["Delivery complete"]);
   });
 });
 

@@ -8,6 +8,9 @@ import { changeOrderStatus } from "./changeOrderStatus.service.js";
 import { refundableAmount, requestRefund } from "../refund/requestRefund.service.js";
 import { findOrderWithDetails, findOrdersByCustomer } from "../../repositories/order.repository.js";
 import { findRestaurantById } from "../../repositories/restaurant.repository.js";
+import { findDeliveryByOrderId } from "../../repositories/delivery.repository.js";
+import { deliveryCodeFor } from "../../utils/delivery/deliveryCode.js";
+import { isCodeLocked } from "../delivery/deliveryFlow.service.js";
 
 // [AC-CUST-09]
 export const listMyOrders = async (customerId, query) => {
@@ -40,10 +43,28 @@ export const getMyOrder = async (customerId, orderId) => {
   // Who to call about this order; the customer already saw these on the restaurant page
   const restaurant = await findRestaurantById(order.restaurantId);
 
+  // On its way: the customer shows this code to the rider at the door [AC-DEL-06]
+  let deliveryCode = null;
+  // The rider typed a wrong code 5 times: the customer may confirm receipt themselves
+  let canConfirmReceived = false;
+  // The rider reported a problem at the door: they wait until waitEndsAt [AC-DEL-08]
+  let doorProblem = null;
+  if (order.status === "PICKED_UP") {
+    const delivery = await findDeliveryByOrderId(order.id);
+    deliveryCode = delivery ? deliveryCodeFor(delivery.id) : null;
+    canConfirmReceived = delivery ? isCodeLocked(delivery) : false;
+    if (delivery && delivery.problemType) {
+      doorProblem = { type: delivery.problemType, waitEndsAt: delivery.waitEndsAt };
+    }
+  }
+
   return {
     ...order.toJSON(),
     restaurant: { id: restaurant.id, name: restaurant.name, phone: restaurant.phone },
     timeline,
+    deliveryCode,
+    canConfirmReceived,
+    doorProblem,
     // e.g. ["CANCELLED"] before the restaurant accepts, [] after: the app shows the right buttons
     customerActions: nextStatusesFor(order.status, "CUSTOMER"),
   };

@@ -9,8 +9,17 @@ erDiagram
     users ||--o{ oauth_accounts : "signs in with"
     users ||--o{ restaurants : "owns"
     users ||--o{ audit_logs : "acts (admin)"
+    users ||--o{ notifications : "reads"
     restaurants ||--o{ restaurant_opening_hours : "open on"
     restaurants ||--o{ restaurant_documents : "verified by"
+    users ||--o| rider_profiles : "rides as"
+    rider_profiles ||--o{ rider_documents : "verified by"
+    rider_profiles ||--o{ rider_locations : "was at"
+    orders |o--o{ rider_locations : "tracked by"
+    orders ||--o| deliveries : "delivered by"
+    rider_profiles |o--o{ deliveries : "carries"
+    deliveries ||--o{ delivery_offers : "offered as"
+    rider_profiles ||--o{ delivery_offers : "is offered"
     restaurants ||--o{ menu_categories : "has"
     restaurants ||--o{ menu_items : "sells"
     menu_categories ||--o{ menu_items : "groups"
@@ -35,11 +44,14 @@ erDiagram
         enum role "CUSTOMER, RESTAURANT_OWNER, RIDER, ADMIN, SUPER_ADMIN"
         enum status "PENDING_VERIFICATION, PENDING_APPROVAL, ACTIVE, SUSPENDED"
         datetime email_verified_at
+        datetime email_bounced_at "Resend reported a bounce; ordinary emails stop until fixed"
         datetime phone_verified_at
         varchar avatar_url
         datetime last_login_at
         datetime terms_accepted_at "sign-up consent (Act 843)"
         varchar terms_version "which Terms version was accepted"
+        boolean marketing_opt_in "offers and news; false unless they say yes"
+        datetime marketing_opt_in_changed_at "proof of consent"
         datetime created_at
         datetime updated_at
         datetime deleted_at "soft delete"
@@ -130,6 +142,119 @@ erDiagram
         enum document_type "BUSINESS_REGISTRATION, FDA_CERTIFICATE, GHANA_CARD, OPERATING_LICENCE; unique per restaurant"
         varchar public_id "private Cloudinary asset"
         varchar format "pdf, jpg, png, webp"
+        datetime created_at
+        datetime updated_at
+    }
+
+    rider_profiles {
+        uuid id PK
+        uuid user_id FK "users.id, unique, ON DELETE CASCADE"
+        enum vehicle_type "MOTORBIKE, BICYCLE, CAR"
+        varchar plate_number "empty for bicycles"
+        varchar ghana_card_number "GHA-123456789-0"
+        enum status "DRAFT, PENDING_APPROVAL, APPROVED, REJECTED, SUSPENDED"
+        boolean is_online "live position is in Redis"
+        datetime went_online_at
+        varchar rejection_reason
+        datetime submitted_at
+        datetime approved_at
+        datetime created_at
+        datetime updated_at
+    }
+
+    rider_documents {
+        uuid id PK
+        uuid rider_profile_id FK "rider_profiles.id, ON DELETE CASCADE"
+        enum document_type "GHANA_CARD, DRIVERS_LICENCE; unique per rider"
+        varchar public_id "private Cloudinary asset"
+        varchar format "pdf, jpg, png, webp"
+        datetime created_at
+        datetime updated_at
+    }
+
+    notification_logs {
+        bigint id PK
+        enum channel "EMAIL, SMS"
+        varchar template "e.g. otp.verify, order.receipt, refund.started"
+        varchar dedupe_key UK "e.g. refund:<id>:started:sms; one send per event"
+        varchar recipient_masked "never the full address; never the message text"
+        enum status "QUEUED, SENT, FAILED"
+        int attempts
+        varchar provider_message_id
+        varchar last_error
+        datetime sent_at
+        datetime created_at
+        datetime updated_at
+    }
+
+    notifications {
+        bigint id PK
+        uuid user_id FK "users.id, ON DELETE CASCADE"
+        varchar type "e.g. order.accepted, rider.approved"
+        varchar title
+        varchar body
+        varchar link "where tapping it goes in the app"
+        varchar dedupe_key UK "e.g. order:<id>:status:ACCEPTED:in-app; shown once per event"
+        datetime read_at "empty = unread"
+        datetime created_at
+        datetime updated_at
+    }
+
+    rider_locations {
+        bigint id PK
+        uuid rider_profile_id FK "rider_profiles.id, ON DELETE CASCADE"
+        uuid order_id FK "orders.id, ON DELETE SET NULL; set during a delivery"
+        decimal latitude "9,6"
+        decimal longitude "9,6"
+        int accuracy_metres
+        datetime recorded_at "at most every 30 seconds"
+        datetime created_at
+        datetime updated_at
+    }
+
+    deliveries {
+        uuid id PK
+        uuid order_id FK "orders.id, unique, ON DELETE CASCADE"
+        uuid rider_profile_id FK "rider_profiles.id, ON DELETE SET NULL; empty while searching"
+        enum status "SEARCHING, ASSIGNED, PICKED_UP, RETURNING, DELIVERED, FAILED, CANCELLED"
+        decimal search_radius_km "4,1"
+        datetime search_started_at
+        datetime radius_widened_at
+        datetime admins_alerted_at
+        datetime assigned_at
+        datetime picked_up_at
+        int pickup_distance_metres
+        boolean pickup_flagged "picked up more than 200 m away"
+        int code_attempts "wrong delivery codes, locks at 5"
+        int call_attempts "rider's counted calls at the drop-off"
+        datetime last_call_at
+        datetime delivered_at
+        datetime problem_reported_at
+        enum problem_type "UNREACHABLE, NOT_AT_ADDRESS, REFUSED_CODE"
+        datetime wait_ends_at "10 minutes after the report"
+        decimal reported_latitude "where the rider was"
+        decimal reported_longitude
+        datetime failed_at
+        datetime returned_at
+        int return_distance_metres
+        boolean return_flagged "returned more than 200 m away"
+        int rider_payout_pesewas "what the rider earned: 1x delivered, 1.5x returned"
+        datetime settled_at "when the payout was fixed (earnings are grouped by it)"
+        varchar failure_reason
+        datetime cancelled_at
+        datetime created_at
+        datetime updated_at
+    }
+
+    delivery_offers {
+        uuid id PK
+        uuid delivery_id FK "deliveries.id, ON DELETE CASCADE"
+        uuid rider_profile_id FK "rider_profiles.id, ON DELETE CASCADE; unique with delivery_id"
+        int pickup_distance_metres
+        datetime offered_at
+        datetime expires_at "60 seconds later"
+        datetime responded_at
+        enum outcome "PENDING, ACCEPTED, DECLINED, EXPIRED, SUPERSEDED"
         datetime created_at
         datetime updated_at
     }
@@ -321,6 +446,14 @@ erDiagram
 | `restaurants.owner_id` | `users.id` | an owner has many restaurants | RESTRICT |
 | `restaurant_opening_hours.restaurant_id` | `restaurants.id` | one row per weekday | CASCADE |
 | `restaurant_documents.restaurant_id` | `restaurants.id` | one document per type | CASCADE |
+| `rider_profiles.user_id` | `users.id` | one rider profile per rider account | CASCADE |
+| `rider_documents.rider_profile_id` | `rider_profiles.id` | one document per type | CASCADE |
+| `rider_locations.rider_profile_id` | `rider_profiles.id` | location history, at most every 30 s | CASCADE |
+| `rider_locations.order_id` | `orders.id` | the delivery the rider was on | SET NULL |
+| `deliveries.order_id` | `orders.id` | one delivery per order | CASCADE |
+| `deliveries.rider_profile_id` | `rider_profiles.id` | the rider carrying it | SET NULL |
+| `delivery_offers.delivery_id` | `deliveries.id` | offers made while searching | CASCADE |
+| `delivery_offers.rider_profile_id` | `rider_profiles.id` | each rider asked once per delivery | CASCADE |
 | `menu_categories.restaurant_id` | `restaurants.id` | a menu has many categories | CASCADE |
 | `menu_items.restaurant_id` | `restaurants.id` | kept for quick ownership checks and search | CASCADE |
 | `menu_items.category_id` | `menu_categories.id` | a category holds many items | RESTRICT |

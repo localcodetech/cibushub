@@ -1,8 +1,10 @@
-import { sendSms } from "./sms.service.js";
+import { notify } from "./notify.service.js";
 
 export const notifyPasswordChanged = async (user) => {
-  await sendSms(
-    user.phone,
-    "Your CibusHub password was just changed. If this was not you, contact support immediately.",
-  );
+  await notify({
+    channel: "SMS",
+    to: user.phone,
+    template: "account.password-changed",
+    text: "Your CibusHub password was just changed. If this was not you, contact support immediately.",
+  });
 };

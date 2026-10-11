@@ -9,9 +9,11 @@ import {
 import { createOrder } from "../../controllers/order/placeOrder.controller.js";
 import {
   cancelOrder,
+  confirmReceived,
   getOrder,
   getReceipt,
   downloadReceiptPdf,
+  getTracking,
   listOrders,
 } from "../../controllers/order/myOrders.controller.js";
 import { payForOrder } from "../../controllers/payment/startPayment.controller.js";
@@ -25,6 +27,15 @@ const paymentStatusLimiter = createRateLimiter({
   name: "payment-status",
   windowSeconds: 60,
   limit: 30,
+  keyBy: (req) => `user:${req.user.id}`,
+});
+
+// The tracking map reloads every minute (for the ETA); the rider's moves come by socket.
+// A little room for reconnects and refreshes, but no hammering [AC-MAP-03, AC-MAP-05]
+const trackingLimiter = createRateLimiter({
+  name: "order-tracking",
+  windowSeconds: 60,
+  limit: 10,
   keyBy: (req) => `user:${req.user.id}`,
 });
 
@@ -49,9 +60,19 @@ router.get("/", validate(listMyOrdersSchema, "query"), listOrders);
 router.get("/:orderId", getOrder);
 
 // ─────────────────────────────────────────────
+// Live tracking: the rider, where they are, and about how long [AC-RT-04]
+// ─────────────────────────────────────────────
+router.get("/:orderId/tracking", trackingLimiter, getTracking);
+
+// ─────────────────────────────────────────────
 // Cancel one of my orders (only before the restaurant accepts)
 // ─────────────────────────────────────────────
 router.post("/:orderId/cancel", validate(cancelOrderSchema), cancelOrder);
+
+// ─────────────────────────────────────────────
+// "I've received my food": only after the rider's code tries locked [AC-DEL-06]
+// ─────────────────────────────────────────────
+router.post("/:orderId/confirm-received", confirmReceived);
 
 // ─────────────────────────────────────────────
 // Pay for my order with Paystack (card or mobile money); call again to retry after a failure

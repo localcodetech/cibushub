@@ -1,4 +1,10 @@
+import sequelize from "../../config/database.js";
 import AppError from "../../utils/AppError.js";
+import { retryOnDeadlock } from "../../utils/database/retryOnDeadlock.js";
+import { scheduleDeliverySearch } from "../../jobs/enqueue.js";
+import { openDelivery } from "../delivery/assignment.service.js";
+import { moveOrderToRiderAssignedIfReady } from "../delivery/riderAssigned.service.js";
+import { findDeliveryForOrderForUpdate } from "../../repositories/delivery.repository.js";
 import { buildPageMeta, toLimitAndOffset } from "../../utils/pagination.js";
 import { nextStatusesFor } from "../../utils/order/orderStateMachine.js";
 import { changeOrderStatus } from "./changeOrderStatus.service.js";
@@ -11,6 +17,8 @@ import {
   findRestaurantOrdersByStatus,
   summariseRestaurantOrders,
 } from "../../repositories/order.repository.js";
+import { ridersForKitchen } from "../delivery/tracking.service.js";
+import { findReturningOrderIds } from "../../repositories/delivery.repository.js";
 
 // The orders a kitchen is still working on: from "paid, waiting for you" to "on the way"
 export const ACTIVE_STATUSES = [
@@ -45,7 +53,9 @@ const firstNameOf = (fullName) => (fullName || "").trim().split(/\s+/)[0] || "Cu
 
 // What the kitchen sees. Never the customer's phone or address: the rider handles delivery
 // [AC-RORD-02]. The money shown is the restaurant's own (subtotal and its earnings).
-const toKitchenOrder = (order) => {
+// rider: who is collecting it (name, photo, vehicle, minutes away), or null [AC-RORD-08]
+// isReturning: nobody took it at the door; the rider is bringing the food back (ADR 003)
+const toKitchenOrder = (order, rider = null, isReturning = false) => {
   const paidEntry = (order.statusHistory || []).find((entry) => entry.toStatus === "PAID");
 
   return {
@@ -75,6 +85,8 @@ const toKitchenOrder = (order) => {
     subtotalPesewas: order.subtotalPesewas,
     restaurantEarningsPesewas: order.restaurantEarningsPesewas,
     cancellationReason: order.cancellationReason,
+    rider,
+    isReturning,
     // e.g. ["ACCEPTED", "REJECTED"] for a new order: the dashboard shows those buttons
     ownerActions: nextStatusesFor(order.status, "RESTAURANT_OWNER"),
   };
@@ -93,7 +105,18 @@ export const listOwnerBoard = async (ownerId, { restaurantId }) => {
     limit: BOARD_LIMIT,
   });
 
-  return orders.map(toKitchenOrder);
+  // Food coming back to the kitchen: the order is cancelled, but the restaurant should know
+  const returningIds = await findReturningOrderIds(idsOf(restaurants));
+  const returning = [];
+  for (const orderId of returningIds) {
+    returning.push(await findOrderForKitchen(orderId));
+  }
+
+  const all = [...orders, ...returning];
+  const riders = await ridersForKitchen(all);
+  return all.map((order) =>
+    toKitchenOrder(order, riders.get(order.id) || null, returningIds.includes(order.id)),
+  );
 };
 
 // One order of one of my restaurants (anyone else's looks like it doesn't exist)
@@ -105,14 +128,15 @@ export const getOwnerOrder = async (ownerId, orderId) => {
     throw new AppError(404, "NOT_FOUND", "Order not found");
   }
 
-  return toKitchenOrder(order);
+  const riders = await ridersForKitchen([order]);
+  return toKitchenOrder(order, riders.get(order.id) || null);
 };
 
 // The owner moves one of their orders on. The state machine decides what is allowed when.
 const moveOrder = async (ownerId, orderId, toStatus, extra = {}) => {
   const restaurantIds = idsOf(await getOwnedRestaurants(ownerId));
 
-  await changeOrderStatus({
+  return changeOrderStatus({
     orderId,
     toStatus,
     actor: { userId: ownerId, role: "RESTAURANT_OWNER" },
@@ -136,7 +160,16 @@ export const acceptOrder = async (ownerId, orderId, prepTimeMinutes) => {
   const minutes = prepTimeMinutes ?? restaurant.prepTimeMinutes;
   const estimatedReadyAt = new Date(Date.now() + minutes * 60 * 1000);
 
-  await moveOrder(ownerId, orderId, "ACCEPTED", { changes: { estimatedReadyAt } });
+  // Accepting and opening the delivery happen together: an accepted order always has one
+  const delivery = await retryOnDeadlock(() =>
+    sequelize.transaction(async (transaction) => {
+      await moveOrder(ownerId, orderId, "ACCEPTED", { changes: { estimatedReadyAt }, transaction });
+      return openDelivery(orderId, new Date(), transaction);
+    }),
+  );
+
+  // Riders can head over while the food cooks [AC-ASSIGN-01, ADR 003]
+  await scheduleDeliverySearch(delivery.id);
   return getOwnerOrder(ownerId, orderId);
 };
 
@@ -160,8 +193,18 @@ export const startPreparing = async (ownerId, orderId) => {
   return getOwnerOrder(ownerId, orderId);
 };
 
+// If a rider already accepted, the order goes straight on to RIDER_ASSIGNED (ADR 003).
+// The delivery is locked before the order, the same order the rider's "Accept" uses.
 export const markReady = async (ownerId, orderId) => {
-  await moveOrder(ownerId, orderId, "READY_FOR_PICKUP");
+  await retryOnDeadlock(() =>
+    sequelize.transaction(async (transaction) => {
+      const delivery = await findDeliveryForOrderForUpdate(orderId, transaction);
+      const order = await moveOrder(ownerId, orderId, "READY_FOR_PICKUP", { transaction });
+      if (delivery) {
+        await moveOrderToRiderAssignedIfReady(order, delivery, transaction);
+      }
+    }),
+  );
   return getOwnerOrder(ownerId, orderId);
 };
 

@@ -37,8 +37,8 @@ export const rejectUnansweredOrder = async (orderId, now = new Date()) => {
       // The owner may have tapped Accept a moment ago: then this must not reject
       onlyIfStatus: "PAID",
     });
-    // The live event goes to the customer, the restaurant and the admins (changeOrderStatus).
-    // SMS and email notices arrive with Step 12.
+    // The live event goes to the customer, the restaurant and the admins, and the customer
+    // also gets an SMS and email (all from changeOrderStatus).
     logger.warn({ orderId }, "Restaurant did not answer in time: order rejected and refunded");
     return "REJECTED";
   } catch (error) {

@@ -5,6 +5,7 @@ import { Address, MenuCategory, MenuItem } from "../../src/models/index.js";
 import { signAccessToken } from "../../src/utils/auth/tokens.js";
 import { createTestUser } from "../helpers/users.js";
 import { createOwner, createTestRestaurant } from "../helpers/restaurants.js";
+import { sentEmails } from "../helpers/fakeEmail.js";
 import { reconcilePayment } from "../../src/services/payment/paystackWebhook.service.js";
 
 vi.mock("../../src/services/payment/paystack.client.js", () => ({
@@ -15,14 +16,6 @@ vi.mock("../../src/services/payment/paystack.client.js", () => ({
   verifyTransaction: vi.fn(),
   createRefund: vi.fn(),
   fetchRefund: vi.fn(),
-}));
-
-// Pretend email: keep every email in a list
-const sentEmails = vi.hoisted(() => []);
-vi.mock("../../src/services/notifications/email.service.js", () => ({
-  sendEmail: async (to, subject, text) => {
-    sentEmails.push({ to, subject, text });
-  },
 }));
 
 const paystack = await import("../../src/services/payment/paystack.client.js");
@@ -47,7 +40,6 @@ const as = (user) => ({
 
 beforeEach(async () => {
   vi.clearAllMocks();
-  sentEmails.length = 0;
   vi.useFakeTimers({ toFake: ["Date"] });
   vi.setSystemTime(FRIDAY_NOON);
 
@@ -109,9 +101,20 @@ describe("Receipt [AC-PAY-15]", () => {
     expect(sentEmails).toHaveLength(1);
     expect(sentEmails[0].to).toBe("ama@example.com");
     expect(sentEmails[0].subject).toContain(order.orderNumber);
-    expect(sentEmails[0].text).toContain("2 x Waakye: GHS 60.00");
-    expect(sentEmails[0].text).toContain("Paid by: Mobile money");
-    expect(sentEmails[0].text).toContain(`Payment reference: ${reference}`);
+    expect(sentEmails[0].text).toContain("2 × Waakye: GHS 60.00");
+    expect(sentEmails[0].text).toContain(`Paid with Mobile money · reference ${reference}`);
+    expect(sentEmails[0].html).toContain("Thanks for your order!"); // the branded version too
+  });
+
+  it("comes with the receipt attached as a PDF file [AC-PAY-17]", async () => {
+    await reconcilePayment(reference);
+
+    const [attachment] = sentEmails[0].attachments;
+    expect(attachment.filename).toBe(`CibusHub-receipt-${order.orderNumber}.pdf`);
+    // base64 -> the file's bytes; every PDF file starts with "%PDF"
+    const pdf = Buffer.from(attachment.content, "base64");
+    expect(pdf.subarray(0, 4).toString()).toBe("%PDF");
+    expect(sentEmails[0].text).toContain("PDF copy of this receipt is attached");
   });
 
   it("can be viewed in the app once paid, with items, fees, total, method and reference", async () => {

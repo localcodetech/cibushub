@@ -9,6 +9,14 @@ import {
   rejectUnansweredOrder,
   sweepUnansweredOrders,
 } from "../services/order/restaurantTimeout.service.js";
+import { sweepStaleRiders } from "../services/rider/riderPresence.service.js";
+import { sweepLockedDeliveryCodes } from "../services/delivery/deliveryFlow.service.js";
+import { sweepDoorWaits } from "../services/delivery/doorProblem.service.js";
+import { processNotification } from "../services/notifications/notify.service.js";
+import {
+  offerNextRider,
+  sweepSearchingDeliveries,
+} from "../services/delivery/assignment.service.js";
 
 // Job name → what it does. Each one re-checks the current state before acting [AC-JOB-03]
 export const PROCESSORS = {
@@ -20,6 +28,12 @@ export const PROCESSORS = {
   processPendingRefunds: () => processPendingRefunds(),
   rejectUnansweredOrder: (job) => rejectUnansweredOrder(job.data.orderId),
   sweepUnansweredOrders: () => sweepUnansweredOrders(),
+  sweepStaleRiders: () => sweepStaleRiders(),
+  offerDelivery: (job) => offerNextRider(job.data.deliveryId),
+  sweepSearchingDeliveries: () => sweepSearchingDeliveries(),
+  sweepLockedDeliveryCodes: () => sweepLockedDeliveryCodes(),
+  sweepDoorWaits: () => sweepDoorWaits(),
+  sendNotification: (job) => processNotification(job),
 };
 
 // One function for every queue: find the job's processor by its name

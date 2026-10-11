@@ -57,6 +57,23 @@ describe("POST /api/v1/auth/register", () => {
     expect(await User.count()).toBe(0);
   });
 
+  it("says no to offers and news unless the box is ticked [AC-NOTIF-09]", async () => {
+    await register(validCustomer);
+    await register({
+      ...validCustomer,
+      email: "kofi@example.com",
+      phone: "055 111 2222",
+      marketingOptIn: true,
+    });
+
+    const ama = await User.findOne({ where: { email: "ama@example.com" } });
+    const kofi = await User.findOne({ where: { email: "kofi@example.com" } });
+    expect(ama.marketingOptIn).toBe(false);
+    expect(ama.marketingOptInChangedAt).toBeNull();
+    expect(kofi.marketingOptIn).toBe(true);
+    expect(kofi.marketingOptInChangedAt).not.toBeNull();
+  });
+
   it("texts a 6-digit verification code [AC-AUTH-07]", async () => {
     await register(validCustomer);
 

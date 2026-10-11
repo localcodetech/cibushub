@@ -10,7 +10,12 @@ import { registerSchedules } from "./jobs/schedules.js";
 // ─────────────────────────────────────────────
 // The worker: a separate process that runs background jobs, so the API stays fast
 // ─────────────────────────────────────────────
-const WORKED_QUEUES = [QUEUE_NAMES.payments, QUEUE_NAMES.maintenance];
+const WORKED_QUEUES = [
+  QUEUE_NAMES.payments,
+  QUEUE_NAMES.maintenance,
+  QUEUE_NAMES.assignment,
+  QUEUE_NAMES.notifications,
+];
 
 const workers = WORKED_QUEUES.map((queueName) => {
   const worker = new Worker(queueName, runJob, {

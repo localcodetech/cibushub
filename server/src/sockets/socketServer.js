@@ -9,6 +9,9 @@ import { verifyAccessToken } from "../utils/auth/tokens.js";
 import { findUserById } from "../repositories/user.repository.js";
 import { findRestaurantsByOwner } from "../repositories/restaurant.repository.js";
 import { findOrderById } from "../repositories/order.repository.js";
+import { recordRiderLocation } from "../services/rider/riderPresence.service.js";
+import { findRiderProfileByUserId } from "../repositories/rider.repository.js";
+import { findActiveDeliveryForRider } from "../repositories/delivery.repository.js";
 import { ADMINS_ROOM, orderRoom, restaurantRoom, userRoom } from "./rooms.js";
 
 // Live updates over Socket.IO [AC-RT-01, AC-RT-02].
@@ -40,8 +43,8 @@ const authenticateSocket = async (socket, next) => {
   }
 };
 
-// May this user follow this order? Its customer, its restaurant's owner, or an admin [AC-RT-02].
-// (The assigned rider is added in Step 11.)
+// May this user follow this order? Its customer, its restaurant's owner, its rider
+// (while carrying it), or an admin [AC-RT-02].
 export const canFollowOrder = async (user, orderId) => {
   const order = await findOrderById(orderId);
   if (!order) {
@@ -56,6 +59,11 @@ export const canFollowOrder = async (user, orderId) => {
   if (user.role === "RESTAURANT_OWNER") {
     const restaurants = await findRestaurantsByOwner(user.id);
     return restaurants.some((restaurant) => restaurant.id === order.restaurantId);
+  }
+  if (user.role === "RIDER") {
+    const profile = await findRiderProfileByUserId(user.id);
+    const delivery = profile ? await findActiveDeliveryForRider(profile.id) : null;
+    return Boolean(delivery) && delivery.orderId === order.id;
   }
   return false;
 };
@@ -104,6 +112,20 @@ const handleConnection = async (socket) => {
       socket.leave(orderRoom(orderId));
     }
   });
+
+  // A rider's phone sends its position every 5 to 10 seconds while online [AC-RT-04, AC-RT-05].
+  // The answer says whether it was kept: { ok: true } or { ok: false, reason }.
+  if (socket.data.user.role === "RIDER") {
+    socket.on("rider:location", async (point, reply) => {
+      const answer = typeof reply === "function" ? reply : () => {};
+      try {
+        answer(await recordRiderLocation(socket.data.user.id, point));
+      } catch (error) {
+        logger.error({ err: error, userId: socket.data.user.id }, "Rider location failed");
+        answer({ ok: false, reason: "ERROR" });
+      }
+    });
+  }
 
   await joinOwnRooms(socket);
 };

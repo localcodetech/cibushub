@@ -1,8 +1,8 @@
 import redis from "../../config/redis.js";
 import AppError from "../../utils/AppError.js";
 import { generateOtp, hashOtp, otpMatches } from "../../utils/auth/otp.js";
-import { sendSms } from "../notifications/sms.service.js";
-import { sendEmail } from "../notifications/email.service.js";
+import { notify } from "../notifications/notify.service.js";
+import { codeEmail } from "../notifications/templates/emails.js";
 
 const OTP_PURPOSES = {
   verify: {
@@ -20,11 +20,20 @@ const OTP_PURPOSES = {
     message: (code) =>
       `Your CibusHub code is ${code}. Use it to confirm your new phone number. It expires in 5 minutes.`,
   },
+  // Sent to the account's own email, to prove it works [AC-AUTH-01]
+  verifyEmail: {
+    channel: "email",
+    lifetimeSeconds: 15 * 60,
+    emailReason: "confirm your email address",
+    message: (code) =>
+      `Your CibusHub code is ${code}. Use it to confirm your email address. It expires in 15 minutes.`,
+  },
   // Sent to the NEW email address [AC-CUST-02]
   changeEmail: {
     channel: "email",
     lifetimeSeconds: 15 * 60,
-    subject: "Confirm your new CibusHub email",
+    // For the branded email: "Use this code to ..."
+    emailReason: "confirm your new email address",
     message: (code) =>
       `Your CibusHub code is ${code}. Use it to confirm your new email address. It expires in 15 minutes.`,
   },
@@ -76,10 +85,21 @@ export const sendOtp = async (destination, purpose = "verify") => {
   await redis.del(keys.attempts);
   await redis.set(keys.cooldown, "1", "EX", RESEND_WAIT_SECONDS);
 
+  // Sent in the background, like every message; never stored anywhere but the job [AC-NOTIF-02]
   if (settings.channel === "email") {
-    await sendEmail(destination, settings.subject, settings.message(code));
+    const email = codeEmail({
+      code,
+      reason: settings.emailReason,
+      minutes: settings.lifetimeSeconds / 60,
+    });
+    await notify({ channel: "EMAIL", to: destination, template: `otp.${purpose}`, ...email });
   } else {
-    await sendSms(destination, settings.message(code));
+    await notify({
+      channel: "SMS",
+      to: destination,
+      template: `otp.${purpose}`,
+      text: settings.message(code),
+    });
   }
 };
 

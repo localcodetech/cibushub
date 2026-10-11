@@ -59,6 +59,18 @@ export const socialSignInRequest = async (details) => {
   return result.data;
 };
 
+// Emails a 6-digit code to my own address, to confirm it [AC-AUTH-01]. Returns { email }.
+export const sendEmailCodeRequest = async () => {
+  const result = await api.post("/auth/email/send-code");
+  return result.data;
+};
+
+// The right code confirms the email. Returns the updated user (emailVerifiedAt is set).
+export const verifyEmailRequest = async (code) => {
+  const result = await api.post("/auth/email/verify", { code });
+  return result.data;
+};
+
 // Saves the phone of a logged-in user who hasn't verified one, and texts a code.
 // Returns the updated user.
 export const addPhoneRequest = async (phone) => {

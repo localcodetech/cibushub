@@ -10,6 +10,7 @@ import CartPage from "@/pages/public/CartPage";
 import LoginPage from "@/pages/auth/LoginPage";
 import RegisterPage from "@/pages/auth/RegisterPage";
 import VerifyPhonePage from "@/pages/auth/VerifyPhonePage";
+import VerifyEmailPage from "@/pages/auth/VerifyEmailPage";
 import AddPhonePage from "@/pages/auth/AddPhonePage";
 import PendingApprovalPage from "@/pages/auth/PendingApprovalPage";
 import ForgotPasswordPage from "@/pages/auth/ForgotPasswordPage";
@@ -36,8 +37,14 @@ const OrderDetailPage = lazy(() => import("@/pages/customer/OrderDetailPage"));
 const OwnerLayout = lazy(() => import("@/layouts/OwnerLayout"));
 const OwnerDashboardPage = lazy(() => import("@/pages/owner/OwnerDashboardPage"));
 const OwnerHistoryPage = lazy(() => import("@/pages/owner/OwnerHistoryPage"));
+const RiderLayout = lazy(() => import("@/layouts/RiderLayout"));
 const RiderHomePage = lazy(() => import("@/pages/rider/RiderHomePage"));
+const RiderDeliveryPage = lazy(() => import("@/pages/rider/RiderDeliveryPage"));
+const RiderEarningsPage = lazy(() => import("@/pages/rider/RiderEarningsPage"));
+const RiderApplicationPage = lazy(() => import("@/pages/rider/RiderApplicationPage"));
 const AdminDashboardPage = lazy(() => import("@/pages/admin/AdminDashboardPage"));
+const NotificationsPage = lazy(() => import("@/pages/NotificationsPage"));
+const NotificationSettingsPage = lazy(() => import("@/pages/NotificationSettingsPage"));
 
 // The map of the app: which page shows for which address.
 // Every page inside "children" is drawn inside RootLayout (navbar + footer).
@@ -62,6 +69,7 @@ const router = createBrowserRouter([
           { path: "login", element: <LoginPage /> },
           { path: "register", element: <RegisterPage /> },
           { path: "verify-phone", element: <VerifyPhonePage /> },
+          { path: "verify-email", element: <VerifyEmailPage /> },
           { path: "add-phone", element: <AddPhonePage /> },
           { path: "pending-approval", element: <PendingApprovalPage /> },
           { path: "forgot-password", element: <ForgotPasswordPage /> },
@@ -157,7 +165,21 @@ const router = createBrowserRouter([
             path: "rider",
             element: (
               <RequireRole allowedRoles={["RIDER"]}>
-                <RiderHomePage />
+                <RiderLayout />
+              </RequireRole>
+            ),
+            children: [
+              { index: true, element: <RiderHomePage /> },
+              { path: "delivery", element: <RiderDeliveryPage /> },
+              { path: "earnings", element: <RiderEarningsPage /> },
+            ],
+          },
+          {
+            // Filled in while the account waits for approval, so pending riders may open it
+            path: "rider/apply",
+            element: (
+              <RequireRole allowedRoles={["RIDER"]} allowPending>
+                <RiderApplicationPage />
               </RequireRole>
             ),
           },
@@ -166,6 +188,31 @@ const router = createBrowserRouter([
             element: (
               <RequireRole allowedRoles={["ADMIN", "SUPER_ADMIN"]}>
                 <AdminDashboardPage />
+              </RequireRole>
+            ),
+          },
+
+          {
+            // Every role's notification centre; open while waiting for approval too,
+            // so a rider can read why their application was not approved
+            path: "notifications",
+            element: (
+              <RequireRole
+                allowedRoles={["CUSTOMER", "RESTAURANT_OWNER", "RIDER", "ADMIN", "SUPER_ADMIN"]}
+                allowPending
+              >
+                <NotificationsPage />
+              </RequireRole>
+            ),
+          },
+          {
+            // Yes or no to offers and news [AC-NOTIF-09]
+            path: "notifications/settings",
+            element: (
+              <RequireRole
+                allowedRoles={["CUSTOMER", "RESTAURANT_OWNER", "RIDER", "ADMIN", "SUPER_ADMIN"]}
+              >
+                <NotificationSettingsPage />
               </RequireRole>
             ),
           },

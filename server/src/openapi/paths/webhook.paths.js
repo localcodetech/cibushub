@@ -41,4 +41,41 @@ export const webhookPaths = {
       },
     },
   },
+  "/api/v1/webhooks/resend": {
+    post: {
+      tags: ["Webhooks"],
+      summary: "Resend email events (called by Resend, not by the app)",
+      description: [
+        "Resend signs the raw body the Svix way (svix-id, svix-timestamp, svix-signature headers, HMAC-SHA256 with RESEND_WEBHOOK_SECRET); a wrong signature, a message older than 5 minutes or no secret set gets 401.",
+        "email.bounced (not Transient) marks the account's email as bouncing and unconfirmed: ordinary emails to it stop (codes still go) until it is confirmed again or changed.",
+        "outcome is one of: BOUNCE_RECORDED, IGNORED.",
+      ].join(" "),
+      parameters: ["svix-id", "svix-timestamp", "svix-signature"].map((name) => ({
+        name,
+        in: "header",
+        required: true,
+        schema: { type: "string" },
+      })),
+      requestBody: {
+        required: true,
+        content: {
+          "application/json": {
+            example: {
+              type: "email.bounced",
+              created_at: "2026-10-11T12:00:00.000Z",
+              data: {
+                email_id: "4ef9a417-02e9-4d39-ad75-9611e0fcc33c",
+                to: ["ama@example.com"],
+                bounce: { type: "Permanent", message: "Mailbox does not exist" },
+              },
+            },
+          },
+        },
+      },
+      responses: {
+        200: successResponse("Event received", { received: true, outcome: "BOUNCE_RECORDED" }),
+        401: errorResponse("Bad signature", "INVALID_SIGNATURE", "Webhook signature is not valid"),
+      },
+    },
+  },
 };

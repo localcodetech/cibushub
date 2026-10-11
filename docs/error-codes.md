@@ -42,6 +42,8 @@ Add a row here in the same commit that introduces a new code.
 | `INVALID_CREDENTIALS` | 401 | Wrong email/phone or password (always the same message) | AC-AUTH-12 |
 | `ACCOUNT_NOT_VERIFIED` | 403 | Logged in, but phone not verified yet; feature blocked | AC-AUTH-08 |
 | `ACCOUNT_PENDING_APPROVAL` | 403 | Restaurant owner or rider waiting for admin approval | AC-AUTH-05 |
+| `NO_EMAIL` | 400 | Asked to confirm an email, but the account has none | AC-AUTH-01 |
+| `EMAIL_ALREADY_VERIFIED` | 409 | Asked to confirm an email that is already confirmed | AC-AUTH-01 |
 | `TERMS_NOT_ACCEPTED` | 400 | Google / Apple sign-in would create a new account, but the Terms were not accepted (sign up first) | AC-AUTH-01 |
 | `INVALID_SOCIAL_TOKEN` | 401 | The Google / Apple ID token failed the signature, issuer, audience or expiry check | AC-AUTH-11 |
 | `SOCIAL_EMAIL_UNVERIFIED` | 400 | Google / Apple did not confirm the email, so it can't be linked or used for a new account | AC-AUTH-02 |
@@ -50,6 +52,31 @@ Add a row here in the same commit that introduces a new code.
 | `PHONE_ALREADY_VERIFIED` | 409 | Adding a phone when the account's phone is already verified (use profile change instead) | AC-CUST-02 |
 | `CATEGORY_NOT_EMPTY` | 409 | Deleting a menu category that still has items; move or delete them first | AC-MENU-02 |
 
+| `DETAILS_REQUIRED` | 409 | Uploading a rider document before saving the vehicle and Ghana Card details | AC-RIDER-01 |
+| `GHANA_CARD_TAKEN` | 409 | The Ghana Card number is already on another rider's application (one card, one rider) | AC-RIDER-01 |
+| `OFFER_CLOSED` | 409 | Answering a delivery offer that expired, was declined or was taken by another rider | AC-ASSIGN-04, AC-ASSIGN-05 |
+| `DELIVERY_TAKEN` | 409 | Accepting a delivery another rider already took ("This delivery has already been taken") | AC-ASSIGN-05 |
+| `RIDER_BUSY` | 409 | Accepting a delivery while already carrying one | AC-RIDER-06 |
+| `RIDER_NOT_AVAILABLE` | 409 | Accepting an offer while offline or no longer approved | AC-RIDER-03 |
+| `ORDER_NOT_ASSIGNABLE` | 409 | An admin assigning a rider to an order that isn't between acceptance and pickup | AC-ASSIGN-07 |
+| `ALREADY_ASSIGNED` | 409 | Assigning the rider who is already on the order | AC-ASSIGN-07 |
+| `DELIVERY_ALREADY_PICKED_UP` | 409 | Changing or removing the rider after the food was picked up | AC-ASSIGN-07, AC-ASSIGN-08 |
+| `NO_RIDER_ASSIGNED` | 409 | Unassigning when no rider is on the order | AC-ASSIGN-08 |
+| `FOOD_NOT_READY` | 409 | "Picked up" before the restaurant marked the order ready | AC-DEL-02 |
+| `PICKUP_FAR_FROM_RESTAURANT` | 409 | "Picked up" more than 200 m from the restaurant (or no known location); `details` has the distance; resend with `confirmFarAway: true` | AC-DEL-03 |
+| `NOT_PICKED_UP` | 409 | Entering the delivery code before pickup | AC-DEL-06 |
+| `WRONG_DELIVERY_CODE` | 400 | Wrong 4-digit code; message says how many attempts are left | AC-DEL-06 |
+| `DELIVERY_CODE_LOCKED` | 429 | 5 wrong codes; admins are alerted and can unlock it | AC-DEL-06 |
+| `CODE_NOT_LOCKED` | 409 | Customer tried "I've received my food" while the rider can still enter the code | AC-DEL-06 |
+| `CALL_THE_CUSTOMER_FIRST` | 409 | "Unreachable" or "not at the address" before 2 counted calls | AC-DEL-08 |
+| `ALREADY_REPORTED` | 409 | A second door problem for one delivery | AC-DEL-08 |
+| `NOT_AT_DROPOFF` | 409 | Door problem reported more than 300 m from the drop-off pin | AC-DEL-08 |
+| `LOCATION_NEEDED` | 409 | Door problem with no known rider location | AC-DEL-08 |
+| `NOT_RETURNING` | 409 | "Returned" for a delivery that isn't being returned | AC-DEL-08 |
+| `RETURN_FAR_FROM_RESTAURANT` | 409 | "Returned" more than 200 m from the restaurant; `details` has the distance; resend with `confirmFarAway: true` | AC-DEL-08 |
+| `RIDER_NOT_APPROVED` | 403 | Going online without an approved rider application | AC-RIDER-02, AC-RIDER-03 |
+| `APPLICATION_LOCKED` | 409 | Changing a rider application while it is under review or after approval | AC-RIDER-01 |
+| `APPLICATION_INCOMPLETE` | 400 | Submitting a rider application with something missing; `details` lists each (`PHOTO`, `GHANA_CARD`, `DRIVERS_LICENCE`, `DETAILS`) | AC-RIDER-01 |
 | `FILE_REQUIRED` | 400 | An upload request arrived without a file in the expected form field | AC-IMG-01 |
 | `FILE_TOO_LARGE` | 400 | An uploaded file is over 5 MB | AC-IMG-01 |
 | `INVALID_UPLOAD` | 400 | More than one file, or a file in the wrong form field | AC-IMG-01 |

@@ -8,7 +8,7 @@ Work that must happen later or on a timer runs in a separate **worker** process 
 |---|---|
 | `payments` | unpaid-order expiry, payment reconciliation, refunds |
 | `maintenance` | sweepers and clean-up |
-| `notifications` | SMS, email, push (notifications step) |
+| `notifications` | every email and SMS (`sendNotification`): 3 tries, 30 s then 60 s apart |
 | `assignment` | rider offers (riders step) |
 
 ## Jobs
@@ -20,6 +20,14 @@ Work that must happen later or on a timer runs in a separate **worker** process 
 | `reconcilePayments` | payments | every 10 minutes | Verifies payments still PENDING after 10 min with Paystack (missed webhooks) |
 | `processRefund` | payments | right after a refund is asked for | Moves one refund a step: send to Paystack, or check if it finished |
 | `processPendingRefunds` | payments | every 5 minutes | Moves every PENDING refund a step (also catches lost `processRefund` jobs) |
+| `rejectUnansweredOrder` | payments | 5 min after an order is paid (delayed) | If the restaurant still hasn't answered, rejects with reason `RESTAURANT_TIMEOUT` and refunds in full, in one transaction |
+| `sweepUnansweredOrders` | maintenance | every minute | Safety net: rejects PAID orders unanswered for over 5 minutes even if their delayed job was lost |
+| `sweepStaleRiders` | maintenance | every minute | Takes online riders with no location for 5 minutes offline and tells their app (`rider:status`) |
+| `offerDelivery` | assignment | when the restaurant accepts, after a decline, and 60.5 s after each offer (delayed) | One search step: expires a stale offer, offers the nearest eligible rider within 5 km (once widened to 10 km), or alerts admins and the customer after 10 minutes without a rider |
+| `sweepSearchingDeliveries` | assignment | every minute | Runs a search step for every delivery still looking for a rider: catches lost jobs and asks riders who came online since |
+| `sweepLockedDeliveryCodes` | maintenance | every minute | Delivery codes locked (5 wrong tries) for 15 minutes with nobody acting: alerts admins again, once per lock (SMS from Step 12) |
+| `sweepDoorWaits` | maintenance | every minute | Door problems whose 10-minute wait ran out: cancels the order as SYSTEM (no refund), the delivery becomes RETURNING, rider and restaurant are told |
+| `sendNotification` | notifications | on demand | Sends one email (Resend) or SMS (Nalo) logged in `notification_logs`. 3 tries (30 s, then 60 s); a refusal that won't change (no address, bad address, provider not configured) fails at once. The last failure marks the row FAILED and alerts admins (`NOTIFICATION_FAILED`). If Redis can't take the job, the message is sent straight away instead. |
 | `cleanupExpiredTokens` | maintenance | daily 03:00 Accra | Deletes expired login sessions |
 
 ## Rules

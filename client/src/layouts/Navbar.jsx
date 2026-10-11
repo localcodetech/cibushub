@@ -8,6 +8,7 @@ import Container from "./Container";
 import MobileMenu from "./MobileMenu";
 import ThemeToggle from "@/components/common/ThemeToggle";
 import CartButton from "./CartButton";
+import NotificationBell from "./NotificationBell";
 
 const Navbar = () => {
   // true when the phone menu is open, false when it is closed
@@ -64,6 +65,9 @@ const Navbar = () => {
                 </button>
               )}
             </nav>
+
+            {/* Every logged-in role has notifications [AC-NOTIF-07] */}
+            {user && <NotificationBell />}
 
             {canHaveCart && <CartButton />}
 

@@ -1,5 +1,4 @@
 import AppError from "../../utils/AppError.js";
-import { formatGhs } from "../../utils/money.js";
 import { findOrderWithDetails } from "../../repositories/order.repository.js";
 import { findRestaurantById } from "../../repositories/restaurant.repository.js";
 import { findSuccessfulPayment } from "../../repositories/payment.repository.js";
@@ -47,29 +46,6 @@ export const buildReceipt = async (orderId) => {
     discountPesewas: order.discountPesewas,
     totalPesewas: order.totalPesewas,
   };
-};
-
-// The receipt as plain text, for the email
-export const receiptAsText = (receipt) => {
-  const lines = receipt.items.map((item) => {
-    const extras = item.options.length > 0 ? ` (${item.options.join(", ")})` : "";
-    return `${item.quantity} x ${item.name}${extras}: ${formatGhs(item.lineTotalPesewas)}`;
-  });
-
-  return [
-    `Receipt for order ${receipt.orderNumber} from ${receipt.restaurantName}`,
-    "",
-    ...lines,
-    "",
-    `Subtotal: ${formatGhs(receipt.subtotalPesewas)}`,
-    `Delivery fee: ${formatGhs(receipt.deliveryFeePesewas)}`,
-    `Service fee: ${formatGhs(receipt.serviceFeePesewas)}`,
-    `Discount: ${formatGhs(receipt.discountPesewas)}`,
-    `Total paid: ${formatGhs(receipt.totalPesewas)}`,
-    "",
-    `Paid by: ${receipt.paymentMethod}`,
-    `Payment reference: ${receipt.paymentReference}`,
-  ].join("\n");
 };
 
 // A customer viewing the receipt of one of their PAID orders

@@ -2,6 +2,7 @@ import { Clock, MessageSquareText } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Card from "@/components/common/Card";
 import OrderStatusBadge from "@/components/order/OrderStatusBadge";
+import RiderSummary from "@/components/order/RiderSummary";
 import { ANSWER_WITHIN_MINUTES } from "@/data/ownerBoard";
 import { formatMoney } from "@/utils/money";
 import { formatTime } from "@/utils/date";
@@ -92,6 +93,27 @@ const KitchenOrderCard = ({ order, now, showRestaurant, isWorking, error, onActi
         <p className="text-[15px]">
           Ready by <span className="font-bold">{formatTime(order.estimatedReadyAt)}</span>
         </p>
+      )}
+
+      {/* Nobody took it at the door: the food is on its way back (ADR 003) */}
+      {order.isReturning && (
+        <p role="status" className="rounded-md bg-amber-100 px-3 py-2 text-[15px] text-amber-950">
+          <span className="font-bold">Food coming back.</span> The customer didn't take the order;
+          the rider is returning it to you.
+        </p>
+      )}
+
+      {/* Who is collecting it, and how far away they are [AC-RORD-08] */}
+      {order.rider && (
+        <div className="rounded-md border border-border p-3">
+          <RiderSummary rider={order.rider}>
+            {order.rider.etaToRestaurantMinutes !== null && (
+              <p className="text-[15px] font-bold">
+                About {order.rider.etaToRestaurantMinutes} min away
+              </p>
+            )}
+          </RiderSummary>
+        </div>
       )}
 
       <ul className="space-y-2 border-t border-border pt-3">

@@ -6,6 +6,8 @@ export const BOARD_TABS = [
   { key: "preparing", label: "Preparing", statuses: ["PREPARING"] },
   { key: "ready", label: "Ready", statuses: ["READY_FOR_PICKUP"] },
   { key: "delivery", label: "Out for delivery", statuses: ["RIDER_ASSIGNED", "PICKED_UP"] },
+  // Nobody took it at the door: the rider is bringing the food back (shown only when there is one)
+  { key: "returning", label: "Coming back", statuses: [], onlyWhenNotEmpty: true },
 ];
 
 // The time a restaurant has to answer before the order is rejected for them [AC-RORD-04].

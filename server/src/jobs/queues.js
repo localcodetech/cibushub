@@ -2,9 +2,10 @@ import { Queue } from "bullmq";
 import { createQueueConnection } from "../config/queueConnection.js";
 
 // One queue per kind of work [AC-JOB-01]
+
 export const QUEUE_NAMES = {
   payments: "payments", // unpaid-order expiry, reconciliation, refunds
-  notifications: "notifications", // SMS, email, push (notifications step)
+  notifications: "notifications", // every email and SMS [AC-NOTIF-02]
   assignment: "assignment", // rider offers (riders step)
   maintenance: "maintenance", // sweepers and clean-up
 };
