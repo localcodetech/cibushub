@@ -49,3 +49,8 @@ export const createUser = (data, transaction) => {
 export const updateUser = (user, changes, transaction) => {
   return user.update(changes, { transaction });
 };
+
+// Everyone who should hear about an admin alert
+export const findActiveAdmins = () => {
+  return User.findAll({ where: { role: ["ADMIN", "SUPER_ADMIN"], status: "ACTIVE" } });
+};

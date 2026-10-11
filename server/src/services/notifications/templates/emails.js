@@ -104,7 +104,13 @@ export const emailChangedEmail = ({ newEmail }) =>
 
 // The restaurant said no, or didn't answer in time [AC-NOTIF-01, AC-RORD-03, AC-RORD-04]
 //   reason: what the restaurant typed (the customer sees it), or "RESTAURANT_TIMEOUT"
-export const orderRejectedEmail = ({ orderNumber, orderId, restaurantName, reason, totalPesewas }) => {
+export const orderRejectedEmail = ({
+  orderNumber,
+  orderId,
+  restaurantName,
+  reason,
+  totalPesewas,
+}) => {
   const why =
     reason === "RESTAURANT_TIMEOUT"
       ? `${restaurantName} didn't respond in time.`
@@ -215,3 +221,34 @@ export const riderReviewedEmail = ({ event, reason }) => {
     ],
   });
 };
+
+// Admin alert: no rider took a paid order for 10 minutes [AC-NOTIF-01, AC-ASSIGN-06]
+export const noRiderFoundEmail = ({ orderNumber }) =>
+  renderEmail({
+    subject: `No rider found for order ${orderNumber}`,
+    preheader: "Nobody has accepted this delivery for 10 minutes.",
+    heading: "No rider found",
+    blocks: [
+      paragraph(`Order ${orderNumber} has been waiting 10 minutes and no rider has accepted it.`),
+      paragraph("Please assign a rider by hand or contact the customer."),
+      button("Open the admin dashboard", appLink("/admin")),
+    ],
+  });
+
+// Admin alert: Paystack says a different amount was paid than the order total [AC-NOTIF-01, AC-PAY-06]
+//   received: in pesewas (or the smallest unit of `currency`)
+export const paymentMismatchEmail = ({ reference, orderNumber, expected, received, currency }) =>
+  renderEmail({
+    subject: `Payment amount mismatch on order ${orderNumber}`,
+    preheader: "The order was NOT marked paid. Please check it in Paystack.",
+    heading: "Payment amount doesn't match",
+    blocks: [
+      paragraph(`Paystack payment ${reference} doesn't match order ${orderNumber}.`),
+      amountRows([
+        ["Order total", formatGhs(expected)],
+        ["Paystack says", currency === "GHS" ? formatGhs(received) : `${currency} ${received}`],
+      ]),
+      paragraph("The order was NOT marked paid. Please check the payment in Paystack."),
+      button("Open the admin dashboard", appLink("/admin")),
+    ],
+  });

@@ -70,7 +70,13 @@ export const notifyOrderStatus = async (order) => {
       await notify({ channel: "SMS", to: customer.phone, template, key: `${key}:sms`, text: sms });
     }
     if (email) {
-      await notify({ channel: "EMAIL", to: customer.email, template, key: `${key}:email`, ...email });
+      await notify({
+        channel: "EMAIL",
+        to: customer.email,
+        template,
+        key: `${key}:email`,
+        ...email,
+      });
     }
   } catch (error) {
     logger.error({ err: error, orderId: order.id }, "Could not send order status messages");

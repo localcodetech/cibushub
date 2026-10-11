@@ -2,8 +2,10 @@ import { describe, expect, it } from "vitest";
 import {
   codeEmail,
   emailChangedEmail,
+  noRiderFoundEmail,
   orderDeliveredEmail,
   orderRejectedEmail,
+  paymentMismatchEmail,
   receiptEmail,
   refundEmail,
   restaurantReviewedEmail,
@@ -54,9 +56,21 @@ describe("Branded email templates [AC-NOTIF-05]", () => {
         restaurantName: "Auntie Esi's Kitchen",
       }),
       ...["approved", "rejected", "suspended"].flatMap((event) => [
-        restaurantReviewedEmail({ event, restaurantName: "Auntie Esi's Kitchen", reason: "Blurry photo" }),
+        restaurantReviewedEmail({
+          event,
+          restaurantName: "Auntie Esi's Kitchen",
+          reason: "Blurry photo",
+        }),
         riderReviewedEmail({ event, reason: "Blurry photo" }),
       ]),
+      noRiderFoundEmail({ orderNumber: "CH-261011-123456" }),
+      paymentMismatchEmail({
+        reference: "CH-REF-1",
+        orderNumber: "CH-261011-123456",
+        expected: 9036,
+        received: 100,
+        currency: "GHS",
+      }),
     ];
 
     for (const email of emails) {

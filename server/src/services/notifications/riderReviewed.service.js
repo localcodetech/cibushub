@@ -5,7 +5,12 @@ import { riderReviewedEmail } from "./templates/emails.js";
 const tellRider = async (rider, event, sms, reason) => {
   const template = `rider.${event}`;
   await notify({ channel: "SMS", to: rider.phone, template, text: sms });
-  await notify({ channel: "EMAIL", to: rider.email, template, ...riderReviewedEmail({ event, reason }) });
+  await notify({
+    channel: "EMAIL",
+    to: rider.email,
+    template,
+    ...riderReviewedEmail({ event, reason }),
+  });
 };
 
 export const notifyRiderApproved = async (rider) => {

@@ -35,6 +35,8 @@ import { findOnlineRidersNear, getLastSeen } from "../rider/riderLocationStore.j
 import { scheduleDeliverySearch, scheduleOfferExpiry } from "../../jobs/enqueue.js";
 import { emitToUser } from "../../sockets/emitToUser.js";
 import { emitAdminAlert } from "../../sockets/emitAdminAlert.js";
+import { emailAdmins } from "../notifications/adminAlertEmail.service.js";
+import { noRiderFoundEmail } from "../notifications/templates/emails.js";
 
 // The order is still worth delivering while the kitchen has it
 const ORDER_STATUSES_NEEDING_A_RIDER = ["ACCEPTED", "PREPARING", "READY_FOR_PICKUP"];
@@ -150,7 +152,7 @@ export const offerNextRider = async (deliveryId, now = new Date()) => {
       const waitedMs = now.getTime() - delivery.searchStartedAt.getTime();
       if (waitedMs >= ASSIGNMENT_RULES.alertAfterMs && !delivery.adminsAlertedAt) {
         await updateDelivery(delivery, { adminsAlertedAt: now }, transaction);
-        transaction.afterCommit(() => {
+        transaction.afterCommit(async () => {
           emitAdminAlert("NO_RIDER_FOUND", {
             orderId: order.id,
             orderNumber: order.orderNumber,
@@ -159,6 +161,11 @@ export const offerNextRider = async (deliveryId, now = new Date()) => {
           emitToUser(order.customerId, "order:delay", {
             orderId: order.id,
             message: "We're still looking for a rider for your order. Thanks for your patience.",
+          });
+          await emailAdmins({
+            type: "NO_RIDER_FOUND",
+            key: `delivery:${delivery.id}:no-rider`,
+            email: noRiderFoundEmail({ orderNumber: order.orderNumber }),
           });
         });
       }

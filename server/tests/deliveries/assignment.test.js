@@ -11,6 +11,7 @@ import {
 import { createTestUser } from "../helpers/users.js";
 import { createPaidOrder } from "../helpers/orders.js";
 import { scheduledJobs } from "../helpers/fakeJobs.js";
+import { sentEmails } from "../helpers/fakeEmail.js";
 
 vi.mock("../../src/sockets/emitToUser.js", () => ({ emitToUser: vi.fn() }));
 vi.mock("../../src/sockets/emitAdminAlert.js", () => ({ emitAdminAlert: vi.fn() }));
@@ -221,7 +222,13 @@ describe("No rider available [AC-ASSIGN-06]", () => {
     expect(widened.radiusWidenedAt).toEqual(after(5));
   });
 
-  it("after 10 minutes, alerts admins and tells the customer, once", async () => {
+  it("after 10 minutes, alerts admins (live and by email) and tells the customer, once [AC-NOTIF-01]", async () => {
+    await createTestUser({
+      role: "ADMIN",
+      status: "ACTIVE",
+      email: "admin@example.com",
+      phone: "+233200000001",
+    });
     const delivery = await deliveryOf();
 
     const early = await offerNextRider(delivery.id, after(5 * 60));
@@ -239,6 +246,9 @@ describe("No rider available [AC-ASSIGN-06]", () => {
       "order:delay",
       expect.objectContaining({ orderId: order.id }),
     );
+    const adminEmails = sentEmails.filter((email) => email.to === "admin@example.com");
+    expect(adminEmails).toHaveLength(1);
+    expect(adminEmails[0].subject).toBe(`No rider found for order ${order.orderNumber}`);
   });
 
   it("asks a rider who comes online later, through the every-minute sweep", async () => {
