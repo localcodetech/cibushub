@@ -2,13 +2,16 @@ import sequelize from "../../config/database.js";
 import AppError from "../../utils/AppError.js";
 import { buildPageMeta, toLimitAndOffset } from "../../utils/pagination.js";
 import { signedDocumentUrl } from "../upload/cloudinary.service.js";
-import { forgetRider } from "./riderLocationStore.js";
+import { forgetRider, getLatestLocation } from "./riderLocationStore.js";
+import { maskGhanaCard } from "../../utils/rider/maskGhanaCard.js";
+import { findActiveDeliveriesOfRiders } from "../../repositories/delivery.repository.js";
 import { updateUser } from "../../repositories/user.repository.js";
 import { saveAuditLog } from "../../repositories/auditLog.repository.js";
 import {
   findRiderDocuments,
   findRiderProfileForAdmin,
   findRiderProfilesForAdmin,
+  findOnlineRidersWithAccounts,
   updateRiderProfile,
 } from "../../repositories/rider.repository.js";
 import {
@@ -30,7 +33,8 @@ const toAdminView = (profile) => ({
   status: profile.status,
   vehicleType: profile.vehicleType,
   plateNumber: profile.plateNumber,
-  ghanaCardNumber: profile.ghanaCardNumber,
+  // Masked; the full number needs the audited reveal below
+  ghanaCardNumber: maskGhanaCard(profile.ghanaCardNumber),
   rejectionReason: profile.rejectionReason,
   submittedAt: profile.submittedAt,
   approvedAt: profile.approvedAt,
@@ -75,6 +79,69 @@ export const listRiderDocumentsForAdmin = async (riderId) => {
     updatedAt: document.updatedAt,
     url: signedDocumentUrl(document.publicId, document.format),
   }));
+};
+
+// The full Ghana Card number, e.g. to compare with the card photo. Every look is written to
+// the audit log, so personal data is never read silently [AC-ADM-07, plan-review Step 13].
+export const revealGhanaCard = async (riderId, admin) => {
+  return sequelize.transaction(async (transaction) => {
+    const profile = await loadRider(riderId, transaction);
+    await saveAuditLog(
+      {
+        actorId: admin.id,
+        action: "RIDER_GHANA_CARD_REVEALED",
+        targetType: "rider",
+        targetId: profile.id,
+        before: null,
+        after: null,
+        reason: null,
+        ipAddress: admin.ipAddress,
+      },
+      transaction,
+    );
+    return { ghanaCardNumber: profile.ghanaCardNumber };
+  });
+};
+
+// Every online rider and where they are, for the admin's live map [AC-ADM-04].
+// Positions come from Redis (the latest point each rider sent); a rider with no point yet
+// is listed without one.
+export const listLiveRiders = async () => {
+  const profiles = await findOnlineRidersWithAccounts();
+  if (profiles.length === 0) {
+    return [];
+  }
+
+  const [locations, deliveries] = await Promise.all([
+    Promise.all(profiles.map((profile) => getLatestLocation(profile.id))),
+    findActiveDeliveriesOfRiders(profiles.map((profile) => profile.id)),
+  ]);
+
+  return profiles.map((profile, index) => {
+    const location = locations[index];
+    const delivery = deliveries.find((each) => each.riderProfileId === profile.id);
+    return {
+      id: profile.id,
+      fullName: profile.user.fullName,
+      phone: profile.user.phone,
+      vehicleType: profile.vehicleType,
+      location: location
+        ? {
+            latitude: location.latitude,
+            longitude: location.longitude,
+            at: new Date(location.at),
+          }
+        : null,
+      // On a delivery: which order, and how far along
+      delivery: delivery
+        ? {
+            orderId: delivery.order.id,
+            orderNumber: delivery.order.orderNumber,
+            status: delivery.status,
+          }
+        : null,
+    };
+  });
 };
 
 // Moves the rider to a new status inside one transaction, with an audit line [AC-ADM-07].

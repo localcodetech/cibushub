@@ -68,6 +68,8 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | `GET /admin/reviews`, `POST /admin/reviews/:id/hide`, `/show` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; reason required; audit logged |
 | `GET /admin/riders`, `GET /admin/riders/:id` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate (query) |
 | `GET /admin/riders/:id/documents` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize |
+| `GET /admin/riders/live` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize; online riders' latest positions |
+| `POST /admin/riders/:id/ghana-card/reveal` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize; every reveal audit logged (lists show it masked) |
 | `POST /admin/riders/:id/approve` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize; audit logged |
 | `POST /admin/riders/:id/reject`, `/suspend` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; audit logged |
 | `POST /admin/orders/:id/rider`, `/rider/unassign` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; before pickup; audit logged |

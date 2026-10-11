@@ -22,7 +22,7 @@ const exampleRider = {
   status: "PENDING_APPROVAL",
   vehicleType: "MOTORBIKE",
   plateNumber: "M-21-GR 1234",
-  ghanaCardNumber: "GHA-123456789-0",
+  ghanaCardNumber: "GHA-•••••••89-0",
   rejectionReason: null,
   submittedAt: "2026-10-10T12:00:00.000Z",
   approvedAt: null,
@@ -52,6 +52,45 @@ export const adminRiderPaths = {
       security: loggedIn,
       parameters: queryParameters(adminListRidersSchema),
       responses: { 200: listResponse("Applications", exampleRider) },
+    },
+  },
+  "/api/v1/admin/riders/live": {
+    get: {
+      tags,
+      summary: "Every online rider and where they are (live map)",
+      description:
+        "Latest position from Redis (null if none sent yet) and the delivery they carry, if any [AC-ADM-04].",
+      security: loggedIn,
+      responses: {
+        200: successResponse("Online riders", [
+          {
+            id: "3f2e1d0c-9b8a-4765-8432-10fedcba9876",
+            fullName: "Yaw Darko",
+            phone: "+233240000402",
+            vehicleType: "MOTORBIKE",
+            location: { latitude: 6.6921, longitude: -1.6247, at: "2026-10-11T12:00:00.000Z" },
+            delivery: {
+              orderId: "0f1e2d3c-4b5a-4968-8776-655443322110",
+              orderNumber: "CH-261011-123456",
+              status: "PICKED_UP",
+            },
+          },
+        ]),
+      },
+    },
+  },
+  "/api/v1/admin/riders/{riderId}/ghana-card/reveal": {
+    post: {
+      tags,
+      summary: "Show a rider's full Ghana Card number (audited)",
+      description:
+        "Lists and details show the number masked (GHA-•••••••89-0). Each reveal writes RIDER_GHANA_CARD_REVEALED to the audit log.",
+      security: loggedIn,
+      parameters: [riderId],
+      responses: {
+        200: successResponse("The full number", { ghanaCardNumber: "GHA-123456789-0" }),
+        404: notFound,
+      },
     },
   },
   "/api/v1/admin/riders/{riderId}": {

@@ -8,6 +8,7 @@ import Container from "./Container";
 const ADMIN_LINKS = [
   { label: "Overview", to: "/admin", end: true },
   { label: "Restaurants", to: "/admin/restaurants", end: false },
+  { label: "Riders", to: "/admin/riders", end: false },
 ];
 
 // The frame around every admin page: the admin menu on top, then the page.

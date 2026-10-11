@@ -65,6 +65,17 @@ export const findRidersWithPendingOffers = async (riderProfileIds, transaction) 
   return offers.map((offer) => offer.riderProfileId);
 };
 
+// The deliveries these riders are carrying right now, with the order number (admin map)
+export const findActiveDeliveriesOfRiders = (riderProfileIds) => {
+  return Delivery.findAll({
+    where: {
+      riderProfileId: { [Op.in]: riderProfileIds },
+      status: { [Op.in]: ACTIVE_DELIVERY_STATUSES },
+    },
+    include: [{ model: Order, as: "order", attributes: ["id", "orderNumber"] }],
+  });
+};
+
 // Riders among these who are carrying a delivery right now [AC-RIDER-06]
 export const findRidersOnDeliveries = async (riderProfileIds, transaction) => {
   const deliveries = await Delivery.findAll({

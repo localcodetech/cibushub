@@ -1,0 +1,170 @@
+import { useState } from "react";
+import { Link } from "react-router";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { Bike, ChevronRight, Map as MapIcon } from "lucide-react";
+import Container from "@/layouts/Container";
+import Heading from "@/components/typography/Heading";
+import Text from "@/components/typography/Text";
+import Skeleton from "@/components/common/Skeleton";
+import EmptyState from "@/components/common/EmptyState";
+import ErrorState from "@/components/common/ErrorState";
+import StatusPill from "@/components/admin/StatusPill";
+import { getAdminRidersRequest } from "@/api/admin";
+import { RIDER_STATUSES, VEHICLE_NAMES } from "@/data/riderStatuses";
+import { formatDateTime } from "@/utils/date";
+import { cn } from "@/lib/utils";
+
+// The tabs, the review queue first. status "" means every rider.
+const TABS = [
+  { status: "PENDING_APPROVAL", label: "Waiting for review" },
+  { status: "APPROVED", label: "Approved" },
+  { status: "SUSPENDED", label: "Suspended" },
+  { status: "REJECTED", label: "Rejected" },
+  { status: "", label: "All" },
+];
+
+// /admin/riders: review applications and manage riders [AC-ADM-04]
+const AdminRidersPage = () => {
+  const [status, setStatus] = useState("PENDING_APPROVAL");
+  const [page, setPage] = useState(1);
+
+  const { data, isPending, error, refetch } = useQuery({
+    queryKey: ["admin-riders", { status, page }],
+    queryFn: () => getAdminRidersRequest({ status, page }),
+    placeholderData: keepPreviousData,
+  });
+
+  const handleTab = (newStatus) => {
+    setStatus(newStatus);
+    setPage(1);
+  };
+
+  return (
+    <Container>
+      <section className="py-8">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <Heading level={1}>Riders</Heading>
+          <Link
+            to="/admin/riders/map"
+            className="inline-flex min-h-11 items-center gap-2 rounded-md border border-border px-4 font-bold"
+          >
+            <MapIcon size={18} aria-hidden="true" />
+            Live map
+          </Link>
+        </div>
+
+        <div role="group" aria-label="Show" className="mt-6 flex gap-2 overflow-x-auto pb-1">
+          {TABS.map((tab) => (
+            <button
+              key={tab.label}
+              type="button"
+              onClick={() => handleTab(tab.status)}
+              aria-pressed={status === tab.status}
+              className={cn(
+                "min-h-11 shrink-0 rounded-full border px-4 font-bold",
+                status === tab.status
+                  ? "border-primary bg-primary text-primary-foreground"
+                  : "border-border",
+              )}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-6">
+          <RiderList
+            data={data}
+            isPending={isPending}
+            error={error}
+            onRetry={refetch}
+            isQueue={status === "PENDING_APPROVAL"}
+          />
+        </div>
+
+        {data && data.meta.totalPages > 1 && (
+          <nav aria-label="Pages" className="mt-6 flex items-center justify-between gap-4">
+            <button
+              type="button"
+              disabled={page <= 1}
+              onClick={() => setPage(page - 1)}
+              className="min-h-11 rounded-md border border-border px-4 font-bold disabled:opacity-40"
+            >
+              Previous
+            </button>
+            <Text size="small" muted>
+              Page {data.meta.page} of {data.meta.totalPages}
+            </Text>
+            <button
+              type="button"
+              disabled={page >= data.meta.totalPages}
+              onClick={() => setPage(page + 1)}
+              className="min-h-11 rounded-md border border-border px-4 font-bold disabled:opacity-40"
+            >
+              Next
+            </button>
+          </nav>
+        )}
+      </section>
+    </Container>
+  );
+};
+
+// Loading, error, empty or the list [AC-UX-02 to 04]
+const RiderList = ({ data, isPending, error, onRetry, isQueue }) => {
+  if (isPending) {
+    return (
+      <div role="status" className="space-y-3">
+        <span className="sr-only">Loading riders</span>
+        <Skeleton className="h-16 w-full" />
+        <Skeleton className="h-16 w-full" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return <ErrorState message={error.message} onRetry={onRetry} />;
+  }
+
+  if (data.riders.length === 0) {
+    return (
+      <EmptyState
+        icon={Bike}
+        title={isQueue ? "Nothing to review" : "No riders here"}
+        message={isQueue ? "Rider applications show here once they are submitted." : null}
+      />
+    );
+  }
+
+  return (
+    <ul className="divide-y divide-border rounded-lg border border-border bg-card">
+      {data.riders.map((rider) => {
+        const statusInfo = RIDER_STATUSES[rider.status];
+        return (
+          <li key={rider.id}>
+            <Link to={"/admin/riders/" + rider.id} className="flex items-center gap-3 px-4 py-3">
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <p className="truncate font-bold">{rider.rider.fullName}</p>
+                  <StatusPill label={statusInfo.label} tone={statusInfo.tone} />
+                </div>
+                <p className="mt-1 text-[13px] text-muted-foreground">
+                  {VEHICLE_NAMES[rider.vehicleType]}
+                  {rider.plateNumber ? " · " + rider.plateNumber : ""}
+                  {rider.submittedAt ? " · sent " + formatDateTime(rider.submittedAt) : ""}
+                </p>
+              </div>
+              <ChevronRight
+                size={18}
+                className="shrink-0 text-muted-foreground"
+                aria-hidden="true"
+              />
+            </Link>
+          </li>
+        );
+      })}
+    </ul>
+  );
+};
+
+export default AdminRidersPage;

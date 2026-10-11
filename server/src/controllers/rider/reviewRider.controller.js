@@ -1,7 +1,9 @@
 import {
   approveRider,
   getRiderForAdmin,
+  listLiveRiders,
   listRiderDocumentsForAdmin,
+  revealGhanaCard,
   listRidersForAdmin,
   rejectRider,
   suspendRider,
@@ -45,4 +47,16 @@ export const suspend = async (req, res) => {
   const rider = await suspendRider(req.params.riderId, req.validated.body.reason, adminFrom(req));
 
   return sendSuccess(res, rider);
+};
+
+export const liveRiders = async (req, res) => {
+  const riders = await listLiveRiders();
+
+  return sendSuccess(res, riders);
+};
+
+export const revealCard = async (req, res) => {
+  const result = await revealGhanaCard(req.params.riderId, adminFrom(req));
+
+  return sendSuccess(res, result);
 };
