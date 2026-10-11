@@ -48,6 +48,19 @@ const Review = sequelize.define(
       type: DataTypes.DATE,
       allowNull: true,
     },
+    // Hidden by an admin [AC-REV-07]: not shown, not counted
+    hiddenAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    hiddenReason: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
+    hiddenBy: {
+      type: DataTypes.UUID,
+      allowNull: true,
+    },
   },
   { tableName: "reviews" },
 );

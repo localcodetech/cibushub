@@ -179,6 +179,9 @@ erDiagram
         varchar comment "max 500, plain text"
         varchar owner_reply "the restaurant's one public reply"
         datetime owner_replied_at
+        datetime hidden_at "hidden by an admin: not shown, not counted"
+        varchar hidden_reason
+        uuid hidden_by FK "users.id (the admin), ON DELETE SET NULL"
         datetime created_at "edit allowed for 24 h after this"
         datetime updated_at
     }

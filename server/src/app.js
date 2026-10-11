@@ -23,6 +23,7 @@ import adminOrderRoutes from "./routes/admin/order.routes.js";
 import riderApplicationRoutes from "./routes/rider/application.routes.js";
 import adminRiderRoutes from "./routes/admin/rider.routes.js";
 import adminNotificationRoutes from "./routes/admin/notification.routes.js";
+import adminReviewRoutes from "./routes/admin/review.routes.js";
 import riderStatusRoutes from "./routes/rider/status.routes.js";
 import riderOfferRoutes from "./routes/rider/offer.routes.js";
 import riderDeliveryRoutes from "./routes/rider/delivery.routes.js";
@@ -237,6 +238,11 @@ app.use("/api/v1/admin/riders", adminRiderRoutes);
 // Admin: every email and SMS sent, and which ones failed
 // ─────────────────────────────────────────────
 app.use("/api/v1/admin/notifications", adminNotificationRoutes);
+
+// ─────────────────────────────────────────────
+// Admin: review moderation (hide or show, with a reason)
+// ─────────────────────────────────────────────
+app.use("/api/v1/admin/reviews", adminReviewRoutes);
 
 // ─────────────────────────────────────────────
 // Interactive API docs (turned off in production)

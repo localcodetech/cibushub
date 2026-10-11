@@ -49,6 +49,9 @@ Add a row here in the same commit that introduces a new code.
 | `REVIEW_WINDOW_CLOSED` | 409 | Reviewing more than 7 days after delivery | AC-REV-03 |
 | `REVIEW_EDIT_WINDOW_CLOSED` | 409 | Changing a review more than 24 hours after writing it | AC-REV-03 |
 | `ALREADY_REPLIED` | 409 | An owner replying a second time to the same review | AC-REV-06 |
+| `REVIEW_HIDDEN` | 409 | A customer changing a review an admin hid | AC-REV-07 |
+| `REVIEW_ALREADY_HIDDEN` | 409 | Hiding a review that is already hidden | AC-REV-07 |
+| `REVIEW_NOT_HIDDEN` | 409 | Showing a review that isn't hidden | AC-REV-07 |
 | `TERMS_NOT_ACCEPTED` | 400 | Google / Apple sign-in would create a new account, but the Terms were not accepted (sign up first) | AC-AUTH-01 |
 | `INVALID_SOCIAL_TOKEN` | 401 | The Google / Apple ID token failed the signature, issuer, audience or expiry check | AC-AUTH-11 |
 | `SOCIAL_EMAIL_UNVERIFIED` | 400 | Google / Apple did not confirm the email, so it can't be linked or used for a new account | AC-AUTH-02 |

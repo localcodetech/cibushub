@@ -355,3 +355,91 @@ describe("The owner's reply [AC-REV-06]", () => {
     expect(response.status).toBe(400);
   });
 });
+
+describe("Admins hide abusive reviews [AC-REV-07, AC-ADM-07]", () => {
+  let admin;
+  let review;
+
+  beforeEach(async () => {
+    await deliver(order);
+    const written = await as(customer).post(reviewUrl(), {
+      rating: 1,
+      riderRating: 2,
+      comment: "Abusive words here",
+    });
+    review = written.body.data;
+    admin = await createTestUser({
+      role: "ADMIN",
+      email: "admin@example.com",
+      phone: "+233200000001",
+    });
+  });
+
+  const hide = (reason = "Insults the staff") =>
+    as(admin).post(`/api/v1/admin/reviews/${review.id}/hide`, { reason });
+
+  it("hides it with a reason: gone from the lists and the averages, and audited", async () => {
+    const response = await hide();
+
+    expect(response.status).toBe(200);
+    expect(response.body.data).toMatchObject({
+      hiddenReason: "Insults the staff",
+      hiddenBy: admin.id,
+    });
+    const publicList = await request(app).get(`/api/v1/restaurants/${restaurant.id}/reviews`);
+    expect(publicList.body.data).toEqual([]);
+    const restaurantAfter = await Restaurant.findByPk(restaurant.id);
+    expect([restaurantAfter.ratingTotal, restaurantAfter.reviewCount]).toEqual([0, 0]);
+    const riderAfter = await RiderProfile.findByPk(riderProfile.id);
+    expect([riderAfter.ratingTotal, riderAfter.ratingCount]).toEqual([0, 0]);
+    const { AuditLog } = await import("../../src/models/index.js");
+    const audit = await AuditLog.findOne({ where: { targetId: review.id } });
+    expect(audit).toMatchObject({
+      action: "REVIEW_HIDDEN",
+      actorId: admin.id,
+      reason: "Insults the staff",
+    });
+  });
+
+  it("can't be hidden twice, and the customer can't change it any more", async () => {
+    await hide();
+
+    const again = await hide();
+    const edit = await as(customer).patch(reviewUrl(), { rating: 5 });
+    const mine = await as(customer).get(reviewUrl());
+
+    expect(again.body.error.code).toBe("REVIEW_ALREADY_HIDDEN");
+    expect(edit.status).toBe(409);
+    expect(edit.body.error.code).toBe("REVIEW_HIDDEN");
+    expect(mine.body.data.canEdit).toBe(false);
+  });
+
+  it("shows it again (with a reason): back in the list and the averages", async () => {
+    await hide();
+
+    const response = await as(admin).post(`/api/v1/admin/reviews/${review.id}/show`, {
+      reason: "Hidden by mistake",
+    });
+
+    expect(response.status).toBe(200);
+    const restaurantAfter = await Restaurant.findByPk(restaurant.id);
+    expect([restaurantAfter.ratingTotal, restaurantAfter.reviewCount]).toEqual([1, 1]);
+    const publicList = await request(app).get(`/api/v1/restaurants/${restaurant.id}/reviews`);
+    expect(publicList.body.data).toHaveLength(1);
+  });
+
+  it("lists hidden ones for admins, needs a reason, and is admins only", async () => {
+    await hide();
+
+    const hiddenList = await as(admin).get("/api/v1/admin/reviews?hidden=true");
+    const noReason = await as(admin).post(`/api/v1/admin/reviews/${review.id}/show`, {});
+    const asCustomer = await as(customer).post(`/api/v1/admin/reviews/${review.id}/show`, {
+      reason: "Please show it",
+    });
+
+    expect(hiddenList.body.data).toHaveLength(1);
+    expect(hiddenList.body.data[0].restaurant.id).toBe(restaurant.id);
+    expect(noReason.status).toBe(400);
+    expect(asCustomer.status).toBe(403);
+  });
+});

@@ -49,3 +49,27 @@ export const replySchema = z
       .max(REVIEW_RULES.commentMaxLength, `At most ${REVIEW_RULES.commentMaxLength} characters`),
   })
   .strict();
+
+// Admins: ?hidden=true&restaurantId=...&maxRating=2&page=1
+export const adminListReviewsSchema = z
+  .object({
+    hidden: z
+      .enum(["true", "false"])
+      .transform((value) => value === "true")
+      .optional(),
+    restaurantId: z.uuid("Unknown restaurant").optional(),
+    maxRating: z.coerce.number().int().min(1).max(5).optional(),
+    ...paginationFields,
+  })
+  .strict();
+
+// Hiding or showing a review needs a reason, for the audit log [AC-REV-07, AC-ADM-07]
+export const moderateReviewSchema = z
+  .object({
+    reason: z
+      .string({ error: "Give a reason" })
+      .trim()
+      .min(5, "Give a reason (at least 5 characters)")
+      .max(255, "At most 255 characters"),
+  })
+  .strict();

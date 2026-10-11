@@ -38,7 +38,9 @@ const noRiderToRate = () =>
 // What a review may still do, for the app's buttons [AC-REV-03]
 export const reviewOptionsFor = (order, deliveredAt, review, now = new Date()) => {
   if (review) {
+    // A review hidden by an admin can't be changed [AC-REV-07]
     const canEdit =
+      !review.hiddenAt &&
       now.getTime() - review.createdAt.getTime() <= REVIEW_RULES.editWithinHours * HOUR_MS;
     return { canWrite: false, canEdit };
   }
@@ -141,6 +143,10 @@ export const editReview = async (customerId, orderId, details, now = new Date())
       const review = await findReviewByOrderId(order.id, transaction);
       if (!review) {
         throw new AppError(404, "NOT_FOUND", "Review not found");
+      }
+      // Hidden by an admin: it stays as it is (and out of the totals) [AC-REV-07]
+      if (review.hiddenAt) {
+        throw new AppError(409, "REVIEW_HIDDEN", "This review was hidden and can't be changed");
       }
       if (now.getTime() - review.createdAt.getTime() > REVIEW_RULES.editWithinHours * HOUR_MS) {
         throw new AppError(
