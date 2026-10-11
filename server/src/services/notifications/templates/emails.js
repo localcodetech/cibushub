@@ -101,3 +101,38 @@ export const emailChangedEmail = ({ newEmail }) =>
       smallPrint("If this wasn't you, contact CibusHub support straight away."),
     ],
   });
+
+// The restaurant said no, or didn't answer in time [AC-NOTIF-01, AC-RORD-03, AC-RORD-04]
+//   reason: what the restaurant typed (the customer sees it), or "RESTAURANT_TIMEOUT"
+export const orderRejectedEmail = ({ orderNumber, orderId, restaurantName, reason, totalPesewas }) => {
+  const why =
+    reason === "RESTAURANT_TIMEOUT"
+      ? `${restaurantName} didn't respond in time.`
+      : `${restaurantName} couldn't take it. Their reason: "${reason}"`;
+  return renderEmail({
+    subject: `Order ${orderNumber} couldn't go ahead`,
+    preheader: `Sorry! Your ${formatGhs(totalPesewas)} is being refunded in full.`,
+    heading: "Sorry, your order couldn't go ahead",
+    blocks: [
+      paragraph(`Order ${orderNumber}: ${why}`),
+      paragraph(
+        `You'll get a full refund of ${formatGhs(totalPesewas)}. We'll let you know when it starts.`,
+      ),
+      button("Find another restaurant", appLink("/restaurants")),
+      smallPrint(`Order details: ${appLink(`/customer/orders/${orderId}`)}`),
+    ],
+  });
+};
+
+// The food reached the customer [AC-NOTIF-01]
+export const orderDeliveredEmail = ({ orderNumber, orderId, restaurantName }) =>
+  renderEmail({
+    subject: `Order ${orderNumber} was delivered`,
+    preheader: `Your food from ${restaurantName} has arrived. Enjoy your meal!`,
+    heading: "Your food has arrived",
+    blocks: [
+      paragraph(`Order ${orderNumber} from ${restaurantName} was delivered. Enjoy your meal!`),
+      button("View your order", appLink(`/customer/orders/${orderId}`)),
+      smallPrint("Something wrong with your order? Reply to this email and we'll help."),
+    ],
+  });

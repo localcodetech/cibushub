@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import {
   codeEmail,
   emailChangedEmail,
+  orderDeliveredEmail,
+  orderRejectedEmail,
   receiptEmail,
   refundEmail,
 } from "../../src/services/notifications/templates/emails.js";
@@ -37,6 +39,18 @@ describe("Branded email templates [AC-NOTIF-05]", () => {
         arrival: "within 1 to 3 working days",
       }),
       emailChangedEmail({ newEmail: "ama.new@example.com" }),
+      orderRejectedEmail({
+        orderNumber: "CH-261011-123456",
+        orderId: receipt.orderId,
+        restaurantName: "Auntie Esi's Kitchen",
+        reason: "Kitchen closing early",
+        totalPesewas: 9036,
+      }),
+      orderDeliveredEmail({
+        orderNumber: "CH-261011-123456",
+        orderId: receipt.orderId,
+        restaurantName: "Auntie Esi's Kitchen",
+      }),
     ];
 
     for (const email of emails) {
@@ -79,5 +93,19 @@ describe("Branded email templates [AC-NOTIF-05]", () => {
     expect(email.html).not.toContain("<script>");
     expect(email.html).not.toContain("<img");
     expect(email.html).toContain("&lt;script&gt;");
+  });
+
+  it("a timed-out rejection says the restaurant didn't respond, not a raw code", () => {
+    const email = orderRejectedEmail({
+      orderNumber: "CH-261011-123456",
+      orderId: receipt.orderId,
+      restaurantName: "Auntie Esi's Kitchen",
+      reason: "RESTAURANT_TIMEOUT",
+      totalPesewas: 9036,
+    });
+
+    expect(email.text).toContain("Auntie Esi's Kitchen didn't respond in time.");
+    expect(email.text).not.toContain("RESTAURANT_TIMEOUT");
+    expect(email.text).toContain("full refund of GHS 90.36");
   });
 });

@@ -4,6 +4,7 @@ import { retryOnDeadlock } from "../../utils/database/retryOnDeadlock.js";
 import { assertTransitionAllowed } from "../../utils/order/orderStateMachine.js";
 import { increaseStock } from "../../repositories/menu.repository.js";
 import { emitOrderChanged } from "../../sockets/emitOrderChange.js";
+import { notifyOrderStatus } from "../notifications/orderStatusNotice.service.js";
 import {
   addStatusHistory,
   findOrderItems,
@@ -78,9 +79,13 @@ const applyStatusChange = async (transaction, options) => {
     transaction,
   );
 
-  // 8. Tell the live screens, but only once the change is really saved [AC-RT-03].
-  //    afterCommit never runs if the transaction rolls back (or is retried after a deadlock).
-  transaction.afterCommit(() => emitOrderChanged(order, fromStatus));
+  // 8. Tell the live screens and the customer, but only once the change is really saved
+  //    [AC-RT-03, AC-NOTIF-01]. afterCommit never runs if the transaction rolls back
+  //    (or is retried after a deadlock). Neither of these ever throws.
+  transaction.afterCommit(async () => {
+    emitOrderChanged(order, fromStatus);
+    await notifyOrderStatus(order);
+  });
 
   return order;
 };
