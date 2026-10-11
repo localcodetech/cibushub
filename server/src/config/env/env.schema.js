@@ -35,10 +35,15 @@ export const envSchema = zod.object({
 
   // Email through Resend. Without a key, emails are only printed (development).
   // EMAIL_FROM must use a domain verified in Resend, e.g. "CibusHub <noreply@cibushubgh.com>"
-  RESEND_API_KEY: zod.string().startsWith("re_", "RESEND_API_KEY must start with re_").optional(),
+  // (An empty value, e.g. "RESEND_API_KEY=" in .env, means "not set")
+  RESEND_API_KEY: zod
+    .string()
+    .startsWith("re_", "RESEND_API_KEY must start with re_")
+    .or(zod.literal(""))
+    .optional(),
   EMAIL_FROM: zod.string().min(3).default("CibusHub <noreply@cibushubgh.com>"),
   // Where customers' replies go (optional), e.g. support@cibushubgh.com
-  EMAIL_REPLY_TO: zod.email().optional(),
+  EMAIL_REPLY_TO: zod.email().or(zod.literal("")).optional(),
 
   // Maps lookups (pin -> area name, place search) through OpenStreetMap's Nominatim. Free, no key.
   // Their rules ask every app to say who it is, so we send this email with each request.
