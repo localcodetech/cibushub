@@ -2,6 +2,7 @@ import AppError from "../../utils/AppError.js";
 import { distanceInKm } from "../../utils/distance.js";
 import { buildPageMeta, toLimitAndOffset } from "../../utils/pagination.js";
 import { getOpenStatus } from "../../utils/restaurant/openingHours.js";
+import { averageRating } from "../../utils/review/reviewRules.js";
 import { getCachedMenu } from "../menu/menuCache.service.js";
 import {
   findMatchingDishes,
@@ -26,6 +27,9 @@ const toPublicCard = (restaurant, now, customerLocation) => {
     prepTimeMinutes: restaurant.prepTimeMinutes,
     deliveryRadiusKm: restaurant.deliveryRadiusKm,
     openStatus: getOpenStatus(restaurant, now),
+    // e.g. 4.3 from 12 reviews; null until the first review [AC-REV-04, AC-REV-05]
+    averageRating: averageRating(restaurant.ratingTotal, restaurant.reviewCount),
+    reviewCount: restaurant.reviewCount,
     createdAt: restaurant.createdAt,
   };
 

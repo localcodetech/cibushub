@@ -1,7 +1,21 @@
-import { Restaurant, Review, RiderProfile } from "../models/index.js";
+import { Restaurant, Review, RiderProfile, User } from "../models/index.js";
 
 export const findReviewByOrderId = (orderId, transaction) => {
   return Review.findOne({ where: { orderId }, transaction });
+};
+
+// A restaurant's reviews, newest first, with the writer's name [AC-REV-05]
+export const findRestaurantReviews = ({ restaurantId, limit, offset }) => {
+  return Review.findAndCountAll({
+    where: { restaurantId },
+    include: [{ model: User, as: "customer", attributes: ["fullName"], paranoid: false }],
+    order: [
+      ["createdAt", "DESC"],
+      ["id", "DESC"],
+    ],
+    limit,
+    offset,
+  });
 };
 
 export const createReview = (data, transaction) => {

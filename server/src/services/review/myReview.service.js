@@ -52,12 +52,18 @@ export const reviewOptionsFor = (order, deliveredAt, review, now = new Date()) =
 // My review of one order (or null), with what I can still do
 export const getMyReview = async (customerId, orderId, now = new Date()) => {
   const order = await findMyOrder(customerId, orderId);
-  const [review, deliveredAt] = await Promise.all([
+  const [review, deliveredAt, riderProfileId] = await Promise.all([
     findReviewByOrderId(order.id),
     findDeliveredAt(order.id),
+    findRiderOf(order.id),
   ]);
 
-  return { review, ...reviewOptionsFor(order, deliveredAt, review, now) };
+  return {
+    review,
+    ...reviewOptionsFor(order, deliveredAt, review, now),
+    // A rider delivered it, so the form can ask about them too
+    canRateRider: Boolean(riderProfileId),
+  };
 };
 
 // Only the customer, only after delivery, within 7 days, once [AC-REV-01, AC-REV-02, AC-REV-03].

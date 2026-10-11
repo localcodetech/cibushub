@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { REVIEW_RULES } from "../../utils/review/reviewRules.js";
+import { paginationFields } from "../pagination.js";
 
 const stars = z
   .number({ error: "Choose 1 to 5 stars" })
@@ -23,3 +24,6 @@ export const reviewSchema = z
       .optional(),
   })
   .strict();
+
+// ?page=1&pageSize=20
+export const listReviewsSchema = z.object({ ...paginationFields }).strict();

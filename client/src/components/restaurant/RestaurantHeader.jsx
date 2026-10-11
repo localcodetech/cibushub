@@ -2,6 +2,7 @@ import { Clock, MapPin, ShoppingBag, UtensilsCrossed } from "lucide-react";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import { formatMoney } from "@/utils/money";
+import RatingBadge from "@/components/review/RatingBadge";
 
 // The top of a restaurant page: cover photo, name, open status and the key facts [AC-DISC-10].
 // restaurant: the data from GET /restaurants/:id
@@ -42,6 +43,13 @@ const RestaurantHeader = ({ restaurant }) => {
       {restaurant.description && <Text className="mt-3">{restaurant.description}</Text>}
 
       <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-[15px] text-muted-foreground">
+        {/* Tapping the rating jumps down to the reviews */}
+        <a href="#reviews">
+          <RatingBadge
+            averageRating={restaurant.averageRating}
+            reviewCount={restaurant.reviewCount}
+          />
+        </a>
         <span className="inline-flex items-center gap-1.5">
           <Clock size={16} aria-hidden="true" />
           About {restaurant.prepTimeMinutes} min to prepare

@@ -44,6 +44,7 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | `POST /auth/email/send-code`, `/email/verify` | — | 🔒⏳ | 🔒⏳ | 🔒⏳ | 🔒 | 🔒 | authenticate, validate (verify), otpLimiter; only my own email |
 | `GET /restaurants` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | validate (query) |
 | `GET /restaurants/:id` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | — (404 unless approved) |
+| `GET /restaurants/:id/reviews` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | validate (query); first name + last initial only (404 unless approved) |
 | `POST /cart/check` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | validate (read-only, no login) |
 | `POST /webhooks/paystack` | Paystack only | — | — | — | — | — | valid HMAC-SHA512 signature (no login, no CSRF origin) |
 | `POST /webhooks/resend` | Resend only | — | — | — | — | — | valid Svix HMAC-SHA256 signature, at most 5 minutes old (no login, no CSRF origin) |

@@ -15,6 +15,7 @@ import LiveTracking from "@/components/order/LiveTracking";
 import CancelOrderSheet from "@/components/order/CancelOrderSheet";
 import ReorderSheet from "@/components/order/ReorderSheet";
 import NewCartSheet from "@/components/cart/NewCartSheet";
+import ReviewPanel from "@/components/review/ReviewPanel";
 import { cancelOrderRequest, getMyOrderRequest } from "@/api/orders";
 import { getRestaurantRequest } from "@/api/restaurants";
 import { isFromAnotherRestaurant, useCartStore } from "@/store/cartStore";
@@ -248,6 +249,9 @@ const OrderDetailPage = () => {
           <p className="font-heading text-2xl font-bold">{formatTime(order.estimatedReadyAt)}</p>
         </Card>
       )}
+
+      {/* Delivered: rate the food (and the rider) [AC-REV-01 to 03] */}
+      {order.status === "DELIVERED" && <ReviewPanel orderId={order.id} />}
 
       {/* The rider is on the way: live map, ETA and the delivery code [AC-RT-04] */}
       {TRACKED_STATUSES.includes(order.status) && <LiveTracking order={order} />}

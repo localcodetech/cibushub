@@ -194,7 +194,12 @@ describe("Review window [AC-REV-03]", () => {
     await as(customer).post(reviewUrl(), { rating: 5 });
     const after = await as(customer).get(reviewUrl());
 
-    expect(before.body.data).toEqual({ review: null, canWrite: true, canEdit: false });
+    expect(before.body.data).toEqual({
+      review: null,
+      canWrite: true,
+      canEdit: false,
+      canRateRider: true,
+    });
     expect(after.body.data).toMatchObject({ canWrite: false, canEdit: true });
     expect(after.body.data.review.rating).toBe(5);
   });
@@ -224,5 +229,53 @@ describe("Running totals [AC-REV-04]", () => {
     expect(restaurantAfter.ratingTotal).toBe(5);
     expect(riderAfter.ratingCount).toBe(0);
     expect(riderAfter.ratingTotal).toBe(0);
+  });
+});
+
+describe("Showing reviews [AC-REV-05, AC-REV-08]", () => {
+  it("lists them newest first with first name and last initial, never ids or the full name", async () => {
+    await deliver(order);
+    await as(customer).post(reviewUrl(), { rating: 4, comment: "<b>Lovely</b> waakye" });
+    const second = await createPaidOrder(2);
+    await second.order.update({ restaurantId: restaurant.id });
+    await deliver(second.order);
+    setNow(new Date(Date.now() + 60 * 1000));
+    await as(second.customer).post(`/api/v1/customer/orders/${second.order.id}/review`, {
+      rating: 2,
+    });
+
+    const response = await request(app).get(`/api/v1/restaurants/${restaurant.id}/reviews`);
+
+    expect(response.status).toBe(200);
+    expect(response.body.data.map((review) => review.rating)).toEqual([2, 4]);
+    expect(response.body.data[1]).toEqual({
+      id: expect.any(String),
+      customerName: "Ama O.",
+      rating: 4,
+      comment: "<b>Lovely</b> waakye",
+      createdAt: expect.any(String),
+    });
+    expect(response.body.meta.totalItems).toBe(2);
+  });
+
+  it("the restaurant card shows the average and the count", async () => {
+    await deliver(order);
+    await as(customer).post(reviewUrl(), { rating: 4 });
+
+    const page = await request(app).get(`/api/v1/restaurants/${restaurant.id}`);
+    const list = await request(app).get("/api/v1/restaurants");
+
+    expect(page.body.data).toMatchObject({ averageRating: 4, reviewCount: 1 });
+    expect(list.body.data[0]).toMatchObject({ averageRating: 4, reviewCount: 1 });
+  });
+});
+
+describe("Short names", () => {
+  it("keeps the first name and the last initial", async () => {
+    const { shortName } = await import("../../src/services/review/restaurantReviews.service.js");
+
+    expect(shortName("Ama Serwaa Owusu")).toBe("Ama O.");
+    expect(shortName("Kofi")).toBe("Kofi");
+    expect(shortName("  ")).toBe("A customer");
   });
 });
