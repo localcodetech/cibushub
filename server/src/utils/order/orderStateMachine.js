@@ -33,7 +33,9 @@ export const ORDER_TRANSITIONS = {
     CANCELLED: ["ADMIN"],
   },
   PICKED_UP: {
-    DELIVERED: ["RIDER"],
+    // RIDER: with the customer's code. CUSTOMER: only after the code locked (5 wrong tries),
+    // "I've received my food" (the service checks the lock) [AC-DEL-06]
+    DELIVERED: ["RIDER", "CUSTOMER"],
     CANCELLED: ["ADMIN"],
   },
   // The end of the road: nothing may follow these [AC-ORD-07]

@@ -214,3 +214,16 @@ export const findDeliveriesWithRider = (orderIds) => {
     ],
   });
 };
+
+// Picked-up deliveries whose code locked before this moment and that admins haven't been
+// reminded about yet (the every-minute sweep) [AC-DEL-06]
+export const findDeliveriesLockedSince = (lockedBefore) => {
+  return Delivery.findAll({
+    where: {
+      status: "PICKED_UP",
+      codeLockedAt: { [Op.lte]: lockedBefore },
+      codeLockRemindedAt: null,
+    },
+    limit: 100,
+  });
+};

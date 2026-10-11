@@ -28,6 +28,12 @@ const SCHEDULES = [
     repeat: { every: 60 * 1000 }, // every minute [AC-ASSIGN-06, AC-JOB-02]
   },
   {
+    id: "sweep-locked-delivery-codes",
+    queue: QUEUE_NAMES.maintenance,
+    name: "sweepLockedDeliveryCodes",
+    repeat: { every: 60 * 1000 }, // every minute [AC-DEL-06]
+  },
+  {
     id: "reconcile-payments",
     queue: QUEUE_NAMES.payments,
     name: "reconcilePayments",

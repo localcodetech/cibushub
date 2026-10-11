@@ -116,13 +116,19 @@ describe("Rider earnings [AC-RIDER-07]", () => {
     );
   });
 
-  it("looks back at another day, and refuses an unknown period", async () => {
+  it("looks back at another day, and refuses an unknown period or a future day", async () => {
     const lastMonth = await myEarnings({ period: "day", date: "2026-09-30" });
     expect(lastMonth.body.data.summary.deliveryCount).toBe(1);
 
     const bad = await myEarnings({ period: "year" });
     expect(bad.status).toBe(400);
     expect(bad.body.error.code).toBe("VALIDATION_ERROR");
+
+    // Tomorrow hasn't happened yet
+    const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+    const future = await myEarnings({ period: "day", date: tomorrow });
+    expect(future.status).toBe(400);
+    expect(future.body.error.details[0].message).toBe("Choose today or an earlier day");
   });
 
   it("works out the week across a month's end", () => {

@@ -46,6 +46,7 @@ const exampleOrderDetail = {
   },
   timeline: [{ status: "PENDING_PAYMENT", at: "2026-10-09T12:00:00.000Z", reason: null }],
   deliveryCode: null,
+  canConfirmReceived: false,
   customerActions: ["CANCELLED"],
 };
 
@@ -55,6 +56,25 @@ const orderId = pathParameter("orderId", "One of your orders");
 const notFound = errorResponse("Not yours, or does not exist", "NOT_FOUND", "Order not found");
 
 export const customerOrderPaths = {
+  "/api/v1/customer/orders/{orderId}/confirm-received": {
+    post: {
+      tags,
+      summary: "I've received my food (after the rider's code locked)",
+      description:
+        "Only while the order is PICKED_UP and the rider has entered a wrong code 5 times (canConfirmReceived is true on the order). The order becomes DELIVERED with the customer as the actor, and the rider is told.",
+      security: [{ cookieAuth: [] }],
+      parameters: [pathParameter("orderId", "One of my orders")],
+      responses: {
+        200: successResponse("Delivered: the updated order", exampleOrderDetail),
+        404: errorResponse("Not mine, or no such order", "NOT_FOUND", "Order not found"),
+        409: errorResponse(
+          "The rider can still enter the code",
+          "CODE_NOT_LOCKED",
+          "Give your rider the 4-digit code to finish the delivery",
+        ),
+      },
+    },
+  },
   "/api/v1/customer/orders/{orderId}/tracking": {
     get: {
       tags,

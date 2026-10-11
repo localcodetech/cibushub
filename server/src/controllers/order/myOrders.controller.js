@@ -2,6 +2,7 @@ import { cancelMyOrder, getMyOrder, listMyOrders } from "../../services/order/my
 import { getMyReceipt } from "../../services/order/receipt.service.js";
 import { buildReceiptPdf } from "../../services/order/receiptPdf.service.js";
 import { getOrderTracking } from "../../services/delivery/tracking.service.js";
+import { customerConfirmReceived } from "../../services/delivery/deliveryFlow.service.js";
 import { sendSuccess } from "../../utils/response.js";
 
 export const listOrders = async (req, res) => {
@@ -46,4 +47,15 @@ export const getTracking = async (req, res) => {
   const tracking = await getOrderTracking(req.user.id, req.params.orderId);
 
   return sendSuccess(res, tracking);
+};
+
+export const confirmReceived = async (req, res) => {
+  await customerConfirmReceived({
+    customerId: req.user.id,
+    orderId: req.params.orderId,
+    ipAddress: req.ip,
+  });
+  const order = await getMyOrder(req.user.id, req.params.orderId);
+
+  return sendSuccess(res, order);
 };

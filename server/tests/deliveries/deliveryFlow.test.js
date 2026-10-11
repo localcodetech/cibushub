@@ -11,6 +11,7 @@ import {
 import { signAccessToken } from "../../src/utils/auth/tokens.js";
 import { saveLatestLocation } from "../../src/services/rider/riderLocationStore.js";
 import { goOnline } from "../../src/services/rider/riderPresence.service.js";
+import { sweepLockedDeliveryCodes } from "../../src/services/delivery/deliveryFlow.service.js";
 import { deliveryCodeFor } from "../../src/utils/delivery/deliveryCode.js";
 import { createTestUser } from "../helpers/users.js";
 import { createPaidOrder } from "../helpers/orders.js";
@@ -354,5 +355,77 @@ describe("Unlocking the delivery code [AC-DEL-06]", () => {
     });
     const delivered = await deliverWith(deliveryCodeFor(delivery.id));
     expect(delivered.status).toBe(200);
+  });
+});
+
+describe("Customer confirms after the code locks [AC-DEL-06, AC-DEL-07]", () => {
+  const confirm = (user = customer) =>
+    as(user).post(`/api/v1/customer/orders/${order.id}/confirm-received`);
+  const myOrder = () => as(customer).get(`/api/v1/customer/orders/${order.id}`);
+  const lockTheCode = async () => {
+    for (let attempt = 1; attempt <= 5; attempt += 1) {
+      await deliverWith(wrongCode());
+    }
+  };
+
+  it("is refused while the rider can still enter the code", async () => {
+    await foodIsReady();
+    await pickUp();
+
+    expect((await myOrder()).body.data.canConfirmReceived).toBe(false);
+    const response = await confirm();
+    expect(response.status).toBe(409);
+    expect(response.body.error.code).toBe("CODE_NOT_LOCKED");
+  });
+
+  it("after 5 wrong codes: the customer finishes it, the rider is told and freed", async () => {
+    await foodIsReady();
+    await pickUp();
+    await lockTheCode();
+    expect((await Delivery.findByPk(delivery.id)).codeLockedAt).not.toBeNull();
+    expect((await myOrder()).body.data.canConfirmReceived).toBe(true);
+
+    const response = await confirm();
+
+    expect(response.status).toBe(200);
+    expect(response.body.data.status).toBe("DELIVERED");
+    expect((await Delivery.findByPk(delivery.id)).status).toBe("DELIVERED");
+    const row = await OrderStatusHistory.findOne({
+      where: { orderId: order.id, toStatus: "DELIVERED" },
+    });
+    expect(row).toMatchObject({ actorRole: "CUSTOMER", actorUserId: customer.id });
+    expect(emitToUser).toHaveBeenCalledWith(rider.id, "delivery:completed", {
+      orderId: order.id,
+      confirmedBy: "CUSTOMER",
+    });
+    expect((await myDelivery()).body.data).toBeNull();
+  });
+
+  it("only for the order's own customer", async () => {
+    await foodIsReady();
+    await pickUp();
+    await lockTheCode();
+    const stranger = await createTestUser({ email: "kofi@example.com", phone: "+233201234567" });
+
+    expect((await confirm(stranger)).status).toBe(404);
+  });
+
+  it("still locked after 15 minutes: admins are alerted again, once", async () => {
+    await foodIsReady();
+    await pickUp();
+    await lockTheCode();
+    vi.clearAllMocks();
+    const lockedAt = (await Delivery.findByPk(delivery.id)).codeLockedAt;
+
+    await sweepLockedDeliveryCodes(new Date(lockedAt.getTime() + 10 * 60 * 1000));
+    expect(emitAdminAlert).not.toHaveBeenCalled();
+
+    await sweepLockedDeliveryCodes(new Date(lockedAt.getTime() + 16 * 60 * 1000));
+    await sweepLockedDeliveryCodes(new Date(lockedAt.getTime() + 17 * 60 * 1000));
+    expect(emitAdminAlert).toHaveBeenCalledTimes(1);
+    expect(emitAdminAlert).toHaveBeenCalledWith(
+      "DELIVERY_CODE_STILL_LOCKED",
+      expect.objectContaining({ orderId: order.id }),
+    );
   });
 });

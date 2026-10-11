@@ -104,6 +104,7 @@ describe("Who may make each move [AC-ORD-03]", () => {
   it("only the rider picks up and delivers", () => {
     expect(roleError("RIDER_ASSIGNED", "PICKED_UP", "RIDER")).toBeNull();
     expect(roleError("PICKED_UP", "DELIVERED", "RIDER")).toBeNull();
+    expect(roleError("PICKED_UP", "DELIVERED", "CUSTOMER")).toBeNull();
     expect(roleError("PICKED_UP", "DELIVERED", "RESTAURANT_OWNER").statusCode).toBe(403);
   });
 

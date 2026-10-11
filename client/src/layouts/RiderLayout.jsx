@@ -63,7 +63,7 @@ const RiderLayout = () => {
         playNewOrderSound();
       }),
       // Anything about the delivery in hand: given by an admin, taken off, food ready,
-      // code unlocked. The screen reloads it from the server.
+      // code unlocked, completed. The screen reloads it from the server.
       onLiveEvent("delivery:assigned", () => {
         queryClient.invalidateQueries({ queryKey: RIDER_DELIVERY_KEY });
       }),
@@ -74,6 +74,10 @@ const RiderLayout = () => {
         queryClient.invalidateQueries({ queryKey: RIDER_DELIVERY_KEY });
       }),
       onLiveEvent("delivery:code-unlocked", () => {
+        queryClient.invalidateQueries({ queryKey: RIDER_DELIVERY_KEY });
+      }),
+      // The customer confirmed receipt after the code locked: the delivery is finished
+      onLiveEvent("delivery:completed", () => {
         queryClient.invalidateQueries({ queryKey: RIDER_DELIVERY_KEY });
       }),
       // e.g. the server took us offline after 5 minutes without a location

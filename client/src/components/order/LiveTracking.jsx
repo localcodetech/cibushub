@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { PhoneCall } from "lucide-react";
+import { PackageCheck, PhoneCall } from "lucide-react";
 import Card from "@/components/common/Card";
+import Sheet from "@/components/common/Sheet";
 import Skeleton from "@/components/common/Skeleton";
+import { Button } from "@/components/ui/button";
 import DeliveryMap from "@/components/map/DeliveryMap";
 import RiderSummary from "@/components/order/RiderSummary";
-import { getOrderTrackingRequest } from "@/api/orders";
+import { confirmReceivedRequest, getOrderTrackingRequest } from "@/api/orders";
 import { onLiveEvent } from "@/lib/liveUpdates";
 import { useNow } from "@/hooks/useNow";
 
@@ -32,6 +34,9 @@ const LiveTracking = ({ order }) => {
   const trackingKey = ["tracking", order.id];
   // The rider reported they can't reach the customer: ask them to pick up the phone
   const [riderCantReach, setRiderCantReach] = useState(false);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [isConfirming, setIsConfirming] = useState(false);
+  const [confirmError, setConfirmError] = useState("");
 
   const query = useQuery({
     queryKey: trackingKey,
@@ -73,6 +78,20 @@ const LiveTracking = ({ order }) => {
     return null;
   }
 
+  // "I've received my food" after the code locked: the order is delivered
+  const handleConfirmReceived = async () => {
+    setIsConfirming(true);
+    setConfirmError("");
+    try {
+      const updated = await confirmReceivedRequest(order.id);
+      queryClient.setQueryData(["order", order.id], updated);
+      setIsConfirmOpen(false);
+    } catch (error) {
+      setConfirmError(error.message);
+    }
+    setIsConfirming(false);
+  };
+
   const tracking = query.data;
   const isPickedUp = tracking.status === "PICKED_UP";
   const location = tracking.riderLocation;
@@ -98,8 +117,25 @@ const LiveTracking = ({ order }) => {
         </div>
       )}
 
+      {/* The rider typed a wrong code 5 times: the customer can finish it [AC-DEL-06] */}
+      {order.canConfirmReceived && (
+        <div role="alert" className="flex flex-col gap-3 rounded-lg border border-destructive p-4">
+          <p className="text-[15px]">
+            Your rider entered a wrong code too many times. If you have your food, confirm it here.
+          </p>
+          <Button
+            type="button"
+            onClick={() => setIsConfirmOpen(true)}
+            className="h-12 text-base font-bold"
+          >
+            <PackageCheck size={20} aria-hidden="true" />
+            I've received my food
+          </Button>
+        </div>
+      )}
+
       {/* The 4-digit code: the rider needs it to finish the delivery [AC-DEL-06] */}
-      {isPickedUp && order.deliveryCode && (
+      {isPickedUp && order.deliveryCode && !order.canConfirmReceived && (
         <div className="rounded-lg bg-primary p-4 text-center text-primary-foreground">
           <p className="text-[15px]">Give your rider this code</p>
           <p className="font-heading text-5xl font-bold tracking-[0.3em]">{order.deliveryCode}</p>
@@ -128,6 +164,38 @@ const LiveTracking = ({ order }) => {
         )}
         {" · Times are estimates."}
       </p>
+
+      {isConfirmOpen && (
+        <Sheet
+          title="Got your food?"
+          description="Confirm only if the rider has handed you your order."
+          onClose={() => setIsConfirmOpen(false)}
+        >
+          <div className="flex flex-col gap-3 p-4">
+            {confirmError && (
+              <p role="alert" className="text-[15px] text-destructive">
+                {confirmError}
+              </p>
+            )}
+            <Button
+              type="button"
+              onClick={handleConfirmReceived}
+              disabled={isConfirming}
+              className="h-12 text-base font-bold"
+            >
+              {isConfirming ? "Confirming…" : "Yes, I have my food"}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setIsConfirmOpen(false)}
+              className="h-12 text-base font-bold"
+            >
+              Not yet
+            </Button>
+          </div>
+        </Sheet>
+      )}
     </Card>
   );
 };

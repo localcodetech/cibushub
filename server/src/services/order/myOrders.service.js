@@ -10,6 +10,7 @@ import { findOrderWithDetails, findOrdersByCustomer } from "../../repositories/o
 import { findRestaurantById } from "../../repositories/restaurant.repository.js";
 import { findDeliveryByOrderId } from "../../repositories/delivery.repository.js";
 import { deliveryCodeFor } from "../../utils/delivery/deliveryCode.js";
+import { isCodeLocked } from "../delivery/deliveryFlow.service.js";
 
 // [AC-CUST-09]
 export const listMyOrders = async (customerId, query) => {
@@ -44,9 +45,12 @@ export const getMyOrder = async (customerId, orderId) => {
 
   // On its way: the customer shows this code to the rider at the door [AC-DEL-06]
   let deliveryCode = null;
+  // The rider typed a wrong code 5 times: the customer may confirm receipt themselves
+  let canConfirmReceived = false;
   if (order.status === "PICKED_UP") {
     const delivery = await findDeliveryByOrderId(order.id);
     deliveryCode = delivery ? deliveryCodeFor(delivery.id) : null;
+    canConfirmReceived = delivery ? isCodeLocked(delivery) : false;
   }
 
   return {
@@ -54,6 +58,7 @@ export const getMyOrder = async (customerId, orderId) => {
     restaurant: { id: restaurant.id, name: restaurant.name, phone: restaurant.phone },
     timeline,
     deliveryCode,
+    canConfirmReceived,
     // e.g. ["CANCELLED"] before the restaurant accepts, [] after: the app shows the right buttons
     customerActions: nextStatusesFor(order.status, "CUSTOMER"),
   };

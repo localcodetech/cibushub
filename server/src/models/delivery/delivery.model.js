@@ -80,6 +80,15 @@ const Delivery = sequelize.define(
       allowNull: false,
       defaultValue: 0,
     },
+    // 5 wrong codes: when it locked, and when admins were reminded (15 minutes later)
+    codeLockedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    codeLockRemindedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
     // The rider's taps on "Call" during the drop-off, counted by the server [AC-DEL-08]
     callAttempts: {
       type: DataTypes.INTEGER,

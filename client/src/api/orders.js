@@ -102,3 +102,10 @@ export const getOrderTrackingRequest = async (orderId) => {
   const result = await api.get("/customer/orders/" + orderId + "/tracking");
   return result.data;
 };
+
+// "I've received my food": only after the rider's code tries locked [AC-DEL-06].
+// Returns the updated (DELIVERED) order.
+export const confirmReceivedRequest = async (orderId) => {
+  const result = await api.post("/customer/orders/" + orderId + "/confirm-received");
+  return result.data;
+};

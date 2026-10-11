@@ -1,7 +1,15 @@
 import { useState } from "react";
 import { Link, useOutletContext } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { BellRing, ChevronRight, CircleAlert, LocateOff, Package, Sun } from "lucide-react";
+import {
+  BellRing,
+  ChevronRight,
+  CircleAlert,
+  CircleCheck,
+  LocateOff,
+  Package,
+  Sun,
+} from "lucide-react";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
@@ -167,20 +175,32 @@ const RiderHomePage = () => {
   );
 };
 
-// "Location shared 3 s ago", and a reminder when the phone may lock its screen
+// Nothing accepted by the server for this long: something is wrong (signal, GPS, locked screen)
+const QUIET_AFTER_SECONDS = 30;
+
+// Calm while it works ("Sharing your location"); a warning only when it has gone quiet.
+// Plus a reminder when the phone may lock its screen.
 const LocationNote = ({ lastSentAt, isScreenAwake }) => {
   const now = useNow(1000);
-
-  let sharedText = "Sharing your location…";
-  if (lastSentAt) {
-    sharedText = "Location shared " + Math.round((now - lastSentAt) / 1000) + " s ago";
-  }
+  const secondsQuiet = lastSentAt ? Math.round((now - lastSentAt) / 1000) : null;
 
   return (
-    <div className="flex flex-col gap-1 text-[15px] text-muted-foreground">
-      <p>{sharedText}</p>
+    <div className="flex flex-col gap-1 text-[15px]">
+      {secondsQuiet === null && <p className="text-muted-foreground">Starting location sharing…</p>}
+      {secondsQuiet !== null && secondsQuiet <= QUIET_AFTER_SECONDS && (
+        <p className="flex items-center gap-2 font-bold text-success">
+          <CircleCheck size={18} aria-hidden="true" />
+          Sharing your location
+        </p>
+      )}
+      {secondsQuiet !== null && secondsQuiet > QUIET_AFTER_SECONDS && (
+        <p role="alert" className="flex items-center gap-2 font-bold text-destructive">
+          <LocateOff size={18} aria-hidden="true" />
+          Location not sent for {secondsQuiet} s. Check GPS and signal.
+        </p>
+      )}
       {!isScreenAwake && (
-        <p className="flex items-center gap-2">
+        <p className="flex items-center gap-2 text-muted-foreground">
           <Sun size={16} aria-hidden="true" />
           Keep the screen on: your phone stops sharing location when it locks.
         </p>

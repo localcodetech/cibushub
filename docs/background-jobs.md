@@ -25,6 +25,7 @@ Work that must happen later or on a timer runs in a separate **worker** process 
 | `sweepStaleRiders` | maintenance | every minute | Takes online riders with no location for 5 minutes offline and tells their app (`rider:status`) |
 | `offerDelivery` | assignment | when the restaurant accepts, after a decline, and 60.5 s after each offer (delayed) | One search step: expires a stale offer, offers the nearest eligible rider within 5 km (once widened to 10 km), or alerts admins and the customer after 10 minutes without a rider |
 | `sweepSearchingDeliveries` | assignment | every minute | Runs a search step for every delivery still looking for a rider: catches lost jobs and asks riders who came online since |
+| `sweepLockedDeliveryCodes` | maintenance | every minute | Delivery codes locked (5 wrong tries) for 15 minutes with nobody acting: alerts admins again, once per lock (SMS from Step 12) |
 | `cleanupExpiredTokens` | maintenance | daily 03:00 Accra | Deletes expired login sessions |
 
 ## Rules

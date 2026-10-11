@@ -15,9 +15,10 @@ to join and the server checks (AC-RT-02).
 | `delivery:unassigned` | `user:<rider>` | The rider was taken off, or the order was cancelled | orderId, reason |
 | `delivery:ready` | `user:<rider>` | The kitchen marked the food ready | orderId |
 | `delivery:code-unlocked` | `user:<rider>` | An admin unlocked the delivery code | orderId |
+| `delivery:completed` | `user:<rider>` | The customer confirmed receipt after the code locked | orderId, confirmedBy |
 | `delivery:unreachable` | `user:<customer>` | The rider reported "customer unreachable" | orderId |
 | `rider:status` | `user:<rider>` | The server took the rider offline (no location for 5 minutes) | isOnline, reason |
-| `admin:alert` | `admins` | Something needs an admin (applications, flagged pickups, locked codes, unreachable customers, slow searches) | type and details |
+| `admin:alert` | `admins` | Something needs an admin (applications, flagged pickups, locked codes and codes still locked after 15 minutes, unreachable customers, slow searches) | type and details |
 
 Sent by the phone:
 

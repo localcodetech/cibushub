@@ -8,6 +8,7 @@ import { changeOrderStatus } from "../order/changeOrderStatus.service.js";
 import { findOrderItems, lockOrder } from "../../repositories/order.repository.js";
 import {
   findActiveDeliveryForRider,
+  findDeliveriesLockedSince,
   findDeliveryForOrderForUpdate,
   findDeliveryForUpdate,
   updateDelivery,
@@ -196,7 +197,11 @@ export const completeDelivery = async ({ userId, code, now = new Date() }) => {
       if (!deliveryCodeMatches(delivery.id, code)) {
         // Saved, not thrown here: throwing would undo the count
         const attempts = delivery.codeAttempts + 1;
-        await updateDelivery(delivery, { codeAttempts: attempts }, transaction);
+        const changes = { codeAttempts: attempts };
+        if (attempts >= DELIVERY_RULES.maxCodeAttempts) {
+          changes.codeLockedAt = now;
+        }
+        await updateDelivery(delivery, changes, transaction);
         return {
           wrongCode: true,
           attemptsLeft: DELIVERY_RULES.maxCodeAttempts - attempts,
@@ -339,7 +344,11 @@ export const adminUnlockDeliveryCode = async ({ orderId, reason, admin }) => {
       if (delivery.status !== "PICKED_UP") {
         throw new AppError(409, "NOT_PICKED_UP", "The food hasn't been picked up");
       }
-      await updateDelivery(delivery, { codeAttempts: 0 }, transaction);
+      await updateDelivery(
+        delivery,
+        { codeAttempts: 0, codeLockedAt: null, codeLockRemindedAt: null },
+        transaction,
+      );
       await saveAuditLog(
         {
           actorId: admin.id,
@@ -360,4 +369,81 @@ export const adminUnlockDeliveryCode = async ({ orderId, reason, admin }) => {
   const rider = await findRiderProfileById(riderProfileId);
   emitToUser(rider.userId, "delivery:code-unlocked", { orderId });
   return { orderId, codeAttemptsLeft: DELIVERY_RULES.maxCodeAttempts };
+};
+
+// Is this delivery's code locked (5 wrong tries)? Then the customer may confirm instead.
+export const isCodeLocked = (delivery) =>
+  delivery.status === "PICKED_UP" && delivery.codeAttempts >= DELIVERY_RULES.maxCodeAttempts;
+
+// "I've received my food" [AC-DEL-06, AC-DEL-07]: after the code locked, the customer (whom
+// the code protects) can finish the delivery themselves instead of waiting for an admin.
+// Locks the delivery, then the order, like every delivery path.
+export const customerConfirmReceived = async ({
+  customerId,
+  orderId,
+  ipAddress,
+  now = new Date(),
+}) => {
+  const riderProfileId = await retryOnDeadlock(() =>
+    sequelize.transaction(async (transaction) => {
+      const delivery = await findDeliveryForOrderForUpdate(orderId, transaction);
+      const order = await lockOrder(orderId, transaction);
+      if (!order || order.customerId !== customerId) {
+        throw new AppError(404, "NOT_FOUND", "Order not found");
+      }
+      if (!delivery || !isCodeLocked(delivery)) {
+        throw new AppError(
+          409,
+          "CODE_NOT_LOCKED",
+          "Give your rider the 4-digit code to finish the delivery",
+        );
+      }
+
+      await updateDelivery(delivery, { status: "DELIVERED", deliveredAt: now }, transaction);
+      await changeOrderStatus({
+        orderId,
+        toStatus: "DELIVERED",
+        actor: { userId: customerId, role: "CUSTOMER" },
+        reason: "The customer confirmed they received the food (delivery code locked)",
+        isAllowedFor: () => true, // checked above: their own order
+        onlyIfStatus: "PICKED_UP",
+        transaction,
+      });
+      await saveAuditLog(
+        {
+          actorId: customerId,
+          action: "DELIVERY_CONFIRMED_BY_CUSTOMER",
+          targetType: "order",
+          targetId: orderId,
+          before: { codeAttempts: delivery.codeAttempts },
+          after: { status: "DELIVERED" },
+          reason: "Delivery code locked",
+          ipAddress,
+        },
+        transaction,
+      );
+      return delivery.riderProfileId;
+    }),
+  );
+
+  // The rider's screen shows "Delivered", and they are free for the next offer
+  const rider = await findRiderProfileById(riderProfileId);
+  emitToUser(rider.userId, "delivery:completed", { orderId, confirmedBy: "CUSTOMER" });
+  return { orderId, delivered: true };
+};
+
+// Every minute: codes locked for 15 minutes with nobody acting get a second admin alert,
+// once per lock (Step 12 turns this into an SMS to the admin on duty) [AC-DEL-06]
+export const sweepLockedDeliveryCodes = async (now = new Date()) => {
+  const lockedBefore = new Date(now.getTime() - DELIVERY_RULES.codeLockReminderAfterMs);
+  const stuck = await findDeliveriesLockedSince(lockedBefore);
+  for (const delivery of stuck) {
+    await updateDelivery(delivery, { codeLockRemindedAt: now });
+    emitAdminAlert("DELIVERY_CODE_STILL_LOCKED", {
+      orderId: delivery.orderId,
+      riderProfileId: delivery.riderProfileId,
+      lockedAt: delivery.codeLockedAt,
+    });
+  }
+  return { reminded: stuck.length };
 };

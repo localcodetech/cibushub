@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
@@ -31,6 +31,7 @@ import {
   reportUnreachableRequest,
 } from "@/api/riderWork";
 import { RIDER_DELIVERY_KEY } from "@/data/riderQueries";
+import { onLiveEvent } from "@/lib/liveUpdates";
 import { directionsUrl } from "@/utils/googleMaps";
 import { formatMoney } from "@/utils/money";
 
@@ -58,12 +59,30 @@ const RiderDeliveryPage = () => {
     refetchInterval: REFRESH_EVERY_MS,
   });
 
+  // The customer confirmed they got the food (after the code locked): it's delivered
+  const delivery = query.data;
+  useEffect(() => {
+    return onLiveEvent("delivery:completed", (event) => {
+      if (delivery && event.orderId === delivery.orderId) {
+        setDeliveredOrder({
+          orderNumber: delivery.orderNumber,
+          earningsPesewas: delivery.earningsPesewas,
+          confirmedByCustomer: true,
+        });
+        queryClient.setQueryData(RIDER_DELIVERY_KEY, null);
+      }
+    });
+  }, [delivery, queryClient]);
+
   if (deliveredOrder) {
     return (
       <Container>
         <section className="flex flex-col items-center gap-3 py-16 text-center">
           <CircleCheck size={56} className="text-success" aria-hidden="true" />
           <Heading level={1}>Delivered!</Heading>
+          {deliveredOrder.confirmedByCustomer && (
+            <Text muted>The customer confirmed they received the food.</Text>
+          )}
           <Text className="text-lg">
             {deliveredOrder.orderNumber} · you earned{" "}
             <strong>{formatMoney(deliveredOrder.earningsPesewas)}</strong>
@@ -102,7 +121,6 @@ const RiderDeliveryPage = () => {
     );
   }
 
-  const delivery = query.data;
   if (!delivery) {
     return (
       <Container>

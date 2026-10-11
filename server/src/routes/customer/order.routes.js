@@ -9,6 +9,7 @@ import {
 import { createOrder } from "../../controllers/order/placeOrder.controller.js";
 import {
   cancelOrder,
+  confirmReceived,
   getOrder,
   getReceipt,
   downloadReceiptPdf,
@@ -67,6 +68,11 @@ router.get("/:orderId/tracking", trackingLimiter, getTracking);
 // Cancel one of my orders (only before the restaurant accepts)
 // ─────────────────────────────────────────────
 router.post("/:orderId/cancel", validate(cancelOrderSchema), cancelOrder);
+
+// ─────────────────────────────────────────────
+// "I've received my food": only after the rider's code tries locked [AC-DEL-06]
+// ─────────────────────────────────────────────
+router.post("/:orderId/confirm-received", confirmReceived);
 
 // ─────────────────────────────────────────────
 // Pay for my order with Paystack (card or mobile money); call again to retry after a failure

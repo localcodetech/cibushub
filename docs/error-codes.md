@@ -65,6 +65,7 @@ Add a row here in the same commit that introduces a new code.
 | `NOT_PICKED_UP` | 409 | Entering the delivery code before pickup | AC-DEL-06 |
 | `WRONG_DELIVERY_CODE` | 400 | Wrong 4-digit code; message says how many attempts are left | AC-DEL-06 |
 | `DELIVERY_CODE_LOCKED` | 429 | 5 wrong codes; admins are alerted and can unlock it | AC-DEL-06 |
+| `CODE_NOT_LOCKED` | 409 | Customer tried "I've received my food" while the rider can still enter the code | AC-DEL-06 |
 | `CALL_THE_CUSTOMER_FIRST` | 409 | "Customer unreachable" before 2 counted calls | AC-DEL-08 |
 | `ALREADY_REPORTED` | 409 | "Customer unreachable" sent twice for one delivery | AC-DEL-08 |
 | `RIDER_NOT_APPROVED` | 403 | Going online without an approved rider application | AC-RIDER-02, AC-RIDER-03 |

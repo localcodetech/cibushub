@@ -8,6 +8,11 @@ export const riderEarningsSchema = z
     date: z
       .string()
       .regex(/^\d{4}-\d{2}-\d{2}$/, "Use a date like 2026-10-10")
+      // Today in Ghana (UTC all year): nothing has been earned in the future
+      .refine(
+        (day) => day <= new Date().toISOString().slice(0, 10),
+        "Choose today or an earlier day",
+      )
       .optional(),
     ...paginationFields,
   })

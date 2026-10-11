@@ -27,7 +27,9 @@ const RiderEarningsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const today = todayInGhana();
   const period = searchParams.get("period") || "day";
-  const date = searchParams.get("date") || today;
+  // A future day in the address (typed or old link) shows today instead
+  const askedDate = searchParams.get("date") || today;
+  const date = askedDate > today ? today : askedDate;
   const page = Number(searchParams.get("page")) || 1;
 
   // Changes the period or day (back to page 1), or the page; defaults stay out of the address
@@ -44,6 +46,17 @@ const RiderEarningsPage = () => {
       params.page = String(next.page);
     }
     setSearchParams(params);
+  };
+
+  // "max" stops the calendar from offering future days, but a date can still be typed
+  // (or put in the address), so anything after today becomes today
+  const handleDateChange = (event) => {
+    const picked = event.target.value;
+    if (!picked || picked > today) {
+      changeFilters({ date: today });
+      return;
+    }
+    changeFilters({ date: picked });
   };
 
   const query = useQuery({
@@ -85,7 +98,7 @@ const RiderEarningsPage = () => {
             type="date"
             value={date}
             max={today}
-            onChange={(event) => changeFilters({ date: event.target.value || today })}
+            onChange={handleDateChange}
             className="h-12 rounded-lg border border-input bg-white px-3 text-base font-normal dark:bg-card"
           />
         </label>
