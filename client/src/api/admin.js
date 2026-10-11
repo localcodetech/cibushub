@@ -251,3 +251,32 @@ export const getAuditActionsRequest = async () => {
   const result = await api.get("/admin/audit-logs/actions");
   return result.data;
 };
+
+// ─────────────────────────────────────────────
+// Reviews [AC-ADM-09, AC-REV-07]
+// ─────────────────────────────────────────────
+
+// filters = { hidden (true/false/undefined), maxRating (e.g. 2), page }
+export const getAdminReviewsRequest = async (filters) => {
+  const query = new URLSearchParams({ page: String(filters.page) });
+  if (filters.hidden !== undefined) {
+    query.set("hidden", String(filters.hidden));
+  }
+  if (filters.maxRating) {
+    query.set("maxRating", String(filters.maxRating));
+  }
+  const result = await api.get("/admin/reviews?" + query.toString());
+  return { reviews: result.data, meta: result.meta };
+};
+
+// Hide an abusive review: gone from the restaurant page and the averages
+export const hideReviewRequest = async (reviewId, reason) => {
+  const result = await api.post("/admin/reviews/" + reviewId + "/hide", { reason });
+  return result.data;
+};
+
+// Show a hidden review again
+export const showReviewRequest = async (reviewId, reason) => {
+  const result = await api.post("/admin/reviews/" + reviewId + "/show", { reason });
+  return result.data;
+};

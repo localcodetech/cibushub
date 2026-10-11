@@ -54,6 +54,7 @@ const AdminPaymentsPage = lazy(() => import("@/pages/admin/AdminPaymentsPage"));
 const AdminUsersPage = lazy(() => import("@/pages/admin/AdminUsersPage"));
 const AdminUserDetailPage = lazy(() => import("@/pages/admin/AdminUserDetailPage"));
 const AdminAuditLogPage = lazy(() => import("@/pages/admin/AdminAuditLogPage"));
+const AdminReviewsPage = lazy(() => import("@/pages/admin/AdminReviewsPage"));
 const AdminRiderMapPage = lazy(() => import("@/pages/admin/AdminRiderMapPage"));
 const AdminRiderDetailPage = lazy(() => import("@/pages/admin/AdminRiderDetailPage"));
 const NotificationsPage = lazy(() => import("@/pages/NotificationsPage"));
@@ -218,6 +219,7 @@ const router = createBrowserRouter([
               { path: "users", element: <AdminUsersPage /> },
               { path: "users/:userId", element: <AdminUserDetailPage /> },
               { path: "audit-log", element: <AdminAuditLogPage /> },
+              { path: "reviews", element: <AdminReviewsPage /> },
             ],
           },
 
