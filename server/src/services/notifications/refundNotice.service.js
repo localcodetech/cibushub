@@ -1,5 +1,6 @@
 import { formatGhs } from "../../utils/money.js";
 import { notify } from "./notify.service.js";
+import { refundEmail } from "./templates/emails.js";
 
 // How long the money usually takes to arrive, by how it was paid
 const ARRIVAL_TIME = {
@@ -10,7 +11,7 @@ const ARRIVAL_TIME = {
 const arrivalTimeFor = (channel) => ARRIVAL_TIME[channel] || "within 10 working days";
 
 // SMS and email for one refund event; each is sent once only (dedupe key per refund)
-const tellCustomer = async ({ customer, refund, event, subject, message }) => {
+const tellCustomer = async ({ customer, order, refund, event, arrival, message }) => {
   await notify({
     channel: "SMS",
     to: customer.phone,
@@ -23,8 +24,13 @@ const tellCustomer = async ({ customer, refund, event, subject, message }) => {
     to: customer.email,
     template: `refund.${event}`,
     key: `refund:${refund.id}:${event}:email`,
-    subject,
-    text: message,
+    ...refundEmail({
+      event,
+      amountPesewas: refund.amountPesewas,
+      orderNumber: order.orderNumber,
+      orderId: order.id,
+      arrival,
+    }),
   });
 };
 
@@ -32,9 +38,10 @@ const tellCustomer = async ({ customer, refund, event, subject, message }) => {
 export const notifyRefundStarted = async ({ customer, order, refund, channel }) => {
   await tellCustomer({
     customer,
+    order,
     refund,
     event: "started",
-    subject: `Refund started for order ${order.orderNumber}`,
+    arrival: arrivalTimeFor(channel),
     message: `CibusHub: your refund of ${formatGhs(refund.amountPesewas)} for order ${order.orderNumber} has started. It should reach you ${arrivalTimeFor(channel)}.`,
   });
 };
@@ -42,9 +49,9 @@ export const notifyRefundStarted = async ({ customer, order, refund, channel }) 
 export const notifyRefundProcessed = async ({ customer, order, refund }) => {
   await tellCustomer({
     customer,
+    order,
     refund,
     event: "processed",
-    subject: `Refund processed for order ${order.orderNumber}`,
     message: `CibusHub: your refund of ${formatGhs(refund.amountPesewas)} for order ${order.orderNumber} has been processed by the payment provider.`,
   });
 };

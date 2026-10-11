@@ -8,6 +8,7 @@ import {
   updateUser,
 } from "../../repositories/user.repository.js";
 import { notify } from "../notifications/notify.service.js";
+import { emailChangedEmail } from "../notifications/templates/emails.js";
 
 // How long the new phone/email waits for its code before the request is forgotten
 const PENDING_SECONDS = 15 * 60;
@@ -128,8 +129,7 @@ export const confirmEmailChange = async (userId, code) => {
     channel: "EMAIL",
     to: oldEmail,
     template: "account.email-changed",
-    subject: "Your CibusHub email was changed",
-    text: `Your CibusHub email was just changed to ${newEmail}. If this was not you, contact support now.`,
+    ...emailChangedEmail({ newEmail }),
   });
 
   return user;

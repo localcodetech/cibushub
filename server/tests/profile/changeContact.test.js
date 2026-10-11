@@ -17,7 +17,8 @@ vi.mock("../../src/services/notifications/email.service.js", () => ({
 
 const lastCodeEmailedTo = (email) => {
   const emails = sentEmails.filter((sent) => sent.to === email);
-  const match = emails.at(-1)?.text.match(/code is (\d{6})/);
+  // The branded code email starts its subject with the code: "482913 is your CibusHub code"
+  const match = emails.at(-1)?.subject.match(/^(\d{6}) is your CibusHub code$/);
   return match ? match[1] : null;
 };
 

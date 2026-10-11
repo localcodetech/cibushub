@@ -1,6 +1,7 @@
 import logger from "../../config/logger.js";
 import { notify } from "./notify.service.js";
-import { buildReceipt, receiptAsText } from "../order/receipt.service.js";
+import { buildReceipt } from "../order/receipt.service.js";
+import { receiptEmail } from "./templates/emails.js";
 import { findUserById } from "../../repositories/user.repository.js";
 
 // Emails the receipt once an order is paid [AC-PAY-15]. A failed email is logged, never thrown:
@@ -16,8 +17,7 @@ export const emailReceipt = async (orderId) => {
       to: customer.email,
       template: "order.receipt",
       key: `order:${orderId}:receipt:email`,
-      subject: `Your CibusHub receipt for order ${receipt.orderNumber}`,
-      text: receiptAsText(receipt),
+      ...receiptEmail(receipt),
     });
   } catch (error) {
     logger.error({ err: error, orderId }, "Could not send receipt email");

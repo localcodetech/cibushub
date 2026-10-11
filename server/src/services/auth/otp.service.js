@@ -2,6 +2,7 @@ import redis from "../../config/redis.js";
 import AppError from "../../utils/AppError.js";
 import { generateOtp, hashOtp, otpMatches } from "../../utils/auth/otp.js";
 import { notify } from "../notifications/notify.service.js";
+import { codeEmail } from "../notifications/templates/emails.js";
 
 const OTP_PURPOSES = {
   verify: {
@@ -23,7 +24,8 @@ const OTP_PURPOSES = {
   changeEmail: {
     channel: "email",
     lifetimeSeconds: 15 * 60,
-    subject: "Confirm your new CibusHub email",
+    // For the branded email: "Use this code to ..."
+    emailReason: "confirm your new email address",
     message: (code) =>
       `Your CibusHub code is ${code}. Use it to confirm your new email address. It expires in 15 minutes.`,
   },
@@ -76,13 +78,21 @@ export const sendOtp = async (destination, purpose = "verify") => {
   await redis.set(keys.cooldown, "1", "EX", RESEND_WAIT_SECONDS);
 
   // Sent in the background, like every message; never stored anywhere but the job [AC-NOTIF-02]
-  await notify({
-    channel: settings.channel === "email" ? "EMAIL" : "SMS",
-    to: destination,
-    template: `otp.${purpose}`,
-    subject: settings.subject,
-    text: settings.message(code),
-  });
+  if (settings.channel === "email") {
+    const email = codeEmail({
+      code,
+      reason: settings.emailReason,
+      minutes: settings.lifetimeSeconds / 60,
+    });
+    await notify({ channel: "EMAIL", to: destination, template: `otp.${purpose}`, ...email });
+  } else {
+    await notify({
+      channel: "SMS",
+      to: destination,
+      template: `otp.${purpose}`,
+      text: settings.message(code),
+    });
+  }
 };
 
 export const verifyOtp = async (destination, code, purpose = "verify") => {

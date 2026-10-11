@@ -885,6 +885,7 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 4. Run migrations as part of deployment; point the Paystack webhook to production.
 5. Sentry for client and server with source maps; UptimeRobot on /api/health; daily backups and one tested restore.
 6. Final documentation: README, ER diagram, permission matrix, state machine diagram, order flow diagram, ADRs, demo accounts.
+7. Email sender reputation and brand: add a DMARC record for `mail.cibushubgh.com` (start with `p=none` and reports, then `quarantine`), then BIMI so the CibusHub logo shows as the sender avatar in inboxes. Yahoo and some Apple Mail show it with DMARC + a BIMI SVG (Tiny PS) logo; **Gmail also needs a paid VMC or CMC certificate** (VMC needs a registered trademark). Decide on the certificate when the cost makes sense.
 
 ### Advisor tips
 
