@@ -22,6 +22,7 @@ import Refund from "./order/refund.model.js";
 import RiderProfile from "./rider/riderProfile.model.js";
 import RiderDocument from "./rider/riderDocument.model.js";
 import RiderLocation from "./rider/riderLocation.model.js";
+import NotificationLog from "./notification/notificationLog.model.js";
 import Delivery from "./delivery/delivery.model.js";
 import DeliveryOffer from "./delivery/deliveryOffer.model.js";
 
@@ -158,6 +159,7 @@ RiderProfile.hasMany(DeliveryOffer, { foreignKey: "riderProfileId", as: "offers"
 DeliveryOffer.belongsTo(RiderProfile, { foreignKey: "riderProfileId", as: "rider" });
 
 export {
+  NotificationLog,
   User,
   Address,
   RefreshToken,

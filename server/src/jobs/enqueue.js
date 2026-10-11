@@ -87,3 +87,27 @@ export const scheduleOfferExpiry = async (deliveryId, offerId, delayMs) => {
     );
   }
 };
+
+// Send one email or SMS in the background [AC-NOTIF-02, AC-NOTIF-03]: 3 tries, waiting
+// 30 s, then 60 s. The job id is the log row's id, so one message is queued only once.
+// Answers false if Redis can't take it; the caller then sends right away (AC-MON-04).
+export const scheduleNotification = async (logId, payload) => {
+  try {
+    await getQueue(QUEUE_NAMES.notifications).add(
+      "sendNotification",
+      { logId, payload },
+      {
+        jobId: `notification-${logId}`,
+        attempts: 3,
+        backoff: { type: "exponential", delay: 30000 },
+        // The log row is the record; the job (which holds the text, maybe a code) goes
+        removeOnComplete: true,
+        removeOnFail: { age: 24 * 60 * 60 },
+      },
+    );
+    return true;
+  } catch (error) {
+    logger.error({ err: error, logId }, "Could not queue notification; sending it now");
+    return false;
+  }
+};

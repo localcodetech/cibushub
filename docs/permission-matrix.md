@@ -59,6 +59,7 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | `GET /admin/restaurants/:id/documents` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize |
 | `POST /admin/restaurants/:id/approve` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize; audit logged |
 | `POST /admin/restaurants/:id/reject`, `/suspend` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; audit logged |
+| `GET /admin/notifications` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate (query); recipients masked, no message text |
 | `GET /admin/riders`, `GET /admin/riders/:id` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate (query) |
 | `GET /admin/riders/:id/documents` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize |
 | `POST /admin/riders/:id/approve` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize; audit logged |

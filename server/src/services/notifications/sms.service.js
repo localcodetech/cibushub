@@ -4,17 +4,18 @@ import logger from "../../config/logger.js";
 const NALO_URL = "https://sms.nalosolutions.com/smsbackend/clientapi/Resl_Nalo/send-message/";
 const TIMEOUT_MS = 15000;
 
-const maskPhone = (phone) => {
+export const maskPhone = (phone) => {
   return `${phone.slice(0, 4)}*****${phone.slice(-4)}`;
 };
 
 // Sends one text message through Nalo Solutions.
-// It never throws: a failed SMS is written to the log and the caller carries on.
+// Never throws: it answers { ok: true, id } or { ok: false, error }, like sendEmail,
+// so the notification queue can decide whether to try again.
 export const sendSms = async (phone, message) => {
   // A Google / Apple user may not have added a phone yet
   if (!phone) {
     logger.warn("SMS skipped: the user has no phone number");
-    return;
+    return { ok: false, error: "NO_ADDRESS" };
   }
 
   // No Nalo key: print the message instead of sending it
@@ -24,7 +25,7 @@ export const sendSms = async (phone, message) => {
     } else {
       logger.error({ to: maskPhone(phone) }, "NALO_API_KEY is not set, SMS not sent");
     }
-    return;
+    return { ok: false, error: "NOT_CONFIGURED" };
   }
 
   // URLSearchParams builds the "?key=...&message=..." part and URL-encodes every value,
@@ -48,15 +49,16 @@ export const sendSms = async (phone, message) => {
   } catch (error) {
     // Never log the address itself: it contains the API key
     logger.error({ err: error, to: maskPhone(phone) }, "Could not reach Nalo SMS");
-    return;
+    return { ok: false, error: "UNREACHABLE" };
   }
 
   // Nalo answers in plain text. Success looks like "1701|233XXXXXXXXX|<message id>".
   // Anything else is an error code, e.g. 1025 (no credit) or 1707 (sender ID not approved)
   if (!reply.startsWith("1701")) {
     logger.error({ to: maskPhone(phone), reply: reply }, "Nalo refused the SMS");
-    return;
+    return { ok: false, error: "NALO_" + reply.trim().split("|")[0].slice(0, 20) };
   }
 
   logger.info({ to: maskPhone(phone) }, "SMS sent");
+  return { ok: true, id: reply.trim().split("|")[2] || null };
 };

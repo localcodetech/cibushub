@@ -15,6 +15,7 @@ import { webhookPaths } from "./paths/webhook.paths.js";
 import { adminOrderPaths } from "./paths/adminOrder.paths.js";
 import { riderApplicationPaths } from "./paths/riderApplication.paths.js";
 import { adminRiderPaths } from "./paths/adminRider.paths.js";
+import { adminNotificationPaths } from "./paths/adminNotification.paths.js";
 import { riderStatusPaths } from "./paths/riderStatus.paths.js";
 import { riderOfferPaths } from "./paths/riderOffer.paths.js";
 import { riderDeliveryPaths } from "./paths/riderDelivery.paths.js";
@@ -80,6 +81,7 @@ export const openApiDocument = {
     ...adminOrderPaths,
     ...riderApplicationPaths,
     ...adminRiderPaths,
+    ...adminNotificationPaths,
     ...riderStatusPaths,
     ...riderOfferPaths,
     ...riderDeliveryPaths,

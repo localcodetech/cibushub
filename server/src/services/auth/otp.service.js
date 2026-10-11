@@ -1,8 +1,7 @@
 import redis from "../../config/redis.js";
 import AppError from "../../utils/AppError.js";
 import { generateOtp, hashOtp, otpMatches } from "../../utils/auth/otp.js";
-import { sendSms } from "../notifications/sms.service.js";
-import { sendEmail } from "../notifications/email.service.js";
+import { notify } from "../notifications/notify.service.js";
 
 const OTP_PURPOSES = {
   verify: {
@@ -76,11 +75,14 @@ export const sendOtp = async (destination, purpose = "verify") => {
   await redis.del(keys.attempts);
   await redis.set(keys.cooldown, "1", "EX", RESEND_WAIT_SECONDS);
 
-  if (settings.channel === "email") {
-    await sendEmail(destination, settings.subject, settings.message(code));
-  } else {
-    await sendSms(destination, settings.message(code));
-  }
+  // Sent in the background, like every message; never stored anywhere but the job [AC-NOTIF-02]
+  await notify({
+    channel: settings.channel === "email" ? "EMAIL" : "SMS",
+    to: destination,
+    template: `otp.${purpose}`,
+    subject: settings.subject,
+    text: settings.message(code),
+  });
 };
 
 export const verifyOtp = async (destination, code, purpose = "verify") => {

@@ -168,6 +168,21 @@ erDiagram
         datetime updated_at
     }
 
+    notification_logs {
+        bigint id PK
+        enum channel "EMAIL, SMS"
+        varchar template "e.g. otp.verify, order.receipt, refund.started"
+        varchar dedupe_key UK "e.g. refund:<id>:started:sms; one send per event"
+        varchar recipient_masked "never the full address; never the message text"
+        enum status "QUEUED, SENT, FAILED"
+        int attempts
+        varchar provider_message_id
+        varchar last_error
+        datetime sent_at
+        datetime created_at
+        datetime updated_at
+    }
+
     rider_locations {
         bigint id PK
         uuid rider_profile_id FK "rider_profiles.id, ON DELETE CASCADE"

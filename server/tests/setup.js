@@ -3,7 +3,7 @@ import env from "../src/config/env/env.js";
 import sequelize from "../src/config/database.js";
 import redis from "../src/config/redis.js";
 import { sentSms } from "./helpers/fakeSms.js";
-import { sentEmails } from "./helpers/fakeEmail.js";
+import { emailFailures, sentEmails } from "./helpers/fakeEmail.js";
 import { scheduledJobs } from "./helpers/fakeJobs.js";
 
 if (env.NODE_ENV !== "test" || !env.MYSQL_DATABASE.endsWith("_test")) {
@@ -14,19 +14,24 @@ vi.mock("../src/services/notifications/sms.service.js", async () => {
   const { sentSms: inbox } = await import("./helpers/fakeSms.js");
 
   return {
+    maskPhone: (phone) => phone,
     sendSms: async (phone, message) => {
       inbox.push({ phone, message });
+      return { ok: true, id: "test-sms-" + inbox.length };
     },
   };
 });
 
 // Emails are only collected in tests: a real RESEND_API_KEY in .env must never send from a test
 vi.mock("../src/services/notifications/email.service.js", async () => {
-  const { sentEmails: inbox } = await import("./helpers/fakeEmail.js");
+  const { sentEmails: inbox, emailFailures: failures } = await import("./helpers/fakeEmail.js");
 
   return {
-    maskEmail: (email) => email,
+    maskEmail: (email) => email.slice(0, 2) + "***@" + email.split("@")[1],
     sendEmail: async (to, subject, text, options = {}) => {
+      if (failures.length > 0) {
+        return failures.shift();
+      }
       inbox.push({ to, subject, text, ...options });
       return { ok: true, id: "test-email-" + inbox.length };
     },
@@ -55,6 +60,24 @@ vi.mock("../src/jobs/enqueue.js", async () => {
     scheduleOfferExpiry: async (deliveryId, offerId, delayMs) => {
       list.push({ name: "offerDelivery", deliveryId, offerId, delayMs });
     },
+    // Emails and SMS are "sent" at once in tests (into the fake inboxes), so a test can read
+    // the code it just asked for. The real queue's retries are tested on processNotification.
+    scheduleNotification: async (logId, payload) => {
+      list.push({ name: "sendNotification", logId });
+      const { processNotification } =
+        await import("../src/services/notifications/notify.service.js");
+      // Like the real queue, a failed first try doesn't reach the caller
+      try {
+        await processNotification({
+          data: { logId, payload },
+          attemptsMade: 0,
+          opts: { attempts: 3 },
+        });
+      } catch {
+        // "queued for another try"
+      }
+      return true;
+    },
   };
 });
 
@@ -75,6 +98,7 @@ const emptyAllTables = async () => {
 beforeEach(async () => {
   sentSms.length = 0;
   sentEmails.length = 0;
+  emailFailures.length = 0;
   scheduledJobs.length = 0;
   await redis.flushdb();
   await emptyAllTables();

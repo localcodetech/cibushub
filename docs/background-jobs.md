@@ -8,7 +8,7 @@ Work that must happen later or on a timer runs in a separate **worker** process 
 |---|---|
 | `payments` | unpaid-order expiry, payment reconciliation, refunds |
 | `maintenance` | sweepers and clean-up |
-| `notifications` | SMS, email, push (notifications step) |
+| `notifications` | every email and SMS (`sendNotification`): 3 tries, 30 s then 60 s apart |
 | `assignment` | rider offers (riders step) |
 
 ## Jobs
@@ -27,6 +27,7 @@ Work that must happen later or on a timer runs in a separate **worker** process 
 | `sweepSearchingDeliveries` | assignment | every minute | Runs a search step for every delivery still looking for a rider: catches lost jobs and asks riders who came online since |
 | `sweepLockedDeliveryCodes` | maintenance | every minute | Delivery codes locked (5 wrong tries) for 15 minutes with nobody acting: alerts admins again, once per lock (SMS from Step 12) |
 | `sweepDoorWaits` | maintenance | every minute | Door problems whose 10-minute wait ran out: cancels the order as SYSTEM (no refund), the delivery becomes RETURNING, rider and restaurant are told |
+| `sendNotification` | notifications | on demand | Sends one email (Resend) or SMS (Nalo) logged in `notification_logs`. 3 tries (30 s, then 60 s); a refusal that won't change (no address, bad address, provider not configured) fails at once. The last failure marks the row FAILED and alerts admins (`NOTIFICATION_FAILED`). If Redis can't take the job, the message is sent straight away instead. |
 | `cleanupExpiredTokens` | maintenance | daily 03:00 Accra | Deletes expired login sessions |
 
 ## Rules

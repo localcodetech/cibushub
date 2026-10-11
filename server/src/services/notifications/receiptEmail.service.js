@@ -1,5 +1,5 @@
 import logger from "../../config/logger.js";
-import { sendEmail } from "./email.service.js";
+import { notify } from "./notify.service.js";
 import { buildReceipt, receiptAsText } from "../order/receipt.service.js";
 import { findUserById } from "../../repositories/user.repository.js";
 
@@ -10,11 +10,15 @@ export const emailReceipt = async (orderId) => {
     const receipt = await buildReceipt(orderId);
     const customer = await findUserById(receipt.customerId);
 
-    await sendEmail(
-      customer.email,
-      `Your CibusHub receipt for order ${receipt.orderNumber}`,
-      receiptAsText(receipt),
-    );
+    // Once per order, even if Paystack tells us twice that it was paid [AC-NOTIF-04]
+    await notify({
+      channel: "EMAIL",
+      to: customer.email,
+      template: "order.receipt",
+      key: `order:${orderId}:receipt:email`,
+      subject: `Your CibusHub receipt for order ${receipt.orderNumber}`,
+      text: receiptAsText(receipt),
+    });
   } catch (error) {
     logger.error({ err: error, orderId }, "Could not send receipt email");
   }

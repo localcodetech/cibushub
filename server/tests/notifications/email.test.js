@@ -7,14 +7,12 @@ const { sendEmail, maskEmail } = await vi.importActual(
 );
 
 const resendAnswers = (status, body) =>
-  vi
-    .spyOn(globalThis, "fetch")
-    .mockResolvedValue(
-      new Response(JSON.stringify(body), {
-        status,
-        headers: { "Content-Type": "application/json" },
-      }),
-    );
+  vi.spyOn(globalThis, "fetch").mockResolvedValue(
+    new Response(JSON.stringify(body), {
+      status,
+      headers: { "Content-Type": "application/json" },
+    }),
+  );
 
 let savedKey;
 

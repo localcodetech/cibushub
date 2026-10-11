@@ -21,6 +21,7 @@ import adminRestaurantRoutes from "./routes/admin/restaurant.routes.js";
 import adminOrderRoutes from "./routes/admin/order.routes.js";
 import riderApplicationRoutes from "./routes/rider/application.routes.js";
 import adminRiderRoutes from "./routes/admin/rider.routes.js";
+import adminNotificationRoutes from "./routes/admin/notification.routes.js";
 import riderStatusRoutes from "./routes/rider/status.routes.js";
 import riderOfferRoutes from "./routes/rider/offer.routes.js";
 import riderDeliveryRoutes from "./routes/rider/delivery.routes.js";
@@ -217,6 +218,11 @@ app.use("/api/v1/admin/orders", adminOrderRoutes);
 // Admin: review rider applications, approve, reject, suspend
 // ─────────────────────────────────────────────
 app.use("/api/v1/admin/riders", adminRiderRoutes);
+
+// ─────────────────────────────────────────────
+// Admin: every email and SMS sent, and which ones failed
+// ─────────────────────────────────────────────
+app.use("/api/v1/admin/notifications", adminNotificationRoutes);
 
 // ─────────────────────────────────────────────
 // Interactive API docs (turned off in production)
