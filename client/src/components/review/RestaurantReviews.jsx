@@ -96,6 +96,13 @@ const ReviewList = ({ data, isPending, error, onShowMore, hasMore, isLoadingMore
             {review.comment && (
               <p className="mt-2 break-words whitespace-pre-line">{review.comment}</p>
             )}
+            {/* The restaurant's one public reply [AC-REV-06] */}
+            {review.ownerReply && (
+              <div className="mt-3 border-l-2 border-primary pl-3">
+                <p className="text-[13px] font-bold">Reply from the restaurant</p>
+                <p className="break-words whitespace-pre-line">{review.ownerReply.text}</p>
+              </div>
+            )}
           </li>
         ))}
       </ul>

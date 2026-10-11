@@ -12,6 +12,7 @@ import healthRoutes from "./routes/health.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import publicRestaurantRoutes from "./routes/restaurant.routes.js";
 import ownerRestaurantRoutes from "./routes/owner/restaurant.routes.js";
+import ownerReviewRoutes from "./routes/owner/review.routes.js";
 import ownerOrderRoutes from "./routes/owner/order.routes.js";
 import ownerMenuRoutes from "./routes/owner/menu.routes.js";
 import authenticate from "./middlewares/authenticate.js";
@@ -176,6 +177,11 @@ app.use("/api/v1/owner/restaurants/:restaurantId/menu", ownerMenuRoutes);
 // Owner's orders: board, accept or reject, preparing, ready, history, daily summary
 // ─────────────────────────────────────────────
 app.use("/api/v1/owner/orders", ownerOrderRoutes);
+
+// ─────────────────────────────────────────────
+// Owner's reviews: read them, reply once to each
+// ─────────────────────────────────────────────
+app.use("/api/v1/owner/reviews", ownerReviewRoutes);
 
 // ─────────────────────────────────────────────
 // Every rider route: must be logged in as a rider

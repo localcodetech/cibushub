@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import { Restaurant, Review, RiderProfile, User } from "../models/index.js";
 
 export const findReviewByOrderId = (orderId, transaction) => {
@@ -16,6 +17,44 @@ export const findRestaurantReviews = ({ restaurantId, limit, offset }) => {
     limit,
     offset,
   });
+};
+
+// Reviews of several restaurants (an owner's), newest first, optionally only unanswered ones
+export const findReviewsForRestaurants = ({ restaurantIds, unansweredOnly, limit, offset }) => {
+  const where = { restaurantId: { [Op.in]: restaurantIds } };
+  if (unansweredOnly) {
+    where.ownerReply = null;
+  }
+  return Review.findAndCountAll({
+    where,
+    include: [
+      { model: User, as: "customer", attributes: ["fullName"], paranoid: false },
+      { model: Restaurant, as: "restaurant", attributes: ["id", "name"], paranoid: false },
+    ],
+    order: [
+      ["createdAt", "DESC"],
+      ["id", "DESC"],
+    ],
+    limit,
+    offset,
+  });
+};
+
+export const findReviewById = (reviewId, transaction) => {
+  return Review.findByPk(reviewId, {
+    include: [{ model: Restaurant, as: "restaurant", attributes: ["id", "name", "ownerId"] }],
+    transaction,
+  });
+};
+
+// Saves the reply only if the review has none yet, in one SQL step.
+// Answers true if it was saved, false if a reply was already there.
+export const saveReplyIfNone = async (reviewId, reply, repliedAt) => {
+  const [changedRows] = await Review.update(
+    { ownerReply: reply, ownerRepliedAt: repliedAt },
+    { where: { id: reviewId, ownerReply: null } },
+  );
+  return changedRows === 1;
 };
 
 export const createReview = (data, transaction) => {

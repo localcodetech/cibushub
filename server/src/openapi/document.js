@@ -21,6 +21,7 @@ import { riderOfferPaths } from "./paths/riderOffer.paths.js";
 import { riderDeliveryPaths } from "./paths/riderDelivery.paths.js";
 import { riderEarningsPaths } from "./paths/riderEarnings.paths.js";
 import { notificationPaths } from "./paths/notification.paths.js";
+import { ownerReviewPaths } from "./paths/ownerReview.paths.js";
 import { successResponse, errorResponse } from "./helpers.js";
 
 export const openApiDocument = {
@@ -88,5 +89,6 @@ export const openApiDocument = {
     ...riderDeliveryPaths,
     ...riderEarningsPaths,
     ...notificationPaths,
+    ...ownerReviewPaths,
   },
 };

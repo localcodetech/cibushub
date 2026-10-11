@@ -58,6 +58,7 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | `GET /owner/restaurants/:id/documents` | — | — | 🔒⏳ | — | — | — | authenticate, authorize, requireVerifiedPhone |
 | `PUT /owner/restaurants/:id/documents/:type` | — | — | 🔒⏳ | — | — | — | authenticate, authorize, requireVerifiedPhone, validate (params), upload |
 | `/owner/restaurants/:id/menu/**` (all menu endpoints) | — | — | 🔒 | — | — | — | authenticate, authorize, requireActive, validate (photo: upload) |
+| `GET /owner/reviews`, `POST /owner/reviews/:id/reply` | — | — | 🔒 | — | — | — | authenticate, authorize, requireActive, validate; only my restaurants' reviews (others 404); one reply each |
 | `GET /admin/restaurants`, `GET /admin/restaurants/:id` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate (query) |
 | `GET /admin/restaurants/:id/documents` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize |
 | `POST /admin/restaurants/:id/approve` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize; audit logged |

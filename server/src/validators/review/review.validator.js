@@ -27,3 +27,25 @@ export const reviewSchema = z
 
 // ?page=1&pageSize=20
 export const listReviewsSchema = z.object({ ...paginationFields }).strict();
+
+// The owner's list: ?unanswered=true&page=1
+export const listOwnerReviewsSchema = z
+  .object({
+    unanswered: z
+      .enum(["true", "false"])
+      .transform((value) => value === "true")
+      .optional(),
+    ...paginationFields,
+  })
+  .strict();
+
+// The owner's one public reply [AC-REV-06]: plain text, shown as text
+export const replySchema = z
+  .object({
+    reply: z
+      .string({ error: "Write a reply" })
+      .trim()
+      .min(2, "Write a reply")
+      .max(REVIEW_RULES.commentMaxLength, `At most ${REVIEW_RULES.commentMaxLength} characters`),
+  })
+  .strict();

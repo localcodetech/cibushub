@@ -254,6 +254,7 @@ describe("Showing reviews [AC-REV-05, AC-REV-08]", () => {
       rating: 4,
       comment: "<b>Lovely</b> waakye",
       createdAt: expect.any(String),
+      ownerReply: null,
     });
     expect(response.body.meta.totalItems).toBe(2);
   });
@@ -277,5 +278,80 @@ describe("Short names", () => {
     expect(shortName("Ama Serwaa Owusu")).toBe("Ama O.");
     expect(shortName("Kofi")).toBe("Kofi");
     expect(shortName("  ")).toBe("A customer");
+  });
+});
+
+describe("The owner's reply [AC-REV-06]", () => {
+  let owner;
+  let review;
+
+  const ownerAs = () => as(owner);
+
+  beforeEach(async () => {
+    await deliver(order);
+    const written = await as(customer).post(reviewUrl(), { rating: 2, comment: "Cold food" });
+    review = written.body.data;
+    owner = await (await import("../../src/models/index.js")).User.findByPk(restaurant.ownerId);
+  });
+
+  it("lists my restaurants' reviews, and only the unanswered ones when asked", async () => {
+    const all = await ownerAs().get("/api/v1/owner/reviews");
+    const unanswered = await ownerAs().get("/api/v1/owner/reviews?unanswered=true");
+
+    expect(all.status).toBe(200);
+    expect(all.body.data[0]).toMatchObject({
+      id: review.id,
+      customerName: "Ama O.",
+      rating: 2,
+      comment: "Cold food",
+      ownerReply: null,
+      restaurant: { id: restaurant.id },
+    });
+    expect(unanswered.body.meta.totalItems).toBe(1);
+  });
+
+  it("posts one public reply, shown under the review, and tells the customer", async () => {
+    const response = await ownerAs().post(`/api/v1/owner/reviews/${review.id}/reply`, {
+      reply: "Sorry! We've fixed our warmers.",
+    });
+    const again = await ownerAs().post(`/api/v1/owner/reviews/${review.id}/reply`, {
+      reply: "Second reply",
+    });
+    const publicList = await request(app).get(`/api/v1/restaurants/${restaurant.id}/reviews`);
+    const unanswered = await ownerAs().get("/api/v1/owner/reviews?unanswered=true");
+
+    expect(response.status).toBe(200);
+    expect(again.status).toBe(409);
+    expect(again.body.error.code).toBe("ALREADY_REPLIED");
+    expect(publicList.body.data[0].ownerReply).toEqual({
+      text: "Sorry! We've fixed our warmers.",
+      at: expect.any(String),
+    });
+    expect(unanswered.body.meta.totalItems).toBe(0);
+    const { Notification } = await import("../../src/models/index.js");
+    const notice = await Notification.findOne({
+      where: { userId: customer.id, type: "review.replied" },
+    });
+    expect(notice.body).toBe("Sorry! We've fixed our warmers.");
+  });
+
+  it("another owner can't see or answer it", async () => {
+    const other = await createPaidOrder(3);
+
+    const list = await as(other.owner).get("/api/v1/owner/reviews");
+    const reply = await as(other.owner).post(`/api/v1/owner/reviews/${review.id}/reply`, {
+      reply: "Not mine",
+    });
+
+    expect(list.body.data).toEqual([]);
+    expect(reply.status).toBe(404);
+  });
+
+  it("needs some words", async () => {
+    const response = await ownerAs().post(`/api/v1/owner/reviews/${review.id}/reply`, {
+      reply: " ",
+    });
+
+    expect(response.status).toBe(400);
   });
 });

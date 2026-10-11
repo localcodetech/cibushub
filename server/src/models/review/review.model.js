@@ -39,6 +39,15 @@ const Review = sequelize.define(
       type: DataTypes.STRING(500),
       allowNull: true,
     },
+    // The restaurant's one public reply [AC-REV-06]
+    ownerReply: {
+      type: DataTypes.STRING(500),
+      allowNull: true,
+    },
+    ownerRepliedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
   },
   { tableName: "reviews" },
 );

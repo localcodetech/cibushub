@@ -177,6 +177,8 @@ erDiagram
         tinyint rating "1-5, required"
         tinyint rider_rating "1-5, optional"
         varchar comment "max 500, plain text"
+        varchar owner_reply "the restaurant's one public reply"
+        datetime owner_replied_at
         datetime created_at "edit allowed for 24 h after this"
         datetime updated_at
     }

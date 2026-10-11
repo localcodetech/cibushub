@@ -26,6 +26,8 @@ const toPublicReview = (review) => ({
   // Plain text: the app shows it as text, never as HTML [AC-REV-08]
   comment: review.comment,
   createdAt: review.createdAt,
+  // The restaurant's answer, if any [AC-REV-06]
+  ownerReply: review.ownerReply ? { text: review.ownerReply, at: review.ownerRepliedAt } : null,
 });
 
 // An approved restaurant's reviews, newest first, 20 a page [AC-REV-05]
