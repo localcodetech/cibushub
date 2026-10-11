@@ -45,6 +45,8 @@ const RiderEarningsPage = lazy(() => import("@/pages/rider/RiderEarningsPage"));
 const RiderApplicationPage = lazy(() => import("@/pages/rider/RiderApplicationPage"));
 const AdminLayout = lazy(() => import("@/layouts/AdminLayout"));
 const AdminDashboardPage = lazy(() => import("@/pages/admin/AdminDashboardPage"));
+const AdminRestaurantsPage = lazy(() => import("@/pages/admin/AdminRestaurantsPage"));
+const AdminRestaurantDetailPage = lazy(() => import("@/pages/admin/AdminRestaurantDetailPage"));
 const NotificationsPage = lazy(() => import("@/pages/NotificationsPage"));
 const NotificationSettingsPage = lazy(() => import("@/pages/NotificationSettingsPage"));
 
@@ -193,7 +195,11 @@ const router = createBrowserRouter([
                 <AdminLayout />
               </RequireRole>
             ),
-            children: [{ index: true, element: <AdminDashboardPage /> }],
+            children: [
+              { index: true, element: <AdminDashboardPage /> },
+              { path: "restaurants", element: <AdminRestaurantsPage /> },
+              { path: "restaurants/:restaurantId", element: <AdminRestaurantDetailPage /> },
+            ],
           },
 
           {

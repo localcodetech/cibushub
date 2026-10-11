@@ -5,7 +5,10 @@ import { cn } from "@/lib/utils";
 import Container from "./Container";
 
 // The admin's pages, each reached from this menu. More are added as each screen is built.
-const ADMIN_LINKS = [{ label: "Overview", to: "/admin", end: true }];
+const ADMIN_LINKS = [
+  { label: "Overview", to: "/admin", end: true },
+  { label: "Restaurants", to: "/admin/restaurants", end: false },
+];
 
 // The frame around every admin page: the admin menu on top, then the page.
 // overflow-x-auto: on a phone the menu scrolls sideways instead of wrapping.

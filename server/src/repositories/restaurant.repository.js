@@ -45,9 +45,17 @@ export const findRestaurantsByOwner = (ownerId) => {
 };
 
 // The admin's review queue: oldest first, so nobody waits forever
-export const findRestaurantsForAdmin = ({ status, limit, offset }) => {
+export const findRestaurantsForAdmin = ({ status, search, limit, offset }) => {
+  const where = {};
+  if (status) {
+    where.status = status;
+  }
+  // "gold" finds "Golden Pot Kitchen" (LIKE: fine for an admin list of a few hundred)
+  if (search) {
+    where.name = { [Op.like]: `%${search.replace(/[%_\\]/g, "\\$&")}%` };
+  }
   return Restaurant.findAndCountAll({
-    where: status ? { status } : {},
+    where,
     include: [{ model: User, as: "owner", attributes: ["id", "fullName", "email", "phone"] }],
     order: [["createdAt", "ASC"]],
     limit,

@@ -187,6 +187,41 @@ export const findPaidAt = async (orderId) => {
   return entry ? entry.createdAt : null;
 };
 
+// ─────────────────────────────────────────────
+// One restaurant's performance, for admins [AC-ADM-03]
+// ─────────────────────────────────────────────
+
+// { DELIVERED: 12, REJECTED: 1, ... } for orders placed since a moment (unpaid ones left out)
+export const countRestaurantOrdersByStatus = async (restaurantId, since) => {
+  const rows = await Order.count({
+    where: {
+      restaurantId,
+      createdAt: { [Op.gte]: since },
+      status: { [Op.ne]: "PENDING_PAYMENT" },
+    },
+    group: ["status"],
+  });
+  return Object.fromEntries(rows.map((row) => [row.status, row.count]));
+};
+
+// What delivered orders added up to since a moment
+export const sumDeliveredOrders = async (restaurantId, since) => {
+  const total = await Order.sum("totalPesewas", {
+    where: { restaurantId, status: "DELIVERED", createdAt: { [Op.gte]: since } },
+  });
+  return total || 0;
+};
+
+// The newest orders (paid or later), for a quick look
+export const findRecentRestaurantOrders = (restaurantId, limit) => {
+  return Order.findAll({
+    where: { restaurantId, status: { [Op.ne]: "PENDING_PAYMENT" } },
+    attributes: ["id", "orderNumber", "status", "totalPesewas", "createdAt"],
+    order: [["createdAt", "DESC"]],
+    limit,
+  });
+};
+
 // When the order was DELIVERED (from its history), or null
 export const findDeliveredAt = async (orderId) => {
   const entry = await OrderStatusHistory.findOne({
