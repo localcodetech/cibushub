@@ -36,6 +36,7 @@ import { scheduleDeliverySearch, scheduleOfferExpiry } from "../../jobs/enqueue.
 import { emitToUser } from "../../sockets/emitToUser.js";
 import { emitAdminAlert } from "../../sockets/emitAdminAlert.js";
 import { emailAdmins } from "../notifications/adminAlertEmail.service.js";
+import { notifyAdminsInApp } from "../notifications/inApp.service.js";
 import { noRiderFoundEmail } from "../notifications/templates/emails.js";
 
 // The order is still worth delivering while the kitchen has it
@@ -161,6 +162,12 @@ export const offerNextRider = async (deliveryId, now = new Date()) => {
           emitToUser(order.customerId, "order:delay", {
             orderId: order.id,
             message: "We're still looking for a rider for your order. Thanks for your patience.",
+          });
+          await notifyAdminsInApp({
+            type: "admin.no_rider_found",
+            key: `delivery:${delivery.id}:no-rider`,
+            title: "No rider found",
+            body: `Order ${order.orderNumber} has waited 10 minutes for a rider. Assign one by hand.`,
           });
           await emailAdmins({
             type: "NO_RIDER_FOUND",

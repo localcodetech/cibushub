@@ -1,7 +1,13 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import request from "supertest";
 import app from "../../src/app.js";
-import { Delivery, DeliveryOffer, Order, RiderProfile } from "../../src/models/index.js";
+import {
+  Delivery,
+  DeliveryOffer,
+  Notification,
+  Order,
+  RiderProfile,
+} from "../../src/models/index.js";
 import { signAccessToken } from "../../src/utils/auth/tokens.js";
 import { saveLatestLocation } from "../../src/services/rider/riderLocationStore.js";
 import {
@@ -98,7 +104,7 @@ describe("Sequential offers [AC-ASSIGN-02, AC-ASSIGN-03]", () => {
         secondsLeft: 60,
       }),
     );
-    const [offerView] = emitToUser.mock.calls[0].slice(2);
+    const [, , offerView] = emitToUser.mock.calls.find(([, event]) => event === "delivery:offer");
     expect(offerView.pickupDistanceMetres).toBeGreaterThan(900);
     expect(offerView.pickupDistanceMetres).toBeLessThan(1100);
     // No customer name or phone in an offer
@@ -249,6 +255,7 @@ describe("No rider available [AC-ASSIGN-06]", () => {
     const adminEmails = sentEmails.filter((email) => email.to === "admin@example.com");
     expect(adminEmails).toHaveLength(1);
     expect(adminEmails[0].subject).toBe(`No rider found for order ${order.orderNumber}`);
+    expect(await Notification.count({ where: { type: "admin.no_rider_found" } })).toBe(1);
   });
 
   it("asks a rider who comes online later, through the every-minute sweep", async () => {

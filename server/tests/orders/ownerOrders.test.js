@@ -9,7 +9,7 @@ import { scheduledJobs } from "../helpers/fakeJobs.js";
 import { sentSms } from "../helpers/fakeSms.js";
 import { sentEmails } from "../helpers/fakeEmail.js";
 import { notifyOrderStatus } from "../../src/services/notifications/orderStatusNotice.service.js";
-import { Order, Refund } from "../../src/models/index.js";
+import { Delivery, Notification, Order, Refund, RiderProfile } from "../../src/models/index.js";
 import { reconcilePayment } from "../../src/services/payment/paystackWebhook.service.js";
 
 vi.mock("../../src/services/payment/paystack.client.js", () => ({
@@ -255,6 +255,64 @@ describe("The customer hears about it [AC-NOTIF-01, AC-NOTIF-04, AC-NOTIF-06]", 
     await notifyOrderStatus(saved);
 
     expect(smsTo(customer.phone)).toHaveLength(1);
+  });
+});
+
+describe("Everyone involved sees it in the app [AC-NOTIF-01, AC-NOTIF-07]", () => {
+  const inAppFor = async (user) =>
+    (await Notification.findAll({ where: { userId: user.id }, order: [["id", "ASC"]] })).map(
+      (notification) => notification.title,
+    );
+
+  it("paid: the customer and the restaurant owner", async () => {
+    expect(await inAppFor(customer)).toEqual(["Order paid"]);
+    expect(await inAppFor(owner)).toEqual(["New order"]);
+  });
+
+  it("rejected: the customer and every active admin", async () => {
+    const admin = await createTestUser({
+      role: "ADMIN",
+      email: "admin@example.com",
+      phone: "+233200000001",
+    });
+
+    await as(owner).post(`${ordersUrl}/${order.id}/reject`, { reason: "Kitchen closing early" });
+
+    expect(await inAppFor(customer)).toContain("Order couldn't go ahead");
+    const [adminNotice] = await Notification.findAll({ where: { userId: admin.id } });
+    expect(adminNotice.title).toBe("Order rejected");
+    expect(adminNotice.body).toContain("Kitchen closing early");
+  });
+
+  it("delivered: the customer, the owner and the rider who carried it, each once", async () => {
+    const riderUser = await createTestUser({
+      role: "RIDER",
+      email: "yaw@example.com",
+      phone: "+233241110000",
+    });
+    const profile = await RiderProfile.create({
+      userId: riderUser.id,
+      vehicleType: "MOTORBIKE",
+      plateNumber: "M-21-GR 1234",
+      ghanaCardNumber: "GHA-123456789-0",
+      status: "APPROVED",
+    });
+    await Delivery.create({
+      orderId: order.id,
+      riderProfileId: profile.id,
+      status: "DELIVERED",
+      searchRadiusKm: 5,
+      searchStartedAt: FRIDAY_NOON,
+    });
+    const saved = await Order.findByPk(order.id);
+    saved.status = "DELIVERED";
+
+    await notifyOrderStatus(saved);
+    await notifyOrderStatus(saved); // announced twice: still once each [AC-NOTIF-04]
+
+    expect(await inAppFor(customer)).toEqual(["Order paid", "Delivered"]);
+    expect(await inAppFor(owner)).toEqual(["New order", "Order delivered"]);
+    expect(await inAppFor(riderUser)).toEqual(["Delivery complete"]);
   });
 });
 

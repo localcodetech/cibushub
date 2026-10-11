@@ -12,6 +12,7 @@ import {
 import { requestRefund } from "../refund/requestRefund.service.js";
 import { emailReceipt } from "../notifications/receiptEmail.service.js";
 import { emailAdmins } from "../notifications/adminAlertEmail.service.js";
+import { notifyAdminsInApp } from "../notifications/inApp.service.js";
 import { paymentMismatchEmail } from "../notifications/templates/emails.js";
 import { emitAdminAlert } from "../../sockets/emitAdminAlert.js";
 import { scheduleRestaurantTimeout } from "../../jobs/enqueue.js";
@@ -132,6 +133,12 @@ const alertAdminsOfMismatch = async (reference, verified) => {
       currency: verified.currency,
     };
     emitAdminAlert("PAYMENT_AMOUNT_MISMATCH", details);
+    await notifyAdminsInApp({
+      type: "admin.payment_amount_mismatch",
+      key: `payment:${payment.id}:mismatch`,
+      title: "Payment amount mismatch",
+      body: `Paystack payment ${reference} doesn't match order ${order.orderNumber}. The order was NOT marked paid.`,
+    });
     await emailAdmins({
       type: "PAYMENT_AMOUNT_MISMATCH",
       key: `payment:${payment.id}:mismatch`,

@@ -9,6 +9,7 @@ import {
   findMyNotifications,
   markAllRead,
 } from "../../repositories/notification.repository.js";
+import { findActiveAdmins } from "../../repositories/user.repository.js";
 
 // The in-app notification centre [AC-NOTIF-07]: saved in MySQL, pushed live with Socket.IO.
 // Live events to the user's screens:
@@ -87,4 +88,25 @@ export const readAllNotifications = async (userId) => {
   const unreadCount = await syncUnread(userId);
 
   return { unreadCount };
+};
+
+// One in-app notification for every active admin, e.g. "No rider found" [AC-NOTIF-01].
+//   key: the event, e.g. "delivery:<id>:no-rider"; each admin sees it once
+// Never throws.
+export const notifyAdminsInApp = async ({ type, key, title, body, link = "/admin" }) => {
+  try {
+    const admins = await findActiveAdmins();
+    for (const admin of admins) {
+      await notifyInApp({
+        userId: admin.id,
+        type,
+        title,
+        body,
+        link,
+        key: `${key}:admin:${admin.id}:in-app`,
+      });
+    }
+  } catch (error) {
+    logger.error({ err: error, type }, "Could not notify the admins in the app");
+  }
 };

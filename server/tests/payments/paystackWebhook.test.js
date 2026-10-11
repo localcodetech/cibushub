@@ -8,6 +8,7 @@ import {
   Address,
   MenuCategory,
   MenuItem,
+  Notification,
   Order,
   OrderStatusHistory,
   Payment,
@@ -244,6 +245,9 @@ describe("POST /api/v1/webhooks/paystack", () => {
     ]);
     expect(adminEmails[0].text).toContain("GHS 1.00");
     expect(adminEmails[0].text).toContain("NOT marked paid");
+    // And in the admins' notification centre, once each [AC-NOTIF-07]
+    const inApp = await Notification.findAll({ where: { type: "admin.payment_amount_mismatch" } });
+    expect(inApp).toHaveLength(2);
   });
 
   it("does not trust the webhook's own amount, only Paystack's verify answer", async () => {
