@@ -42,6 +42,7 @@ const RiderDeliveryPage = lazy(() => import("@/pages/rider/RiderDeliveryPage"));
 const RiderEarningsPage = lazy(() => import("@/pages/rider/RiderEarningsPage"));
 const RiderApplicationPage = lazy(() => import("@/pages/rider/RiderApplicationPage"));
 const AdminDashboardPage = lazy(() => import("@/pages/admin/AdminDashboardPage"));
+const NotificationsPage = lazy(() => import("@/pages/NotificationsPage"));
 
 // The map of the app: which page shows for which address.
 // Every page inside "children" is drawn inside RootLayout (navbar + footer).
@@ -184,6 +185,20 @@ const router = createBrowserRouter([
             element: (
               <RequireRole allowedRoles={["ADMIN", "SUPER_ADMIN"]}>
                 <AdminDashboardPage />
+              </RequireRole>
+            ),
+          },
+
+          {
+            // Every role's notification centre; open while waiting for approval too,
+            // so a rider can read why their application was not approved
+            path: "notifications",
+            element: (
+              <RequireRole
+                allowedRoles={["CUSTOMER", "RESTAURANT_OWNER", "RIDER", "ADMIN", "SUPER_ADMIN"]}
+                allowPending
+              >
+                <NotificationsPage />
               </RequireRole>
             ),
           },

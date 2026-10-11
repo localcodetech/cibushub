@@ -30,6 +30,7 @@ Food Ordering & Delivery System · Restaurants, menus, orders, riders, tracking
    - [Step 11 — Riders, Assignment and Delivery](#step-11--riders-assignment-and-delivery)
    - [Step 12 — Notifications](#step-12--notifications)
    - [Step 13 — Reviews, Admin, Super Admin and Analytics](#step-13--reviews-admin-super-admin-and-analytics)
+   - [Step 13b — Visual Design Pass](#step-13b--visual-design-pass)
    - [Step 14 — Hardening and Quality](#step-14--hardening-and-quality)
    - [Step 15 — Production, Monitoring and Delivery](#step-15--production-monitoring-and-delivery)
 4. [Acceptance Criteria Coverage Matrix](#4-acceptance-criteria-coverage-matrix)
@@ -78,6 +79,7 @@ Each step contains:
 | 11 | **Riders, Assignment and Delivery** | AC-RIDER-01 to 07, AC-ASSIGN-01 to 08, AC-DEL-01 to 08, AC-RT-04, 05, 06, 09, AC-MAP-01, 03, 05 … | 🟢 IN PROGRESS |
 | 12 | **Notifications** | AC-NOTIF-01 to 09, AC-PAY-15, AC-MON-04 | ⚪ PLANNED |
 | 13 | **Reviews, Admin, Super Admin and Analytics** | AC-REV-01 to 08, AC-ADM-01 to 09, AC-SADM-01 to 04, AC-ANL-01 to 06, AC-JOB-02, 05 | ⚪ PLANNED |
+| 13b | **Visual Design Pass** | AC-UX-01, 08, 09, 10, 12 | ⚪ PLANNED |
 | 14 | **Hardening and Quality** | AC-TEST-01 to 05, 07, AC-SEC-06, 11, 13, AC-PERF-01, 02, 05, 07, AC-UX-08, 10, 11, AC-API-03, 04 … | ⚪ PLANNED |
 | 15 | **Production, Monitoring and Delivery** | AC-OPS-03 to 06, AC-TEST-06, AC-SEC-10, AC-DB-06, AC-MON-01, 03, 06 … | ⚪ PLANNED |
 
@@ -809,13 +811,65 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 ---
 
+## Step 13b — Visual Design Pass
+
+**Status:** ⚪ PLANNED
+
+> **Goal.** Every screen looks finished and feels like one product. Today the screens work but look plain: flat cards, the same white rows everywhere, little visual hierarchy.
+>
+> **Prerequisite.** Step 13 passed review, so every screen exists and is restyled once, together.
+>
+> **Why here.** Restyling before every screen exists means doing it twice. Doing it before Step 14 means Lighthouse and the accessibility checks run on the final design.
+
+### Acceptance criteria covered
+
+| Criteria | What it means in this step |
+|---|---|
+| `AC-UX-12` | One consistent design across customer, owner, rider and admin screens |
+| `AC-UX-01` | Mobile-first: every restyled screen checked at phone width first |
+| `AC-UX-08` | Contrast and focus rings stay within the rules of `docs/frontendDesign.md` |
+| `AC-UX-09` | Respectful motion (reduced-motion users get none) |
+| `AC-UX-10` | Dark mode checked on every restyled component |
+
+### Build
+
+1. **Audit:** screenshot every screen at phone and desktop width, and list what looks flat, crowded or inconsistent.
+2. **Shared components first,** so every page improves at once: cards (depth, spacing, hover/press states), list rows, buttons, badges, page headings, empty/error/loading states, the navbar and the owner/rider/admin menus.
+3. **Notification centre** (built plain in Step 12):
+   - an icon and colour per type (order, delivery, account, admin alert)
+   - unread notifications with a soft tint and an accent on the left, not only bold text
+   - relative times ("5 min ago") with the full time on hover
+   - "Today" / "Earlier" groups
+   - a small dropdown preview from the bell on desktop
+4. **Key screens:** home and restaurant pages, cart and checkout, order tracking, the owner's order board, the rider's delivery screen, the admin dashboard.
+5. **Motion:** small, purposeful transitions (list items arriving, sheets opening) using `motion`, switched off for reduced-motion users.
+6. Update `docs/frontendDesign.md` with any new component rules.
+
+### Advisor tips
+
+- Change shared components, not single pages. A one-off style on one page is how designs drift apart.
+- Keep the brand rules (Forest Green leads, Ashanti Gold for highlights only, Terracotta rare).
+
+### Done when
+
+- [ ] Every screen reviewed against the audit list, at phone and desktop width, light and dark
+- [ ] No page uses its own one-off card or list style
+- [ ] Before/after screenshots for each key screen
+
+### Send for review
+
+- Before/after screenshots
+- The updated design guide
+
+---
+
 ## Step 14 — Hardening and Quality
 
 **Status:** ⚪ PLANNED
 
 > **Goal.** Prove the system is secure, fast, accessible and correct before it goes live.
 >
-> **Prerequisite.** Step 13 passed review.
+> **Prerequisite.** Step 13b passed review.
 
 ### Acceptance criteria covered
 
