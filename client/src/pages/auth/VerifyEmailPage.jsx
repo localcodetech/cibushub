@@ -127,6 +127,21 @@ const VerifyEmailPage = () => {
           15 minutes. Your receipts and account updates go to this address.
         </Text>
 
+        {/* Resend told us mail to this address bounced [AC-NOTIF-08] */}
+        {user.emailBouncedAt && (
+          <div
+            role="alert"
+            className="mt-6 flex items-start gap-2 rounded-lg border border-destructive p-3 text-[15px] text-destructive"
+          >
+            <CircleAlert size={20} className="mt-0.5 shrink-0" aria-hidden="true" />
+            <span>
+              Our last email to this address bounced, so we've stopped sending you receipts and
+              updates by email. Check your inbox for the code. If it doesn't arrive, the address may
+              be mistyped: contact support to change it.
+            </span>
+          </div>
+        )}
+
         <form onSubmit={handleSubmit(onSubmit)} noValidate className="mt-8 flex flex-col gap-5">
           {/* One box for all 6 digits; the number keypad on phones */}
           <FormField

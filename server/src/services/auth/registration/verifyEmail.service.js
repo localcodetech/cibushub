@@ -32,5 +32,6 @@ export const verifyEmail = async (userId, code) => {
 
   await verifyOtp(user.email, code, "verifyEmail");
 
-  return await updateUser(user, { emailVerifiedAt: new Date() });
+  // A working code also proves an earlier bounce is fixed
+  return await updateUser(user, { emailVerifiedAt: new Date(), emailBouncedAt: null });
 };

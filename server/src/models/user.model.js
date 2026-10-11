@@ -40,6 +40,10 @@ const User = sequelize.define(
     emailVerifiedAt: {
       type: DataTypes.DATE,
     },
+    // Resend said mail to this address bounced; ordinary emails stop until it is fixed
+    emailBouncedAt: {
+      type: DataTypes.DATE,
+    },
     phoneVerifiedAt: {
       type: DataTypes.DATE,
     },

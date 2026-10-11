@@ -4,6 +4,7 @@ import { scheduleNotification } from "../../jobs/enqueue.js";
 import { sendEmail, maskEmail } from "./email.service.js";
 import { sendSms, maskPhone } from "./sms.service.js";
 import { emitAdminAlert } from "../../sockets/emitAdminAlert.js";
+import { findUserByEmail } from "../../repositories/user.repository.js";
 
 // How every email and SMS leaves CibusHub [AC-NOTIF-02, 03, 04, 08]:
 //   1. a notification_logs row is written (status QUEUED), with the event's dedupe key;
@@ -37,6 +38,13 @@ export const notify = async ({
     return { skipped: true };
   }
 
+  // The address bounced before: don't keep sending to it (it hurts our sending reputation).
+  // One-time codes still go, so the person can prove the address works again.
+  if (channel === "EMAIL" && !template.startsWith("otp.") && (await hasBounced(to))) {
+    logger.warn({ template, to: maskEmail(to) }, "Email skipped: the address bounced before");
+    return { skipped: true, reason: "ADDRESS_BOUNCED" };
+  }
+
   let log;
   try {
     log = await NotificationLog.create({
@@ -67,6 +75,16 @@ export const notify = async ({
     await processNotification({ data: { logId: log.id, payload }, attemptsMade: 0, opts: {} });
   }
   return { logId: log.id };
+};
+
+// Did mail to this address bounce? (A lookup problem is not a reason to stop the email.)
+const hasBounced = async (email) => {
+  try {
+    const user = await findUserByEmail(email);
+    return Boolean(user && user.emailBouncedAt);
+  } catch {
+    return false;
+  }
 };
 
 // One try at sending. Answers the provider's { ok, id | error }.

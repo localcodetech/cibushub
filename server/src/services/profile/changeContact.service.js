@@ -115,7 +115,7 @@ export const confirmEmailChange = async (userId, code) => {
   const oldEmail = user.email;
 
   try {
-    await updateUser(user, { email: newEmail, emailVerifiedAt: new Date() });
+    await updateUser(user, { email: newEmail, emailVerifiedAt: new Date(), emailBouncedAt: null });
   } catch (error) {
     if (error.name === "SequelizeUniqueConstraintError") {
       throw alreadyUsed();

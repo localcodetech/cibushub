@@ -42,6 +42,13 @@ export const envSchema = zod.object({
     .or(zod.literal(""))
     .optional(),
   EMAIL_FROM: zod.string().min(3).default("CibusHub <noreply@cibushubgh.com>"),
+  // The signing secret of the Resend webhook (bounces), from Resend's Webhooks page.
+  // Without it every webhook call is refused.
+  RESEND_WEBHOOK_SECRET: zod
+    .string()
+    .startsWith("whsec_", "RESEND_WEBHOOK_SECRET must start with whsec_")
+    .or(zod.literal(""))
+    .optional(),
   // Where customers' replies go (optional), e.g. support@cibushubgh.com
   EMAIL_REPLY_TO: zod.email().or(zod.literal("")).optional(),
 

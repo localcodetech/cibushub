@@ -44,6 +44,7 @@ erDiagram
         enum role "CUSTOMER, RESTAURANT_OWNER, RIDER, ADMIN, SUPER_ADMIN"
         enum status "PENDING_VERIFICATION, PENDING_APPROVAL, ACTIVE, SUSPENDED"
         datetime email_verified_at
+        datetime email_bounced_at "Resend reported a bounce; ordinary emails stop until fixed"
         datetime phone_verified_at
         varchar avatar_url
         datetime last_login_at

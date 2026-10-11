@@ -86,7 +86,8 @@ app.use(globalLimiter);
 app.use(checkOrigin);
 
 // ─────────────────────────────────────────────
-// Payment webhooks: BEFORE the JSON reader, because the signature is checked on the raw bytes
+// Webhooks (Paystack payments, Resend emails): BEFORE the JSON reader, because the signature
+// is checked on the raw bytes
 // ─────────────────────────────────────────────
 app.use("/api/v1/webhooks", webhookRoutes);
 
