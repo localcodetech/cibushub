@@ -12,14 +12,25 @@ export const homePathFor = (role) => {
   return ROLE_HOME[role] || "/";
 };
 
+// A path on our own site ("/checkout"), never "//other-site.com" or a full address [AC-SEC]
+export const isSafeLocalPath = (path) => {
+  return Boolean(path) && path.startsWith("/") && !path.startsWith("//");
+};
+
 // Where to go right after logging in.
 // If a guard sent them to login from a page (e.g. /checkout), go back there; otherwise their home.
-// returnTo must be a path on our own site ("/checkout"), never "//other-site.com" [AC-SEC]
+// An email not confirmed yet (and the phone already is): ask for the email code first,
+// then carry on to that page [AC-AUTH-01].
 export const afterLoginPath = (user, location) => {
   const returnTo = location.state ? location.state.returnTo : null;
 
-  if (returnTo && returnTo.startsWith("/") && !returnTo.startsWith("//")) {
-    return returnTo;
+  let nextPath = homePathFor(user.role);
+  if (isSafeLocalPath(returnTo)) {
+    nextPath = returnTo;
   }
-  return homePathFor(user.role);
+
+  if (user.email && !user.emailVerifiedAt && user.phoneVerifiedAt) {
+    return "/verify-email?next=" + encodeURIComponent(nextPath);
+  }
+  return nextPath;
 };

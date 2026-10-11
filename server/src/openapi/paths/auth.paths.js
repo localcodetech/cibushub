@@ -9,6 +9,7 @@ import { resetPasswordSchema } from "../../validators/auth/password/resetPasswor
 import { changePasswordSchema } from "../../validators/auth/password/changePassword.validator.js";
 import { socialSignInSchema } from "../../validators/auth/social/socialSignIn.validator.js";
 import { addPhoneSchema } from "../../validators/auth/registration/addPhone.validator.js";
+import { verifyEmailSchema } from "../../validators/auth/registration/verifyEmail.validator.js";
 import { errorResponse, jsonBody, successResponse } from "../helpers.js";
 
 const exampleUser = {
@@ -187,6 +188,58 @@ export const authPaths = {
           "Phone used by another account, or already verified (PHONE_ALREADY_VERIFIED)",
           "PHONE_TAKEN",
           "This phone number is already used by another account",
+        ),
+        429: rateLimited,
+      },
+    },
+  },
+
+  "/api/v1/auth/email/send-code": {
+    post: {
+      tags,
+      summary: "Email a 6-digit code to my own address, to confirm it",
+      description:
+        "Logged in. The code lasts 15 minutes; a new one can be asked for once a minute (5 an hour). Then call /email/verify.",
+      responses: {
+        200: successResponse("Code sent", { email: "ama@example.com" }),
+        400: errorResponse(
+          "No email on the account",
+          "NO_EMAIL",
+          "Add an email address to your account first",
+        ),
+        401: errorResponse("Not logged in", "UNAUTHENTICATED", "Please log in to continue"),
+        409: errorResponse(
+          "Already confirmed",
+          "EMAIL_ALREADY_VERIFIED",
+          "Your email is already confirmed",
+        ),
+        429: rateLimited,
+      },
+    },
+  },
+
+  "/api/v1/auth/email/verify": {
+    post: {
+      tags,
+      summary: "Confirm my email with the emailed code",
+      description:
+        "The right code sets emailVerifiedAt. Wrong codes count like every code (5 tries).",
+      requestBody: jsonBody(verifyEmailSchema, { code: "482913" }),
+      responses: {
+        200: successResponse("Email confirmed", {
+          ...exampleUser,
+          emailVerifiedAt: "2026-10-11T12:00:00.000Z",
+        }),
+        400: errorResponse(
+          "Wrong or expired code",
+          "OTP_INVALID",
+          "Incorrect code. 4 attempts left",
+        ),
+        401: errorResponse("Not logged in", "UNAUTHENTICATED", "Please log in to continue"),
+        409: errorResponse(
+          "Already confirmed",
+          "EMAIL_ALREADY_VERIFIED",
+          "Your email is already confirmed",
         ),
         429: rateLimited,
       },

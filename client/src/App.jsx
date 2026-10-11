@@ -10,6 +10,7 @@ import CartPage from "@/pages/public/CartPage";
 import LoginPage from "@/pages/auth/LoginPage";
 import RegisterPage from "@/pages/auth/RegisterPage";
 import VerifyPhonePage from "@/pages/auth/VerifyPhonePage";
+import VerifyEmailPage from "@/pages/auth/VerifyEmailPage";
 import AddPhonePage from "@/pages/auth/AddPhonePage";
 import PendingApprovalPage from "@/pages/auth/PendingApprovalPage";
 import ForgotPasswordPage from "@/pages/auth/ForgotPasswordPage";
@@ -67,6 +68,7 @@ const router = createBrowserRouter([
           { path: "login", element: <LoginPage /> },
           { path: "register", element: <RegisterPage /> },
           { path: "verify-phone", element: <VerifyPhonePage /> },
+          { path: "verify-email", element: <VerifyEmailPage /> },
           { path: "add-phone", element: <AddPhonePage /> },
           { path: "pending-approval", element: <PendingApprovalPage /> },
           { path: "forgot-password", element: <ForgotPasswordPage /> },

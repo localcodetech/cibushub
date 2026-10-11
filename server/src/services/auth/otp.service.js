@@ -20,6 +20,14 @@ const OTP_PURPOSES = {
     message: (code) =>
       `Your CibusHub code is ${code}. Use it to confirm your new phone number. It expires in 5 minutes.`,
   },
+  // Sent to the account's own email, to prove it works [AC-AUTH-01]
+  verifyEmail: {
+    channel: "email",
+    lifetimeSeconds: 15 * 60,
+    emailReason: "confirm your email address",
+    message: (code) =>
+      `Your CibusHub code is ${code}. Use it to confirm your email address. It expires in 15 minutes.`,
+  },
   // Sent to the NEW email address [AC-CUST-02]
   changeEmail: {
     channel: "email",

@@ -41,6 +41,7 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | `POST /auth/forgot-password` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | validate, otpLimiter |
 | `POST /auth/reset-password` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | validate, otpLimiter |
 | `POST /auth/change-password` | — | 🔒⏳ | 🔒⏳ | 🔒⏳ | 🔒 | 🔒 | authenticate, validate |
+| `POST /auth/email/send-code`, `/email/verify` | — | 🔒⏳ | 🔒⏳ | 🔒⏳ | 🔒 | 🔒 | authenticate, validate (verify), otpLimiter; only my own email |
 | `GET /restaurants` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | validate (query) |
 | `GET /restaurants/:id` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | — (404 unless approved) |
 | `POST /cart/check` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | validate (read-only, no login) |

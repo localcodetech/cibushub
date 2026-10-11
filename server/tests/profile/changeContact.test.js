@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import request from "supertest";
 import app from "../../src/app.js";
 import { User } from "../../src/models/index.js";
@@ -6,21 +6,7 @@ import { signAccessToken } from "../../src/utils/auth/tokens.js";
 import { createTestUser } from "../helpers/users.js";
 import { lastCodeSentTo, sentSms } from "../helpers/fakeSms.js";
 
-// Pretend email: keep every email in a list instead of sending it
-const sentEmails = vi.hoisted(() => []);
-
-vi.mock("../../src/services/notifications/email.service.js", () => ({
-  sendEmail: async (to, subject, text) => {
-    sentEmails.push({ to, subject, text });
-  },
-}));
-
-const lastCodeEmailedTo = (email) => {
-  const emails = sentEmails.filter((sent) => sent.to === email);
-  // The branded code email starts its subject with the code: "482913 is your CibusHub code"
-  const match = emails.at(-1)?.subject.match(/^(\d{6}) is your CibusHub code$/);
-  return match ? match[1] : null;
-};
+import { lastCodeEmailedTo, sentEmails } from "../helpers/fakeEmail.js";
 
 const oldPhone = "+233241234567";
 const newPhone = "+233209998888";

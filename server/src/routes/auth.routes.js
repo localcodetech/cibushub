@@ -18,6 +18,7 @@ import { resetPasswordSchema } from "../validators/auth/password/resetPassword.v
 import { changePasswordSchema } from "../validators/auth/password/changePassword.validator.js";
 import { socialSignInSchema } from "../validators/auth/social/socialSignIn.validator.js";
 import { addPhoneSchema } from "../validators/auth/registration/addPhone.validator.js";
+import { verifyEmailSchema } from "../validators/auth/registration/verifyEmail.validator.js";
 import { register } from "../controllers/auth/registration/register.controller.js";
 import {
   resendOtp,
@@ -32,6 +33,10 @@ import { resetPassword } from "../controllers/auth/password/resetPassword.contro
 import { changePassword } from "../controllers/auth/password/changePassword.controller.js";
 import { socialSignIn } from "../controllers/auth/social/socialSignIn.controller.js";
 import { addPhone } from "../controllers/auth/registration/addPhone.controller.js";
+import {
+  confirmEmail,
+  sendEmailCode,
+} from "../controllers/auth/registration/verifyEmail.controller.js";
 
 const router = Router();
 
@@ -64,6 +69,12 @@ router.post("/social", validate(socialSignInSchema), loginIpLimiter, socialSignI
 // Add (or fix) the phone number of a logged-in user who hasn't verified one, and text a code
 // ─────────────────────────────────────────────
 router.post("/phone", authenticate, validate(addPhoneSchema), otpLimiter, addPhone);
+
+// ─────────────────────────────────────────────
+// Confirm my email: send a 6-digit code to it, then enter the code [AC-AUTH-01]
+// ─────────────────────────────────────────────
+router.post("/email/send-code", authenticate, otpLimiter, sendEmailCode);
+router.post("/email/verify", authenticate, validate(verifyEmailSchema), otpLimiter, confirmEmail);
 
 // ─────────────────────────────────────────────
 // Swap the refresh cookie for a new pair of tokens

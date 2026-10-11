@@ -42,6 +42,8 @@ Add a row here in the same commit that introduces a new code.
 | `INVALID_CREDENTIALS` | 401 | Wrong email/phone or password (always the same message) | AC-AUTH-12 |
 | `ACCOUNT_NOT_VERIFIED` | 403 | Logged in, but phone not verified yet; feature blocked | AC-AUTH-08 |
 | `ACCOUNT_PENDING_APPROVAL` | 403 | Restaurant owner or rider waiting for admin approval | AC-AUTH-05 |
+| `NO_EMAIL` | 400 | Asked to confirm an email, but the account has none | AC-AUTH-01 |
+| `EMAIL_ALREADY_VERIFIED` | 409 | Asked to confirm an email that is already confirmed | AC-AUTH-01 |
 | `TERMS_NOT_ACCEPTED` | 400 | Google / Apple sign-in would create a new account, but the Terms were not accepted (sign up first) | AC-AUTH-01 |
 | `INVALID_SOCIAL_TOKEN` | 401 | The Google / Apple ID token failed the signature, issuer, audience or expiry check | AC-AUTH-11 |
 | `SOCIAL_EMAIL_UNVERIFIED` | 400 | Google / Apple did not confirm the email, so it can't be linked or used for a new account | AC-AUTH-02 |
