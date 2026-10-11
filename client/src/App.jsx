@@ -43,6 +43,7 @@ const RiderHomePage = lazy(() => import("@/pages/rider/RiderHomePage"));
 const RiderDeliveryPage = lazy(() => import("@/pages/rider/RiderDeliveryPage"));
 const RiderEarningsPage = lazy(() => import("@/pages/rider/RiderEarningsPage"));
 const RiderApplicationPage = lazy(() => import("@/pages/rider/RiderApplicationPage"));
+const AdminLayout = lazy(() => import("@/layouts/AdminLayout"));
 const AdminDashboardPage = lazy(() => import("@/pages/admin/AdminDashboardPage"));
 const NotificationsPage = lazy(() => import("@/pages/NotificationsPage"));
 const NotificationSettingsPage = lazy(() => import("@/pages/NotificationSettingsPage"));
@@ -189,9 +190,10 @@ const router = createBrowserRouter([
             path: "admin",
             element: (
               <RequireRole allowedRoles={["ADMIN", "SUPER_ADMIN"]}>
-                <AdminDashboardPage />
+                <AdminLayout />
               </RequireRole>
             ),
+            children: [{ index: true, element: <AdminDashboardPage /> }],
           },
 
           {

@@ -24,6 +24,7 @@ import riderApplicationRoutes from "./routes/rider/application.routes.js";
 import adminRiderRoutes from "./routes/admin/rider.routes.js";
 import adminNotificationRoutes from "./routes/admin/notification.routes.js";
 import adminReviewRoutes from "./routes/admin/review.routes.js";
+import adminDashboardRoutes from "./routes/admin/dashboard.routes.js";
 import riderStatusRoutes from "./routes/rider/status.routes.js";
 import riderOfferRoutes from "./routes/rider/offer.routes.js";
 import riderDeliveryRoutes from "./routes/rider/delivery.routes.js";
@@ -218,6 +219,11 @@ app.use("/api/v1/rider/earnings", riderEarningsRoutes);
 // Every admin route: must be logged in as an active admin or super admin
 // ─────────────────────────────────────────────
 app.use("/api/v1/admin", authenticate, requireActive, authorize("ADMIN", "SUPER_ADMIN"));
+
+// ─────────────────────────────────────────────
+// Admin: the dashboard overview
+// ─────────────────────────────────────────────
+app.use("/api/v1/admin/dashboard", adminDashboardRoutes);
 
 // ─────────────────────────────────────────────
 // Admin: approve, reject, suspend restaurants

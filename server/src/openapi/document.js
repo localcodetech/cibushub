@@ -23,6 +23,7 @@ import { riderEarningsPaths } from "./paths/riderEarnings.paths.js";
 import { notificationPaths } from "./paths/notification.paths.js";
 import { ownerReviewPaths } from "./paths/ownerReview.paths.js";
 import { adminReviewPaths } from "./paths/adminReview.paths.js";
+import { adminDashboardPaths } from "./paths/adminDashboard.paths.js";
 import { successResponse, errorResponse } from "./helpers.js";
 
 export const openApiDocument = {
@@ -92,5 +93,6 @@ export const openApiDocument = {
     ...notificationPaths,
     ...ownerReviewPaths,
     ...adminReviewPaths,
+    ...adminDashboardPaths,
   },
 };
