@@ -5,13 +5,18 @@ export const DELIVERY_STATUSES = [
   "SEARCHING",
   "ASSIGNED",
   "PICKED_UP",
+  // The order was cancelled after pickup: the rider takes the food back to the restaurant
+  "RETURNING",
   "DELIVERED",
   "FAILED",
   "CANCELLED",
 ];
 
 // A rider holds at most one of these at a time [AC-RIDER-06]
-export const ACTIVE_DELIVERY_STATUSES = ["ASSIGNED", "PICKED_UP"];
+export const ACTIVE_DELIVERY_STATUSES = ["ASSIGNED", "PICKED_UP", "RETURNING"];
+
+// Why the rider can't hand the food over [AC-DEL-08]
+export const DOOR_PROBLEMS = ["UNREACHABLE", "NOT_AT_ADDRESS", "REFUSED_CODE"];
 
 // The delivery facts of one order, kept apart from the order status (plan-review C9, C15).
 // The order says what the customer sees; the delivery says who carries it and how it went.
@@ -103,8 +108,16 @@ const Delivery = sequelize.define(
       type: DataTypes.DATE,
       allowNull: true,
     },
-    // "Customer unreachable": when, and where the rider was
-    unreachableReportedAt: {
+    // A problem at the door: when, which, until when the rider waits, and where they were
+    problemReportedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    problemType: {
+      type: DataTypes.ENUM(...DOOR_PROBLEMS),
+      allowNull: true,
+    },
+    waitEndsAt: {
       type: DataTypes.DATE,
       allowNull: true,
     },
@@ -117,6 +130,29 @@ const Delivery = sequelize.define(
       allowNull: true,
     },
     failedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    // The way back to the restaurant
+    returnedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    returnDistanceMetres: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    returnFlagged: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
+    // What the rider earned for it, and when that was settled [AC-RIDER-07]
+    riderPayoutPesewas: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    settledAt: {
       type: DataTypes.DATE,
       allowNull: true,
     },

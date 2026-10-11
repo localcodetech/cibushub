@@ -176,8 +176,14 @@ const EarningsList = ({ query, onChangePage }) => {
               <p className="font-bold">{delivery.restaurantName}</p>
               <p className="font-bold">{formatMoney(delivery.earningsPesewas)}</p>
             </div>
+            {/* Food taken back to the restaurant pays 1.5x (ADR 003) */}
+            {delivery.outcome === "RETURNED" && (
+              <p className="text-[13px] font-bold text-amber-700 dark:text-amber-400">
+                Returned to the restaurant · 1.5x
+              </p>
+            )}
             <p className="mt-1 text-[13px] text-muted-foreground">
-              {formatDay(delivery.deliveredAt.slice(0, 10))} · {formatTime(delivery.deliveredAt)} ·{" "}
+              {formatDay(delivery.settledAt.slice(0, 10))} · {formatTime(delivery.settledAt)} ·{" "}
               {delivery.restaurantArea} → {delivery.dropoffArea || "customer"} ·{" "}
               {formatDistance(delivery.distanceMetres)}
             </p>

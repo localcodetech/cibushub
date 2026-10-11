@@ -30,24 +30,41 @@ const newRider = async (number) => {
   return { user, riderProfile };
 };
 
-// One order of its own for each delivery (an order has one delivery)
+// One order of its own for each delivery (an order has one delivery).
+// outcome: "DELIVERED" (pays the order's rider earnings), "RETURNED" (food taken back: 1.5x),
+// or "CANCELLED" (cancelled before pickup: nothing settled, earns nothing)
 let orderNumber = 0;
-const delivered = async (riderProfileId, deliveredAt, status = "DELIVERED") => {
+const finished = async (riderProfileId, at, outcome = "DELIVERED") => {
   orderNumber += 1;
   vi.useFakeTimers({ toFake: ["Date"] });
   vi.setSystemTime(SATURDAY_NOON);
   const { order } = await createPaidOrder(orderNumber);
   vi.useRealTimers();
-  return Delivery.create({
-    orderId: order.id,
-    riderProfileId,
-    status,
-    searchRadiusKm: 5,
-    searchStartedAt: deliveredAt,
-    pickedUpAt: deliveredAt,
-    deliveredAt: status === "DELIVERED" ? deliveredAt : null,
-    failedAt: status === "FAILED" ? deliveredAt : null,
-  });
+  const earnings = (await Order.scope("withEarnings").findByPk(order.id)).riderEarningsPesewas;
+
+  const base = { orderId: order.id, riderProfileId, searchRadiusKm: 5, searchStartedAt: at };
+  if (outcome === "DELIVERED") {
+    return Delivery.create({
+      ...base,
+      status: "DELIVERED",
+      pickedUpAt: at,
+      deliveredAt: at,
+      riderPayoutPesewas: earnings,
+      settledAt: at,
+    });
+  }
+  if (outcome === "RETURNED") {
+    return Delivery.create({
+      ...base,
+      status: "FAILED",
+      pickedUpAt: at,
+      failedAt: at,
+      returnedAt: at,
+      riderPayoutPesewas: Math.round(earnings * 1.5),
+      settledAt: at,
+    });
+  }
+  return Delivery.create({ ...base, status: "CANCELLED", cancelledAt: at });
 };
 
 const myEarnings = (query) =>
@@ -61,19 +78,21 @@ beforeEach(async () => {
   ({ user: rider, riderProfile: profile } = await newRider(1));
   ({ riderProfile: otherProfile } = await newRider(2));
 
-  await delivered(profile.id, new Date("2026-10-10T12:30:00Z")); // today
-  await delivered(profile.id, new Date("2026-10-06T09:00:00Z")); // this week (Tuesday)
-  await delivered(profile.id, new Date("2026-10-01T18:00:00Z")); // this month, last week
-  await delivered(profile.id, new Date("2026-09-30T18:00:00Z")); // last month
-  await delivered(profile.id, new Date("2026-10-10T11:00:00Z"), "FAILED"); // earns nothing
-  await delivered(otherProfile.id, new Date("2026-10-10T13:00:00Z")); // someone else's
+  await finished(profile.id, new Date("2026-10-10T12:30:00Z")); // today
+  await finished(profile.id, new Date("2026-10-10T11:00:00Z"), "RETURNED"); // today, 1.5x
+  await finished(profile.id, new Date("2026-10-10T10:00:00Z"), "CANCELLED"); // earns nothing
+  await finished(profile.id, new Date("2026-10-06T09:00:00Z")); // this week (Tuesday)
+  await finished(profile.id, new Date("2026-10-01T18:00:00Z")); // this month, last week
+  await finished(profile.id, new Date("2026-09-30T18:00:00Z")); // last month
+  await finished(otherProfile.id, new Date("2026-10-10T13:00:00Z")); // someone else's
 
   const anyOrder = await Order.scope("withEarnings").findOne();
   earningsEach = anyOrder.riderEarningsPesewas;
 });
 
 describe("Rider earnings [AC-RIDER-07]", () => {
-  it("counts only my delivered orders, per day, week (from Monday) and month", async () => {
+  it("counts my delivered and returned trips (1.5x), per day, week (from Monday) and month", async () => {
+    const returnedPay = Math.round(earningsEach * 1.5);
     const day = await myEarnings({ period: "day" });
     const week = await myEarnings({ period: "week" });
     const month = await myEarnings({ period: "month" });
@@ -81,26 +100,30 @@ describe("Rider earnings [AC-RIDER-07]", () => {
     expect(day.status).toBe(200);
     expect(day.body.data.summary).toMatchObject({
       period: "day",
-      deliveryCount: 1,
-      earningsPesewas: earningsEach,
+      deliveryCount: 2,
+      earningsPesewas: earningsEach + returnedPay,
     });
-    expect(week.body.data.summary.deliveryCount).toBe(2);
+    expect(week.body.data.summary.deliveryCount).toBe(3);
     expect(week.body.data.summary.from).toBe("2026-10-05T00:00:00.000Z");
     expect(month.body.data.summary).toMatchObject({
-      deliveryCount: 3,
-      earningsPesewas: 3 * earningsEach,
+      deliveryCount: 4,
+      earningsPesewas: 3 * earningsEach + returnedPay,
     });
   });
 
-  it("lists completed deliveries newest first, paged, without the customer's details", async () => {
+  it("lists finished trips newest first, paged, without the customer's details", async () => {
     const response = await myEarnings({ period: "month", pageSize: 2 });
 
-    expect(response.body.meta).toMatchObject({ page: 1, pageSize: 2, totalItems: 3 });
+    expect(response.body.meta).toMatchObject({ page: 1, pageSize: 2, totalItems: 4 });
     // The totals cover every page
-    expect(response.body.data.summary.deliveryCount).toBe(3);
+    expect(response.body.data.summary.deliveryCount).toBe(4);
     const [newest, next] = response.body.data.deliveries;
-    expect(newest.deliveredAt).toBe("2026-10-10T12:30:00.000Z");
-    expect(next.deliveredAt).toBe("2026-10-06T09:00:00.000Z");
+    expect(newest).toMatchObject({ outcome: "DELIVERED", settledAt: "2026-10-10T12:30:00.000Z" });
+    expect(next).toMatchObject({
+      outcome: "RETURNED",
+      returnedAt: "2026-10-10T11:00:00.000Z",
+      earningsPesewas: Math.round(earningsEach * 1.5),
+    });
     expect(Object.keys(newest).sort()).toEqual(
       [
         "deliveredAt",
@@ -109,9 +132,12 @@ describe("Rider earnings [AC-RIDER-07]", () => {
         "dropoffArea",
         "earningsPesewas",
         "orderNumber",
+        "outcome",
         "pickedUpAt",
         "restaurantArea",
         "restaurantName",
+        "returnedAt",
+        "settledAt",
       ].sort(),
     );
   });

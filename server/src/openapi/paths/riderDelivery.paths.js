@@ -2,7 +2,8 @@ import { unassignRiderSchema } from "../../validators/order/manualAssignment.val
 import {
   completeDeliverySchema,
   pickupSchema,
-  unreachableSchema,
+  doorProblemSchema,
+  returnedSchema,
 } from "../../validators/order/deliveryFlow.validator.js";
 import { errorResponse, jsonBody, successResponse } from "../helpers.js";
 
@@ -41,8 +42,10 @@ const exampleDelivery = {
   },
   codeAttemptsLeft: 5,
   callAttempts: 0,
-  canReportUnreachable: false,
-  unreachableReportedAt: null,
+  canReportProblem: true,
+  callsNeededFirst: 2,
+  problem: null,
+  returnPayoutPesewas: null,
 };
 
 export const riderDeliveryPaths = {
@@ -102,7 +105,7 @@ export const riderDeliveryPaths = {
       tags,
       summary: "Call the customer (counted)",
       description:
-        "After pickup. The tap is counted (the proof of calling for an unreachable report), then the app dials the returned number.",
+        "After pickup. The tap is counted (the proof of calling for a door-problem report), then the app dials the returned number.",
       security: loggedIn,
       responses: {
         200: successResponse("Counted", { phone: "+233551234561", callAttempts: 1 }),
@@ -110,20 +113,54 @@ export const riderDeliveryPaths = {
       },
     },
   },
-  "/api/v1/rider/deliveries/current/unreachable": {
+  "/api/v1/rider/deliveries/current/problem": {
     post: {
       tags,
-      summary: "Customer unreachable",
+      summary: "A problem at the door: unreachable, not at the address, or won't give the code",
       description:
-        "After at least 2 counted calls. Admins are alerted with the rider's location and call count; the customer's app is told. The rider keeps the food: the code still works if the customer turns up, otherwise an admin cancels (delivery FAILED) and chooses the refund.",
+        "Within 300 m of the drop-off pin. UNREACHABLE and NOT_AT_ADDRESS need 2 counted calls first. A 10-minute wait starts (problem.waitEndsAt); the customer's app is told and admins are alerted with the rider's location. The code still works during the wait. If nobody acts, the order is cancelled with no refund and the delivery becomes RETURNING: take the food back to the restaurant (1.5x pay).",
       security: loggedIn,
-      requestBody: jsonBody(unreachableSchema, { note: "Blue gate locked, nobody answers" }),
+      requestBody: jsonBody(doorProblemSchema, {
+        problemType: "UNREACHABLE",
+        note: "Blue gate locked, nobody answers",
+      }),
       responses: {
-        200: successResponse("Reported", { ...exampleDelivery, callAttempts: 2 }),
+        200: successResponse("Reported: wait until problem.waitEndsAt", {
+          ...exampleDelivery,
+          callAttempts: 2,
+          canReportProblem: false,
+          problem: {
+            type: "UNREACHABLE",
+            reportedAt: "2026-10-11T12:50:00.000Z",
+            waitEndsAt: "2026-10-11T13:00:00.000Z",
+          },
+        }),
         409: errorResponse(
-          "Not enough calls, or already reported",
-          "CALL_THE_CUSTOMER_FIRST",
-          "Call the customer at least 2 times first",
+          "Not enough calls, too far from the drop-off, or already reported",
+          "NOT_AT_DROPOFF",
+          "You are about 850 m from the drop-off. Go to the customer's pin first.",
+        ),
+      },
+    },
+  },
+  "/api/v1/rider/deliveries/current/returned": {
+    post: {
+      tags,
+      summary: "Food returned to the restaurant",
+      description:
+        "Only while the delivery is RETURNING. More than 200 m from the restaurant: 409 with the distance; send confirmFarAway: true to go ahead (flagged for admins). The rider is free and earns 1.5x the delivery's rider earnings.",
+      security: loggedIn,
+      requestBody: jsonBody(returnedSchema, { confirmFarAway: false }),
+      responses: {
+        200: successResponse("Returned", {
+          orderId: ORDER_ID,
+          returned: true,
+          earnedPesewas: 2154,
+        }),
+        409: errorResponse(
+          "Not returning, or too far from the restaurant",
+          "RETURN_FAR_FROM_RESTAURANT",
+          "You are about 850 m from the restaurant. Confirm only if you gave the food back.",
         ),
       },
     },

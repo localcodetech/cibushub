@@ -13,9 +13,11 @@ import {
 } from "../../repositories/delivery.repository.js";
 import { findRiderProfileById } from "../../repositories/rider.repository.js";
 import { emitToUser } from "../../sockets/emitToUser.js";
+import { announceReturn, beginReturn } from "../delivery/doorProblem.service.js";
 
 // A delivery is still going on unless it ended one of these ways
-const FINISHED_DELIVERY_STATUSES = ["DELIVERED", "FAILED", "CANCELLED"];
+// (RETURNING is not here: the rider is already on the way back)
+const FINISHED_DELIVERY_STATUSES = ["DELIVERED", "FAILED", "CANCELLED", "RETURNING"];
 
 // An admin cancels any order that is not finished, and chooses a full, partial or no refund.
 // Cancel + refund + audit row are saved together, or not at all [AC-CANC-03, AC-ADM-07]
@@ -23,7 +25,7 @@ const FINISHED_DELIVERY_STATUSES = ["DELIVERED", "FAILED", "CANCELLED"];
 export const adminCancelOrder = async (admin, orderId, choice) => {
   const actor = { userId: admin.id, role: admin.role };
 
-  const { refund, riderProfileId } = await retryOnDeadlock(() =>
+  const { refund, riderProfileId, returningDelivery, order } = await retryOnDeadlock(() =>
     sequelize.transaction(async (transaction) => {
       // The delivery first, then the order: the lock order every delivery path uses
       const delivery = await findDeliveryForOrderForUpdate(orderId, transaction);
@@ -76,22 +78,28 @@ export const adminCancelOrder = async (admin, orderId, choice) => {
         transaction,
       );
 
-      // A delivery in progress ends too, so its rider is free for new offers [AC-RIDER-06].
-      // After a "Customer unreachable" report it ends as FAILED, keeping the report [AC-DEL-08]
+      // A delivery in progress ends too [AC-RIDER-06]. Before pickup the rider is simply free;
+      // with the food in hand, it goes back to the restaurant first (ADR 003, 1.5x pay)
       let releasedRiderId = null;
-      if (delivery && !FINISHED_DELIVERY_STATUSES.includes(delivery.status)) {
+      let returningDelivery = null;
+      if (delivery && delivery.status === "PICKED_UP") {
+        await beginReturn(delivery, transaction);
+        returningDelivery = delivery;
+      } else if (delivery && !FINISHED_DELIVERY_STATUSES.includes(delivery.status)) {
         releasedRiderId = delivery.riderProfileId;
         const now = new Date();
-        const ending = delivery.unreachableReportedAt
-          ? { status: "FAILED", failedAt: now }
-          : { status: "CANCELLED", cancelledAt: now };
-        await updateDelivery(delivery, ending, transaction);
+        await updateDelivery(delivery, { status: "CANCELLED", cancelledAt: now }, transaction);
         await supersedePendingOffers(delivery.id, now, transaction);
       }
 
-      return { refund: created, riderProfileId: releasedRiderId };
+      return { refund: created, riderProfileId: releasedRiderId, returningDelivery, order };
     }),
   );
+
+  // The rider takes the food back; the restaurant is told it's coming
+  if (returningDelivery) {
+    await announceReturn(returningDelivery, order, choice.reason);
+  }
 
   // The rider's app closes the delivery screen
   if (riderProfileId) {

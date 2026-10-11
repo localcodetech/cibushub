@@ -66,8 +66,12 @@ Add a row here in the same commit that introduces a new code.
 | `WRONG_DELIVERY_CODE` | 400 | Wrong 4-digit code; message says how many attempts are left | AC-DEL-06 |
 | `DELIVERY_CODE_LOCKED` | 429 | 5 wrong codes; admins are alerted and can unlock it | AC-DEL-06 |
 | `CODE_NOT_LOCKED` | 409 | Customer tried "I've received my food" while the rider can still enter the code | AC-DEL-06 |
-| `CALL_THE_CUSTOMER_FIRST` | 409 | "Customer unreachable" before 2 counted calls | AC-DEL-08 |
-| `ALREADY_REPORTED` | 409 | "Customer unreachable" sent twice for one delivery | AC-DEL-08 |
+| `CALL_THE_CUSTOMER_FIRST` | 409 | "Unreachable" or "not at the address" before 2 counted calls | AC-DEL-08 |
+| `ALREADY_REPORTED` | 409 | A second door problem for one delivery | AC-DEL-08 |
+| `NOT_AT_DROPOFF` | 409 | Door problem reported more than 300 m from the drop-off pin | AC-DEL-08 |
+| `LOCATION_NEEDED` | 409 | Door problem with no known rider location | AC-DEL-08 |
+| `NOT_RETURNING` | 409 | "Returned" for a delivery that isn't being returned | AC-DEL-08 |
+| `RETURN_FAR_FROM_RESTAURANT` | 409 | "Returned" more than 200 m from the restaurant; `details` has the distance; resend with `confirmFarAway: true` | AC-DEL-08 |
 | `RIDER_NOT_APPROVED` | 403 | Going online without an approved rider application | AC-RIDER-02, AC-RIDER-03 |
 | `APPLICATION_LOCKED` | 409 | Changing a rider application while it is under review or after approval | AC-RIDER-01 |
 | `APPLICATION_INCOMPLETE` | 400 | Submitting a rider application with something missing; `details` lists each (`PHOTO`, `GHANA_CARD`, `DRIVERS_LICENCE`, `DETAILS`) | AC-RIDER-01 |

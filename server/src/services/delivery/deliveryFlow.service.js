@@ -4,6 +4,7 @@ import { retryOnDeadlock } from "../../utils/database/retryOnDeadlock.js";
 import { DELIVERY_RULES } from "../../utils/delivery/deliveryRules.js";
 import { deliveryCodeMatches } from "../../utils/delivery/deliveryCode.js";
 import { distanceInMetres } from "../../utils/distance.js";
+import { riderPayoutFor } from "../../utils/delivery/payout.js";
 import { changeOrderStatus } from "../order/changeOrderStatus.service.js";
 import { findOrderItems, lockOrder } from "../../repositories/order.repository.js";
 import {
@@ -29,6 +30,7 @@ const noDelivery = () => new AppError(404, "NOT_FOUND", "You have no delivery in
 // What the rider's delivery screen shows [AC-DEL-01, AC-DEL-04, AC-DEL-05].
 // Before pickup: where to collect, and only the drop-off AREA.
 // After pickup: the customer's first name, exact pin, address details and phone.
+// Returning: the restaurant again (the customer's details are gone, like after delivery).
 // Once delivered there is no "current" delivery, so the phone is gone with it.
 const toDeliveryView = async (delivery, order, restaurant) => {
   const pickedUp = delivery.status === "PICKED_UP";
@@ -71,12 +73,22 @@ const toDeliveryView = async (delivery, order, restaurant) => {
     dropoff,
     codeAttemptsLeft: DELIVERY_RULES.maxCodeAttempts - delivery.codeAttempts,
     callAttempts: delivery.callAttempts,
-    // "Customer unreachable" appears once the rider has called enough times [AC-DEL-08]
-    canReportUnreachable:
-      pickedUp &&
-      !delivery.unreachableReportedAt &&
-      delivery.callAttempts >= DELIVERY_RULES.minCallsBeforeUnreachable,
-    unreachableReportedAt: delivery.unreachableReportedAt,
+    // A problem at the door [AC-DEL-08]: "Unreachable" and "Not at the address" need this many
+    // calls first; "Won't give the code" doesn't
+    canReportProblem: pickedUp && !delivery.problemReportedAt,
+    callsNeededFirst: DELIVERY_RULES.minCallsBeforeUnreachable,
+    problem: delivery.problemType
+      ? {
+          type: delivery.problemType,
+          reportedAt: delivery.problemReportedAt,
+          waitEndsAt: delivery.waitEndsAt,
+        }
+      : null,
+    // Taking the food back pays 1.5x [ADR 003]
+    returnPayoutPesewas:
+      delivery.status === "RETURNING"
+        ? riderPayoutFor(order.riderEarningsPesewas, DELIVERY_RULES.returnPayoutPercent)
+        : null,
   };
 };
 
@@ -93,7 +105,7 @@ export const getMyCurrentDelivery = async (userId) => {
 };
 
 // The rider's row, then their delivery: the lock order every delivery path uses
-const lockMyActiveDelivery = async (userId, transaction) => {
+export const lockMyActiveDelivery = async (userId, transaction) => {
   const profile = await lockRiderProfileByUserId(userId, transaction);
   const active = profile ? await findActiveDeliveryForRider(profile.id, transaction) : null;
   if (!active) {
@@ -114,7 +126,7 @@ export const confirmPickup = async ({ userId, confirmFarAway = false, now = new 
   await retryOnDeadlock(() =>
     sequelize.transaction(async (transaction) => {
       const { profile, delivery } = await lockMyActiveDelivery(userId, transaction);
-      if (delivery.status === "PICKED_UP") {
+      if (delivery.status !== "ASSIGNED") {
         throw new AppError(409, "DELIVERY_ALREADY_PICKED_UP", "You already picked this order up");
       }
 
@@ -210,7 +222,18 @@ export const completeDelivery = async ({ userId, code, now = new Date() }) => {
         };
       }
 
-      await updateDelivery(delivery, { status: "DELIVERED", deliveredAt: now }, transaction);
+      // The rider's pay for it is settled now [AC-RIDER-07]
+      const order = await Order.scope("withEarnings").findByPk(delivery.orderId, { transaction });
+      await updateDelivery(
+        delivery,
+        {
+          status: "DELIVERED",
+          deliveredAt: now,
+          riderPayoutPesewas: riderPayoutFor(order.riderEarningsPesewas),
+          settledAt: now,
+        },
+        transaction,
+      );
       await changeOrderStatus({
         orderId: delivery.orderId,
         toStatus: "DELIVERED",
@@ -243,7 +266,7 @@ export const completeDelivery = async ({ userId, code, now = new Date() }) => {
 };
 
 // The rider tapped "Call": counted here, then the phone dials [AC-DEL-04, AC-DEL-08].
-// The count is the proof of "attempted to call" that admins see with an unreachable report.
+// The count is the proof of "attempted to call" that admins see with a door-problem report.
 export const recordCallAttempt = async ({ userId, now = new Date() }) => {
   const result = await retryOnDeadlock(() =>
     sequelize.transaction(async (transaction) => {
@@ -261,75 +284,6 @@ export const recordCallAttempt = async ({ userId, now = new Date() }) => {
     }),
   );
   return result;
-};
-
-// "Customer unreachable" [AC-DEL-08]. Policy (plan-review, ADR 003): the rider keeps the food
-// and waits; admins are alerted with where the rider is and how often they called; the
-// customer's app is told to call the rider. If the customer turns up, the code still works.
-// Otherwise an admin cancels the order (the delivery becomes FAILED) and chooses the refund.
-export const reportCustomerUnreachable = async ({ userId, note, ipAddress, now = new Date() }) => {
-  const report = await retryOnDeadlock(() =>
-    sequelize.transaction(async (transaction) => {
-      const { profile, delivery } = await lockMyActiveDelivery(userId, transaction);
-      if (delivery.status !== "PICKED_UP") {
-        throw new AppError(409, "NOT_PICKED_UP", "Confirm pickup first");
-      }
-      if (delivery.unreachableReportedAt) {
-        throw new AppError(409, "ALREADY_REPORTED", "You already reported this; support is on it");
-      }
-      if (delivery.callAttempts < DELIVERY_RULES.minCallsBeforeUnreachable) {
-        throw new AppError(
-          409,
-          "CALL_THE_CUSTOMER_FIRST",
-          `Call the customer at least ${DELIVERY_RULES.minCallsBeforeUnreachable} times first`,
-        );
-      }
-
-      const riderAt = await getLatestLocation(profile.id);
-      const reason = note ? `Customer unreachable: ${note}` : "Customer unreachable";
-      await updateDelivery(
-        delivery,
-        {
-          unreachableReportedAt: now,
-          reportedLatitude: riderAt ? riderAt.latitude : null,
-          reportedLongitude: riderAt ? riderAt.longitude : null,
-          failureReason: reason,
-        },
-        transaction,
-      );
-
-      const order = await Order.findByPk(delivery.orderId, { transaction });
-      await saveAuditLog(
-        {
-          actorId: userId,
-          action: "DELIVERY_UNREACHABLE_REPORTED",
-          targetType: "order",
-          targetId: order.id,
-          before: null,
-          after: { callAttempts: delivery.callAttempts, location: riderAt },
-          reason,
-          ipAddress,
-        },
-        transaction,
-      );
-
-      return {
-        orderId: order.id,
-        orderNumber: order.orderNumber,
-        customerId: order.customerId,
-        riderProfileId: profile.id,
-        callAttempts: delivery.callAttempts,
-        location: riderAt ? { latitude: riderAt.latitude, longitude: riderAt.longitude } : null,
-        note: note ?? null,
-      };
-    }),
-  );
-
-  const { customerId, ...alert } = report;
-  emitAdminAlert("CUSTOMER_UNREACHABLE", alert);
-  emitToUser(customerId, "delivery:unreachable", { orderId: report.orderId });
-
-  return getMyCurrentDelivery(userId);
 };
 
 // Admin: after 5 wrong codes, a check with the customer (e.g. by phone), then the rider
@@ -399,7 +353,17 @@ export const customerConfirmReceived = async ({
         );
       }
 
-      await updateDelivery(delivery, { status: "DELIVERED", deliveredAt: now }, transaction);
+      const withEarnings = await Order.scope("withEarnings").findByPk(orderId, { transaction });
+      await updateDelivery(
+        delivery,
+        {
+          status: "DELIVERED",
+          deliveredAt: now,
+          riderPayoutPesewas: riderPayoutFor(withEarnings.riderEarningsPesewas),
+          settledAt: now,
+        },
+        transaction,
+      );
       await changeOrderStatus({
         orderId,
         toStatus: "DELIVERED",

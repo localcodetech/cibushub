@@ -184,7 +184,7 @@ erDiagram
         uuid id PK
         uuid order_id FK "orders.id, unique, ON DELETE CASCADE"
         uuid rider_profile_id FK "rider_profiles.id, ON DELETE SET NULL; empty while searching"
-        enum status "SEARCHING, ASSIGNED, PICKED_UP, DELIVERED, FAILED, CANCELLED"
+        enum status "SEARCHING, ASSIGNED, PICKED_UP, RETURNING, DELIVERED, FAILED, CANCELLED"
         decimal search_radius_km "4,1"
         datetime search_started_at
         datetime radius_widened_at
@@ -197,10 +197,17 @@ erDiagram
         int call_attempts "rider's counted calls at the drop-off"
         datetime last_call_at
         datetime delivered_at
-        datetime unreachable_reported_at
+        datetime problem_reported_at
+        enum problem_type "UNREACHABLE, NOT_AT_ADDRESS, REFUSED_CODE"
+        datetime wait_ends_at "10 minutes after the report"
         decimal reported_latitude "where the rider was"
         decimal reported_longitude
         datetime failed_at
+        datetime returned_at
+        int return_distance_metres
+        boolean return_flagged "returned more than 200 m away"
+        int rider_payout_pesewas "what the rider earned: 1x delivered, 1.5x returned"
+        datetime settled_at "when the payout was fixed (earnings are grouped by it)"
         varchar failure_reason
         datetime cancelled_at
         datetime created_at

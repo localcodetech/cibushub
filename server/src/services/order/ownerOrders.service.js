@@ -18,6 +18,7 @@ import {
   summariseRestaurantOrders,
 } from "../../repositories/order.repository.js";
 import { ridersForKitchen } from "../delivery/tracking.service.js";
+import { findReturningOrderIds } from "../../repositories/delivery.repository.js";
 
 // The orders a kitchen is still working on: from "paid, waiting for you" to "on the way"
 export const ACTIVE_STATUSES = [
@@ -53,7 +54,8 @@ const firstNameOf = (fullName) => (fullName || "").trim().split(/\s+/)[0] || "Cu
 // What the kitchen sees. Never the customer's phone or address: the rider handles delivery
 // [AC-RORD-02]. The money shown is the restaurant's own (subtotal and its earnings).
 // rider: who is collecting it (name, photo, vehicle, minutes away), or null [AC-RORD-08]
-const toKitchenOrder = (order, rider = null) => {
+// isReturning: nobody took it at the door; the rider is bringing the food back (ADR 003)
+const toKitchenOrder = (order, rider = null, isReturning = false) => {
   const paidEntry = (order.statusHistory || []).find((entry) => entry.toStatus === "PAID");
 
   return {
@@ -84,6 +86,7 @@ const toKitchenOrder = (order, rider = null) => {
     restaurantEarningsPesewas: order.restaurantEarningsPesewas,
     cancellationReason: order.cancellationReason,
     rider,
+    isReturning,
     // e.g. ["ACCEPTED", "REJECTED"] for a new order: the dashboard shows those buttons
     ownerActions: nextStatusesFor(order.status, "RESTAURANT_OWNER"),
   };
@@ -102,8 +105,18 @@ export const listOwnerBoard = async (ownerId, { restaurantId }) => {
     limit: BOARD_LIMIT,
   });
 
-  const riders = await ridersForKitchen(orders);
-  return orders.map((order) => toKitchenOrder(order, riders.get(order.id) || null));
+  // Food coming back to the kitchen: the order is cancelled, but the restaurant should know
+  const returningIds = await findReturningOrderIds(idsOf(restaurants));
+  const returning = [];
+  for (const orderId of returningIds) {
+    returning.push(await findOrderForKitchen(orderId));
+  }
+
+  const all = [...orders, ...returning];
+  const riders = await ridersForKitchen(all);
+  return all.map((order) =>
+    toKitchenOrder(order, riders.get(order.id) || null, returningIds.includes(order.id)),
+  );
 };
 
 // One order of one of my restaurants (anyone else's looks like it doesn't exist)

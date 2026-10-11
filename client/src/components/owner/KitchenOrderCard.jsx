@@ -95,6 +95,14 @@ const KitchenOrderCard = ({ order, now, showRestaurant, isWorking, error, onActi
         </p>
       )}
 
+      {/* Nobody took it at the door: the food is on its way back (ADR 003) */}
+      {order.isReturning && (
+        <p role="status" className="rounded-md bg-amber-100 px-3 py-2 text-[15px] text-amber-950">
+          <span className="font-bold">Food coming back.</span> The customer didn't take the order;
+          the rider is returning it to you.
+        </p>
+      )}
+
       {/* Who is collecting it, and how far away they are [AC-RORD-08] */}
       {order.rider && (
         <div className="rounded-md border border-border p-3">

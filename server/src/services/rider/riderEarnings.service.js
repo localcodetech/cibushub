@@ -22,8 +22,9 @@ export const periodRange = (period, day) => {
   return { from: start, to: new Date(start.getTime() + ONE_DAY_MS) };
 };
 
-// Completed deliveries and what they earned, for a day, week or month [AC-RIDER-07].
-// Only DELIVERED counts: each order's rider earnings were fixed when it was placed.
+// Finished deliveries and what they earned, for a day, week or month [AC-RIDER-07].
+// Delivered ones pay the order's rider earnings (fixed when it was placed); food taken back
+// to the restaurant pays 1.5x (ADR 003). Cancelled before pickup pays nothing.
 //   query: { period: "day" | "week" | "month", date?: "2026-10-10", page, pageSize }
 export const getMyEarnings = async (userId, query, now = new Date()) => {
   const day = query.date || now.toISOString().slice(0, 10);
@@ -48,13 +49,18 @@ export const getMyEarnings = async (userId, query, now = new Date()) => {
   const deliveries = rows.map((delivery) => ({
     deliveryId: delivery.id,
     orderNumber: delivery.order.orderNumber,
+    // DELIVERED, or RETURNED (the food went back to the restaurant)
+    outcome: delivery.status === "DELIVERED" ? "DELIVERED" : "RETURNED",
     restaurantName: delivery.order.restaurant.name,
     restaurantArea: delivery.order.restaurant.area,
     dropoffArea: delivery.order.deliveryArea,
     distanceMetres: delivery.order.deliveryDistanceMeters,
     pickedUpAt: delivery.pickedUpAt,
     deliveredAt: delivery.deliveredAt,
-    earningsPesewas: delivery.order.riderEarningsPesewas,
+    returnedAt: delivery.returnedAt,
+    // When it finished either way: the list is sorted and grouped by this
+    settledAt: delivery.settledAt,
+    earningsPesewas: delivery.riderPayoutPesewas,
   }));
 
   return { summary: { ...range, ...totals }, deliveries, meta: buildPageMeta(query, count) };

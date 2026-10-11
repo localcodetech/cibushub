@@ -34,6 +34,12 @@ const SCHEDULES = [
     repeat: { every: 60 * 1000 }, // every minute [AC-DEL-06]
   },
   {
+    id: "sweep-door-waits",
+    queue: QUEUE_NAMES.maintenance,
+    name: "sweepDoorWaits",
+    repeat: { every: 60 * 1000 }, // every minute [AC-DEL-08]
+  },
+  {
     id: "reconcile-payments",
     queue: QUEUE_NAMES.payments,
     name: "reconcilePayments",

@@ -148,27 +148,35 @@ export const recordAcceptedOffer = async (
   );
 };
 
-// A rider's delivered orders in a time range, newest first [AC-RIDER-07].
-// Only what the earnings list needs: no customer name, phone or exact address.
+// A rider's finished deliveries (delivered, or food returned) in a time range, newest first
+// [AC-RIDER-07]. Only what the earnings list needs: no customer name, phone or exact address.
+const SETTLED_IN = (riderProfileId, from, to) => ({
+  riderProfileId,
+  riderPayoutPesewas: { [Op.ne]: null },
+  settledAt: { [Op.gte]: from, [Op.lt]: to },
+});
+
 export const findDeliveredForRider = ({ riderProfileId, from, to, limit, offset }) => {
   return Delivery.findAndCountAll({
-    where: { riderProfileId, status: "DELIVERED", deliveredAt: { [Op.gte]: from, [Op.lt]: to } },
-    attributes: ["id", "pickedUpAt", "deliveredAt"],
+    where: SETTLED_IN(riderProfileId, from, to),
+    attributes: [
+      "id",
+      "status",
+      "pickedUpAt",
+      "deliveredAt",
+      "returnedAt",
+      "settledAt",
+      "riderPayoutPesewas",
+    ],
     include: [
       {
-        model: Order.scope("withEarnings"),
+        model: Order.unscoped(),
         as: "order",
-        attributes: [
-          "id",
-          "orderNumber",
-          "deliveryArea",
-          "deliveryDistanceMeters",
-          "riderEarningsPesewas",
-        ],
+        attributes: ["id", "orderNumber", "deliveryArea", "deliveryDistanceMeters"],
         include: [{ model: Restaurant, as: "restaurant", attributes: ["name", "area"] }],
       },
     ],
-    order: [["deliveredAt", "DESC"]],
+    order: [["settledAt", "DESC"]],
     limit,
     offset,
   });
@@ -177,12 +185,11 @@ export const findDeliveredForRider = ({ riderProfileId, from, to, limit, offset 
 // How many, and how much, for the same range (all pages together)
 export const sumRiderEarnings = async ({ riderProfileId, from, to }) => {
   const totals = await Delivery.findOne({
-    where: { riderProfileId, status: "DELIVERED", deliveredAt: { [Op.gte]: from, [Op.lt]: to } },
+    where: SETTLED_IN(riderProfileId, from, to),
     attributes: [
-      [fn("COUNT", col("Delivery.id")), "deliveryCount"],
-      [fn("SUM", col("order.rider_earnings_pesewas")), "earningsPesewas"],
+      [fn("COUNT", col("id")), "deliveryCount"],
+      [fn("SUM", col("rider_payout_pesewas")), "earningsPesewas"],
     ],
-    include: [{ model: Order.unscoped(), as: "order", attributes: [] }],
     raw: true,
   });
   return {
@@ -226,4 +233,30 @@ export const findDeliveriesLockedSince = (lockedBefore) => {
     },
     limit: 100,
   });
+};
+
+// Picked-up deliveries whose door wait ran out (the every-minute sweep) [AC-DEL-08]
+export const findDeliveriesWaitedOut = (now) => {
+  return Delivery.findAll({
+    where: { status: "PICKED_UP", waitEndsAt: { [Op.lte]: now } },
+    attributes: ["id"],
+    limit: 100,
+  });
+};
+
+// Orders of these restaurants whose food is on its way back (the board shows them)
+export const findReturningOrderIds = async (restaurantIds) => {
+  const rows = await Delivery.findAll({
+    where: { status: "RETURNING" },
+    attributes: ["orderId"],
+    include: [
+      {
+        model: Order.unscoped(),
+        as: "order",
+        attributes: [],
+        where: { restaurantId: restaurantIds },
+      },
+    ],
+  });
+  return rows.map((row) => row.orderId);
 };

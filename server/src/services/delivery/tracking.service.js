@@ -106,7 +106,8 @@ export const ridersForKitchen = async (orders) => {
     const order = orders.find((item) => item.id === delivery.orderId);
     const card = { ...toRiderCard(delivery.rider), etaToRestaurantMinutes: null };
 
-    if (delivery.status === "ASSIGNED" && order.restaurant) {
+    // On the way to the restaurant: to collect, or to bring the food back
+    if (["ASSIGNED", "RETURNING"].includes(delivery.status) && order.restaurant) {
       const location = await getLatestLocation(delivery.rider.id);
       if (location) {
         card.etaToRestaurantMinutes = etaMinutes(

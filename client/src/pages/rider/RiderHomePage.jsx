@@ -218,6 +218,9 @@ const DeliveryInHand = ({ delivery }) => {
   if (delivery.status === "PICKED_UP") {
     stepText = "Take the food to the customer.";
   }
+  if (delivery.status === "RETURNING") {
+    stepText = "Take the food back to the restaurant.";
+  }
 
   return (
     <Link to="/rider/delivery" className="block">

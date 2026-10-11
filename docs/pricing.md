@@ -58,6 +58,6 @@ Example: subtotal GHS 95.00, delivery GHS 10.72 → commission **GHS 9.50**, res
 
 - The four columns (`commission_percent`, `commission_pesewas`, `restaurant_earnings_pesewas`, `rider_earnings_pesewas`) are frozen on the order, so a later rate change never changes a past order.
 - Customers never see them. The `Order` model hides them by default; owner, rider and admin queries use `Order.scope("withEarnings")`.
-- Earnings only count for `DELIVERED` orders. Cancelled or refunded orders earn nothing.
+- Restaurants earn only on `DELIVERED` orders. Riders earn on delivered orders, and **1.5x** on an order whose food they had to take back to the restaurant (nobody took it at the door; ADR 003). CibusHub pays that extra half from the order money it keeps, since the customer is not refunded. Orders cancelled before pickup earn the rider nothing. What a rider actually earned is saved on the delivery (`rider_payout_pesewas`).
 - The service fee (0 now) and the Paystack fee belong to CibusHub. Promo discounts (later) are paid by CibusHub, so the commission is worked out on the subtotal before any discount.
 - Later: the rates move into the SUPER_ADMIN platform settings (AC-ADM), weekly payouts to restaurants and riders by Paystack Transfers, and rider tips (100% to the rider). None of these are built yet.

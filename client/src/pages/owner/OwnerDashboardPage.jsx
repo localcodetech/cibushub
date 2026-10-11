@@ -17,7 +17,7 @@ import {
   rejectOrderRequest,
   startPreparingRequest,
 } from "@/api/ownerOrders";
-import { onOrderUpdated } from "@/lib/liveUpdates";
+import { onLiveEvent, onOrderUpdated } from "@/lib/liveUpdates";
 import { isAlertSoundOn, playNewOrderSound, turnOnAlertSound } from "@/lib/orderAlertSound";
 import { useNow } from "@/hooks/useNow";
 import { BOARD_TABS } from "@/data/ownerBoard";
@@ -60,12 +60,24 @@ const OwnerDashboardPage = () => {
 
   // Live: any change to one of our orders refreshes the board; a new paid order also dings
   useEffect(() => {
-    return onOrderUpdated((event) => {
+    const stopUpdates = onOrderUpdated((event) => {
       queryClient.invalidateQueries({ queryKey: BOARD_KEY });
       if (event.status === "PAID") {
         playNewOrderSound();
       }
     });
+    // Food coming back to the kitchen, and back in the kitchen (ADR 003)
+    const stopReturning = onLiveEvent("order:returning", () => {
+      queryClient.invalidateQueries({ queryKey: BOARD_KEY });
+    });
+    const stopReturned = onLiveEvent("order:returned", () => {
+      queryClient.invalidateQueries({ queryKey: BOARD_KEY });
+    });
+    return () => {
+      stopUpdates();
+      stopReturning();
+      stopReturned();
+    };
   }, [queryClient]);
 
   const handleTurnOnSound = async () => {
@@ -206,7 +218,13 @@ const BoardContent = ({
     );
   }
 
-  const ordersIn = (tab) => orders.filter((order) => tab.statuses.includes(order.status));
+  // Food coming back has its own tab; every other order goes by its status
+  const ordersIn = (tab) => {
+    if (tab.key === "returning") {
+      return orders.filter((order) => order.isReturning);
+    }
+    return orders.filter((order) => !order.isReturning && tab.statuses.includes(order.status));
+  };
   const tab = BOARD_TABS.find((candidate) => candidate.key === activeTab);
   const shown = ordersIn(tab);
   // Owners with several restaurants see which one each order is for
@@ -219,6 +237,9 @@ const BoardContent = ({
         <div className="flex gap-2">
           {BOARD_TABS.map((candidate) => {
             const count = ordersIn(candidate).length;
+            if (candidate.onlyWhenNotEmpty && count === 0) {
+              return null;
+            }
             const isActive = candidate.key === activeTab;
             const needsAnswer = candidate.key === "new" && count > 0;
             return (

@@ -16,9 +16,12 @@ to join and the server checks (AC-RT-02).
 | `delivery:ready` | `user:<rider>` | The kitchen marked the food ready | orderId |
 | `delivery:code-unlocked` | `user:<rider>` | An admin unlocked the delivery code | orderId |
 | `delivery:completed` | `user:<rider>` | The customer confirmed receipt after the code locked | orderId, confirmedBy |
-| `delivery:unreachable` | `user:<customer>` | The rider reported "customer unreachable" | orderId |
+| `delivery:problem` | `user:<customer>` | The rider reported a problem at the door; they wait until waitEndsAt | orderId, problemType, waitEndsAt |
+| `delivery:returning` | `user:<rider>` | Nobody took the food (or an admin cancelled after pickup): take it back | orderId, reason |
+| `order:returning` | `restaurant:<id>` | The rider is bringing an order's food back | orderId, orderNumber |
+| `order:returned` | `restaurant:<id>` | The rider confirmed the food is back | orderId |
 | `rider:status` | `user:<rider>` | The server took the rider offline (no location for 5 minutes) | isOnline, reason |
-| `admin:alert` | `admins` | Something needs an admin (applications, flagged pickups, locked codes and codes still locked after 15 minutes, unreachable customers, slow searches) | type and details |
+| `admin:alert` | `admins` | Something needs an admin (applications, flagged pickups, locked codes and codes still locked after 15 minutes, door problems, food returning, flagged returns, slow searches) | type and details |
 
 Sent by the phone:
 

@@ -62,10 +62,19 @@ export const callCustomerRequest = async () => {
   return result.data;
 };
 
-// "Customer unreachable", with an optional note [AC-DEL-08]
-export const reportUnreachableRequest = async (note) => {
-  const body = note ? { note } : {};
-  const result = await api.post("/rider/deliveries/current/unreachable", body);
+// A problem at the door [AC-DEL-08]: problemType is "UNREACHABLE", "NOT_AT_ADDRESS" or
+// "REFUSED_CODE"; note is optional. A 10-minute wait starts; returns the delivery.
+export const reportDoorProblemRequest = async (problemType, note) => {
+  const body = note ? { problemType, note } : { problemType };
+  const result = await api.post("/rider/deliveries/current/problem", body);
+  return result.data;
+};
+
+// "Returned to restaurant" (ADR 003). More than 200 m away the server answers 409
+// RETURN_FAR_FROM_RESTAURANT; ask the rider, then send again with confirmFarAway = true.
+// Returns { orderId, returned, earnedPesewas }.
+export const returnedRequest = async (confirmFarAway) => {
+  const result = await api.post("/rider/deliveries/current/returned", { confirmFarAway });
   return result.data;
 };
 

@@ -10,6 +10,7 @@ import RiderSummary from "@/components/order/RiderSummary";
 import { confirmReceivedRequest, getOrderTrackingRequest } from "@/api/orders";
 import { onLiveEvent } from "@/lib/liveUpdates";
 import { useNow } from "@/hooks/useNow";
+import { formatTime } from "@/utils/date";
 
 // The ETA is worked out on the server: ask again once a minute [AC-MAP-03]
 const ETA_EVERY_MS = 60 * 1000;
@@ -32,8 +33,6 @@ const LiveTracking = ({ order }) => {
   const queryClient = useQueryClient();
   const now = useNow(1000);
   const trackingKey = ["tracking", order.id];
-  // The rider reported they can't reach the customer: ask them to pick up the phone
-  const [riderCantReach, setRiderCantReach] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isConfirming, setIsConfirming] = useState(false);
   const [confirmError, setConfirmError] = useState("");
@@ -59,14 +58,15 @@ const LiveTracking = ({ order }) => {
           : current,
       );
     });
-    const stopUnreachable = onLiveEvent("delivery:unreachable", (event) => {
+    // The rider reported a problem at the door: reload the order to show the wait
+    const stopProblem = onLiveEvent("delivery:problem", (event) => {
       if (event.orderId === order.id) {
-        setRiderCantReach(true);
+        queryClient.invalidateQueries({ queryKey: ["order", order.id] });
       }
     });
     return () => {
       stopLocation();
-      stopUnreachable();
+      stopProblem();
     };
   }, [order.id, queryClient]);
 
@@ -108,11 +108,16 @@ const LiveTracking = ({ order }) => {
 
   return (
     <Card className="mt-6 flex flex-col gap-4">
-      {riderCantReach && (
+      {/* The rider is at the door and can't hand over: they wait until waitEndsAt [AC-DEL-08] */}
+      {order.doorProblem && (
         <div role="alert" className="flex gap-3 rounded-lg bg-destructive/10 p-3 text-[15px]">
           <PhoneCall size={20} className="shrink-0 text-destructive" aria-hidden="true" />
           <span>
-            Your rider is trying to reach you. Please answer your phone ({order.contactPhone}).
+            <strong>
+              Your rider is at your address until {formatTime(order.doorProblem.waitEndsAt)}.
+            </strong>{" "}
+            Show them your code or answer your phone ({order.contactPhone}). After that the food
+            goes back to the restaurant and the order can't be refunded.
           </span>
         </div>
       )}

@@ -4,8 +4,8 @@ import {
   confirmPickup,
   getMyCurrentDelivery,
   recordCallAttempt,
-  reportCustomerUnreachable,
 } from "../../services/delivery/deliveryFlow.service.js";
+import { confirmReturned, reportDoorProblem } from "../../services/delivery/doorProblem.service.js";
 import { sendSuccess } from "../../utils/response.js";
 
 export const current = async (req, res) => {
@@ -35,14 +35,24 @@ export const call = async (req, res) => {
   return sendSuccess(res, result);
 };
 
-export const unreachable = async (req, res) => {
-  const delivery = await reportCustomerUnreachable({
+export const problem = async (req, res) => {
+  const delivery = await reportDoorProblem({
     userId: req.user.id,
+    problemType: req.validated.body.problemType,
     note: req.validated.body.note,
     ipAddress: req.ip,
   });
 
   return sendSuccess(res, delivery);
+};
+
+export const returned = async (req, res) => {
+  const result = await confirmReturned({
+    userId: req.user.id,
+    confirmFarAway: req.validated.body.confirmFarAway,
+  });
+
+  return sendSuccess(res, result);
 };
 
 export const giveUp = async (req, res) => {

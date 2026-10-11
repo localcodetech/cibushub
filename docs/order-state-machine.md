@@ -20,7 +20,7 @@ stateDiagram-v2
     PREPARING --> CANCELLED : ADMIN
     READY_FOR_PICKUP --> CANCELLED : ADMIN
     RIDER_ASSIGNED --> CANCELLED : ADMIN
-    PICKED_UP --> CANCELLED : ADMIN
+    PICKED_UP --> CANCELLED : ADMIN, SYSTEM (no handover after a 10-minute door wait; food returned)
     DELIVERED --> [*]
     REJECTED --> [*]
     CANCELLED --> [*]

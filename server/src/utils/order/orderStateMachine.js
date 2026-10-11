@@ -36,7 +36,8 @@ export const ORDER_TRANSITIONS = {
     // RIDER: with the customer's code. CUSTOMER: only after the code locked (5 wrong tries),
     // "I've received my food" (the service checks the lock) [AC-DEL-06]
     DELIVERED: ["RIDER", "CUSTOMER"],
-    CANCELLED: ["ADMIN"],
+    // SYSTEM: nobody took the food at the door within 10 minutes (no refund, food returned)
+    CANCELLED: ["ADMIN", "SYSTEM"],
   },
   // The end of the road: nothing may follow these [AC-ORD-07]
   DELIVERED: {},

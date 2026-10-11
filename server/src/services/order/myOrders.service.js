@@ -47,10 +47,15 @@ export const getMyOrder = async (customerId, orderId) => {
   let deliveryCode = null;
   // The rider typed a wrong code 5 times: the customer may confirm receipt themselves
   let canConfirmReceived = false;
+  // The rider reported a problem at the door: they wait until waitEndsAt [AC-DEL-08]
+  let doorProblem = null;
   if (order.status === "PICKED_UP") {
     const delivery = await findDeliveryByOrderId(order.id);
     deliveryCode = delivery ? deliveryCodeFor(delivery.id) : null;
     canConfirmReceived = delivery ? isCodeLocked(delivery) : false;
+    if (delivery && delivery.problemType) {
+      doorProblem = { type: delivery.problemType, waitEndsAt: delivery.waitEndsAt };
+    }
   }
 
   return {
@@ -59,6 +64,7 @@ export const getMyOrder = async (customerId, orderId) => {
     timeline,
     deliveryCode,
     canConfirmReceived,
+    doorProblem,
     // e.g. ["CANCELLED"] before the restaurant accepts, [] after: the app shows the right buttons
     customerActions: nextStatusesFor(order.status, "CUSTOMER"),
   };

@@ -8,19 +8,22 @@ import {
   PackageCheck,
   Phone,
   Store,
+  Undo2,
   UserRound,
 } from "lucide-react";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Card from "@/components/common/Card";
-import Sheet from "@/components/common/Sheet";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
 import ErrorState from "@/components/common/ErrorState";
 import DeliveryMap from "@/components/map/DeliveryMap";
 import DeliveryCodeForm from "@/components/rider/DeliveryCodeForm";
 import ReasonSheet from "@/components/rider/ReasonSheet";
+import DoorProblemSheet from "@/components/rider/DoorProblemSheet";
+import DoorWaitBanner from "@/components/rider/DoorWaitBanner";
+import FarAwaySheet from "@/components/rider/FarAwaySheet";
 import { Button } from "@/components/ui/button";
 import {
   callCustomerRequest,
@@ -28,7 +31,8 @@ import {
   getCurrentDeliveryRequest,
   giveUpDeliveryRequest,
   pickUpRequest,
-  reportUnreachableRequest,
+  reportDoorProblemRequest,
+  returnedRequest,
 } from "@/api/riderWork";
 import { RIDER_DELIVERY_KEY } from "@/data/riderQueries";
 import { onLiveEvent } from "@/lib/liveUpdates";
@@ -39,13 +43,14 @@ const REFRESH_EVERY_MS = 30 * 1000; // a safety net; live events normally refres
 
 // The delivery in hand [AC-DEL-01 to AC-DEL-08]:
 // before pickup: the restaurant on a map, Google Maps directions, "Picked up";
-// after pickup:  the customer's details, Call, the 4-digit code, "Customer unreachable".
+// after pickup:  the customer's details, Call, the 4-digit code, "Problem at the door";
+// returning:     nobody took it; back to the restaurant, "Returned to restaurant" (ADR 003).
 const RiderDeliveryPage = () => {
   const queryClient = useQueryClient();
   // From RiderLayout: the rider's last shared position, for the map
   const { lastPoint } = useOutletContext();
 
-  // Which pop-up is open: null, "FAR_PICKUP", "GIVE_UP" or "UNREACHABLE"
+  // Which pop-up is open: null, "FAR_PICKUP", "FAR_RETURN", "GIVE_UP" or "PROBLEM"
   const [openSheet, setOpenSheet] = useState(null);
   const [farMessage, setFarMessage] = useState("");
   const [actionError, setActionError] = useState("");
@@ -79,7 +84,9 @@ const RiderDeliveryPage = () => {
       <Container>
         <section className="flex flex-col items-center gap-3 py-16 text-center">
           <CircleCheck size={56} className="text-success" aria-hidden="true" />
-          <Heading level={1}>Delivered!</Heading>
+          <Heading level={1}>
+            {deliveredOrder.wasReturned ? "Returned. Thank you!" : "Delivered!"}
+          </Heading>
           {deliveredOrder.confirmedByCustomer && (
             <Text muted>The customer confirmed they received the food.</Text>
           )}
@@ -136,6 +143,7 @@ const RiderDeliveryPage = () => {
   }
 
   const isPickedUp = delivery.status === "PICKED_UP";
+  const isReturning = delivery.status === "RETURNING";
   const showUpdated = (updated) => queryClient.setQueryData(RIDER_DELIVERY_KEY, updated);
 
   // "Picked up". Far from the restaurant, the server refuses once; we ask, then confirm.
@@ -191,20 +199,54 @@ const RiderDeliveryPage = () => {
     queryClient.setQueryData(RIDER_DELIVERY_KEY, null);
   };
 
-  const handleUnreachable = async (note) => {
-    showUpdated(await reportUnreachableRequest(note));
+  const handleProblem = async (problemType, note) => {
+    showUpdated(await reportDoorProblemRequest(problemType, note));
     setOpenSheet(null);
   };
 
+  // "Returned to restaurant". Far from it, the server refuses once; we ask, then confirm.
+  const sendReturned = async (confirmFarAway) => {
+    setActionError("");
+    setIsWorking(true);
+    try {
+      const result = await returnedRequest(confirmFarAway);
+      setDeliveredOrder({
+        orderNumber: delivery.orderNumber,
+        earningsPesewas: result.earnedPesewas,
+        wasReturned: true,
+      });
+      queryClient.setQueryData(RIDER_DELIVERY_KEY, null);
+    } catch (error) {
+      if (error.code === "RETURN_FAR_FROM_RESTAURANT") {
+        setFarMessage(error.message);
+        setOpenSheet("FAR_RETURN");
+      } else {
+        setActionError(error.message);
+        setOpenSheet(null);
+        query.refetch();
+      }
+    }
+    setIsWorking(false);
+  };
+
   const destination = isPickedUp ? delivery.dropoff : delivery.pickup;
+
+  let heading = "Collect the food";
+  if (isPickedUp) {
+    heading = "Deliver to the customer";
+  }
+  if (isReturning) {
+    heading = "Take the food back";
+  }
 
   return (
     <Container>
       <section className="flex flex-col gap-4 py-6">
         <div>
-          <Heading level={1}>{isPickedUp ? "Deliver to the customer" : "Collect the food"}</Heading>
+          <Heading level={1}>{heading}</Heading>
           <Text muted className="mt-1">
-            {delivery.orderNumber} · you earn {formatMoney(delivery.earningsPesewas)}
+            {delivery.orderNumber} · you earn{" "}
+            {formatMoney(isReturning ? delivery.returnPayoutPesewas : delivery.earningsPesewas)}
           </Text>
         </div>
 
@@ -231,6 +273,21 @@ const RiderDeliveryPage = () => {
           </p>
         )}
 
+        {isReturning && (
+          <div
+            role="status"
+            className="flex gap-3 rounded-lg border border-amber-500 bg-amber-50 p-4 text-[15px] text-amber-950 dark:bg-amber-950 dark:text-amber-50"
+          >
+            <Undo2 size={24} className="shrink-0" aria-hidden="true" />
+            <p>
+              Nobody took the order. Take the food back to{" "}
+              <strong>{delivery.pickup.restaurantName}</strong>. You earn{" "}
+              <strong>{formatMoney(delivery.returnPayoutPesewas)}</strong> for the trip and the way
+              back.
+            </p>
+          </div>
+        )}
+
         {!isPickedUp && (
           <>
             <Card className="flex flex-col gap-2">
@@ -253,28 +310,44 @@ const RiderDeliveryPage = () => {
               </ul>
             </Card>
 
-            {!delivery.foodReady && (
-              <Text muted className="text-center text-[15px]">
-                The kitchen is still preparing it. "Picked up" works once they mark it ready.
-              </Text>
+            {isReturning && (
+              <Button
+                type="button"
+                onClick={() => sendReturned(false)}
+                disabled={isWorking}
+                className="h-14 text-base font-bold"
+              >
+                <Undo2 size={20} aria-hidden="true" />
+                {isWorking ? "Sending…" : "Returned to restaurant"}
+              </Button>
             )}
-            <Button
-              type="button"
-              onClick={() => sendPickup(false)}
-              disabled={!delivery.foodReady || isWorking}
-              className="h-14 text-base font-bold"
-            >
-              <PackageCheck size={20} aria-hidden="true" />
-              {isWorking ? "Sending…" : "Picked up"}
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={() => setOpenSheet("GIVE_UP")}
-              className="h-12 text-base text-destructive"
-            >
-              I can't continue this delivery
-            </Button>
+
+            {!isReturning && (
+              <>
+                {!delivery.foodReady && (
+                  <Text muted className="text-center text-[15px]">
+                    The kitchen is still preparing it. "Picked up" works once they mark it ready.
+                  </Text>
+                )}
+                <Button
+                  type="button"
+                  onClick={() => sendPickup(false)}
+                  disabled={!delivery.foodReady || isWorking}
+                  className="h-14 text-base font-bold"
+                >
+                  <PackageCheck size={20} aria-hidden="true" />
+                  {isWorking ? "Sending…" : "Picked up"}
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  onClick={() => setOpenSheet("GIVE_UP")}
+                  className="h-12 text-base text-destructive"
+                >
+                  I can't continue this delivery
+                </Button>
+              </>
+            )}
           </>
         )}
 
@@ -329,62 +402,41 @@ const RiderDeliveryPage = () => {
               />
             </Card>
 
-            {delivery.unreachableReportedAt && (
-              <div role="status" className="rounded-lg border border-border p-4">
-                <Text className="font-bold">Reported: customer unreachable</Text>
-                <Text muted className="text-[15px]">
-                  Stay near the drop-off. CibusHub support will contact you. If the customer turns
-                  up, enter their code as usual.
-                </Text>
-              </div>
-            )}
-            {delivery.canReportUnreachable && (
+            {delivery.problem && <DoorWaitBanner problem={delivery.problem} />}
+            {delivery.canReportProblem && (
               <Button
                 type="button"
                 variant="ghost"
-                onClick={() => setOpenSheet("UNREACHABLE")}
+                onClick={() => setOpenSheet("PROBLEM")}
                 className="h-12 text-base text-destructive"
               >
-                Customer unreachable
+                Problem at the door
               </Button>
-            )}
-            {!delivery.canReportUnreachable && !delivery.unreachableReportedAt && (
-              <Text muted className="text-center text-[13px]">
-                Can't find the customer? Call them twice, then you can report it.
-              </Text>
             )}
           </>
         )}
       </section>
 
       {openSheet === "FAR_PICKUP" && (
-        <Sheet
+        <FarAwaySheet
           title="Are you at the restaurant?"
-          description={farMessage}
+          message={farMessage}
+          confirmLabel="Yes, I have the food"
+          isWorking={isWorking}
+          onConfirm={() => sendPickup(true)}
           onClose={() => setOpenSheet(null)}
-        >
-          <div className="flex flex-col gap-3 p-4">
-            <Text className="text-[15px]">
-              Confirm only if you really have the food. This pickup will be checked by our team.
-            </Text>
-            <Button
-              type="button"
-              onClick={() => sendPickup(true)}
-              disabled={isWorking}
-              className="h-12 text-base font-bold"
-            >
-              Yes, I have the food
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setOpenSheet(null)}
-              className="h-12 text-base font-bold"
-            >
-              Not yet
-            </Button>
-          </div>
-        </Sheet>
+        />
+      )}
+
+      {openSheet === "FAR_RETURN" && (
+        <FarAwaySheet
+          title="Are you at the restaurant?"
+          message={farMessage}
+          confirmLabel="Yes, I gave the food back"
+          isWorking={isWorking}
+          onConfirm={() => sendReturned(true)}
+          onClose={() => setOpenSheet(null)}
+        />
       )}
 
       {openSheet === "GIVE_UP" && (
@@ -399,14 +451,11 @@ const RiderDeliveryPage = () => {
         />
       )}
 
-      {openSheet === "UNREACHABLE" && (
-        <ReasonSheet
-          title="Customer unreachable"
-          description="Our team is told where you are and how many times you called."
-          label="Anything we should know?"
-          required={false}
-          submitLabel="Report"
-          onSubmit={handleUnreachable}
+      {openSheet === "PROBLEM" && (
+        <DoorProblemSheet
+          callAttempts={delivery.callAttempts}
+          callsNeededFirst={delivery.callsNeededFirst}
+          onSubmit={handleProblem}
           onClose={() => setOpenSheet(null)}
         />
       )}

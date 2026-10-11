@@ -76,6 +76,10 @@ const RiderLayout = () => {
       onLiveEvent("delivery:code-unlocked", () => {
         queryClient.invalidateQueries({ queryKey: RIDER_DELIVERY_KEY });
       }),
+      // Nobody took it: take the food back to the restaurant
+      onLiveEvent("delivery:returning", () => {
+        queryClient.invalidateQueries({ queryKey: RIDER_DELIVERY_KEY });
+      }),
       // The customer confirmed receipt after the code locked: the delivery is finished
       onLiveEvent("delivery:completed", () => {
         queryClient.invalidateQueries({ queryKey: RIDER_DELIVERY_KEY });
