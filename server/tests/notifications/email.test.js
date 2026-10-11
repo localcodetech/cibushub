@@ -51,6 +51,17 @@ describe("Sending email through Resend [AC-NOTIF-05, AC-NOTIF-08]", () => {
     });
   });
 
+  it("sends attached files, e.g. the receipt PDF [AC-PAY-17]", async () => {
+    const fetchSpy = resendAnswers(200, { id: "email_124" });
+    const attachment = { filename: "CibusHub-receipt-CH-1.pdf", content: "JVBERi0=" };
+
+    await sendEmail("ama@example.com", "Your receipt", "Plain text", {
+      attachments: [attachment],
+    });
+
+    expect(JSON.parse(fetchSpy.mock.calls[0][1].body).attachments).toEqual([attachment]);
+  });
+
   it("answers ok: false (never throws) when Resend refuses or can't be reached", async () => {
     resendAnswers(422, { statusCode: 422, name: "validation_error", message: "Invalid `to`" });
     expect(await sendEmail("ama@example.com", "Hi", "Hello")).toEqual({

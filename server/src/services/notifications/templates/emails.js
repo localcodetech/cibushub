@@ -57,7 +57,7 @@ export const receiptEmail = (receipt) => {
       paragraph(`Order ${receipt.orderNumber} from ${receipt.restaurantName}.`),
       amountRows(itemRows),
       amountRows(totals, { boldLast: true }),
-      smallPrint(`Paid with ${paidWith || "Paystack"}.`),
+      smallPrint(`Paid with ${paidWith || "Paystack"}. A PDF copy of this receipt is attached.`),
       button("Track your order", appLink(`/customer/orders/${receipt.orderId}`)),
       smallPrint(`${receipt.restaurantName}, ${receipt.restaurantAddress}`),
     ],

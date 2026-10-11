@@ -106,6 +106,17 @@ describe("Receipt [AC-PAY-15]", () => {
     expect(sentEmails[0].html).toContain("Thanks for your order!"); // the branded version too
   });
 
+  it("comes with the receipt attached as a PDF file [AC-PAY-17]", async () => {
+    await reconcilePayment(reference);
+
+    const [attachment] = sentEmails[0].attachments;
+    expect(attachment.filename).toBe(`CibusHub-receipt-${order.orderNumber}.pdf`);
+    // base64 -> the file's bytes; every PDF file starts with "%PDF"
+    const pdf = Buffer.from(attachment.content, "base64");
+    expect(pdf.subarray(0, 4).toString()).toBe("%PDF");
+    expect(sentEmails[0].text).toContain("PDF copy of this receipt is attached");
+  });
+
   it("can be viewed in the app once paid, with items, fees, total, method and reference", async () => {
     await reconcilePayment(reference);
 

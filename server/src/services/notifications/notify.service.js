@@ -19,9 +19,19 @@ const PERMANENT_ERRORS = ["NO_ADDRESS", "NOT_CONFIGURED", "validation_error", "i
 //   template: what kind of message, for the log, e.g. "refund.started"
 //   key:      the event's dedupe key, e.g. "refund:<id>:started:sms", or null (no check)
 //   subject, text, html: the message (subject and html for email only)
+//   attachments: email files, each { filename, content } with content in base64
 // Returns { logId } or { duplicate: true }. Never throws: a message must never break the
 // order, payment or sign-up that triggered it.
-export const notify = async ({ channel, to, template, key = null, subject, text, html }) => {
+export const notify = async ({
+  channel,
+  to,
+  template,
+  key = null,
+  subject,
+  text,
+  html,
+  attachments,
+}) => {
   if (!to) {
     logger.warn({ channel, template }, "Notification skipped: no address");
     return { skipped: true };
@@ -45,7 +55,7 @@ export const notify = async ({ channel, to, template, key = null, subject, text,
     log = null;
   }
 
-  const payload = { channel, to, subject, text, html };
+  const payload = { channel, to, subject, text, html, attachments };
   if (!log) {
     await deliver(payload, null);
     return { logId: null };
@@ -65,6 +75,7 @@ const deliver = (payload, logId) => {
     // The same key on a retry: Resend sends it only once even if our first try timed out
     return sendEmail(payload.to, payload.subject, payload.text, {
       html: payload.html,
+      attachments: payload.attachments,
       idempotencyKey: logId ? `notification-${logId}` : undefined,
     });
   }

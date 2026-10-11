@@ -16,7 +16,9 @@ export const maskEmail = (email) => {
 //   to, subject, text: the address, the subject line, the plain-text body
 //   html:              the branded version (optional; the text one is always sent too) [AC-NOTIF-05]
 //   idempotencyKey:    the same key twice within 24 h sends only once [AC-NOTIF-04]
-export const sendEmail = async (to, subject, text, { html, idempotencyKey } = {}) => {
+//   attachments:       optional files, each { filename, content } with content in base64
+//                      (e.g. the receipt PDF [AC-PAY-17])
+export const sendEmail = async (to, subject, text, { html, idempotencyKey, attachments } = {}) => {
   if (!to) {
     logger.warn({ subject }, "Email skipped: no address");
     return { ok: false, error: "NO_ADDRESS" };
@@ -43,6 +45,9 @@ export const sendEmail = async (to, subject, text, { html, idempotencyKey } = {}
   const body = { from: env.EMAIL_FROM, to: [to], subject, text };
   if (html) {
     body.html = html;
+  }
+  if (attachments && attachments.length > 0) {
+    body.attachments = attachments;
   }
   if (env.EMAIL_REPLY_TO) {
     body.reply_to = env.EMAIL_REPLY_TO;
