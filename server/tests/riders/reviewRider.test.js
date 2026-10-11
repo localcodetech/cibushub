@@ -5,6 +5,7 @@ import { AuditLog, RiderDocument, RiderProfile, User } from "../../src/models/in
 import { signAccessToken } from "../../src/utils/auth/tokens.js";
 import { createTestUser } from "../helpers/users.js";
 import { sentSms } from "../helpers/fakeSms.js";
+import { sentEmails } from "../helpers/fakeEmail.js";
 
 vi.mock("../../src/services/upload/cloudinary.service.js", () => ({
   uploadPublicImage: vi.fn(),
@@ -117,7 +118,7 @@ describe("Review queue [AC-RIDER-02]", () => {
 });
 
 describe("Approve, reject, suspend [AC-RIDER-02, AC-ADM-07]", () => {
-  it("approves: the rider's account opens, they get an SMS, and it is audited", async () => {
+  it("approves: the rider's account opens, they get an SMS and email, and it is audited [AC-NOTIF-01]", async () => {
     const response = await as(admin).post(`${adminUrl}/${profile.id}/approve`);
 
     expect(response.status).toBe(200);
@@ -126,6 +127,8 @@ describe("Approve, reject, suspend [AC-RIDER-02, AC-ADM-07]", () => {
     expect((await User.findByPk(rider.id)).status).toBe("ACTIVE");
     expect(sentSms.at(-1)).toMatchObject({ phone: rider.phone });
     expect(sentSms.at(-1).message).toContain("approved");
+    expect(sentEmails.at(-1)).toMatchObject({ to: rider.email });
+    expect(sentEmails.at(-1).subject).toContain("approved");
     const audit = await AuditLog.findOne({ where: { targetId: profile.id } });
     expect(audit).toMatchObject({ action: "RIDER_APPROVED", actorId: admin.id });
   });
@@ -141,6 +144,8 @@ describe("Approve, reject, suspend [AC-RIDER-02, AC-ADM-07]", () => {
       rejectionReason: "The Ghana Card photo is blurry",
     });
     expect(sentSms.at(-1).message).toContain("The Ghana Card photo is blurry");
+    expect(sentEmails.at(-1).text).toContain("The Ghana Card photo is blurry");
+    expect(sentEmails.at(-1).html).toContain("/rider/apply"); // the fix-and-resubmit button
     // Still waiting: a rejected rider can't work
     expect((await User.findByPk(rider.id)).status).toBe("PENDING_APPROVAL");
   });

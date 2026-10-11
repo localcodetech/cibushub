@@ -136,3 +136,82 @@ export const orderDeliveredEmail = ({ orderNumber, orderId, restaurantName }) =>
       smallPrint("Something wrong with your order? Reply to this email and we'll help."),
     ],
   });
+
+// An admin approved, rejected or suspended a restaurant [AC-NOTIF-01, AC-ADM-03]
+//   event: "approved" | "rejected" | "suspended"; reason: what the admin typed
+export const restaurantReviewedEmail = ({ event, restaurantName, reason }) => {
+  const content = {
+    approved: {
+      subject: `${restaurantName} is approved on CibusHub`,
+      heading: "You're approved!",
+      lines: [`${restaurantName} has been approved. Add your menu and start receiving orders.`],
+      action: ["Open your dashboard", "/owner"],
+    },
+    rejected: {
+      subject: `${restaurantName} was not approved yet`,
+      heading: "Your restaurant needs a few changes",
+      lines: [
+        `${restaurantName} was not approved. Reason: ${reason}`,
+        "Please correct the details and submit again.",
+      ],
+      action: ["Fix and resubmit", "/owner"],
+    },
+    suspended: {
+      subject: `${restaurantName} has been suspended`,
+      heading: "Your restaurant is suspended",
+      lines: [
+        `${restaurantName} is hidden from customers for now. Reason: ${reason}`,
+        "Reply to this email or contact support for help.",
+      ],
+    },
+  }[event];
+
+  return renderEmail({
+    subject: content.subject,
+    preheader: content.lines[0],
+    heading: content.heading,
+    blocks: [
+      ...content.lines.map(paragraph),
+      ...(content.action ? [button(content.action[0], appLink(content.action[1]))] : []),
+    ],
+  });
+};
+
+// An admin approved, rejected or suspended a rider [AC-NOTIF-01, AC-RIDER-02]
+export const riderReviewedEmail = ({ event, reason }) => {
+  const content = {
+    approved: {
+      subject: "You're approved as a CibusHub rider",
+      heading: "You're approved!",
+      lines: ["Open the app and go online to start receiving deliveries."],
+      action: ["Go online", "/rider"],
+    },
+    rejected: {
+      subject: "Your rider application needs a few changes",
+      heading: "Your application needs a few changes",
+      lines: [
+        `Your rider application was not approved. Reason: ${reason}`,
+        "Please correct it in the app and submit again.",
+      ],
+      action: ["Fix and resubmit", "/rider/apply"],
+    },
+    suspended: {
+      subject: "Your CibusHub rider account is suspended",
+      heading: "Your rider account is suspended",
+      lines: [
+        `You can't take deliveries for now. Reason: ${reason}`,
+        "Reply to this email or contact support for help.",
+      ],
+    },
+  }[event];
+
+  return renderEmail({
+    subject: content.subject,
+    preheader: content.lines[0],
+    heading: content.heading,
+    blocks: [
+      ...content.lines.map(paragraph),
+      ...(content.action ? [button(content.action[0], appLink(content.action[1]))] : []),
+    ],
+  });
+};

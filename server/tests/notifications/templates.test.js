@@ -6,6 +6,8 @@ import {
   orderRejectedEmail,
   receiptEmail,
   refundEmail,
+  restaurantReviewedEmail,
+  riderReviewedEmail,
 } from "../../src/services/notifications/templates/emails.js";
 
 const receipt = {
@@ -51,6 +53,10 @@ describe("Branded email templates [AC-NOTIF-05]", () => {
         orderId: receipt.orderId,
         restaurantName: "Auntie Esi's Kitchen",
       }),
+      ...["approved", "rejected", "suspended"].flatMap((event) => [
+        restaurantReviewedEmail({ event, restaurantName: "Auntie Esi's Kitchen", reason: "Blurry photo" }),
+        riderReviewedEmail({ event, reason: "Blurry photo" }),
+      ]),
     ];
 
     for (const email of emails) {

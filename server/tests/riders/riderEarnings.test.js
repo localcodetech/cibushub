@@ -88,7 +88,7 @@ beforeEach(async () => {
 
   const anyOrder = await Order.scope("withEarnings").findOne();
   earningsEach = anyOrder.riderEarningsPesewas;
-});
+}, 30_000); // seven paid orders take a while on a slow machine
 
 describe("Rider earnings [AC-RIDER-07]", () => {
   it("counts my delivered and returned trips (1.5x), per day, week (from Monday) and month", async () => {
