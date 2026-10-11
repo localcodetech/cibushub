@@ -4,9 +4,86 @@ import {
   unassignRiderSchema,
 } from "../../validators/order/manualAssignment.validator.js";
 import { unlockDeliveryCodeSchema } from "../../validators/order/deliveryFlow.validator.js";
-import { errorResponse, jsonBody, pathParameter, successResponse } from "../helpers.js";
+import { adminListOrdersSchema } from "../../validators/order/adminOrders.validator.js";
+import {
+  errorResponse,
+  jsonBody,
+  listResponse,
+  pathParameter,
+  queryParameters,
+  successResponse,
+} from "../helpers.js";
 
 export const adminOrderPaths = {
+  "/api/v1/admin/orders": {
+    get: {
+      tags: ["Admin: Orders"],
+      summary: "Every order, newest first, with search and filters",
+      description:
+        "q matches part of an order number or restaurant name, or a customer/contact phone in any format (024..., +233...). from/to are days in Ghana time; to includes that whole day [AC-ADM-05].",
+      security: [{ cookieAuth: [] }],
+      parameters: queryParameters(adminListOrdersSchema),
+      responses: {
+        200: listResponse(
+          "One page of orders",
+          {
+            id: "0f1e2d3c-4b5a-4968-8776-655443322110",
+            orderNumber: "CH-261011-123456",
+            status: "PICKED_UP",
+            totalPesewas: 7436,
+            createdAt: "2026-10-11T12:00:00.000Z",
+            customer: {
+              id: "9a8b7c6d-5e4f-4321-8765-0fedcba98765",
+              fullName: "Kofi Adjei",
+              phone: "+233240000004",
+            },
+            restaurant: { id: "1757f836-937d-4c2c-a944-fb593ac87e63", name: "Golden Pot Kitchen" },
+          },
+          { page: 1, pageSize: 20, totalItems: 1, totalPages: 1 },
+        ),
+        400: errorResponse("Bad filter", "VALIDATION_ERROR", "Invalid request data"),
+      },
+    },
+  },
+  "/api/v1/admin/orders/{orderId}": {
+    get: {
+      tags: ["Admin: Orders"],
+      summary: "Everything about one order",
+      description:
+        "Items, totals and the earnings split; timeline with who did each step and why; payments and refunds; customer and restaurant contacts; the delivery and rider; path (the rider's saved points for this order, oldest first, up to 500); adminActions (canCancel, canChangeRider, canUnassignRider, canUnlockCode) [AC-ADM-05].",
+      security: [{ cookieAuth: [] }],
+      parameters: [pathParameter("orderId", "Any order")],
+      responses: {
+        200: successResponse("The order", {
+          orderNumber: "CH-261011-123456",
+          status: "PICKED_UP",
+          timeline: [
+            {
+              status: "PAID",
+              at: "2026-10-11T12:00:00.000Z",
+              by: "SYSTEM",
+              byName: null,
+              reason: "Paystack payment CH-REF-1",
+            },
+          ],
+          delivery: {
+            status: "PICKED_UP",
+            ridersAsked: 2,
+            codeLocked: false,
+            rider: { fullName: "Efua Ansah", phone: "+233240000402" },
+          },
+          path: [{ latitude: 6.6921, longitude: -1.6247, at: "2026-10-11T12:20:00.000Z" }],
+          adminActions: {
+            canCancel: true,
+            canChangeRider: false,
+            canUnassignRider: false,
+            canUnlockCode: false,
+          },
+        }),
+        404: errorResponse("No such order", "NOT_FOUND", "Order not found"),
+      },
+    },
+  },
   "/api/v1/admin/orders/{orderId}/cancel": {
     post: {
       tags: ["Admin: Orders"],

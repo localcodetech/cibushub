@@ -108,3 +108,50 @@ export const getLiveRidersRequest = async () => {
   const result = await api.get("/admin/riders/live");
   return result.data;
 };
+
+// ─────────────────────────────────────────────
+// Orders [AC-ADM-05]
+// ─────────────────────────────────────────────
+
+// filters = { q, status, from, to (YYYY-MM-DD), page }. Returns { orders, meta }, newest first.
+// q: an order number, a customer phone (any format) or a restaurant name
+export const getAdminOrdersRequest = async (filters) => {
+  const query = new URLSearchParams({ page: String(filters.page) });
+  for (const name of ["q", "status", "from", "to"]) {
+    if (filters[name]) {
+      query.set(name, filters[name]);
+    }
+  }
+  const result = await api.get("/admin/orders?" + query.toString());
+  return { orders: result.data, meta: result.meta };
+};
+
+// Everything about one order, with adminActions saying which buttons apply
+export const getAdminOrderRequest = async (orderId) => {
+  const result = await api.get("/admin/orders/" + orderId);
+  return result.data;
+};
+
+// choice = { reason, refund: "FULL" | "PARTIAL" | "NONE", refundAmountPesewas (PARTIAL only) }
+export const adminCancelOrderRequest = async (orderId, choice) => {
+  const result = await api.post("/admin/orders/" + orderId + "/cancel", choice);
+  return result.data;
+};
+
+// Give the order to this rider (or swap riders), before pickup
+export const adminAssignRiderRequest = async (orderId, riderProfileId, reason) => {
+  const result = await api.post("/admin/orders/" + orderId + "/rider", { riderProfileId, reason });
+  return result.data;
+};
+
+// Take the rider off; the order goes back to the search
+export const adminUnassignRiderRequest = async (orderId, reason) => {
+  const result = await api.post("/admin/orders/" + orderId + "/rider/unassign", { reason });
+  return result.data;
+};
+
+// After 5 wrong delivery codes, checked with the customer: let the rider try again
+export const adminUnlockCodeRequest = async (orderId, reason) => {
+  const result = await api.post("/admin/orders/" + orderId + "/delivery/unlock-code", { reason });
+  return result.data;
+};

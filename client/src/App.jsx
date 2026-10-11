@@ -47,6 +47,8 @@ const AdminLayout = lazy(() => import("@/layouts/AdminLayout"));
 const AdminDashboardPage = lazy(() => import("@/pages/admin/AdminDashboardPage"));
 const AdminRestaurantsPage = lazy(() => import("@/pages/admin/AdminRestaurantsPage"));
 const AdminRestaurantDetailPage = lazy(() => import("@/pages/admin/AdminRestaurantDetailPage"));
+const AdminOrdersPage = lazy(() => import("@/pages/admin/AdminOrdersPage"));
+const AdminOrderDetailPage = lazy(() => import("@/pages/admin/AdminOrderDetailPage"));
 const AdminRidersPage = lazy(() => import("@/pages/admin/AdminRidersPage"));
 const AdminRiderMapPage = lazy(() => import("@/pages/admin/AdminRiderMapPage"));
 const AdminRiderDetailPage = lazy(() => import("@/pages/admin/AdminRiderDetailPage"));
@@ -202,6 +204,8 @@ const router = createBrowserRouter([
               { index: true, element: <AdminDashboardPage /> },
               { path: "restaurants", element: <AdminRestaurantsPage /> },
               { path: "restaurants/:restaurantId", element: <AdminRestaurantDetailPage /> },
+              { path: "orders", element: <AdminOrdersPage /> },
+              { path: "orders/:orderId", element: <AdminOrderDetailPage /> },
               { path: "riders", element: <AdminRidersPage /> },
               // Before "riders/:riderId", so "map" isn't read as a rider id
               { path: "riders/map", element: <AdminRiderMapPage /> },

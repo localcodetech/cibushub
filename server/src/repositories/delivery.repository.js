@@ -1,5 +1,13 @@
 import { Op, fn, col } from "sequelize";
-import { Delivery, DeliveryOffer, Order, Restaurant, RiderProfile, User } from "../models/index.js";
+import {
+  Delivery,
+  DeliveryOffer,
+  Order,
+  Restaurant,
+  RiderLocation,
+  RiderProfile,
+  User,
+} from "../models/index.js";
 import { ACTIVE_DELIVERY_STATUSES } from "../models/delivery/delivery.model.js";
 
 export const findDeliveryById = (deliveryId, transaction) => {
@@ -63,6 +71,32 @@ export const findRidersWithPendingOffers = async (riderProfileIds, transaction) 
     transaction,
   });
   return offers.map((offer) => offer.riderProfileId);
+};
+
+// An order's delivery with its rider's name and phone, and how many riders were asked (admins)
+export const findDeliveryForAdmin = (orderId) => {
+  return Delivery.findOne({
+    where: { orderId },
+    include: [
+      {
+        model: RiderProfile,
+        as: "rider",
+        attributes: ["id", "vehicleType", "plateNumber"],
+        include: [{ model: User, as: "user", attributes: ["fullName", "phone"], paranoid: false }],
+      },
+      { model: DeliveryOffer, as: "offers", attributes: ["id", "outcome"] },
+    ],
+  });
+};
+
+// Where the rider went during this order, oldest first (at most `limit` points) [AC-ADM-05]
+export const findOrderLocations = (orderId, limit) => {
+  return RiderLocation.findAll({
+    where: { orderId },
+    attributes: ["latitude", "longitude", "recordedAt"],
+    order: [["recordedAt", "ASC"]],
+    limit,
+  });
 };
 
 // The deliveries these riders are carrying right now, with the order number (admin map)

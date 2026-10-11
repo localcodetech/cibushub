@@ -4,6 +4,7 @@ import {
   OrderItem,
   OrderItemOption,
   OrderStatusHistory,
+  Payment,
   Refund,
   Restaurant,
   User,
@@ -185,6 +186,97 @@ export const findPaidAt = async (orderId) => {
     order: [["createdAt", "ASC"]],
   });
   return entry ? entry.createdAt : null;
+};
+
+// ─────────────────────────────────────────────
+// Admins: every order [AC-ADM-05]
+// ─────────────────────────────────────────────
+
+// "50%_off" -> "50\%\_off": typed % and _ are plain letters in LIKE
+const likeText = (text) => `%${text.replace(/[%_\\]/g, "\\$&")}%`;
+
+// One page of orders, newest first, with the customer and restaurant.
+//   search: part of an order number or restaurant name, or a phone (already in +233 form)
+//   from, to: Date limits on when the order was placed
+export const findOrdersForAdmin = ({
+  search,
+  phone,
+  status,
+  from,
+  to,
+  restaurantId,
+  limit,
+  offset,
+}) => {
+  const where = {};
+  if (status) {
+    where.status = status;
+  }
+  if (restaurantId) {
+    where.restaurantId = restaurantId;
+  }
+  if (from || to) {
+    where.createdAt = {};
+    if (from) {
+      where.createdAt[Op.gte] = from;
+    }
+    if (to) {
+      where.createdAt[Op.lt] = to;
+    }
+  }
+  if (search) {
+    // "$customer.phone$" means: the phone column of the joined customer
+    const anyOf = [
+      { orderNumber: { [Op.like]: likeText(search) } },
+      { "$restaurant.name$": { [Op.like]: likeText(search) } },
+    ];
+    if (phone) {
+      anyOf.push({ contactPhone: phone }, { "$customer.phone$": phone });
+    }
+    where[Op.or] = anyOf;
+  }
+
+  return Order.findAndCountAll({
+    where,
+    include: [
+      { model: User, as: "customer", attributes: ["id", "fullName", "phone"], paranoid: false },
+      { model: Restaurant, as: "restaurant", attributes: ["id", "name"], paranoid: false },
+    ],
+    order: [["createdAt", "DESC"]],
+    limit,
+    offset,
+    // Count orders, not joined rows
+    distinct: true,
+  });
+};
+
+// Everything about one order, for admins: items, timeline (who did what), payments and
+// refunds, customer, restaurant, and the earnings split
+export const findOrderForAdmin = (orderId) => {
+  return Order.scope("withEarnings").findByPk(orderId, {
+    include: [
+      ...WITH_DETAILS.include.filter((part) => part.as !== "statusHistory"),
+      {
+        model: OrderStatusHistory,
+        as: "statusHistory",
+        include: [{ model: User, as: "actor", attributes: ["id", "fullName"], paranoid: false }],
+      },
+      { model: Payment, as: "payments" },
+      {
+        model: User,
+        as: "customer",
+        attributes: ["id", "fullName", "phone", "email"],
+        paranoid: false,
+      },
+      {
+        model: Restaurant,
+        as: "restaurant",
+        attributes: ["id", "name", "phone", "addressLine", "area", "latitude", "longitude"],
+        paranoid: false,
+      },
+    ],
+    order: WITH_DETAILS.order,
+  });
 };
 
 // ─────────────────────────────────────────────

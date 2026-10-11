@@ -8,6 +8,7 @@ import Container from "./Container";
 const ADMIN_LINKS = [
   { label: "Overview", to: "/admin", end: true },
   { label: "Restaurants", to: "/admin/restaurants", end: false },
+  { label: "Orders", to: "/admin/orders", end: false },
   { label: "Riders", to: "/admin/riders", end: false },
 ];
 

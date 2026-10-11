@@ -72,6 +72,7 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | `POST /admin/riders/:id/ghana-card/reveal` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize; every reveal audit logged (lists show it masked) |
 | `POST /admin/riders/:id/approve` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize; audit logged |
 | `POST /admin/riders/:id/reject`, `/suspend` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; audit logged |
+| `GET /admin/orders`, `GET /admin/orders/:id` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate (query); full details incl. earnings split and rider route |
 | `POST /admin/orders/:id/rider`, `/rider/unassign` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; before pickup; audit logged |
 | `POST /admin/orders/:id/delivery/unlock-code` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; picked-up orders; audit logged |
 | `POST /admin/orders/:id/cancel` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; refund choice; audit logged |
