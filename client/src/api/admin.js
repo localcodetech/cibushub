@@ -155,3 +155,45 @@ export const adminUnlockCodeRequest = async (orderId, reason) => {
   const result = await api.post("/admin/orders/" + orderId + "/delivery/unlock-code", { reason });
   return result.data;
 };
+
+// ─────────────────────────────────────────────
+// Payments and refunds [AC-ADM-06]
+// ─────────────────────────────────────────────
+
+// filters = { flagged (true/false), status, q (reference or order number), page }
+export const getAdminPaymentsRequest = async (filters) => {
+  const query = new URLSearchParams({ page: String(filters.page) });
+  if (filters.flagged) {
+    query.set("flagged", "true");
+  }
+  if (filters.status) {
+    query.set("status", filters.status);
+  }
+  if (filters.q) {
+    query.set("q", filters.q);
+  }
+  const result = await api.get("/admin/payments?" + query.toString());
+  return { payments: result.data, meta: result.meta };
+};
+
+// Ask Paystack again; returns { outcome, payment }
+export const reverifyPaymentRequest = async (paymentId) => {
+  const result = await api.post("/admin/payments/" + paymentId + "/reverify");
+  return result.data;
+};
+
+// filters = { status, page }
+export const getAdminRefundsRequest = async (filters) => {
+  const query = new URLSearchParams({ page: String(filters.page) });
+  if (filters.status) {
+    query.set("status", filters.status);
+  }
+  const result = await api.get("/admin/refunds?" + query.toString());
+  return { refunds: result.data, meta: result.meta };
+};
+
+// Send a failed refund to Paystack again
+export const retryRefundRequest = async (refundId, reason) => {
+  const result = await api.post("/admin/refunds/" + refundId + "/retry", { reason });
+  return result.data;
+};

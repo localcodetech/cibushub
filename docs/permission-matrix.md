@@ -64,6 +64,9 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | `POST /admin/restaurants/:id/approve` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize; audit logged |
 | `POST /admin/restaurants/:id/reject`, `/suspend` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; audit logged |
 | `GET /admin/dashboard` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize; counts only, no personal data |
+| `GET /admin/payments`, `GET /admin/refunds` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate (query) |
+| `POST /admin/payments/:id/reverify` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize; asks Paystack, same rules as the webhook; audit logged |
+| `POST /admin/refunds/:id/retry` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; failed refunds only; reason required; audit logged |
 | `GET /admin/notifications` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate (query); recipients masked, no message text |
 | `GET /admin/reviews`, `POST /admin/reviews/:id/hide`, `/show` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; reason required; audit logged |
 | `GET /admin/riders`, `GET /admin/riders/:id` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate (query) |

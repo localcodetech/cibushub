@@ -50,6 +50,7 @@ const AdminRestaurantDetailPage = lazy(() => import("@/pages/admin/AdminRestaura
 const AdminOrdersPage = lazy(() => import("@/pages/admin/AdminOrdersPage"));
 const AdminOrderDetailPage = lazy(() => import("@/pages/admin/AdminOrderDetailPage"));
 const AdminRidersPage = lazy(() => import("@/pages/admin/AdminRidersPage"));
+const AdminPaymentsPage = lazy(() => import("@/pages/admin/AdminPaymentsPage"));
 const AdminRiderMapPage = lazy(() => import("@/pages/admin/AdminRiderMapPage"));
 const AdminRiderDetailPage = lazy(() => import("@/pages/admin/AdminRiderDetailPage"));
 const NotificationsPage = lazy(() => import("@/pages/NotificationsPage"));
@@ -210,6 +211,7 @@ const router = createBrowserRouter([
               // Before "riders/:riderId", so "map" isn't read as a rider id
               { path: "riders/map", element: <AdminRiderMapPage /> },
               { path: "riders/:riderId", element: <AdminRiderDetailPage /> },
+              { path: "payments", element: <AdminPaymentsPage /> },
             ],
           },
 
