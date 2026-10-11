@@ -77,9 +77,17 @@ const AdminRestaurantDetailPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-3xl py-8">
-        <Link to="/admin/restaurants" className="text-[15px] font-bold text-primary">
-          ← Restaurants
-        </Link>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <Link to="/admin/restaurants" className="text-[15px] font-bold text-primary">
+            ← Restaurants
+          </Link>
+          <Link
+            to={"/admin/audit-log?targetId=" + restaurant.id}
+            className="text-[15px] font-bold text-primary"
+          >
+            History
+          </Link>
+        </div>
 
         <div className="mt-3 flex flex-wrap items-start justify-between gap-3">
           <div>

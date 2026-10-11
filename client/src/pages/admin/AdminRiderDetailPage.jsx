@@ -75,9 +75,17 @@ const AdminRiderDetailPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-3xl py-8">
-        <Link to="/admin/riders" className="text-[15px] font-bold text-primary">
-          ← Riders
-        </Link>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <Link to="/admin/riders" className="text-[15px] font-bold text-primary">
+            ← Riders
+          </Link>
+          <Link
+            to={"/admin/audit-log?targetId=" + profile.id}
+            className="text-[15px] font-bold text-primary"
+          >
+            History
+          </Link>
+        </div>
 
         <div className="mt-3 flex flex-wrap items-center gap-4">
           {profile.rider.photoUrl ? (

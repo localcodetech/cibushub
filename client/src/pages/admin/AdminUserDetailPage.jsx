@@ -66,9 +66,17 @@ const AdminUserDetailPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-3xl py-8">
-        <Link to="/admin/users" className="text-[15px] font-bold text-primary">
-          ← Users
-        </Link>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <Link to="/admin/users" className="text-[15px] font-bold text-primary">
+            ← Users
+          </Link>
+          <Link
+            to={"/admin/audit-log?targetId=" + user.id}
+            className="text-[15px] font-bold text-primary"
+          >
+            History
+          </Link>
+        </div>
 
         <div className="mt-3 flex flex-wrap items-start justify-between gap-3">
           <div>

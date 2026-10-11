@@ -229,3 +229,25 @@ export const reactivateUserRequest = async (userId, reason) => {
   const result = await api.post("/admin/users/" + userId + "/reactivate", { reason });
   return result.data;
 };
+
+// ─────────────────────────────────────────────
+// Audit log [AC-ADM-07]
+// ─────────────────────────────────────────────
+
+// filters = { action, targetType, targetId, actorId, from, to, page }. Returns { logs, meta }.
+export const getAuditLogsRequest = async (filters) => {
+  const query = new URLSearchParams({ page: String(filters.page) });
+  for (const name of ["action", "targetType", "targetId", "actorId", "from", "to"]) {
+    if (filters[name]) {
+      query.set(name, filters[name]);
+    }
+  }
+  const result = await api.get("/admin/audit-logs?" + query.toString());
+  return { logs: result.data, meta: result.meta };
+};
+
+// The action names used so far, e.g. ["ORDER_CANCELLED", "USER_SUSPENDED"]
+export const getAuditActionsRequest = async () => {
+  const result = await api.get("/admin/audit-logs/actions");
+  return result.data;
+};
