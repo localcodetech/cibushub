@@ -2,13 +2,20 @@ import { Router } from "express";
 import validate from "../middlewares/validate.js";
 import uploadOneFile from "../middlewares/upload.js";
 import { otpLimiter } from "../middlewares/rateLimit/authLimiters.js";
-import { updateProfileSchema } from "../validators/profile/profile.validator.js";
+import {
+  updatePreferencesSchema,
+  updateProfileSchema,
+} from "../validators/profile/profile.validator.js";
 import {
   changeEmailSchema,
   changePhoneSchema,
   confirmChangeSchema,
 } from "../validators/profile/changeContact.validator.js";
-import { updateProfile, uploadAvatar } from "../controllers/profile/profile.controller.js";
+import {
+  updatePreferences,
+  updateProfile,
+  uploadAvatar,
+} from "../controllers/profile/profile.controller.js";
 import {
   finishEmailChange,
   finishPhoneChange,
@@ -27,6 +34,11 @@ router.patch("/", validate(updateProfileSchema), updateProfile);
 // Upload or replace my profile photo (form field "image")
 // ─────────────────────────────────────────────
 router.put("/avatar", uploadOneFile("image"), uploadAvatar);
+
+// ─────────────────────────────────────────────
+// My notification settings: yes or no to offers and news [AC-NOTIF-09]
+// ─────────────────────────────────────────────
+router.patch("/preferences", validate(updatePreferencesSchema), updatePreferences);
 
 // ─────────────────────────────────────────────
 // Change my phone: 1) text a code to the new number, 2) confirm with that code

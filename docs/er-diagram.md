@@ -50,6 +50,8 @@ erDiagram
         datetime last_login_at
         datetime terms_accepted_at "sign-up consent (Act 843)"
         varchar terms_version "which Terms version was accepted"
+        boolean marketing_opt_in "offers and news; false unless they say yes"
+        datetime marketing_opt_in_changed_at "proof of consent"
         datetime created_at
         datetime updated_at
         datetime deleted_at "soft delete"

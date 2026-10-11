@@ -34,6 +34,7 @@ const RegisterPage = () => {
       email: "",
       password: "",
       acceptTerms: false,
+      marketingOptIn: false,
     },
   });
 
@@ -54,6 +55,7 @@ const RegisterPage = () => {
         password: values.password,
         // The server saves when, and which version of the Terms, was accepted
         acceptTerms: values.acceptTerms,
+        marketingOptIn: values.marketingOptIn,
       });
 
       // The server texted a code. The next page asks for it, so it needs the phone number.
@@ -171,6 +173,16 @@ const RegisterPage = () => {
               <p className="text-[15px] text-destructive">{errors.acceptTerms.message}</p>
             )}
           </div>
+
+          {/* Offers and news: optional, and unticked unless they choose it [AC-NOTIF-09] */}
+          <label className="flex cursor-pointer items-start gap-3 text-[15px] text-foreground">
+            <input
+              type="checkbox"
+              className="mt-0.5 size-5 accent-primary"
+              {...register("marketingOptIn")}
+            />
+            <span>Send me offers and news (you can change this any time)</span>
+          </label>
 
           {errors.root && (
             <div

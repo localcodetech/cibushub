@@ -31,6 +31,8 @@ export const registerUser = async (data) => {
       // Proof of consent: when, and to which version of the Terms
       termsAcceptedAt: new Date(),
       termsVersion: TERMS_VERSION,
+      marketingOptIn: data.marketingOptIn,
+      marketingOptInChangedAt: data.marketingOptIn ? new Date() : null,
     });
   } catch (error) {
     if (error.name === "SequelizeUniqueConstraintError") {

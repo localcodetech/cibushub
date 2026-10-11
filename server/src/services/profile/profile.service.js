@@ -9,6 +9,16 @@ export const updateMyName = async (userId, fullName) => {
   return updateUser(user, { fullName });
 };
 
+// Yes or no to offers and news [AC-NOTIF-09]. The time is kept as proof of consent.
+export const updateMyPreferences = async (userId, { marketingOptIn }) => {
+  const user = await findUserById(userId);
+  if (user.marketingOptIn === marketingOptIn) {
+    return user;
+  }
+
+  return updateUser(user, { marketingOptIn, marketingOptInChangedAt: new Date() });
+};
+
 // Upload a new profile photo, then delete the old one [AC-CUST-01, AC-IMG-01, AC-IMG-04]
 export const replaceMyAvatar = async (userId, file) => {
   await checkFileType(file.buffer, IMAGE_MIME_TYPES);

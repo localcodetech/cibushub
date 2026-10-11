@@ -12,5 +12,7 @@ export const registerSchema = z
     acceptTerms: z
       .boolean({ error: "Please accept the Terms and Privacy Policy" })
       .refine((value) => value === true, "Please accept the Terms and Privacy Policy"),
+    // "Send me offers and news": optional, unticked unless they choose it [AC-NOTIF-09]
+    marketingOptIn: z.boolean().default(false),
   })
   .strict();

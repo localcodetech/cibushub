@@ -63,6 +63,15 @@ const User = sequelize.define(
     termsVersion: {
       type: DataTypes.STRING(20),
     },
+    // Offers and news only with a yes [AC-NOTIF-09]; order messages are always sent
+    marketingOptIn: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
+    marketingOptInChangedAt: {
+      type: DataTypes.DATE,
+    },
   },
   {
     tableName: "users",

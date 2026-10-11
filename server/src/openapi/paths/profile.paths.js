@@ -1,4 +1,7 @@
-import { updateProfileSchema } from "../../validators/profile/profile.validator.js";
+import {
+  updatePreferencesSchema,
+  updateProfileSchema,
+} from "../../validators/profile/profile.validator.js";
 import {
   changeEmailSchema,
   changePhoneSchema,
@@ -47,6 +50,24 @@ const notVerified = errorResponse(
 );
 
 export const profilePaths = {
+  "/api/v1/profile/preferences": {
+    patch: {
+      tags,
+      summary: "Yes or no to offers and news",
+      description:
+        "Off by default. Only messages with a marketing.* template follow this switch; codes, receipts and order updates are always sent [AC-NOTIF-09]. marketingOptInChangedAt records when the choice was made.",
+      requestBody: jsonBody(updatePreferencesSchema, { marketingOptIn: true }),
+      responses: {
+        200: successResponse("Saved", {
+          ...exampleUser,
+          marketingOptIn: true,
+          marketingOptInChangedAt: "2026-10-11T12:00:00.000Z",
+        }),
+        400: errorResponse("Not a yes or no", "VALIDATION_ERROR", "Invalid request data"),
+        401: errorResponse("Not logged in", "UNAUTHENTICATED", "Please log in to continue"),
+      },
+    },
+  },
   "/api/v1/profile": {
     patch: {
       tags,

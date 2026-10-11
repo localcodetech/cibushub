@@ -1,6 +1,6 @@
-import { useNavigate, useSearchParams } from "react-router";
+import { Link, useNavigate, useSearchParams } from "react-router";
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Bell } from "lucide-react";
+import { Bell, Settings } from "lucide-react";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
@@ -67,16 +67,25 @@ const NotificationsPage = () => {
       <section className="mx-auto max-w-2xl py-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Heading level={1}>Notifications</Heading>
-          {unreadCount > 0 && (
-            <button
-              type="button"
-              onClick={() => markAllRead.mutate()}
-              disabled={markAllRead.isPending}
-              className="min-h-11 rounded-md border border-border px-4 font-bold disabled:opacity-40"
+          <div className="flex items-center gap-2">
+            {unreadCount > 0 && (
+              <button
+                type="button"
+                onClick={() => markAllRead.mutate()}
+                disabled={markAllRead.isPending}
+                className="min-h-11 rounded-md border border-border px-4 font-bold disabled:opacity-40"
+              >
+                Mark all as read
+              </button>
+            )}
+            <Link
+              to="/notifications/settings"
+              aria-label="Notification settings"
+              className="flex size-11 items-center justify-center rounded-md border border-border"
             >
-              Mark all as read
-            </button>
-          )}
+              <Settings size={20} aria-hidden="true" />
+            </Link>
+          </div>
         </div>
         <div className="mt-6">
           <NotificationList

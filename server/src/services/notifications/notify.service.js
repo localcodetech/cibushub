@@ -4,7 +4,7 @@ import { scheduleNotification } from "../../jobs/enqueue.js";
 import { sendEmail, maskEmail } from "./email.service.js";
 import { sendSms, maskPhone } from "./sms.service.js";
 import { emitAdminAlert } from "../../sockets/emitAdminAlert.js";
-import { findUserByEmail } from "../../repositories/user.repository.js";
+import { findUserByEmail, findUserByPhone } from "../../repositories/user.repository.js";
 
 // How every email and SMS leaves CibusHub [AC-NOTIF-02, 03, 04, 08]:
 //   1. a notification_logs row is written (status QUEUED), with the event's dedupe key;
@@ -36,6 +36,13 @@ export const notify = async ({
   if (!to) {
     logger.warn({ channel, template }, "Notification skipped: no address");
     return { skipped: true };
+  }
+
+  // Offers and news ("marketing.*" templates) only go to people who said yes [AC-NOTIF-09].
+  // Every other message (codes, receipts, order updates) is transactional and always goes.
+  if (template.startsWith("marketing.") && !(await saidYesToMarketing(channel, to))) {
+    logger.info({ channel, template }, "Marketing message skipped: no consent");
+    return { skipped: true, reason: "NO_MARKETING_CONSENT" };
   }
 
   // The address bounced before: don't keep sending to it (it hurts our sending reputation).
@@ -75,6 +82,17 @@ export const notify = async ({
     await processNotification({ data: { logId: log.id, payload }, attemptsMade: 0, opts: {} });
   }
   return { logId: log.id };
+};
+
+// Did the person at this address or number say yes to offers and news?
+// Unknown address, or the lookup failed: no (never market without a clear yes).
+const saidYesToMarketing = async (channel, to) => {
+  try {
+    const user = channel === "EMAIL" ? await findUserByEmail(to) : await findUserByPhone(to);
+    return Boolean(user && user.marketingOptIn);
+  } catch {
+    return false;
+  }
 };
 
 // Did mail to this address bounce? (A lookup problem is not a reason to stop the email.)
