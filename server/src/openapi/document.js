@@ -22,6 +22,7 @@ import { riderDeliveryPaths } from "./paths/riderDelivery.paths.js";
 import { riderEarningsPaths } from "./paths/riderEarnings.paths.js";
 import { notificationPaths } from "./paths/notification.paths.js";
 import { ownerReviewPaths } from "./paths/ownerReview.paths.js";
+import { ownerAnalyticsPaths } from "./paths/ownerAnalytics.paths.js";
 import { adminReviewPaths } from "./paths/adminReview.paths.js";
 import { adminDashboardPaths } from "./paths/adminDashboard.paths.js";
 import { adminAnalyticsPaths } from "./paths/adminAnalytics.paths.js";
@@ -97,6 +98,7 @@ export const openApiDocument = {
     ...riderEarningsPaths,
     ...notificationPaths,
     ...ownerReviewPaths,
+    ...ownerAnalyticsPaths,
     ...adminReviewPaths,
     ...adminDashboardPaths,
     ...adminAnalyticsPaths,

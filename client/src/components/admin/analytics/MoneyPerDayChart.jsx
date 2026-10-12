@@ -9,9 +9,15 @@ import {
 } from "recharts";
 import { formatDay } from "@/utils/date";
 import { formatMoney } from "@/utils/money";
-import ChartFigure from "./ChartFigure";
-import ChartTooltip from "./ChartTooltip";
-import { AXIS_TICK, GRID_PROPS, SERIES_COLORS, shortDay } from "./chartTheme";
+import ChartFigure from "@/components/analytics/ChartFigure";
+import ChartTooltip from "@/components/analytics/ChartTooltip";
+import {
+  AXIS_TICK,
+  GRID_PROPS,
+  SERIES_COLORS,
+  cedisTick,
+  shortDay,
+} from "@/components/analytics/chartTheme";
 
 // The key, in the order of the lines; the text stays in the normal ink colour, the small line
 // beside it (solid or dashed, like the chart) says which is which
@@ -41,9 +47,6 @@ const MoneyLegend = () => {
     </ul>
   );
 };
-
-// 1234500 pesewas -> "GHS 12,345" on the axis (whole cedis; the tooltip shows the exact amount)
-const cedisTick = (pesewas) => "GHS " + Math.round(pesewas / 100).toLocaleString("en-GB");
 
 // Two lines on one money axis [AC-ANL-01]: what customers paid (after refunds) and what CibusHub
 // kept. The CibusHub line is also dashed, so the two never rely on colour alone.

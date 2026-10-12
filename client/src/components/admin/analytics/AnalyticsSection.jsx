@@ -7,37 +7,14 @@ import Skeleton from "@/components/common/Skeleton";
 import ErrorState from "@/components/common/ErrorState";
 import { getAdminAnalyticsRequest } from "@/api/admin";
 import { ORDER_STATUSES } from "@/data/orderStatuses";
-import { formatDay, todayInGhana } from "@/utils/date";
+import { formatDay } from "@/utils/date";
+import { presetRange, rangeProblem } from "@/utils/dateRange";
 import { formatMoney } from "@/utils/money";
-import RangePicker from "./RangePicker";
-import OrdersPerDayChart from "./OrdersPerDayChart";
+import RangePicker from "@/components/analytics/RangePicker";
+import DailyBarChart from "@/components/analytics/DailyBarChart";
+import HorizontalBarChart from "@/components/analytics/HorizontalBarChart";
 import MoneyPerDayChart from "./MoneyPerDayChart";
-import HorizontalBarChart from "./HorizontalBarChart";
 import OperationsTiles from "./OperationsTiles";
-
-const DAY_MS = 24 * 60 * 60 * 1000;
-// The server's limit (validators/admin/analytics.validator.js)
-const MAX_RANGE_DAYS = 92;
-
-// "2026-10-09" moved by a number of days
-const addDays = (dayText, count) =>
-  new Date(new Date(dayText + "T00:00:00Z").getTime() + count * DAY_MS).toISOString().slice(0, 10);
-
-// The days a preset covers, ending today in Ghana
-const presetRange = (preset) => {
-  const today = todayInGhana();
-  if (preset === "today") return { from: today, to: today };
-  return { from: addDays(today, -(Number(preset) - 1)), to: today };
-};
-
-// What's wrong with a custom range, or "" when it is fine
-const rangeProblem = ({ from, to }) => {
-  if (!from || !to) return "Choose both dates.";
-  if (from > to) return "The start date must be before the end date.";
-  const days = (new Date(to).getTime() - new Date(from).getTime()) / DAY_MS + 1;
-  if (days > MAX_RANGE_DAYS) return "Choose " + MAX_RANGE_DAYS + " days or fewer.";
-  return "";
-};
 
 // The admin charts under the overview [AC-ANL-01]. What counts is in docs/analytics.md.
 const AnalyticsSection = () => {
@@ -56,7 +33,7 @@ const AnalyticsSection = () => {
     <section className="mt-10">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <Heading level={2}>Analytics</Heading>
-        <RangePicker range={range} onChange={setRange} presetRange={presetRange} />
+        <RangePicker range={range} onChange={setRange} />
       </div>
 
       {problem && (
@@ -112,7 +89,13 @@ const AnalyticsBody = ({ data, isPending, error, onRetry }) => {
       </div>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
-        <OrdersPerDayChart days={data.days} total={data.totals.orders} />
+        <DailyBarChart
+          title="Orders per day"
+          summary={data.totals.orders + " paid orders in this period."}
+          days={data.days}
+          dataKey="orders"
+          name="Orders"
+        />
         <MoneyPerDayChart days={data.days} totals={data.totals} />
         <HorizontalBarChart
           title="Orders by status"

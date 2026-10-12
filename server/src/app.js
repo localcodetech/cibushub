@@ -15,6 +15,7 @@ import ownerRestaurantRoutes from "./routes/owner/restaurant.routes.js";
 import ownerReviewRoutes from "./routes/owner/review.routes.js";
 import ownerOrderRoutes from "./routes/owner/order.routes.js";
 import ownerMenuRoutes from "./routes/owner/menu.routes.js";
+import ownerAnalyticsRoutes from "./routes/owner/analytics.routes.js";
 import authenticate from "./middlewares/authenticate.js";
 import authorize from "./middlewares/authorize.js";
 import requireActive from "./middlewares/requireActive.js";
@@ -190,6 +191,11 @@ app.use("/api/v1/owner/orders", ownerOrderRoutes);
 // Owner's reviews: read them, reply once to each
 // ─────────────────────────────────────────────
 app.use("/api/v1/owner/reviews", ownerReviewRoutes);
+
+// ─────────────────────────────────────────────
+// Owner: analytics for one of my restaurants
+// ─────────────────────────────────────────────
+app.use("/api/v1/owner/analytics", ownerAnalyticsRoutes);
 
 // ─────────────────────────────────────────────
 // Every rider route: must be logged in as a rider

@@ -41,6 +41,18 @@ in one status to its first arrival in the next, taken from `order_status_history
 - Both rates are whole percentages.
 - An average with no orders behind it is `null` ("no data"), not 0.
 
+## Restaurant owners [AC-ANL-03]
+
+`GET /api/v1/owner/analytics?restaurantId=…&from=…&to=…` covers one restaurant, which must be
+the owner's. Any other restaurant returns 404 and no data.
+
+| Number | What it counts |
+|---|---|
+| **Orders** (per day) | This restaurant's orders that became PAID that day |
+| **Earnings** | The restaurant's share (food subtotal minus commission, frozen on each order), on `DELIVERED` orders only. This is what CibusHub owes the restaurant |
+| **Best sellers** | The top 5 dishes by quantity, from paid orders that were not `REJECTED` or `CANCELLED`. Sales are the line totals, options included. A dish shows under its current menu name |
+| **Ratings** | The average stars of reviews written that day, without hidden reviews. A day with no reviews has no rating (`null`), not 0 |
+
 ## Known limits
 
 - **Door problems (ADR 003).** When a customer can't be reached, the order is `CANCELLED` with no

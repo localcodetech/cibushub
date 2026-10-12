@@ -17,3 +17,6 @@ export const shortDay = (dayText) =>
   new Intl.DateTimeFormat("en-GB", { timeZone: "UTC", day: "numeric", month: "short" }).format(
     new Date(dayText + "T12:00:00Z"),
   );
+
+// 1234500 pesewas -> "GHS 12,345" on an axis (whole cedis; tooltips show the exact amount)
+export const cedisTick = (pesewas) => "GHS " + Math.round(pesewas / 100).toLocaleString("en-GB");

@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { presetRange } from "@/utils/dateRange";
 
 const PRESETS = [
   { value: "today", label: "Today" },
@@ -9,8 +10,7 @@ const PRESETS = [
 
 // Today, 7 days, 30 days or two dates of your own [AC-ANL-01].
 //   range: { preset, from, to } with dates like "2026-10-09"; onChange gets a new one
-//   presetRange: works out from and to for a preset
-const RangePicker = ({ range, onChange, presetRange }) => {
+const RangePicker = ({ range, onChange }) => {
   return (
     <div className="flex flex-wrap items-end gap-3">
       <div role="group" aria-label="Period" className="flex rounded-lg border border-border p-1">
