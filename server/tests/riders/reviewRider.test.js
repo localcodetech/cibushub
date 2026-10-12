@@ -149,6 +149,11 @@ describe("Approve, reject, suspend [AC-RIDER-02, AC-ADM-07]", () => {
     expect(sentEmails.at(-1).html).toContain("/rider/apply"); // the fix-and-resubmit button
     // Still waiting: a rejected rider can't work
     expect((await User.findByPk(rider.id)).status).toBe("PENDING_APPROVAL");
+    expect(await AuditLog.findOne({ where: { targetId: profile.id } })).toMatchObject({
+      action: "RIDER_REJECTED",
+      actorId: admin.id,
+      reason: "The Ghana Card photo is blurry",
+    });
   });
 
   it("needs a clear reason to reject or suspend", async () => {
@@ -167,6 +172,13 @@ describe("Approve, reject, suspend [AC-RIDER-02, AC-ADM-07]", () => {
 
     expect(suspended.body.data.status).toBe("SUSPENDED");
     expect(reinstated.body.data.status).toBe("APPROVED");
+    // All written in the same second, so compared without relying on their order
+    const audits = await AuditLog.findAll({ where: { targetId: profile.id } });
+    expect(audits.map((audit) => audit.action).sort()).toEqual([
+      "RIDER_APPROVED",
+      "RIDER_APPROVED",
+      "RIDER_SUSPENDED",
+    ]);
   });
 
   it("refuses moves that make no sense", async () => {

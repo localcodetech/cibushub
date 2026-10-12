@@ -100,6 +100,12 @@ describe("Only super admins manage admins [AC-SADM-01]", () => {
     expect(suspended.body.data.status).toBe("SUSPENDED");
     expect(tokensLeft).toBe(0);
     expect(reactivated.body.data.status).toBe("ACTIVE");
+    // Written in the same second, so compared without relying on their order
+    const audits = await AuditLog.findAll({ where: { targetId: admin.id } });
+    expect(audits.map((audit) => [audit.action, audit.actorId, audit.reason]).sort()).toEqual([
+      ["ADMIN_REACTIVATED", boss.id, "Back from leave this week"],
+      ["ADMIN_SUSPENDED", boss.id, "Left the company today"],
+    ]);
   });
 
   it("promotes an admin to super admin, and removes an admin (kept for history)", async () => {
@@ -117,6 +123,16 @@ describe("Only super admins manage admins [AC-SADM-01]", () => {
     });
 
     expect(promoted.body.data.role).toBe("SUPER_ADMIN");
+    expect(await AuditLog.findOne({ where: { targetId: admin.id } })).toMatchObject({
+      action: "ADMIN_ROLE_CHANGED",
+      actorId: boss.id,
+      before: { role: "ADMIN" },
+      after: { role: "SUPER_ADMIN" },
+    });
+    expect(await AuditLog.findOne({ where: { targetId: other.id } })).toMatchObject({
+      action: "ADMIN_REMOVED",
+      actorId: boss.id,
+    });
     expect(removed.body.data).toEqual({ id: other.id, removed: true });
     expect(await User.findByPk(other.id)).toBeNull();
     expect(await User.findByPk(other.id, { paranoid: false })).not.toBeNull();

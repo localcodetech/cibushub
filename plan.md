@@ -798,9 +798,9 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 ### Done when
 
-- [ ] Every admin action appears in the audit log
-- [ ] The last super admin cannot be suspended (test)
-- [ ] Dashboard totals match the underlying data for a chosen period
+- [x] Every admin action appears in the audit log (all 24 admin and super admin actions have a test for their audit line)
+- [x] The last super admin cannot be suspended (test: `LAST_SUPER_ADMIN`, own account, simultaneous demotions)
+- [x] Dashboard totals match the underlying data for a chosen period (test: AC-ANL-05 hand sum vs `/admin/analytics`; rules in docs/analytics.md)
 
 ### Send for review
 

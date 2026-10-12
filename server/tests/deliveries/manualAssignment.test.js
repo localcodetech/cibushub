@@ -218,6 +218,15 @@ describe("Unassignment [AC-ASSIGN-08]", () => {
     });
     // The same rider, still online and nearby, is not offered it again
     expect(await offerNextRider(delivery.id)).toEqual({ result: "NO_RIDER" });
+    // Found by action: the assign and unassign lines can share the same second
+    expect(
+      await AuditLog.findOne({
+        where: { targetId: order.id, action: "DELIVERY_RIDER_UNASSIGNED" },
+      }),
+    ).toMatchObject({
+      actorId: admin.id,
+      reason: "Rider not answering calls",
+    });
   });
 
   it("the rider gives it back before pickup (breakdown), recorded as the rider", async () => {

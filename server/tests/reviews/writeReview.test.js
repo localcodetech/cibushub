@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import request from "supertest";
 import app from "../../src/app.js";
 import {
+  AuditLog,
   Delivery,
   OrderStatusHistory,
   Restaurant,
@@ -392,7 +393,6 @@ describe("Admins hide abusive reviews [AC-REV-07, AC-ADM-07]", () => {
     expect([restaurantAfter.ratingTotal, restaurantAfter.reviewCount]).toEqual([0, 0]);
     const riderAfter = await RiderProfile.findByPk(riderProfile.id);
     expect([riderAfter.ratingTotal, riderAfter.ratingCount]).toEqual([0, 0]);
-    const { AuditLog } = await import("../../src/models/index.js");
     const audit = await AuditLog.findOne({ where: { targetId: review.id } });
     expect(audit).toMatchObject({
       action: "REVIEW_HIDDEN",
@@ -426,6 +426,12 @@ describe("Admins hide abusive reviews [AC-REV-07, AC-ADM-07]", () => {
     expect([restaurantAfter.ratingTotal, restaurantAfter.reviewCount]).toEqual([1, 1]);
     const publicList = await request(app).get(`/api/v1/restaurants/${restaurant.id}/reviews`);
     expect(publicList.body.data).toHaveLength(1);
+    // Both written in the same second, so compared without relying on their order
+    const audits = await AuditLog.findAll({ where: { targetId: review.id } });
+    expect(audits.map((audit) => [audit.action, audit.reason]).sort()).toEqual([
+      ["REVIEW_HIDDEN", "Insults the staff"],
+      ["REVIEW_SHOWN", "Hidden by mistake"],
+    ]);
   });
 
   it("lists hidden ones for admins, needs a reason, and is admins only", async () => {
