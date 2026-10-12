@@ -22,6 +22,25 @@ the totals to match the records "as documented", and this is that documentation.
 
 So a fully refunded order adds 1 to **Orders** and 0 to both money lines.
 
+## How fast orders move [AC-ANL-02]
+
+These cover orders that became PAID in the range. Each time runs from an order's **first** arrival
+in one status to its first arrival in the next, taken from `order_status_history`.
+
+| Average | From → to | Orders counted |
+|---|---|---|
+| Restaurant acceptance | `PAID` → `ACCEPTED` | Orders that were accepted |
+| Preparation | `ACCEPTED` → `READY_FOR_PICKUP` | Orders that got ready. This is the whole kitchen time, because owners may tap "Preparing" late |
+| Finding a rider | `READY_FOR_PICKUP` → `RIDER_ASSIGNED` | Orders that got a rider. If a rider was unassigned, only the first assignment counts |
+| Delivery | `PICKED_UP` → `DELIVERED` | Delivered orders |
+| Paid to delivered | `PAID` → `DELIVERED` | Delivered orders |
+
+- **Rejection rate** = paid orders now `REJECTED` ÷ paid orders.
+- **Cancellation rate** = paid orders now `CANCELLED` ÷ paid orders. Unpaid orders that expired are
+  not counted.
+- Both rates are whole percentages.
+- An average with no orders behind it is `null` ("no data"), not 0.
+
 ## Known limits
 
 - **Door problems (ADR 003).** When a customer can't be reached, the order is `CANCELLED` with no

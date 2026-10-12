@@ -7,7 +7,7 @@ export const adminAnalyticsPaths = {
       tags: ["Admin: Analytics"],
       summary: "Orders and money per day, orders by status, top restaurants",
       description:
-        "from and to are Ghana days, both included, at most 92 days. An order counts on the day it became PAID. customerPaidPesewas = order totals minus processed refunds. cibushubPesewas = commission + service fee of DELIVERED orders. ordersByStatus counts orders PLACED in the range by their current status (unpaid ones too). Cached for 2 minutes. Rules: docs/analytics.md [AC-ANL-01, AC-ANL-05, AC-ANL-06].",
+        "from and to are Ghana days, both included, at most 92 days. An order counts on the day it became PAID. customerPaidPesewas = order totals minus processed refunds. cibushubPesewas = commission + service fee of DELIVERED orders. ordersByStatus counts orders PLACED in the range by their current status (unpaid ones too). operations: average seconds between statuses (first time in each, from order_status_history; null when no order reached that step) and rejected/cancelled as a % of paid orders [AC-ANL-02]. Cached for 2 minutes. Rules: docs/analytics.md [AC-ANL-01, AC-ANL-05, AC-ANL-06].",
       security: [{ cookieAuth: [] }],
       parameters: queryParameters(analyticsRangeSchema),
       responses: {
@@ -28,6 +28,18 @@ export const adminAnalyticsPaths = {
               customerPaidPesewas: 21000,
             },
           ],
+          operations: {
+            averageSeconds: {
+              accept: 180,
+              prepare: 1260,
+              assignRider: 240,
+              deliver: 900,
+              total: 2700,
+            },
+            paidOrders: 3,
+            rejectedPercent: 0,
+            cancelledPercent: 33,
+          },
         }),
         400: errorResponse(
           "Bad dates, or more than 92 days",

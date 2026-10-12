@@ -184,3 +184,70 @@ describe("Date range checks", () => {
     expect(response.status).toBe(403);
   });
 });
+
+describe("Operational metrics [AC-ANL-02]", () => {
+  const MINUTE = 60 * 1000;
+
+  // Writes the status changes as the app would, each at its own minute after FRIDAY noon
+  const moveThrough = async (order, steps) => {
+    let fromStatus = "PAID";
+    for (const [minutes, toStatus] of steps) {
+      vi.setSystemTime(new Date(FRIDAY.getTime() + minutes * MINUTE));
+      await OrderStatusHistory.create({
+        orderId: order.id,
+        fromStatus,
+        toStatus,
+        actorRole: "SYSTEM",
+      });
+      fromStatus = toStatus;
+    }
+    await order.update({ status: fromStatus });
+  };
+
+  it("averages each step from the status history, and rates rejections and cancellations", async () => {
+    vi.setSystemTime(FRIDAY);
+    const delivered = (await createPaidOrder(1)).order;
+    const preparing = (await createPaidOrder(2)).order;
+    const rejected = (await createPaidOrder(3)).order;
+    // Created at the same noon, so each order's PAID time is FRIDAY
+    await moveThrough(delivered, [
+      [2, "ACCEPTED"],
+      [5, "PREPARING"],
+      [12, "READY_FOR_PICKUP"],
+      [15, "RIDER_ASSIGNED"],
+      [20, "PICKED_UP"],
+      [35, "DELIVERED"],
+    ]);
+    await moveThrough(preparing, [
+      [4, "ACCEPTED"],
+      [6, "PREPARING"],
+    ]);
+    await moveThrough(rejected, [[1, "REJECTED"]]);
+
+    const response = await analytics(admin, { from: "2026-10-09", to: "2026-10-09" });
+
+    expect(response.body.data.operations).toEqual({
+      averageSeconds: {
+        // (2 + 4) / 2 minutes: the rejected order was never accepted, so it isn't counted
+        accept: 180,
+        prepare: 600,
+        assignRider: 180,
+        deliver: 900,
+        total: 35 * 60,
+      },
+      paidOrders: 3,
+      rejectedPercent: 33,
+      cancelledPercent: 0,
+    });
+  });
+
+  it("says 'no data' (null) rather than 0 when nothing reached a step", async () => {
+    const response = await analytics(admin, { from: "2026-10-09", to: "2026-10-09" });
+
+    expect(response.body.data.operations).toMatchObject({
+      averageSeconds: { accept: null, deliver: null },
+      paidOrders: 0,
+      rejectedPercent: null,
+    });
+  });
+});

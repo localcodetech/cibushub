@@ -86,3 +86,50 @@ export const countPlacedOrdersByStatus = async (from, to) => {
   );
   return Object.fromEntries(rows.map((row) => [row.status, toNumber(row.orders)]));
 };
+
+// How fast orders move, for orders that became PAID in the range [AC-ANL-02].
+// Each order's first time in each status comes from order_status_history; AVG skips orders
+// that never reached a status, so "average delivery" only counts delivered orders.
+// Times are in seconds. Rates are worked out from the counts in the service.
+export const measureOrderTimes = async (from, to) => {
+  const [row] = await sequelize.query(
+    `SELECT COUNT(*) AS paidOrders,
+            SUM(o.status = 'REJECTED') AS rejected,
+            SUM(o.status = 'CANCELLED') AS cancelled,
+            AVG(TIMESTAMPDIFF(SECOND, t.paid, t.accepted)) AS acceptSeconds,
+            AVG(TIMESTAMPDIFF(SECOND, t.accepted, t.ready)) AS prepareSeconds,
+            AVG(TIMESTAMPDIFF(SECOND, t.ready, t.assigned)) AS assignSeconds,
+            AVG(TIMESTAMPDIFF(SECOND, t.pickedUp, t.delivered)) AS deliverSeconds,
+            AVG(TIMESTAMPDIFF(SECOND, t.paid, t.delivered)) AS totalSeconds
+     FROM (
+       SELECT h.order_id,
+              MIN(CASE WHEN h.to_status = 'PAID' THEN h.created_at END) AS paid,
+              MIN(CASE WHEN h.to_status = 'ACCEPTED' THEN h.created_at END) AS accepted,
+              MIN(CASE WHEN h.to_status = 'READY_FOR_PICKUP' THEN h.created_at END) AS ready,
+              MIN(CASE WHEN h.to_status = 'RIDER_ASSIGNED' THEN h.created_at END) AS assigned,
+              MIN(CASE WHEN h.to_status = 'PICKED_UP' THEN h.created_at END) AS pickedUp,
+              MIN(CASE WHEN h.to_status = 'DELIVERED' THEN h.created_at END) AS delivered
+       FROM order_status_history AS h
+       WHERE h.order_id IN (
+         SELECT order_id FROM order_status_history
+         WHERE to_status = 'PAID' AND created_at >= :from AND created_at < :to
+       )
+       GROUP BY h.order_id
+     ) AS t
+     JOIN orders AS o ON o.id = t.order_id`,
+    { replacements: { from, to }, type: QueryTypes.SELECT },
+  );
+
+  // An average with no orders behind it is null ("no data"), not 0
+  const seconds = (value) => (value === null ? null : Math.round(Number(value)));
+  return {
+    paidOrders: toNumber(row.paidOrders),
+    rejected: toNumber(row.rejected),
+    cancelled: toNumber(row.cancelled),
+    acceptSeconds: seconds(row.acceptSeconds),
+    prepareSeconds: seconds(row.prepareSeconds),
+    assignSeconds: seconds(row.assignSeconds),
+    deliverSeconds: seconds(row.deliverSeconds),
+    totalSeconds: seconds(row.totalSeconds),
+  };
+};

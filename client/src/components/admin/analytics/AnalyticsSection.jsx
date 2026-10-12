@@ -13,6 +13,7 @@ import RangePicker from "./RangePicker";
 import OrdersPerDayChart from "./OrdersPerDayChart";
 import MoneyPerDayChart from "./MoneyPerDayChart";
 import HorizontalBarChart from "./HorizontalBarChart";
+import OperationsTiles from "./OperationsTiles";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 // The server's limit (validators/admin/analytics.validator.js)
@@ -133,6 +134,8 @@ const AnalyticsBody = ({ data, isPending, error, onRetry }) => {
           emptyText="No paid orders in this period."
         />
       </div>
+
+      <OperationsTiles operations={data.operations} />
 
       <DaysTable days={data.days} />
     </>
