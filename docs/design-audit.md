@@ -35,11 +35,11 @@ highlights, Terracotta rarely.
 - [x] **Missing images** look broken. A restaurant with no cover shows a tall grey box with a fork
   icon that takes up half the card, and dishes have no image space at all. Use a smaller, branded
   placeholder (initials or a pattern in brand colours).
-- [ ] **Empty states** are an icon and a sentence. They're fine but flat: use a softer illustration
+- [x] **Empty states** are an icon and a sentence. They're fine but flat: use a softer illustration
   tile and a clear next action everywhere.
 - [x] **Navbar:** the desktop text links ("My dashboard", "Log out") are small. The unread badge is
   fine. The account menu could gather My dashboard, Settings and Log out.
-- [ ] **Motion:** none yet. Sheets, list arrivals and status changes should ease in, and be off for
+- [x] **Motion:** none yet. Sheets, list arrivals and status changes should ease in, and be off for
   reduced-motion users (AC-UX-09).
 
 ## Screens

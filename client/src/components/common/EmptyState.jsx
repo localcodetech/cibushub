@@ -15,13 +15,19 @@ import Text from "@/components/typography/Text";
 // icon:    a Lucide icon (optional; an inbox by default)
 // action:  optional { label, to } for a link to the next step,
 //          or { label, onClick } for a button that runs code (e.g. "Clear filters")
+const ACTION_CLASSES =
+  "mt-6 inline-flex min-h-11 items-center rounded-md bg-primary px-5 font-bold text-primary-foreground " +
+  "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none";
+
 const EmptyState = ({ icon, title, message, action }) => {
   // A component passed in as a value: give it a capital name so JSX can draw it
   const Icon = icon || Inbox;
 
   return (
     <div className="flex flex-col items-center px-4 py-12 text-center">
-      <Icon size={40} className="text-muted-foreground" aria-hidden="true" />
+      <span className="flex size-16 items-center justify-center rounded-full bg-primary/10 text-primary">
+        <Icon size={32} aria-hidden="true" />
+      </span>
       <Heading level={2} className="mt-4">
         {title}
       </Heading>
@@ -31,19 +37,12 @@ const EmptyState = ({ icon, title, message, action }) => {
         </Text>
       )}
       {action && action.onClick && (
-        <button
-          type="button"
-          onClick={action.onClick}
-          className="mt-6 inline-flex min-h-11 items-center rounded-md bg-primary px-5 font-bold text-primary-foreground"
-        >
+        <button type="button" onClick={action.onClick} className={ACTION_CLASSES}>
           {action.label}
         </button>
       )}
       {action && action.to && (
-        <Link
-          to={action.to}
-          className="mt-6 inline-flex min-h-11 items-center rounded-md bg-primary px-5 font-bold text-primary-foreground"
-        >
+        <Link to={action.to} className={ACTION_CLASSES}>
           {action.label}
         </Link>
       )}

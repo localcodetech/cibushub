@@ -22,8 +22,10 @@ const Sheet = ({ title, description, onClose, children }) => {
     <Dialog.Root open={true} onOpenChange={handleOpenChange}>
       {/* Portal draws the sheet at the end of <body>, above everything else */}
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-40 bg-black/50" />
-        <Dialog.Content className="fixed inset-x-0 bottom-0 z-50 flex max-h-[90svh] flex-col rounded-t-xl bg-background text-foreground sm:inset-x-auto sm:top-1/2 sm:bottom-auto sm:left-1/2 sm:w-full sm:max-w-lg sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-xl">
+        {/* Motion answers the tap that opened it (design guide): the sheet slides up in about
+            300ms, and not at all for people who ask their device for less motion */}
+        <Dialog.Overlay className="fixed inset-0 z-40 bg-black/50 duration-200 animate-in fade-in-0 motion-reduce:animate-none" />
+        <Dialog.Content className="fixed inset-x-0 bottom-0 z-50 flex max-h-[90svh] flex-col rounded-t-xl bg-background text-foreground duration-300 animate-in slide-in-from-bottom motion-reduce:animate-none sm:inset-x-auto sm:top-1/2 sm:bottom-auto sm:left-1/2 sm:w-full sm:max-w-lg sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-xl sm:fade-in-0 sm:zoom-in-95 sm:slide-in-from-bottom-0">
           <div className="flex items-start justify-between gap-4 border-b border-border p-4">
             <div>
               <Dialog.Title className="font-heading text-lg font-bold">{title}</Dialog.Title>
