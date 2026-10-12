@@ -38,3 +38,16 @@ Work that must happen later or on a timer runs in a separate **worker** process 
 - **If Paystack is unreachable**, the expiry job fails and retries instead of cancelling an order that may have been paid.
 - **Redis safety** (plan review C2): Redis runs with append-only persistence, and every delayed job has a sweeper, so losing Redis data delays an expiry by at most one minute.
 - **Tests** never send jobs to Redis: `tests/setup.js` records scheduled jobs in `tests/helpers/fakeJobs.js`, and job logic is tested by calling the service functions directly.
+
+## Queue dashboard [AC-JOB-05]
+
+Super admins can see every queue at `/api/v1/super-admin/queues` (Bull Board, "Queues" in the
+admin menu). It shows waiting, delayed, finished and failed jobs, with each failure's error and
+attempts.
+
+- **Read-only on purpose.** Retrying, deleting or cleaning jobs from there would change data
+  without an audit line. Failed refunds are retried from the admin Payments page, which is audited.
+- **Login:** it sits behind the normal login cookie (super admins only). Its files load from the
+  API's own address, so the security headers don't block them.
+- **Connections:** the dashboard opens its queue connections on the first visit, not when the
+  API starts.

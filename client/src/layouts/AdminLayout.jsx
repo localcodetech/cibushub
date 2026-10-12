@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { NavLink, Outlet } from "react-router";
+import { ExternalLink } from "lucide-react";
 import PageLoader from "@/components/common/PageLoader";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/store/authStore";
@@ -22,6 +23,10 @@ const SUPER_ADMIN_LINKS = [
   { label: "Admins", to: "/admin/admins", end: false },
   { label: "Settings", to: "/admin/settings", end: false },
 ];
+
+// The queue dashboard is a page the server draws itself (Bull Board), not a React page,
+// so it opens in a new tab at the API's address [AC-JOB-05]
+const QUEUES_URL = (import.meta.env.VITE_API_URL || "") + "/api/v1/super-admin/queues";
 
 // The frame around every admin page: the admin menu on top, then the page.
 // overflow-x-auto: on a phone the menu scrolls sideways instead of wrapping.
@@ -52,6 +57,18 @@ const AdminLayout = () => {
                 {link.label}
               </NavLink>
             ))}
+            {user && user.role === "SUPER_ADMIN" && (
+              <a
+                href={QUEUES_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="flex min-h-12 shrink-0 items-center gap-1 border-b-2 border-transparent font-bold"
+              >
+                Queues
+                <ExternalLink size={14} aria-hidden="true" />
+                <span className="sr-only">(opens in a new tab)</span>
+              </a>
+            )}
           </nav>
         </Container>
       </div>
