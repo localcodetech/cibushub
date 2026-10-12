@@ -1,20 +1,10 @@
-import { useState } from "react";
-import { useNavigate } from "react-router";
-import { Bike, KeyRound, Search, Smartphone } from "lucide-react";
+import { Bike, KeyRound, Smartphone } from "lucide-react";
 import Container from "@/layouts/Container";
+import FoodSearchForm from "@/components/restaurant/FoodSearchForm";
 
 // The top of the home page: what CibusHub is, a search that opens the restaurant list, and
 // what makes ordering easy. The gold code panel is the same one customers see at their door.
 const HeroSection = () => {
-  const navigate = useNavigate();
-  const [search, setSearch] = useState("");
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const words = search.trim();
-    navigate(words ? "/restaurants?q=" + encodeURIComponent(words) : "/restaurants");
-  };
-
   // Forest Green in light mode; in dark mode the brand green is a light mint, too bright for
   // a whole block, so the hero uses the dark card surface instead
   return (
@@ -30,32 +20,7 @@ const HeroSection = () => {
               or card and follow your rider to your gate.
             </p>
 
-            <form onSubmit={handleSubmit} role="search" className="mt-6 flex max-w-xl gap-2">
-              <label htmlFor="home-search" className="sr-only">
-                Search for food or a restaurant
-              </label>
-              <div className="relative flex-1">
-                <Search
-                  size={20}
-                  className="absolute top-1/2 left-3.5 -translate-y-1/2 text-muted-foreground"
-                  aria-hidden="true"
-                />
-                <input
-                  id="home-search"
-                  type="search"
-                  value={search}
-                  onChange={(event) => setSearch(event.target.value)}
-                  placeholder="Waakye, jollof, fufu…"
-                  className="h-12 w-full rounded-lg bg-white pr-3 pl-11 text-base text-foreground placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-gold focus-visible:outline-none dark:bg-background"
-                />
-              </div>
-              <button
-                type="submit"
-                className="h-12 shrink-0 rounded-md bg-gold px-5 font-bold text-gold-foreground focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
-              >
-                Find food
-              </button>
-            </form>
+            <FoodSearchForm onDark className="mt-6" />
 
             <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-[15px]">
               <li className="flex items-center gap-2">

@@ -12,7 +12,8 @@ const SHOWN = 6;
 
 // Restaurants taking orders right now (real ones, from the same list as /restaurants).
 // Hidden when the request fails or nothing is open: the page still works without it.
-const OpenNowSection = () => {
+//   bare: no full-width band of its own, for use inside another page's column
+const OpenNowSection = ({ bare = false }) => {
   const { data, isPending, isError } = useQuery({
     queryKey: ["restaurants", { openNow: "true", page: 1, home: true }],
     queryFn: () => getRestaurantsRequest({ openNow: "true", page: 1 }),
@@ -22,9 +23,11 @@ const OpenNowSection = () => {
     return null;
   }
 
+  const Wrapper = bare ? "div" : Container;
+
   return (
-    <section className="py-12">
-      <Container>
+    <section className={bare ? "" : "py-12"}>
+      <Wrapper>
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <Heading level={2}>Open now in Kumasi</Heading>
@@ -56,7 +59,7 @@ const OpenNowSection = () => {
               .map((restaurant) => <RestaurantCard key={restaurant.id} restaurant={restaurant} />)
           )}
         </div>
-      </Container>
+      </Wrapper>
     </section>
   );
 };

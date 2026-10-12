@@ -46,7 +46,7 @@ highlights, Terracotta rarely.
 
 - [x] **Home (`/`)** is a placeholder ("Coming soon"). It needs a real landing page: a hero with a
   search, restaurants open now, how it works, and links to become a restaurant owner or rider.
-- [ ] **Customer home (`/customer`)** is three buttons. It should show the active order (live status),
+- [x] **Customer home (`/customer`)** is three buttons. It should show the active order (live status),
   recent orders with reorder, and restaurants open now.
 - [x] **Restaurants list:** the placeholder images are too tall (see above), and the meta line
   (time, area, minimum order) is cramped on phones.
