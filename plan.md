@@ -852,8 +852,8 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 ### Done when
 
-- [ ] Every screen reviewed against the audit list, at phone and desktop width, light and dark
-- [ ] No page uses its own one-off card or list style
+- [x] Every screen reviewed against the audit list, at phone and desktop width, light and dark (final pass 2026-10-12: 42 screens × 2 widths × 2 themes = 168 screenshots, no page errors, nothing wider than the screen; all 23 audit items done, see docs/design-audit.md)
+- [x] No page uses its own one-off card or list style (no hand-made card, list, badge, filter, header or alert left; see docs/frontendDesign.md section 7)
 - [ ] Before/after screenshots for each key screen
 
 ### Send for review

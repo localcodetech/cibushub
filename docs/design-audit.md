@@ -74,6 +74,17 @@ highlights, Terracotta rarely.
   Use a dark surface with a green accent instead, as done for the home page hero.
 - [x] **Dish rows** still have no room for a photo (restaurant page).
 
+## Found in the final pass (2026-10-12)
+
+- [x] **A busy server logged people out.** If "who is logged in?" (`/auth/me`) failed for any reason,
+  even "too many requests", the app treated the user as logged out and showed the login page.
+  Now only a real 401 means logged out; anything else shows "We couldn't check your login" with
+  Try again.
+- [ ] **For Step 14: the global rate limit is per IP address** (100 requests a minute). Many Ghanaian
+  mobile users share one public IP through their network (carrier-grade NAT), so busy areas could
+  hit it together. Limit per logged-in user where possible, and keep per-IP limits for logins
+  and other unauthenticated routes.
+
 ## Not issues
 
 - **Date boxes in US format (mm/dd/yyyy) in the screenshots:** the test browser was set to US
