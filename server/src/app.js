@@ -27,6 +27,7 @@ import adminNotificationRoutes from "./routes/admin/notification.routes.js";
 import adminReviewRoutes from "./routes/admin/review.routes.js";
 import adminDashboardRoutes from "./routes/admin/dashboard.routes.js";
 import adminAnalyticsRoutes from "./routes/admin/analytics.routes.js";
+import adminExportRoutes from "./routes/admin/export.routes.js";
 import adminPaymentRoutes from "./routes/admin/payment.routes.js";
 import adminUserRoutes from "./routes/admin/user.routes.js";
 import adminAuditLogRoutes from "./routes/admin/auditLog.routes.js";
@@ -241,6 +242,11 @@ app.use("/api/v1/admin/dashboard", adminDashboardRoutes);
 // Admin: analytics charts (orders, money, statuses, top restaurants)
 // ─────────────────────────────────────────────
 app.use("/api/v1/admin/analytics", adminAnalyticsRoutes);
+
+// ─────────────────────────────────────────────
+// Admin: CSV exports (orders, payments) for a range of days
+// ─────────────────────────────────────────────
+app.use("/api/v1/admin/exports", adminExportRoutes);
 
 // ─────────────────────────────────────────────
 // Admin: user accounts (search, suspend, reactivate)

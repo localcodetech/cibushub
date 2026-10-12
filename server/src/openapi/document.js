@@ -26,6 +26,7 @@ import { ownerAnalyticsPaths } from "./paths/ownerAnalytics.paths.js";
 import { adminReviewPaths } from "./paths/adminReview.paths.js";
 import { adminDashboardPaths } from "./paths/adminDashboard.paths.js";
 import { adminAnalyticsPaths } from "./paths/adminAnalytics.paths.js";
+import { adminExportPaths } from "./paths/adminExport.paths.js";
 import { adminPaymentPaths } from "./paths/adminPayment.paths.js";
 import { adminUserPaths } from "./paths/adminUser.paths.js";
 import { adminAuditLogPaths } from "./paths/adminAuditLog.paths.js";
@@ -102,6 +103,7 @@ export const openApiDocument = {
     ...adminReviewPaths,
     ...adminDashboardPaths,
     ...adminAnalyticsPaths,
+    ...adminExportPaths,
     ...adminPaymentPaths,
     ...adminUserPaths,
     ...adminAuditLogPaths,

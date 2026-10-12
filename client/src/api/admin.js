@@ -1,4 +1,4 @@
-import { api } from "@/lib/api";
+import { api, downloadFile } from "@/lib/api";
 
 // Every call to the /admin endpoints lives here (admins and super admins only).
 
@@ -7,6 +7,14 @@ import { api } from "@/lib/api";
 export const getAdminDashboardRequest = async () => {
   const result = await api.get("/admin/dashboard");
   return result.data;
+};
+
+// kind: "orders" or "payments"; saves a CSV file of that range [AC-ANL-04]
+export const downloadExportRequest = (kind, { from, to }) => {
+  return downloadFile(
+    "/admin/exports/" + kind + "?" + new URLSearchParams({ from, to }),
+    "cibushub-" + kind + "-" + from + "-to-" + to + ".csv",
+  );
 };
 
 // from, to: Ghana days like "2026-10-01", both included [AC-ANL-01]

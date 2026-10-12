@@ -66,6 +66,7 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | `POST /admin/restaurants/:id/reject`, `/suspend` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; audit logged |
 | `GET /admin/dashboard` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize; counts only, no personal data |
 | `GET /admin/analytics` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize; sums and counts, restaurant names only |
+| `GET /admin/exports/orders`, `GET /admin/exports/payments` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; no phones or emails in the file; every export audited (`DATA_EXPORTED`) |
 | `GET /admin/payments`, `GET /admin/refunds` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate (query) |
 | `POST /admin/payments/:id/reverify` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize; asks Paystack, same rules as the webhook; audit logged |
 | `POST /admin/refunds/:id/retry` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; failed refunds only; reason required; audit logged |

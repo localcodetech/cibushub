@@ -53,6 +53,31 @@ the owner's. Any other restaurant returns 404 and no data.
 | **Best sellers** | The top 5 dishes by quantity, from paid orders that were not `REJECTED` or `CANCELLED`. Sales are the line totals, options included. A dish shows under its current menu name |
 | **Ratings** | The average stars of reviews written that day, without hidden reviews. A day with no reviews has no rating (`null`), not 0 |
 
+## CSV exports [AC-ANL-04]
+
+`GET /api/v1/admin/exports/orders` and `GET /api/v1/admin/exports/payments` take `?from&to`
+(up to 92 days) and download a `.csv` file.
+
+- **Orders:** orders **placed** in the range, unpaid ones included, with their status. Each row
+  has the food, delivery fee, service fee, discount, total, processed refunds, commission,
+  restaurant earnings and rider earnings. The file's totals won't match the charts, because the
+  charts count by the day an order was paid.
+- **Payments:** payment attempts **started** in the range, with their status, amount, and
+  processed refunds against each one.
+- **Money** is in cedis with two decimals (`70.72`), worked out from whole pesewas. Times are in
+  Ghana time.
+- **No phone numbers or emails.** Customers appear only through the order number.
+- **Safety:**
+  - A cell starting with `=`, `+`, `-` or `@` gets a `'` in front, so spreadsheets show it as text
+    and never run it as a formula (CSV injection).
+  - Files start with a UTF-8 byte-order mark so Excel shows names correctly.
+  - Responses are `Cache-Control: no-store`.
+- **Audit:** every export writes a `DATA_EXPORTED` line on the admin's own account, with which
+  export, the dates and the row count.
+- **Large ranges:** rows are read 500 at a time and written as they come, so a long range never
+  sits in memory. If the database fails partway, the download is cut off and shows as failed,
+  never as a short file that looks complete.
+
 ## Known limits
 
 - **Door problems (ADR 003).** When a customer can't be reached, the order is `CANCELLED` with no

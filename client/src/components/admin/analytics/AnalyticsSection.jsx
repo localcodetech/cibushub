@@ -15,6 +15,7 @@ import DailyBarChart from "@/components/analytics/DailyBarChart";
 import HorizontalBarChart from "@/components/analytics/HorizontalBarChart";
 import MoneyPerDayChart from "./MoneyPerDayChart";
 import OperationsTiles from "./OperationsTiles";
+import ExportButtons from "./ExportButtons";
 
 // The admin charts under the overview [AC-ANL-01]. What counts is in docs/analytics.md.
 const AnalyticsSection = () => {
@@ -45,6 +46,8 @@ const AnalyticsSection = () => {
       <div className={"mt-4" + (isFetching && data ? " opacity-60" : "")} aria-busy={isFetching}>
         <AnalyticsBody data={data} isPending={isPending} error={error} onRetry={refetch} />
       </div>
+
+      <ExportButtons range={range} disabled={problem !== ""} />
 
       <Text size="small" muted className="mt-4">
         Orders count on the day they were paid. "Customers paid" is after refunds. "CibusHub kept"
