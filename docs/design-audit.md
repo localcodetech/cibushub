@@ -29,7 +29,7 @@ highlights, Terracotta rarely.
   on two shared components: tabs for switching between sections, and chips for filters.
 - [x] **Page headers** vary: some pages have a subtitle, some have an action on the right, some
   have a back link. One header component is needed (back link, title, subtitle, actions).
-- [ ] **Desktop width is wasted.** Order detail, my orders, customer home and owner history are a
+- [x] **Desktop width is wasted.** Order detail, my orders, customer home and owner history are a
   narrow column with empty space on both sides. Use two columns where it helps (e.g. order detail:
   progress and items on the left, the delivery card on the right), or centre a comfortable width.
 - [x] **Missing images** look broken. A restaurant with no cover shows a tall grey box with a fork

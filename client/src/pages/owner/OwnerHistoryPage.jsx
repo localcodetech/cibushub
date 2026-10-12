@@ -61,7 +61,7 @@ const OwnerHistoryPage = () => {
 
   return (
     <Container>
-      <section className="mx-auto max-w-2xl py-6">
+      <section className="mx-auto max-w-2xl py-6 lg:max-w-5xl">
         <PageHeader title="History" />
 
         <div className="mt-5 grid gap-3 sm:grid-cols-2">
@@ -98,16 +98,23 @@ const OwnerHistoryPage = () => {
           </div>
         </div>
 
-        <DaySummary date={date} query={summary} />
-
-        <Heading level={2} className="mt-8">
-          Orders
-        </Heading>
-        <div className="mt-3">
-          <HistoryList
-            query={history}
-            onChangePage={(newPage) => changeFilters({ page: newPage })}
-          />
+        {/* Wide screens: the order list on the left, the day's numbers on the right staying in
+            view. Phones: the numbers first, then the list. */}
+        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start lg:gap-8">
+          <div className="lg:order-2 lg:sticky lg:top-6">
+            <DaySummary date={date} query={summary} />
+          </div>
+          <div className="lg:order-1">
+            <Heading level={2} className="mt-8 lg:mt-6">
+              Orders
+            </Heading>
+            <div className="mt-3">
+              <HistoryList
+                query={history}
+                onChangePage={(newPage) => changeFilters({ page: newPage })}
+              />
+            </div>
+          </div>
         </div>
       </section>
     </Container>
@@ -136,7 +143,7 @@ const DaySummary = ({ date, query }) => {
       <Text size="small" muted>
         {formatDay(date)}
       </Text>
-      <dl className="mt-3 grid grid-cols-3 gap-3">
+      <dl className="mt-3 grid grid-cols-3 gap-3 lg:grid-cols-1">
         <div>
           <dt className="text-[13px] text-muted-foreground">Orders</dt>
           <dd className="font-heading text-2xl font-bold">{summary.orderCount}</dd>

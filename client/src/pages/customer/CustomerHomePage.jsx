@@ -53,44 +53,47 @@ const CustomerHomePage = () => {
         />
         <FoodSearchForm className="mt-4" />
 
-        {isPending && <Skeleton className="mt-8 h-32 w-full max-w-2xl" />}
+        {isPending && <Skeleton className="mt-8 h-32 w-full lg:max-w-xl" />}
 
-        {inProgress.length > 0 && (
-          <div className="mt-8 max-w-2xl space-y-3">
-            <Heading level={2}>
-              {inProgress.length === 1 ? "Your order right now" : "Your orders right now"}
-            </Heading>
-            {inProgress.map((order) => (
-              <ActiveOrderCard key={order.id} order={order} />
-            ))}
-          </div>
-        )}
-
-        {recent.length > 0 && (
-          <div className="mt-8 max-w-2xl">
-            <div className="flex items-end justify-between gap-3">
-              <Heading level={2}>Recent orders</Heading>
-              <Link
-                to="/customer/orders"
-                className="inline-flex min-h-11 items-center gap-1 font-bold text-primary"
-              >
-                All orders <ArrowRight size={18} aria-hidden="true" />
-              </Link>
-            </div>
-            <List className="mt-3">
-              {recent.map((order) => (
-                <ListRow
-                  key={order.id}
-                  to={"/customer/orders/" + order.id}
-                  leading={<ListIcon icon={ShoppingBag} />}
-                  title={order.restaurant.name}
-                  badge={<OrderStatusBadge status={order.status} />}
-                  meta={formatDateTime(order.createdAt) + " · " + formatMoney(order.totalPesewas)}
-                />
+        {/* Wide screens: orders in progress and recent orders side by side */}
+        <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-8">
+          {inProgress.length > 0 && (
+            <div className="mt-8 space-y-3">
+              <Heading level={2}>
+                {inProgress.length === 1 ? "Your order right now" : "Your orders right now"}
+              </Heading>
+              {inProgress.map((order) => (
+                <ActiveOrderCard key={order.id} order={order} />
               ))}
-            </List>
-          </div>
-        )}
+            </div>
+          )}
+
+          {recent.length > 0 && (
+            <div className="mt-8">
+              <div className="flex items-end justify-between gap-3">
+                <Heading level={2}>Recent orders</Heading>
+                <Link
+                  to="/customer/orders"
+                  className="inline-flex min-h-11 items-center gap-1 font-bold text-primary"
+                >
+                  All orders <ArrowRight size={18} aria-hidden="true" />
+                </Link>
+              </div>
+              <List className="mt-3">
+                {recent.map((order) => (
+                  <ListRow
+                    key={order.id}
+                    to={"/customer/orders/" + order.id}
+                    leading={<ListIcon icon={ShoppingBag} />}
+                    title={order.restaurant.name}
+                    badge={<OrderStatusBadge status={order.status} />}
+                    meta={formatDateTime(order.createdAt) + " · " + formatMoney(order.totalPesewas)}
+                  />
+                ))}
+              </List>
+            </div>
+          )}
+        </div>
 
         <div className="mt-10">
           <OpenNowSection bare />
