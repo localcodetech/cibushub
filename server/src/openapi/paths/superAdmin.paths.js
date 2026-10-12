@@ -3,6 +3,7 @@ import {
   changeAdminRoleSchema,
   createAdminSchema,
 } from "../../validators/superAdmin/manageAdmins.validator.js";
+import { updateSettingsSchema } from "../../validators/superAdmin/platformSettings.validator.js";
 import { errorResponse, jsonBody, pathParameter, successResponse } from "../helpers.js";
 
 const tags = ["Super admin: Admins"];
@@ -44,7 +45,70 @@ const action = (summary, description, body) => ({
   responses: { 200: successResponse("Done", exampleAdmin), ...common },
 });
 
+const exampleSettings = {
+  deliveryBasePesewas: 500,
+  deliveryPerKmPesewas: 200,
+  serviceFeePesewas: 0,
+  commissionPercent: 10,
+  searchRadiusKm: 5,
+  widenedRadiusKm: 10,
+  offerSeconds: 60,
+  restaurantResponseMinutes: 5,
+  unpaidOrderMinutes: 30,
+  paymentMethods: ["PAYSTACK"],
+};
+
 export const superAdminPaths = {
+  "/api/v1/super-admin/settings": {
+    get: {
+      tags: ["Super admin: Settings"],
+      summary: "The platform settings in force, and the latest versions",
+      security: loggedIn,
+      responses: {
+        200: successResponse("Settings", {
+          version: 2,
+          values: exampleSettings,
+          changedAt: "2026-10-11T12:00:00.000Z",
+          history: [
+            {
+              version: 2,
+              values: exampleSettings,
+              reason: "Fuel prices went up",
+              changedAt: "2026-10-11T12:00:00.000Z",
+              changedBy: "Sam Super",
+            },
+          ],
+        }),
+      },
+    },
+    patch: {
+      tags: ["Super admin: Settings"],
+      summary: "Change some platform settings",
+      description:
+        "Send only what changes, and a reason. A new version holding every value is saved and audited (SETTINGS_CHANGED, old and new values of what changed). New orders use it at once, on every server; existing orders keep the values they were priced with [AC-SADM-02, AC-SADM-03].",
+      security: loggedIn,
+      requestBody: jsonBody(updateSettingsSchema, {
+        settings: { deliveryBasePesewas: 700 },
+        reason: "Fuel prices went up this month",
+      }),
+      responses: {
+        200: successResponse("The new version", {
+          version: 3,
+          values: { ...exampleSettings, deliveryBasePesewas: 700 },
+        }),
+        400: errorResponse(
+          "A value out of range, or no reason",
+          "VALIDATION_ERROR",
+          "Invalid request data",
+        ),
+        409: errorResponse(
+          "Nothing changed",
+          "NOTHING_CHANGED",
+          "These are already the current settings",
+        ),
+      },
+    },
+  },
   "/api/v1/super-admin/admins": {
     get: {
       tags,

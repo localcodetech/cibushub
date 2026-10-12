@@ -224,6 +224,15 @@ erDiagram
         datetime updated_at
     }
 
+    platform_settings {
+        bigint id PK "the version number"
+        json values "every setting: fees, commission, radius, timeouts, payment methods"
+        uuid changed_by FK "users.id (a super admin), empty for the starting values"
+        varchar reason
+        datetime created_at "in force from this moment"
+        datetime updated_at
+    }
+
     rider_locations {
         bigint id PK
         uuid rider_profile_id FK "rider_profiles.id, ON DELETE CASCADE"

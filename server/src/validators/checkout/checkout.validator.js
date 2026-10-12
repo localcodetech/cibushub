@@ -12,5 +12,7 @@ export const checkoutQuoteSchema = z
     items: z.array(cartLineSchema).min(1, "The cart is empty").max(50, "At most 50 lines"),
     restaurantNote: noteField.optional(), // "less pepper"
     riderNote: noteField.optional(), // "call when you reach the gate"
+    // When placing: the total the checkout page showed, so a fee change can't surprise anyone
+    seenTotalPesewas: z.number().int().min(0).optional(),
   })
   .strict();

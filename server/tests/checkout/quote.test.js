@@ -6,6 +6,7 @@ import { signAccessToken } from "../../src/utils/auth/tokens.js";
 import { createTestUser } from "../helpers/users.js";
 import { createOwner, createTestRestaurant } from "../helpers/restaurants.js";
 import { deliveryFeeFor, estimateRoadMeters } from "../../src/utils/delivery/deliveryFee.js";
+import { DEFAULT_SETTINGS } from "../../src/utils/settings/platformDefaults.js";
 
 const FRIDAY_NOON = new Date("2026-10-09T12:00:00Z");
 
@@ -90,7 +91,9 @@ describe("POST /api/v1/customer/checkout/quote [AC-CHK-01]", () => {
     const roadMeters = estimateRoadMeters(restaurant, nearbyAddress);
 
     expect(response.body.data.delivery.roadMeters).toBe(roadMeters);
-    expect(response.body.data.deliveryFeePesewas).toBe(deliveryFeeFor(roadMeters));
+    expect(response.body.data.deliveryFeePesewas).toBe(
+      deliveryFeeFor(roadMeters, DEFAULT_SETTINGS),
+    );
     expect(response.body.data.pricingSnapshot.distanceSource).toBe("HAVERSINE");
   });
 

@@ -1,11 +1,11 @@
 import { distanceInKm } from "../distance.js";
 import { divideAndRound } from "../money.js";
 
-// The delivery fee formula, documented in docs/pricing.md [AC-CHK-03]
+// The delivery fee formula, documented in docs/pricing.md [AC-CHK-03].
+// The base and per-km amounts are platform settings a super admin can change [AC-SADM-02];
+// the road factor is not (it goes away when Google Routes is connected).
 export const DELIVERY_FEE_RULES = {
-  basePesewas: 500, // GHS 5.00 for every delivery
-  perKmPesewas: 200, // plus GHS 2.00 per road kilometre
-  // Roads wind: a road trip is about 1.3 times the straight line (used until Google Routes is connected)
+  // Roads wind: a road trip is about 1.3 times the straight line
   roadFactor: 1.3,
 };
 
@@ -19,9 +19,10 @@ export const estimateRoadMeters = (restaurant, address) => {
   return Math.round(straightLineKm(restaurant, address) * 1000 * DELIVERY_FEE_RULES.roadFactor);
 };
 
-// base + perKm x road km, in whole pesewas
-export const deliveryFeeFor = (roadMeters) => {
-  const distancePart = divideAndRound(roadMeters * DELIVERY_FEE_RULES.perKmPesewas, 1000);
+// base + per km x road km, in whole pesewas.
+// settings: the platform settings in force, e.g. { deliveryBasePesewas: 500, deliveryPerKmPesewas: 200 }
+export const deliveryFeeFor = (roadMeters, settings) => {
+  const distancePart = divideAndRound(roadMeters * settings.deliveryPerKmPesewas, 1000);
 
-  return DELIVERY_FEE_RULES.basePesewas + distancePart;
+  return settings.deliveryBasePesewas + distancePart;
 };

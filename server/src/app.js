@@ -29,6 +29,7 @@ import adminPaymentRoutes from "./routes/admin/payment.routes.js";
 import adminUserRoutes from "./routes/admin/user.routes.js";
 import adminAuditLogRoutes from "./routes/admin/auditLog.routes.js";
 import superAdminAdminRoutes from "./routes/superAdmin/admin.routes.js";
+import superAdminSettingsRoutes from "./routes/superAdmin/settings.routes.js";
 import riderStatusRoutes from "./routes/rider/status.routes.js";
 import riderOfferRoutes from "./routes/rider/offer.routes.js";
 import riderDeliveryRoutes from "./routes/rider/delivery.routes.js";
@@ -248,6 +249,11 @@ app.use("/api/v1/super-admin", authenticate, requireActive, authorize("SUPER_ADM
 // Super admin: admin accounts (create, suspend, reactivate, change role, remove)
 // ─────────────────────────────────────────────
 app.use("/api/v1/super-admin/admins", superAdminAdminRoutes);
+
+// ─────────────────────────────────────────────
+// Super admin: platform settings (fees, commission, timeouts), versioned
+// ─────────────────────────────────────────────
+app.use("/api/v1/super-admin/settings", superAdminSettingsRoutes);
 
 // ─────────────────────────────────────────────
 // Admin: payments and refunds (re-verify a payment, retry a failed refund)

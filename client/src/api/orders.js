@@ -46,6 +46,9 @@ export const placeOrderRequest = async (order, idempotencyKey) => {
   // Optional notes are left out when empty; the server refuses empty text
   if (order.restaurantNote) body.restaurantNote = order.restaurantNote;
   if (order.riderNote) body.riderNote = order.riderNote;
+  // The total the page showed: if fees changed meanwhile, the server stops the order and the
+  // page shows the new total first (plan-review C14)
+  if (order.seenTotalPesewas !== undefined) body.seenTotalPesewas = order.seenTotalPesewas;
 
   const result = await api.post("/customer/orders", body, { "Idempotency-Key": idempotencyKey });
   return result.data;
