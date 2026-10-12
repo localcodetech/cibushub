@@ -32,7 +32,7 @@ highlights, Terracotta rarely.
 - [ ] **Desktop width is wasted.** Order detail, my orders, customer home and owner history are a
   narrow column with empty space on both sides. Use two columns where it helps (e.g. order detail:
   progress and items on the left, the delivery card on the right), or centre a comfortable width.
-- [ ] **Missing images** look broken. A restaurant with no cover shows a tall grey box with a fork
+- [x] **Missing images** look broken. A restaurant with no cover shows a tall grey box with a fork
   icon that takes up half the card, and dishes have no image space at all. Use a smaller, branded
   placeholder (initials or a pattern in brand colours).
 - [ ] **Empty states** are an icon and a sentence. They're fine but flat: use a softer illustration
@@ -44,11 +44,11 @@ highlights, Terracotta rarely.
 
 ## Screens
 
-- [ ] **Home (`/`)** is a placeholder ("Coming soon"). It needs a real landing page: a hero with a
+- [x] **Home (`/`)** is a placeholder ("Coming soon"). It needs a real landing page: a hero with a
   search, restaurants open now, how it works, and links to become a restaurant owner or rider.
 - [ ] **Customer home (`/customer`)** is three buttons. It should show the active order (live status),
   recent orders with reorder, and restaurants open now.
-- [ ] **Restaurants list:** the placeholder images are too tall (see above), and the meta line
+- [x] **Restaurants list:** the placeholder images are too tall (see above), and the meta line
   (time, area, minimum order) is cramped on phones.
 - [ ] **Restaurant page:** the hero placeholder; the dish rows need room for an image; the category
   chips could stick to the top while scrolling.
@@ -69,6 +69,10 @@ highlights, Terracotta rarely.
   plain labels and money format from the settings page.
 - [ ] **Rider screens:** clear and simple. The online switch card and the current delivery card
   should look like the rest once the shared cards are restyled.
+
+- [ ] **Navbar in dark mode** is a bright mint bar (the brand green turns light in dark mode).
+  Use a dark surface with a green accent instead, as done for the home page hero.
+- [ ] **Dish rows** still have no room for a photo (restaurant page).
 
 ## Not issues
 

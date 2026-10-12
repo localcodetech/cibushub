@@ -1,9 +1,10 @@
-import { Clock, MapPin, ShoppingBag, UtensilsCrossed } from "lucide-react";
+import { Clock, MapPin, ShoppingBag } from "lucide-react";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import { formatMoney } from "@/utils/money";
 import RatingBadge from "@/components/review/RatingBadge";
 import StatusBadge from "@/components/common/StatusBadge";
+import CoverPlaceholder from "./CoverPlaceholder";
 
 // The top of a restaurant page: cover photo, name, open status and the key facts [AC-DISC-10].
 // restaurant: the data from GET /restaurants/:id
@@ -19,9 +20,7 @@ const RestaurantHeader = ({ restaurant }) => {
           className="aspect-21/9 w-full rounded-lg object-cover"
         />
       ) : (
-        <div className="flex aspect-21/9 w-full items-center justify-center rounded-lg bg-muted">
-          <UtensilsCrossed size={40} className="text-muted-foreground" aria-hidden="true" />
-        </div>
+        <CoverPlaceholder name={restaurant.name} size="header" />
       )}
 
       <div className="mt-4 flex items-start justify-between gap-3">

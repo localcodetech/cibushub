@@ -1,10 +1,11 @@
 import { Link } from "react-router";
-import { Clock, MapPin, UtensilsCrossed } from "lucide-react";
+import { Clock, MapPin } from "lucide-react";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import { formatMoney } from "@/utils/money";
 import RatingBadge from "@/components/review/RatingBadge";
 import Card from "@/components/common/Card";
+import CoverPlaceholder from "./CoverPlaceholder";
 import StatusBadge from "@/components/common/StatusBadge";
 
 // One restaurant in the listing. The whole card is a link to its menu [AC-DISC-01].
@@ -69,11 +70,7 @@ const RestaurantCard = ({ restaurant }) => {
 // The photo at the top of the card, or a plain block with an icon if there is none [AC-IMG-05]
 const CoverImage = ({ url, name, isOpen }) => {
   if (!url) {
-    return (
-      <div className="flex aspect-video w-full items-center justify-center bg-muted">
-        <UtensilsCrossed size={32} className="text-muted-foreground" aria-hidden="true" />
-      </div>
-    );
+    return <CoverPlaceholder name={name} dimmed={!isOpen} />;
   }
 
   return (
