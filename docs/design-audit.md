@@ -37,7 +37,7 @@ highlights, Terracotta rarely.
   placeholder (initials or a pattern in brand colours).
 - [ ] **Empty states** are an icon and a sentence. They're fine but flat: use a softer illustration
   tile and a clear next action everywhere.
-- [ ] **Navbar:** the desktop text links ("My dashboard", "Log out") are small. The unread badge is
+- [x] **Navbar:** the desktop text links ("My dashboard", "Log out") are small. The unread badge is
   fine. The account menu could gather My dashboard, Settings and Log out.
 - [ ] **Motion:** none yet. Sheets, list arrivals and status changes should ease in, and be off for
   reduced-motion users (AC-UX-09).
@@ -70,7 +70,7 @@ highlights, Terracotta rarely.
 - [ ] **Rider screens:** clear and simple. The online switch card and the current delivery card
   should look like the rest once the shared cards are restyled.
 
-- [ ] **Navbar in dark mode** is a bright mint bar (the brand green turns light in dark mode).
+- [x] **Navbar in dark mode** is a bright mint bar (the brand green turns light in dark mode).
   Use a dark surface with a green accent instead, as done for the home page hero.
 - [ ] **Dish rows** still have no room for a photo (restaurant page).
 
