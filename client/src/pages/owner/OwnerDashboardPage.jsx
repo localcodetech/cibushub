@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Bell, BellOff, ChefHat } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import Container from "@/layouts/Container";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
@@ -265,18 +266,30 @@ const BoardContent = ({
           }
         />
       ) : (
+        // Orders glide: a new one slides in, one that moves to another stage slides out,
+        // and the others close the gap (layout). Instant for reduced-motion users.
         <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {shown.map((order) => (
-            <KitchenOrderCard
-              key={order.id}
-              order={order}
-              now={now}
-              showRestaurant={showRestaurant}
-              isWorking={workingOrderId === order.id}
-              error={actionError && actionError.orderId === order.id ? actionError.message : ""}
-              onAction={onAction}
-            />
-          ))}
+          <AnimatePresence mode="popLayout" initial={false}>
+            {shown.map((order) => (
+              <motion.div
+                key={order.id}
+                layout
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.96 }}
+                transition={{ duration: 0.25 }}
+              >
+                <KitchenOrderCard
+                  order={order}
+                  now={now}
+                  showRestaurant={showRestaurant}
+                  isWorking={workingOrderId === order.id}
+                  error={actionError && actionError.orderId === order.id ? actionError.message : ""}
+                  onAction={onAction}
+                />
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
       )}
     </>

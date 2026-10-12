@@ -1,5 +1,6 @@
 import { StrictMode } from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
+import { MotionConfig } from "motion/react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
@@ -19,7 +20,11 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     {/* Lets every page use TanStack Query to fetch server data */}
     <QueryClientProvider client={queryClient}>
-      <App />
+      {/* One switch for every animation [AC-UX-09]: people who ask their device for less
+          motion get instant changes everywhere */}
+      <MotionConfig reducedMotion="user">
+        <App />
+      </MotionConfig>
     </QueryClientProvider>
   </StrictMode>,
 );
