@@ -7,7 +7,7 @@ import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import ErrorState from "@/components/common/ErrorState";
 import { Button } from "@/components/ui/button";
-import StatusPill from "@/components/admin/StatusPill";
+import StatusBadge from "@/components/common/StatusBadge";
 import ConfirmActionSheet from "@/components/admin/ConfirmActionSheet";
 import CreateAdminSheet from "@/components/admin/CreateAdminSheet";
 import {
@@ -107,7 +107,7 @@ const SuperAdminAdminsPage = () => {
                         {admin.fullName}
                         {isMe && <span className="font-normal text-muted-foreground"> (you)</span>}
                       </span>
-                      <StatusPill label={statusInfo.label} tone={statusInfo.tone} />
+                      <StatusBadge label={statusInfo.label} tone={statusInfo.tone} />
                     </div>
                     <p className="text-[13px] text-muted-foreground">
                       {ROLE_NAMES[admin.role]} · {admin.email} · {admin.phone} · last login{" "}

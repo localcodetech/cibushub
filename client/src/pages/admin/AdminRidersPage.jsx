@@ -8,7 +8,7 @@ import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
 import ErrorState from "@/components/common/ErrorState";
-import StatusPill from "@/components/admin/StatusPill";
+import StatusBadge from "@/components/common/StatusBadge";
 import { getAdminRidersRequest } from "@/api/admin";
 import { RIDER_STATUSES, VEHICLE_NAMES } from "@/data/riderStatuses";
 import { formatDateTime } from "@/utils/date";
@@ -148,7 +148,7 @@ const RiderList = ({ data, isPending, error, onRetry, isQueue }) => {
             to={"/admin/riders/" + rider.id}
             leading={<Avatar name={rider.rider.fullName} />}
             title={rider.rider.fullName}
-            badge={<StatusPill label={statusInfo.label} tone={statusInfo.tone} />}
+            badge={<StatusBadge label={statusInfo.label} tone={statusInfo.tone} />}
             meta={
               VEHICLE_NAMES[rider.vehicleType] +
               (rider.plateNumber ? " · " + rider.plateNumber : "") +

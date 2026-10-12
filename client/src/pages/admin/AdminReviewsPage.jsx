@@ -8,7 +8,7 @@ import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
 import ErrorState from "@/components/common/ErrorState";
-import StatusPill from "@/components/admin/StatusPill";
+import StatusBadge from "@/components/common/StatusBadge";
 import ConfirmActionSheet from "@/components/admin/ConfirmActionSheet";
 import Stars from "@/components/review/Stars";
 import { getAdminReviewsRequest, hideReviewRequest, showReviewRequest } from "@/api/admin";
@@ -123,7 +123,7 @@ const AdminReviewsPage = () => {
 
                   {review.hiddenAt ? (
                     <div className="mt-2 flex flex-wrap items-center gap-2">
-                      <StatusPill label="Hidden" tone="red" />
+                      <StatusBadge label="Hidden" tone="danger" />
                       <span className="text-[13px] text-muted-foreground">
                         {review.hiddenReason}
                       </span>

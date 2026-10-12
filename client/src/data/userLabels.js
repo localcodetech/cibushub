@@ -8,8 +8,8 @@ export const ROLE_NAMES = {
 };
 
 export const ACCOUNT_STATUSES = {
-  PENDING_VERIFICATION: { label: "Phone not verified", tone: "muted" },
-  PENDING_APPROVAL: { label: "Waiting for approval", tone: "gold" },
-  ACTIVE: { label: "Active", tone: "green" },
-  SUSPENDED: { label: "Suspended", tone: "red" },
+  PENDING_VERIFICATION: { label: "Phone not verified", tone: "neutral" },
+  PENDING_APPROVAL: { label: "Waiting for approval", tone: "attention" },
+  ACTIVE: { label: "Active", tone: "success" },
+  SUSPENDED: { label: "Suspended", tone: "danger" },
 };

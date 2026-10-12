@@ -8,6 +8,7 @@ import NewCartSheet from "@/components/cart/NewCartSheet";
 import { isFromAnotherRestaurant, useCartStore } from "@/store/cartStore";
 import { formatMoney } from "@/utils/money";
 import { isItemAvailable } from "@/utils/menu";
+import StatusBadge from "@/components/common/StatusBadge";
 
 // The whole menu: category links at the top, then each category with its dishes [AC-DISC-10].
 // Tapping "Add" opens the dish sheet; adding from a second restaurant asks first [AC-CART-01, 02].
@@ -129,11 +130,7 @@ const MenuItemRow = ({ item, canOrder, onAddClick }) => {
         )}
         <div className="mt-2 flex items-center gap-3">
           <span className="font-bold">{formatMoney(item.pricePesewas)}</span>
-          {!isAvailable && (
-            <span className="rounded-full bg-muted px-2 py-0.5 text-[13px] font-bold">
-              Sold out
-            </span>
-          )}
+          {!isAvailable && <StatusBadge label="Sold out" tone="neutral" icon={null} />}
         </div>
       </div>
 

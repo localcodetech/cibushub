@@ -1,10 +1,10 @@
 // What each rider status means to an admin, and how its badge looks
 export const RIDER_STATUSES = {
-  DRAFT: { label: "Not submitted", tone: "muted" },
-  PENDING_APPROVAL: { label: "Waiting for review", tone: "gold" },
-  APPROVED: { label: "Approved", tone: "green" },
-  REJECTED: { label: "Rejected", tone: "red" },
-  SUSPENDED: { label: "Suspended", tone: "red" },
+  DRAFT: { label: "Not submitted", tone: "neutral" },
+  PENDING_APPROVAL: { label: "Waiting for review", tone: "attention" },
+  APPROVED: { label: "Approved", tone: "success" },
+  REJECTED: { label: "Rejected", tone: "danger" },
+  SUSPENDED: { label: "Suspended", tone: "danger" },
 };
 
 export const VEHICLE_NAMES = { MOTORBIKE: "Motorbike", BICYCLE: "Bicycle", CAR: "Car" };

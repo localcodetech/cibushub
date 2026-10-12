@@ -1,19 +1,46 @@
 // What each order status means to a customer [AC-ORD-01, AC-ORD-06].
 // label: short, for badges. description: one line for the timeline.
+// tone: the badge group (components/common/StatusBadge.jsx). attention = someone must act now
+// (the restaurant must accept; a rider is needed), progress = moving along.
 export const ORDER_STATUSES = {
   PENDING_PAYMENT: {
     label: "Waiting for payment",
     description: "Order placed, waiting for payment",
+    tone: "neutral",
   },
-  PAID: { label: "Sent to restaurant", description: "Paid and sent to the restaurant" },
-  ACCEPTED: { label: "Accepted", description: "The restaurant accepted your order" },
-  PREPARING: { label: "Preparing", description: "Your food is being prepared" },
-  READY_FOR_PICKUP: { label: "Ready", description: "Ready, waiting for the rider" },
-  RIDER_ASSIGNED: { label: "Rider assigned", description: "A rider is heading to the restaurant" },
-  PICKED_UP: { label: "On the way", description: "Your rider is on the way to you" },
-  DELIVERED: { label: "Delivered", description: "Delivered. Enjoy your meal!" },
-  REJECTED: { label: "Rejected", description: "The restaurant couldn't take this order" },
-  CANCELLED: { label: "Cancelled", description: "This order was cancelled" },
+  PAID: {
+    label: "Sent to restaurant",
+    description: "Paid and sent to the restaurant",
+    tone: "attention",
+  },
+  ACCEPTED: {
+    label: "Accepted",
+    description: "The restaurant accepted your order",
+    tone: "progress",
+  },
+  PREPARING: { label: "Preparing", description: "Your food is being prepared", tone: "progress" },
+  READY_FOR_PICKUP: {
+    label: "Ready",
+    description: "Ready, waiting for the rider",
+    tone: "attention",
+  },
+  RIDER_ASSIGNED: {
+    label: "Rider assigned",
+    description: "A rider is heading to the restaurant",
+    tone: "progress",
+  },
+  PICKED_UP: {
+    label: "On the way",
+    description: "Your rider is on the way to you",
+    tone: "progress",
+  },
+  DELIVERED: { label: "Delivered", description: "Delivered. Enjoy your meal!", tone: "success" },
+  REJECTED: {
+    label: "Rejected",
+    description: "The restaurant couldn't take this order",
+    tone: "danger",
+  },
+  CANCELLED: { label: "Cancelled", description: "This order was cancelled", tone: "danger" },
 };
 
 // The normal journey of an order, in order. REJECTED and CANCELLED can end it early.

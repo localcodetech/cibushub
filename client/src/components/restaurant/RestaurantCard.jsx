@@ -5,6 +5,7 @@ import Text from "@/components/typography/Text";
 import { formatMoney } from "@/utils/money";
 import RatingBadge from "@/components/review/RatingBadge";
 import Card from "@/components/common/Card";
+import StatusBadge from "@/components/common/StatusBadge";
 
 // One restaurant in the listing. The whole card is a link to its menu [AC-DISC-01].
 // restaurant: one item from GET /restaurants
@@ -25,15 +26,11 @@ const RestaurantCard = ({ restaurant }) => {
         <div className="flex items-start justify-between gap-2">
           <Heading level={3}>{restaurant.name}</Heading>
           {/* Open / Closed / Opens at 18:00, worked out by the server in Ghana time [AC-DISC-04] */}
-          <span
-            className={
-              isOpen
-                ? "shrink-0 rounded-full bg-primary/10 px-2 py-0.5 text-[13px] font-bold text-primary"
-                : "shrink-0 rounded-full bg-muted px-2 py-0.5 text-[13px] font-bold text-muted-foreground"
-            }
-          >
-            {restaurant.openStatus.label}
-          </span>
+          <StatusBadge
+            label={restaurant.openStatus.label}
+            tone={isOpen ? "success" : "neutral"}
+            icon={isOpen ? undefined : Clock}
+          />
         </div>
 
         {/* ["ghanaian", "grill"] -> "ghanaian · grill" */}

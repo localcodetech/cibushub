@@ -9,7 +9,7 @@ import Card from "@/components/common/Card";
 import Skeleton from "@/components/common/Skeleton";
 import ErrorState from "@/components/common/ErrorState";
 import { Button } from "@/components/ui/button";
-import StatusPill from "@/components/admin/StatusPill";
+import StatusBadge from "@/components/common/StatusBadge";
 import ConfirmActionSheet from "@/components/admin/ConfirmActionSheet";
 import {
   approveRiderRequest,
@@ -103,7 +103,7 @@ const AdminRiderDetailPage = () => {
           <div className="flex-1">
             <Heading level={1}>{name}</Heading>
             <div className="mt-1">
-              <StatusPill label={statusInfo.label} tone={statusInfo.tone} />
+              <StatusBadge label={statusInfo.label} tone={statusInfo.tone} />
             </div>
           </div>
         </div>

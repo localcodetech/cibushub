@@ -9,7 +9,7 @@ import Card from "@/components/common/Card";
 import Skeleton from "@/components/common/Skeleton";
 import ErrorState from "@/components/common/ErrorState";
 import { Button } from "@/components/ui/button";
-import StatusPill from "@/components/admin/StatusPill";
+import StatusBadge from "@/components/common/StatusBadge";
 import ConfirmActionSheet from "@/components/admin/ConfirmActionSheet";
 import { getAdminUserRequest, reactivateUserRequest, suspendUserRequest } from "@/api/admin";
 import { ACCOUNT_STATUSES, ROLE_NAMES } from "@/data/userLabels";
@@ -85,7 +85,7 @@ const AdminUserDetailPage = () => {
               {ROLE_NAMES[user.role]} · joined {formatDateTime(user.createdAt)}
             </Text>
           </div>
-          <StatusPill label={statusInfo.label} tone={statusInfo.tone} />
+          <StatusBadge label={statusInfo.label} tone={statusInfo.tone} />
         </div>
 
         {/* Admin accounts are managed by the super admin [AC-SADM-01] */}

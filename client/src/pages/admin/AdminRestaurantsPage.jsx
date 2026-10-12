@@ -7,7 +7,7 @@ import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
 import ErrorState from "@/components/common/ErrorState";
-import StatusPill from "@/components/admin/StatusPill";
+import StatusBadge from "@/components/common/StatusBadge";
 import { getAdminRestaurantsRequest } from "@/api/admin";
 import { RESTAURANT_STATUSES } from "@/data/restaurantStatuses";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
@@ -164,7 +164,7 @@ const RestaurantList = ({ data, isPending, error, onRetry, isQueue }) => {
             to={"/admin/restaurants/" + restaurant.id}
             leading={<ListIcon icon={Store} />}
             title={restaurant.name}
-            badge={<StatusPill label={statusInfo.label} tone={statusInfo.tone} />}
+            badge={<StatusBadge label={statusInfo.label} tone={statusInfo.tone} />}
             meta={
               restaurant.area +
               " · " +

@@ -7,7 +7,7 @@ import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
 import ErrorState from "@/components/common/ErrorState";
-import StatusPill from "@/components/admin/StatusPill";
+import StatusBadge from "@/components/common/StatusBadge";
 import { getAdminUsersRequest } from "@/api/admin";
 import { ACCOUNT_STATUSES, ROLE_NAMES } from "@/data/userLabels";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
@@ -152,7 +152,7 @@ const UserList = ({ data, isPending, error, onRetry }) => {
             to={"/admin/users/" + user.id}
             leading={<Avatar name={user.fullName} />}
             title={user.fullName}
-            badge={<StatusPill label={statusInfo.label} tone={statusInfo.tone} />}
+            badge={<StatusBadge label={statusInfo.label} tone={statusInfo.tone} />}
             meta={
               ROLE_NAMES[user.role] +
               " · " +

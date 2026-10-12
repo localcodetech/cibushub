@@ -8,7 +8,7 @@ import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
 import ErrorState from "@/components/common/ErrorState";
-import StatusPill from "@/components/admin/StatusPill";
+import StatusBadge from "@/components/common/StatusBadge";
 import ConfirmActionSheet from "@/components/admin/ConfirmActionSheet";
 import {
   getAdminPaymentsRequest,
@@ -24,16 +24,16 @@ import { List } from "@/components/common/List";
 
 // How each status reads and looks
 const PAYMENT_STATUSES = {
-  SUCCESS: { label: "Paid", tone: "green" },
-  PENDING: { label: "Pending", tone: "gold" },
-  FAILED: { label: "Failed", tone: "red" },
-  ABANDONED: { label: "Abandoned", tone: "muted" },
-  AMOUNT_MISMATCH: { label: "Wrong amount", tone: "red" },
+  SUCCESS: { label: "Paid", tone: "success" },
+  PENDING: { label: "Pending", tone: "attention" },
+  FAILED: { label: "Failed", tone: "danger" },
+  ABANDONED: { label: "Abandoned", tone: "neutral" },
+  AMOUNT_MISMATCH: { label: "Wrong amount", tone: "danger" },
 };
 const REFUND_STATUSES = {
-  PENDING: { label: "Pending", tone: "gold" },
-  PROCESSED: { label: "Refunded", tone: "green" },
-  FAILED: { label: "Failed", tone: "red" },
+  PENDING: { label: "Pending", tone: "progress" },
+  PROCESSED: { label: "Refunded", tone: "success" },
+  FAILED: { label: "Failed", tone: "danger" },
 };
 
 // Reasons saved as codes, in words
@@ -237,7 +237,7 @@ const PaymentsTab = () => {
               <li key={payment.id} className="px-4 py-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <span className="font-bold break-all">{payment.reference}</span>
-                  <StatusPill
+                  <StatusBadge
                     label={PAYMENT_STATUSES[payment.status].label}
                     tone={PAYMENT_STATUSES[payment.status].tone}
                   />
@@ -335,7 +335,7 @@ const RefundsTab = () => {
               <li key={refund.id} className="px-4 py-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <span className="font-bold">{formatMoney(refund.amountPesewas)}</span>
-                  <StatusPill
+                  <StatusBadge
                     label={REFUND_STATUSES[refund.status].label}
                     tone={REFUND_STATUSES[refund.status].tone}
                   />

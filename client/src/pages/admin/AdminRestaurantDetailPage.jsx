@@ -9,7 +9,7 @@ import Card from "@/components/common/Card";
 import Skeleton from "@/components/common/Skeleton";
 import ErrorState from "@/components/common/ErrorState";
 import { Button } from "@/components/ui/button";
-import StatusPill from "@/components/admin/StatusPill";
+import StatusBadge from "@/components/common/StatusBadge";
 import ConfirmActionSheet from "@/components/admin/ConfirmActionSheet";
 import OrderStatusBadge from "@/components/order/OrderStatusBadge";
 import RatingBadge from "@/components/review/RatingBadge";
@@ -97,7 +97,7 @@ const AdminRestaurantDetailPage = () => {
               Legal name: {restaurant.legalName || "not given"}
             </Text>
           </div>
-          <StatusPill label={statusInfo.label} tone={statusInfo.tone} />
+          <StatusBadge label={statusInfo.label} tone={statusInfo.tone} />
         </div>
 
         {restaurant.rejectionReason && (
