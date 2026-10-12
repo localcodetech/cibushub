@@ -11,7 +11,7 @@ import ErrorState from "@/components/common/ErrorState";
 import RangePicker from "@/components/analytics/RangePicker";
 import DailyBarChart from "@/components/analytics/DailyBarChart";
 import HorizontalBarChart from "@/components/analytics/HorizontalBarChart";
-import { cedisTick } from "@/components/analytics/chartTheme";
+import { MONEY_AXIS_MIN_TOP, cedisTick } from "@/components/analytics/chartTheme";
 import RatingChart from "@/components/owner/analytics/RatingChart";
 import { getMyRestaurantsRequest, getRestaurantAnalyticsRequest } from "@/api/ownerAnalytics";
 import { formatDay } from "@/utils/date";
@@ -32,7 +32,12 @@ const OwnerAnalyticsPage = () => {
   });
 
   const restaurantList = restaurants.data || [];
-  const restaurantId = chosenId || (restaurantList[0] ? restaurantList[0].id : "");
+  // Until the owner picks one: the restaurant that had an order most recently (the one they
+  // most likely want to see), or their newest restaurant if none has orders yet
+  const busiest = [...restaurantList].sort((a, b) =>
+    (b.lastOrderAt || "").localeCompare(a.lastOrderAt || ""),
+  )[0];
+  const restaurantId = chosenId || (busiest ? busiest.id : "");
   const problem = rangeProblem(range);
 
   const analytics = useQuery({
@@ -185,6 +190,7 @@ const AnalyticsBody = ({ data, isPending, error, onRetry }) => {
           formatValue={formatMoney}
           axisFormat={cedisTick}
           axisWidth={84}
+          minTop={MONEY_AXIS_MIN_TOP}
         />
         <HorizontalBarChart
           title="Best sellers"

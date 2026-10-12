@@ -58,14 +58,14 @@ highlights, Terracotta rarely.
   left accent, relative times, Today/Earlier groups, and a dropdown from the bell on desktop.
 - [x] **Owner board:** works well. The orange "Turn on sound" button was the loudest thing on the
   page; it is now a calm gold button (done with the page header).
-- [ ] **Owner analytics:**
+- [x] **Owner analytics:**
   - The restaurant picker opens on the owner's newest restaurant, even when all the orders are at
     another. Open on the one with recent orders.
   - Bug: the money axis repeats "GHS 0" when every value is 0 or small. Show decimals below GHS 10,
     and give the axis a minimum height.
 - [x] **Admin users list:** the meta line is cut off ("joined 12 Oct 2026, 1…") on phones. It needs
   two lines or a shorter date.
-- [ ] **Admin audit log:** changes show raw field names (`deliveryBasePesewas: 500 → 600`). Use the
+- [x] **Admin audit log:** changes show raw field names (`deliveryBasePesewas: 500 → 600`). Use the
   plain labels and money format from the settings page.
 - [ ] **Rider screens:** clear and simple. The online switch card and the current delivery card
   should look like the rest once the shared cards are restyled.

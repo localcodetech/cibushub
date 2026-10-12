@@ -12,6 +12,7 @@ import { ROLE_NAMES } from "@/data/userLabels";
 import { formatDateTime } from "@/utils/date";
 import { List } from "@/components/common/List";
 import PageHeader from "@/components/common/PageHeader";
+import { fieldLabel, fieldValue } from "@/data/auditLabels";
 
 // What each kind of target is called, and where its page is (if it has one)
 const TARGETS = {
@@ -31,28 +32,14 @@ const actionWords = (action) => {
   return words.charAt(0).toUpperCase() + words.slice(1);
 };
 
-// A value from before/after, as short text
-const valueText = (value) => {
-  if (value === null || value === undefined) {
-    return "—";
-  }
-  // A map point: "6.6886, -1.6244" instead of its raw data
-  if (typeof value === "object" && "latitude" in value && "longitude" in value) {
-    return Number(value.latitude).toFixed(5) + ", " + Number(value.longitude).toFixed(5);
-  }
-  if (typeof value === "object") {
-    return JSON.stringify(value);
-  }
-  return String(value);
-};
-
-// { status: "ACTIVE" } and { status: "SUSPENDED" } -> [["status", "ACTIVE", "SUSPENDED"]]
+// { status: "ACTIVE" } and { status: "SUSPENDED" } -> [["Status", "Active", "Suspended"]]
+// (labels and values in words: data/auditLabels.js)
 const changesOf = (before, after) => {
   const keys = new Set([...Object.keys(before || {}), ...Object.keys(after || {})]);
   return [...keys].map((key) => [
-    key,
-    valueText(before ? before[key] : undefined),
-    valueText(after ? after[key] : undefined),
+    fieldLabel(key),
+    fieldValue(key, before ? before[key] : undefined),
+    fieldValue(key, after ? after[key] : undefined),
   ]);
 };
 

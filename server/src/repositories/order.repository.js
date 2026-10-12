@@ -1,4 +1,4 @@
-import { Op } from "sequelize";
+import { Op, col, fn } from "sequelize";
 import {
   Order,
   OrderItem,
@@ -346,4 +346,17 @@ export const findUnansweredPaidOrders = (paidBefore, limit) => {
     limit,
     subQuery: false,
   });
+};
+
+// When each of these restaurants last had a paid order: { restaurantId: Date }.
+// One grouped query; restaurants with no paid orders are left out.
+export const findLastPaidOrderTimes = async (restaurantIds) => {
+  if (restaurantIds.length === 0) return {};
+  const rows = await Order.findAll({
+    attributes: ["restaurantId", [fn("MAX", col("created_at")), "lastOrderAt"]],
+    where: { restaurantId: restaurantIds, paymentStatus: { [Op.ne]: "UNPAID" } },
+    group: ["restaurantId"],
+    raw: true,
+  });
+  return Object.fromEntries(rows.map((row) => [row.restaurantId, row.lastOrderAt]));
 };

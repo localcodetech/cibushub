@@ -3,9 +3,17 @@ import {
   findOwnedRestaurant,
   findRestaurantsByOwner,
 } from "../../repositories/restaurant.repository.js";
+import { findLastPaidOrderTimes } from "../../repositories/order.repository.js";
 
-export const listMyRestaurants = (ownerId) => {
-  return findRestaurantsByOwner(ownerId);
+// My restaurants, newest first [AC-REST-08], each with lastOrderAt: when it last had a paid
+// order (null if never), so screens can open on the restaurant that is busy right now
+export const listMyRestaurants = async (ownerId) => {
+  const restaurants = await findRestaurantsByOwner(ownerId);
+  const lastOrders = await findLastPaidOrderTimes(restaurants.map((restaurant) => restaurant.id));
+  return restaurants.map((restaurant) => ({
+    ...restaurant.toJSON(),
+    lastOrderAt: lastOrders[restaurant.id] || null,
+  }));
 };
 
 export const getMyRestaurant = async (restaurantId, ownerId) => {

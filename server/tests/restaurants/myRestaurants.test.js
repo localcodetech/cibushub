@@ -1,8 +1,9 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import request from "supertest";
 import app from "../../src/app.js";
 import { signAccessToken } from "../../src/utils/auth/tokens.js";
 import { createOwner, createTestRestaurant } from "../helpers/restaurants.js";
+import { createPaidOrder } from "../helpers/orders.js";
 
 let ownerA;
 let ownerB;
@@ -37,6 +38,21 @@ describe("GET /api/v1/owner/restaurants", () => {
       "Bantama Grills",
       "Adum Chop Bar",
     ]);
+  });
+
+  it("says when each restaurant last had a paid order (null if never)", async () => {
+    // A Friday noon: the helper's restaurant is open
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(new Date("2026-10-09T12:00:00Z"));
+    const { owner, restaurant, order } = await createPaidOrder(1);
+    const quiet = await createTestRestaurant(owner, { name: "Quiet Kitchen" });
+    vi.useRealTimers();
+
+    const response = await getAs(owner, "/api/v1/owner/restaurants");
+    const byId = Object.fromEntries(response.body.data.map((item) => [item.id, item]));
+
+    expect(byId[restaurant.id].lastOrderAt).toBe(order.createdAt.toISOString());
+    expect(byId[quiet.id].lastOrderAt).toBeNull();
   });
 
   it("shows rejected restaurants with their reason [AC-REST-02]", async () => {
