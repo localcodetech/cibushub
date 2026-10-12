@@ -52,7 +52,7 @@ highlights, Terracotta rarely.
   (time, area, minimum order) is cramped on phones.
 - [ ] **Restaurant page:** the hero placeholder; the dish rows need room for an image; the category
   chips could stick to the top while scrolling.
-- [ ] **Order tracking:** the delivery code box and the map are good. The 8-step progress list is long
+- [x] **Order tracking:** the delivery code box and the map are good. The 8-step progress list is long
   on phones: show the current step large and fold the finished ones away.
 - [x] **Notifications** (planned in Step 13b, item 3): icon and colour per type, an unread tint with a
   left accent, relative times, Today/Earlier groups, and a dropdown from the bell on desktop.
