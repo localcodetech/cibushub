@@ -98,6 +98,7 @@ const CheckoutPage = () => {
           lines: lines,
           restaurantNote: restaurantNote.trim(),
           riderNote: riderNote.trim(),
+          seenTotalPesewas: quoteQuery.data ? quoteQuery.data.totalPesewas : undefined,
         },
         idempotencyKey,
       );

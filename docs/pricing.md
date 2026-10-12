@@ -16,7 +16,7 @@ How the server works out what a customer pays ([AC-CHK-02, AC-CHK-03, AC-MAP-06]
 
 ## Delivery fee
 
-Rules live in `server/src/utils/delivery/deliveryFee.js` (`DELIVERY_FEE_RULES`).
+The base and per-km amounts are **platform settings** a super admin can change (`platform_settings`, see below). The road factor lives in `server/src/utils/delivery/deliveryFee.js`.
 
 ```
 straight line km = haversine distance between the restaurant pin and the address pin
@@ -29,9 +29,17 @@ That is: **GHS 5.00 base + GHS 2.00 per road kilometre**. Example: 2.2 km straig
 - The 1.3 road factor stands in for real road distance until Google Routes is connected (AC-MAP-06 fallback). `pricingSnapshot.distanceSource` records which one was used.
 - **Delivery radius** is checked on the straight line, the same way the restaurant listing shows "delivers to you". Beyond it: `OUT_OF_DELIVERY_RANGE` (AC-CHK-04).
 
+## Platform settings (AC-SADM-02, AC-SADM-03)
+
+The delivery base fee, per-km rate, service fee and commission are read from the newest row of `platform_settings` (cached in Redis; a change clears the cache, so every server uses it at once).
+
+- Each change adds a **new version** with all values, who changed it and why, and an audit line with only the old and new values.
+- Every order saves `pricingSnapshot.settingsVersion` and the fee values it was priced with, and its own `commission_percent`. **Changing a setting never changes an existing order.**
+- Placing an order sends the total the checkout page showed (`seenTotalPesewas`). If a setting changed in between, the order is refused with `TOTAL_CHANGED` and the page shows the new total first (plan-review C14).
+
 ## Other fees
 
-- Service fee: 0 for now.
+- Service fee: a platform setting, 0 to start.
 - Discount: 0 until promo codes (AC-CHK-12).
 
 ## Total

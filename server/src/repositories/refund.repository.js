@@ -1,5 +1,5 @@
 import { Op } from "sequelize";
-import { Refund } from "../models/index.js";
+import { Order, Refund } from "../models/index.js";
 
 export const createRefundRecord = (data, transaction) => {
   return Refund.create(data, { transaction });
@@ -20,6 +20,17 @@ export const sumProcessedRefunds = async (orderId, transaction) => {
     transaction,
   });
   return total || 0;
+};
+
+// Admins: refunds newest first, optionally one status, with the order number [AC-ADM-06]
+export const findRefundsForAdmin = ({ status, limit, offset }) => {
+  return Refund.findAndCountAll({
+    where: status ? { status } : {},
+    include: [{ model: Order, as: "order", attributes: ["id", "orderNumber", "totalPesewas"] }],
+    order: [["createdAt", "DESC"]],
+    limit,
+    offset,
+  });
 };
 
 export const lockRefund = (refundId, transaction) => {

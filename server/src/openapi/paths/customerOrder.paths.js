@@ -2,6 +2,7 @@ import {
   cancelOrderSchema,
   listMyOrdersSchema,
 } from "../../validators/order/myOrders.validator.js";
+import { reviewSchema } from "../../validators/review/review.validator.js";
 import {
   errorResponse,
   jsonBody,
@@ -252,6 +253,79 @@ export const customerOrderPaths = {
           "Not paid yet",
           "RECEIPT_NOT_AVAILABLE",
           "This order has not been paid yet",
+        ),
+      },
+    },
+  },
+  "/api/v1/customer/orders/{orderId}/review": {
+    get: {
+      tags,
+      summary: "My review of this order, and what I can still do",
+      description:
+        "canWrite: delivered, not reviewed yet, within 7 days of delivery. canEdit: reviewed less than 24 hours ago [AC-REV-03].",
+      security: loggedIn,
+      parameters: [orderId],
+      responses: {
+        200: successResponse("My review (or null)", {
+          review: null,
+          canWrite: true,
+          canEdit: false,
+        }),
+        404: notFound,
+      },
+    },
+    post: {
+      tags,
+      summary: "Review a delivered order (once)",
+      description:
+        "Restaurant stars 1-5 (required), rider stars 1-5 and a comment up to 500 characters (optional). The comment is kept as typed and always shown as plain text. The restaurant's (and rider's) rating totals change in the same transaction [AC-REV-01, 02, 04, 08].",
+      security: loggedIn,
+      parameters: [orderId],
+      requestBody: jsonBody(reviewSchema, {
+        rating: 4,
+        riderRating: 5,
+        comment: "Hot and tasty, rider was quick!",
+      }),
+      responses: {
+        201: successResponse("Saved", {
+          id: "5b0c1f4e-9a7d-4c2b-8e1f-3d6a2b9c0e11",
+          orderId: "0f1e2d3c-4b5a-4968-8776-655443322110",
+          rating: 4,
+          riderRating: 5,
+          comment: "Hot and tasty, rider was quick!",
+          createdAt: "2026-10-11T12:00:00.000Z",
+        }),
+        400: errorResponse("Bad stars or comment", "VALIDATION_ERROR", "Invalid request data"),
+        404: notFound,
+        409: errorResponse(
+          "Not delivered (REVIEW_NOT_ALLOWED), already reviewed (ALREADY_REVIEWED) or more than 7 days ago (REVIEW_WINDOW_CLOSED)",
+          "ALREADY_REVIEWED",
+          "You have already reviewed this order",
+        ),
+      },
+    },
+    patch: {
+      tags,
+      summary: "Change my review (within 24 hours of writing it)",
+      description: "Send the whole review again. Only the difference changes the rating totals.",
+      security: loggedIn,
+      parameters: [orderId],
+      requestBody: jsonBody(reviewSchema, {
+        rating: 3,
+        riderRating: null,
+        comment: "Cold this time",
+      }),
+      responses: {
+        200: successResponse("Changed", {
+          rating: 3,
+          riderRating: null,
+          comment: "Cold this time",
+        }),
+        404: notFound,
+        409: errorResponse(
+          "More than 24 hours since writing it",
+          "REVIEW_EDIT_WINDOW_CLOSED",
+          "Reviews can be changed within 24 hours of writing them",
         ),
       },
     },

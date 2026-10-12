@@ -12,8 +12,10 @@ import healthRoutes from "./routes/health.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import publicRestaurantRoutes from "./routes/restaurant.routes.js";
 import ownerRestaurantRoutes from "./routes/owner/restaurant.routes.js";
+import ownerReviewRoutes from "./routes/owner/review.routes.js";
 import ownerOrderRoutes from "./routes/owner/order.routes.js";
 import ownerMenuRoutes from "./routes/owner/menu.routes.js";
+import ownerAnalyticsRoutes from "./routes/owner/analytics.routes.js";
 import authenticate from "./middlewares/authenticate.js";
 import authorize from "./middlewares/authorize.js";
 import requireActive from "./middlewares/requireActive.js";
@@ -22,6 +24,16 @@ import adminOrderRoutes from "./routes/admin/order.routes.js";
 import riderApplicationRoutes from "./routes/rider/application.routes.js";
 import adminRiderRoutes from "./routes/admin/rider.routes.js";
 import adminNotificationRoutes from "./routes/admin/notification.routes.js";
+import adminReviewRoutes from "./routes/admin/review.routes.js";
+import adminDashboardRoutes from "./routes/admin/dashboard.routes.js";
+import adminAnalyticsRoutes from "./routes/admin/analytics.routes.js";
+import adminExportRoutes from "./routes/admin/export.routes.js";
+import adminPaymentRoutes from "./routes/admin/payment.routes.js";
+import adminUserRoutes from "./routes/admin/user.routes.js";
+import adminAuditLogRoutes from "./routes/admin/auditLog.routes.js";
+import superAdminAdminRoutes from "./routes/superAdmin/admin.routes.js";
+import superAdminSettingsRoutes from "./routes/superAdmin/settings.routes.js";
+import queueDashboard, { QUEUE_DASHBOARD_PATH } from "./routes/superAdmin/queues.routes.js";
 import riderStatusRoutes from "./routes/rider/status.routes.js";
 import riderOfferRoutes from "./routes/rider/offer.routes.js";
 import riderDeliveryRoutes from "./routes/rider/delivery.routes.js";
@@ -178,6 +190,16 @@ app.use("/api/v1/owner/restaurants/:restaurantId/menu", ownerMenuRoutes);
 app.use("/api/v1/owner/orders", ownerOrderRoutes);
 
 // ─────────────────────────────────────────────
+// Owner's reviews: read them, reply once to each
+// ─────────────────────────────────────────────
+app.use("/api/v1/owner/reviews", ownerReviewRoutes);
+
+// ─────────────────────────────────────────────
+// Owner: analytics for one of my restaurants
+// ─────────────────────────────────────────────
+app.use("/api/v1/owner/analytics", ownerAnalyticsRoutes);
+
+// ─────────────────────────────────────────────
 // Every rider route: must be logged in as a rider
 // ─────────────────────────────────────────────
 app.use("/api/v1/rider", authenticate, authorize("RIDER"));
@@ -213,6 +235,56 @@ app.use("/api/v1/rider/earnings", riderEarningsRoutes);
 app.use("/api/v1/admin", authenticate, requireActive, authorize("ADMIN", "SUPER_ADMIN"));
 
 // ─────────────────────────────────────────────
+// Admin: the dashboard overview
+// ─────────────────────────────────────────────
+app.use("/api/v1/admin/dashboard", adminDashboardRoutes);
+
+// ─────────────────────────────────────────────
+// Admin: analytics charts (orders, money, statuses, top restaurants)
+// ─────────────────────────────────────────────
+app.use("/api/v1/admin/analytics", adminAnalyticsRoutes);
+
+// ─────────────────────────────────────────────
+// Admin: CSV exports (orders, payments) for a range of days
+// ─────────────────────────────────────────────
+app.use("/api/v1/admin/exports", adminExportRoutes);
+
+// ─────────────────────────────────────────────
+// Admin: user accounts (search, suspend, reactivate)
+// ─────────────────────────────────────────────
+app.use("/api/v1/admin/users", adminUserRoutes);
+
+// ─────────────────────────────────────────────
+// Admin: the audit log (read-only)
+// ─────────────────────────────────────────────
+app.use("/api/v1/admin/audit-logs", adminAuditLogRoutes);
+
+// ─────────────────────────────────────────────
+// Every super admin route: must be logged in as an active super admin [AC-SADM-01]
+// ─────────────────────────────────────────────
+app.use("/api/v1/super-admin", authenticate, requireActive, authorize("SUPER_ADMIN"));
+
+// ─────────────────────────────────────────────
+// Super admin: admin accounts (create, suspend, reactivate, change role, remove)
+// ─────────────────────────────────────────────
+app.use("/api/v1/super-admin/admins", superAdminAdminRoutes);
+
+// ─────────────────────────────────────────────
+// Super admin: platform settings (fees, commission, timeouts), versioned
+// ─────────────────────────────────────────────
+app.use("/api/v1/super-admin/settings", superAdminSettingsRoutes);
+
+// ─────────────────────────────────────────────
+// Super admin: the queue dashboard (Bull Board, read-only) [AC-JOB-05]
+// ─────────────────────────────────────────────
+app.use(QUEUE_DASHBOARD_PATH, queueDashboard);
+
+// ─────────────────────────────────────────────
+// Admin: payments and refunds (re-verify a payment, retry a failed refund)
+// ─────────────────────────────────────────────
+app.use("/api/v1/admin", adminPaymentRoutes);
+
+// ─────────────────────────────────────────────
 // Admin: approve, reject, suspend restaurants
 // ─────────────────────────────────────────────
 app.use("/api/v1/admin/restaurants", adminRestaurantRoutes);
@@ -231,6 +303,11 @@ app.use("/api/v1/admin/riders", adminRiderRoutes);
 // Admin: every email and SMS sent, and which ones failed
 // ─────────────────────────────────────────────
 app.use("/api/v1/admin/notifications", adminNotificationRoutes);
+
+// ─────────────────────────────────────────────
+// Admin: review moderation (hide or show, with a reason)
+// ─────────────────────────────────────────────
+app.use("/api/v1/admin/reviews", adminReviewRoutes);
 
 // ─────────────────────────────────────────────
 // Interactive API docs (turned off in production)

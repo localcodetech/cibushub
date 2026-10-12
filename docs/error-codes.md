@@ -44,6 +44,23 @@ Add a row here in the same commit that introduces a new code.
 | `ACCOUNT_PENDING_APPROVAL` | 403 | Restaurant owner or rider waiting for admin approval | AC-AUTH-05 |
 | `NO_EMAIL` | 400 | Asked to confirm an email, but the account has none | AC-AUTH-01 |
 | `EMAIL_ALREADY_VERIFIED` | 409 | Asked to confirm an email that is already confirmed | AC-AUTH-01 |
+| `REVIEW_NOT_ALLOWED` | 409 | Reviewing an order that isn't delivered yet | AC-REV-01 |
+| `ALREADY_REVIEWED` | 409 | A second review of the same order | AC-REV-01 |
+| `REVIEW_WINDOW_CLOSED` | 409 | Reviewing more than 7 days after delivery | AC-REV-03 |
+| `REVIEW_EDIT_WINDOW_CLOSED` | 409 | Changing a review more than 24 hours after writing it | AC-REV-03 |
+| `ALREADY_REPLIED` | 409 | An owner replying a second time to the same review | AC-REV-06 |
+| `REVIEW_HIDDEN` | 409 | A customer changing a review an admin hid | AC-REV-07 |
+| `REVIEW_ALREADY_HIDDEN` | 409 | Hiding a review that is already hidden | AC-REV-07 |
+| `REVIEW_NOT_HIDDEN` | 409 | Showing a review that isn't hidden | AC-REV-07 |
+| `REFUND_NOT_FAILED` | 409 | Retrying a refund that hasn't failed | AC-ADM-06 |
+| `ADMIN_ACCOUNT` | 403 | An admin trying to suspend or reactivate another admin (super admin only) | AC-ADM-02, AC-SADM-01 |
+| `ALREADY_SUSPENDED` | 409 | Suspending an account that is already suspended | AC-ADM-02 |
+| `NOT_SUSPENDED` | 409 | Reactivating an account that isn't suspended | AC-ADM-02 |
+| `OWN_ACCOUNT` | 403 | A super admin trying to change their own admin account | AC-SADM-01 |
+| `LAST_SUPER_ADMIN` | 409 | Suspending, demoting or removing the last active super admin | AC-SADM-04 |
+| `SAME_ROLE` | 409 | Changing an admin to the role they already have | AC-SADM-01 |
+| `NOTHING_CHANGED` | 409 | Saving platform settings that are already in force | AC-SADM-02 |
+| `TOTAL_CHANGED` | (inside `CHECKOUT_BLOCKED`) | A fee setting changed between the checkout page and Place order | plan-review C14 |
 | `TERMS_NOT_ACCEPTED` | 400 | Google / Apple sign-in would create a new account, but the Terms were not accepted (sign up first) | AC-AUTH-01 |
 | `INVALID_SOCIAL_TOKEN` | 401 | The Google / Apple ID token failed the signature, issuer, audience or expiry check | AC-AUTH-11 |
 | `SOCIAL_EMAIL_UNVERIFIED` | 400 | Google / Apple did not confirm the email, so it can't be linked or used for a new account | AC-AUTH-02 |

@@ -1,5 +1,7 @@
 import sequelize from "../../config/database.js";
 import logger from "../../config/logger.js";
+import { emitAdminAlert } from "../../sockets/emitAdminAlert.js";
+import { notifyAdminsInApp } from "../notifications/inApp.service.js";
 import { createRefund, fetchRefund } from "../payment/paystack.client.js";
 import {
   notifyRefundProcessed,
@@ -90,11 +92,24 @@ export const processRefund = async (refundId) => {
   }
 
   if (result.outcome === "FAILED") {
-    // Admin alert: logged now; the admin notifications step turns it into a message
     logger.error(
       { alert: "REFUND_FAILED", refundId, orderId: result.refund.orderId },
       "A refund failed at Paystack and needs an admin",
     );
+    // Admins see it at once, and in their notification centre [AC-ADM-06]
+    const order = await findOrderById(result.refund.orderId);
+    emitAdminAlert("REFUND_FAILED", {
+      refundId,
+      orderId: order.id,
+      orderNumber: order.orderNumber,
+    });
+    await notifyAdminsInApp({
+      type: "admin.refund_failed",
+      key: `refund:${refundId}:failed:${result.refund.updatedAt.getTime()}`,
+      title: "Refund failed",
+      body: `A refund for order ${order.orderNumber} failed at Paystack. Try it again from Payments.`,
+      link: "/admin/payments",
+    });
   }
 
   return result.outcome;

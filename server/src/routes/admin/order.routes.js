@@ -1,6 +1,7 @@
 import { Router } from "express";
 import validate from "../../middlewares/validate.js";
 import { adminCancelOrderSchema } from "../../validators/order/adminCancelOrder.validator.js";
+import { adminListOrdersSchema } from "../../validators/order/adminOrders.validator.js";
 import {
   assignRiderSchema,
   unassignRiderSchema,
@@ -9,11 +10,24 @@ import { unlockDeliveryCodeSchema } from "../../validators/order/deliveryFlow.va
 import {
   assignRiderAsAdmin,
   cancelOrderAsAdmin,
+  getOrder,
+  listOrders,
   unassignRiderAsAdmin,
   unlockDeliveryCodeAsAdmin,
 } from "../../controllers/admin/adminOrders.controller.js";
 
 const router = Router();
+
+// ─────────────────────────────────────────────
+// Every order, newest first: search by order number, phone or restaurant; filter by
+// status and dates [AC-ADM-05]
+// ─────────────────────────────────────────────
+router.get("/", validate(adminListOrdersSchema, "query"), listOrders);
+
+// ─────────────────────────────────────────────
+// Everything about one order: timeline, payments, refunds, delivery, the rider's route
+// ─────────────────────────────────────────────
+router.get("/:orderId", getOrder);
 
 // ─────────────────────────────────────────────
 // Cancel any unfinished order, with a reason and a full, partial or no refund

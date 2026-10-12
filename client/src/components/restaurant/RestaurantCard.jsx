@@ -3,6 +3,7 @@ import { Clock, MapPin, UtensilsCrossed } from "lucide-react";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import { formatMoney } from "@/utils/money";
+import RatingBadge from "@/components/review/RatingBadge";
 
 // One restaurant in the listing. The whole card is a link to its menu [AC-DISC-01].
 // restaurant: one item from GET /restaurants
@@ -45,6 +46,10 @@ const RestaurantCard = ({ restaurant }) => {
         )}
 
         <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[13px] text-muted-foreground">
+          <RatingBadge
+            averageRating={restaurant.averageRating}
+            reviewCount={restaurant.reviewCount}
+          />
           <span className="inline-flex items-center gap-1">
             <Clock size={14} aria-hidden="true" />
             {restaurant.prepTimeMinutes} min

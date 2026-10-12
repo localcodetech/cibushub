@@ -2,7 +2,7 @@ import { QUEUE_NAMES, getQueue } from "./queues.js";
 
 // Jobs that repeat on a timer [AC-JOB-02]. Saved in Redis by id, so restarting the worker
 // updates them instead of creating copies.
-const SCHEDULES = [
+export const SCHEDULES = [
   {
     id: "sweep-unpaid-orders",
     queue: QUEUE_NAMES.maintenance,
@@ -56,6 +56,12 @@ const SCHEDULES = [
     queue: QUEUE_NAMES.maintenance,
     name: "cleanupExpiredTokens",
     repeat: { pattern: "0 3 * * *", tz: "Africa/Accra" }, // daily at 03:00 Accra time
+  },
+  {
+    id: "daily-admin-summary",
+    queue: QUEUE_NAMES.maintenance,
+    name: "sendDailySummary",
+    repeat: { pattern: "59 23 * * *", tz: "Africa/Accra" }, // daily at 23:59 Accra time [AC-JOB-02]
   },
 ];
 

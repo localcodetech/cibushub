@@ -4,6 +4,7 @@ import {
   OrderItem,
   OrderItemOption,
   OrderStatusHistory,
+  Payment,
   Refund,
   Restaurant,
   User,
@@ -182,6 +183,146 @@ export const summariseRestaurantOrders = ({ restaurantIds, from, to }) => {
 export const findPaidAt = async (orderId) => {
   const entry = await OrderStatusHistory.findOne({
     where: { orderId, toStatus: "PAID" },
+    order: [["createdAt", "ASC"]],
+  });
+  return entry ? entry.createdAt : null;
+};
+
+// ─────────────────────────────────────────────
+// Admins: every order [AC-ADM-05]
+// ─────────────────────────────────────────────
+
+// "50%_off" -> "50\%\_off": typed % and _ are plain letters in LIKE
+const likeText = (text) => `%${text.replace(/[%_\\]/g, "\\$&")}%`;
+
+// One page of orders, newest first, with the customer and restaurant.
+//   search: part of an order number or restaurant name, or a phone (already in +233 form)
+//   from, to: Date limits on when the order was placed
+export const findOrdersForAdmin = ({
+  search,
+  phone,
+  status,
+  from,
+  to,
+  restaurantId,
+  limit,
+  offset,
+}) => {
+  const where = {};
+  if (status) {
+    where.status = status;
+  }
+  if (restaurantId) {
+    where.restaurantId = restaurantId;
+  }
+  if (from || to) {
+    where.createdAt = {};
+    if (from) {
+      where.createdAt[Op.gte] = from;
+    }
+    if (to) {
+      where.createdAt[Op.lt] = to;
+    }
+  }
+  if (search) {
+    // "$customer.phone$" means: the phone column of the joined customer
+    const anyOf = [
+      { orderNumber: { [Op.like]: likeText(search) } },
+      { "$restaurant.name$": { [Op.like]: likeText(search) } },
+    ];
+    if (phone) {
+      anyOf.push({ contactPhone: phone }, { "$customer.phone$": phone });
+    }
+    where[Op.or] = anyOf;
+  }
+
+  return Order.findAndCountAll({
+    where,
+    include: [
+      { model: User, as: "customer", attributes: ["id", "fullName", "phone"], paranoid: false },
+      { model: Restaurant, as: "restaurant", attributes: ["id", "name"], paranoid: false },
+    ],
+    order: [["createdAt", "DESC"]],
+    limit,
+    offset,
+    // Count orders, not joined rows
+    distinct: true,
+  });
+};
+
+// Everything about one order, for admins: items, timeline (who did what), payments and
+// refunds, customer, restaurant, and the earnings split
+export const findOrderForAdmin = (orderId) => {
+  return Order.scope("withEarnings").findByPk(orderId, {
+    include: [
+      ...WITH_DETAILS.include.filter((part) => part.as !== "statusHistory"),
+      {
+        model: OrderStatusHistory,
+        as: "statusHistory",
+        include: [{ model: User, as: "actor", attributes: ["id", "fullName"], paranoid: false }],
+      },
+      { model: Payment, as: "payments" },
+      {
+        model: User,
+        as: "customer",
+        attributes: ["id", "fullName", "phone", "email"],
+        paranoid: false,
+      },
+      {
+        model: Restaurant,
+        as: "restaurant",
+        attributes: ["id", "name", "phone", "addressLine", "area", "latitude", "longitude"],
+        paranoid: false,
+      },
+    ],
+    order: WITH_DETAILS.order,
+  });
+};
+
+// How many orders a customer has placed (paid or later), for admins
+export const countCustomerOrders = (customerId) => {
+  return Order.count({ where: { customerId, status: { [Op.ne]: "PENDING_PAYMENT" } } });
+};
+
+// ─────────────────────────────────────────────
+// One restaurant's performance, for admins [AC-ADM-03]
+// ─────────────────────────────────────────────
+
+// { DELIVERED: 12, REJECTED: 1, ... } for orders placed since a moment (unpaid ones left out)
+export const countRestaurantOrdersByStatus = async (restaurantId, since) => {
+  const rows = await Order.count({
+    where: {
+      restaurantId,
+      createdAt: { [Op.gte]: since },
+      status: { [Op.ne]: "PENDING_PAYMENT" },
+    },
+    group: ["status"],
+  });
+  return Object.fromEntries(rows.map((row) => [row.status, row.count]));
+};
+
+// What delivered orders added up to since a moment
+export const sumDeliveredOrders = async (restaurantId, since) => {
+  const total = await Order.sum("totalPesewas", {
+    where: { restaurantId, status: "DELIVERED", createdAt: { [Op.gte]: since } },
+  });
+  return total || 0;
+};
+
+// The newest orders (paid or later), for a quick look
+export const findRecentRestaurantOrders = (restaurantId, limit) => {
+  return Order.findAll({
+    where: { restaurantId, status: { [Op.ne]: "PENDING_PAYMENT" } },
+    attributes: ["id", "orderNumber", "status", "totalPesewas", "createdAt"],
+    order: [["createdAt", "DESC"]],
+    limit,
+  });
+};
+
+// When the order was DELIVERED (from its history), or null
+export const findDeliveredAt = async (orderId) => {
+  const entry = await OrderStatusHistory.findOne({
+    where: { orderId, toStatus: "DELIVERED" },
     order: [["createdAt", "ASC"]],
   });
   return entry ? entry.createdAt : null;

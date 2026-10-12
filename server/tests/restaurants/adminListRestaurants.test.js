@@ -1,9 +1,10 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import request from "supertest";
 import app from "../../src/app.js";
 import { signAccessToken } from "../../src/utils/auth/tokens.js";
 import { createTestUser } from "../helpers/users.js";
 import { createOwner, createTestRestaurant } from "../helpers/restaurants.js";
+import { createPaidOrder } from "../helpers/orders.js";
 
 let admin;
 let owner;
@@ -15,6 +16,11 @@ beforeEach(async () => {
     phone: "+233201112222",
   });
   owner = await createOwner();
+});
+
+// Some tests set the clock; always put it back
+afterEach(() => {
+  vi.useRealTimers();
 });
 
 const getAs = (user, path) => {
@@ -97,5 +103,48 @@ describe("GET /api/v1/admin/restaurants/:restaurantId", () => {
     expect(response.status).toBe(200);
     expect(response.body.data.status).toBe("PENDING_APPROVAL");
     expect(response.body.data.openingHours).toHaveLength(7);
+  });
+
+  it("shows the owner's contact and the last 30 days: orders by status, delivered total, rating", async () => {
+    // A Friday at noon: the test restaurant is open
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(new Date("2026-10-09T12:00:00Z"));
+    const { order, restaurant, owner: orderOwner } = await createPaidOrder();
+    await order.update({ status: "DELIVERED" });
+    await restaurant.update({ ratingTotal: 9, reviewCount: 2 });
+
+    const response = await getAs(admin, `/api/v1/admin/restaurants/${restaurant.id}`);
+
+    expect(response.body.data.owner).toEqual({
+      id: orderOwner.id,
+      fullName: orderOwner.fullName,
+      email: orderOwner.email,
+      phone: orderOwner.phone,
+    });
+    expect(response.body.data.performance).toMatchObject({
+      days: 30,
+      totalOrders: 1,
+      ordersByStatus: { DELIVERED: 1 },
+      deliveredPesewas: order.totalPesewas,
+      averageRating: 4.5,
+      reviewCount: 2,
+    });
+    expect(response.body.data.performance.recentOrders[0]).toMatchObject({
+      orderNumber: order.orderNumber,
+      status: "DELIVERED",
+    });
+  });
+});
+
+describe("Searching restaurants by name [AC-ADM-03]", () => {
+  it("finds part of a name, and treats % and _ as plain letters", async () => {
+    await createTestRestaurant(owner, { name: "Golden Pot Kitchen" });
+    await createTestRestaurant(owner, { name: "Waakye Joint" });
+
+    const found = await getAs(admin, "/api/v1/admin/restaurants?q=gold");
+    const percent = await getAs(admin, "/api/v1/admin/restaurants?q=%25");
+
+    expect(found.body.data.map((restaurant) => restaurant.name)).toEqual(["Golden Pot Kitchen"]);
+    expect(percent.body.data).toEqual([]);
   });
 });

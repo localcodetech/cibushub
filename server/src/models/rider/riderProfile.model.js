@@ -63,6 +63,17 @@ const RiderProfile = sequelize.define(
       type: DataTypes.DATE,
       allowNull: true,
     },
+    // The rider's optional stars from reviews: average = total / count [AC-REV-02]
+    ratingTotal: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    ratingCount: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+      defaultValue: 0,
+    },
   },
   {
     tableName: "rider_profiles",

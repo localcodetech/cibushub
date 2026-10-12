@@ -18,6 +18,12 @@ import {
 } from "../../controllers/order/myOrders.controller.js";
 import { payForOrder } from "../../controllers/payment/startPayment.controller.js";
 import { getPaymentStatus } from "../../controllers/payment/paymentStatus.controller.js";
+import { reviewSchema } from "../../validators/review/review.validator.js";
+import {
+  createReview,
+  getReview,
+  updateReview,
+} from "../../controllers/review/myReview.controller.js";
 import { createRateLimiter } from "../../middlewares/rateLimit/createRateLimiter.js";
 
 const router = Router();
@@ -93,5 +99,13 @@ router.get("/:orderId/receipt", getReceipt);
 // The receipt as a PDF file to download
 // ─────────────────────────────────────────────
 router.get("/:orderId/receipt/pdf", downloadReceiptPdf);
+
+// ─────────────────────────────────────────────
+// My review of a delivered order: see it (with what I can still do), write it, change it
+// [AC-REV-01 to 03]
+// ─────────────────────────────────────────────
+router.get("/:orderId/review", getReview);
+router.post("/:orderId/review", validate(reviewSchema), createReview);
+router.patch("/:orderId/review", validate(reviewSchema), updateReview);
 
 export default router;

@@ -5,6 +5,7 @@ import { AuditLog, RiderDocument, RiderProfile, User } from "../../src/models/in
 import { signAccessToken } from "../../src/utils/auth/tokens.js";
 import { createTestUser } from "../helpers/users.js";
 import { sentSms } from "../helpers/fakeSms.js";
+import { saveLatestLocation } from "../../src/services/rider/riderLocationStore.js";
 import { sentEmails } from "../helpers/fakeEmail.js";
 
 vi.mock("../../src/services/upload/cloudinary.service.js", () => ({
@@ -148,6 +149,11 @@ describe("Approve, reject, suspend [AC-RIDER-02, AC-ADM-07]", () => {
     expect(sentEmails.at(-1).html).toContain("/rider/apply"); // the fix-and-resubmit button
     // Still waiting: a rejected rider can't work
     expect((await User.findByPk(rider.id)).status).toBe("PENDING_APPROVAL");
+    expect(await AuditLog.findOne({ where: { targetId: profile.id } })).toMatchObject({
+      action: "RIDER_REJECTED",
+      actorId: admin.id,
+      reason: "The Ghana Card photo is blurry",
+    });
   });
 
   it("needs a clear reason to reject or suspend", async () => {
@@ -166,6 +172,13 @@ describe("Approve, reject, suspend [AC-RIDER-02, AC-ADM-07]", () => {
 
     expect(suspended.body.data.status).toBe("SUSPENDED");
     expect(reinstated.body.data.status).toBe("APPROVED");
+    // All written in the same second, so compared without relying on their order
+    const audits = await AuditLog.findAll({ where: { targetId: profile.id } });
+    expect(audits.map((audit) => audit.action).sort()).toEqual([
+      "RIDER_APPROVED",
+      "RIDER_APPROVED",
+      "RIDER_SUSPENDED",
+    ]);
   });
 
   it("refuses moves that make no sense", async () => {
@@ -219,5 +232,52 @@ describe("One Ghana Card, one rider", () => {
       .send({ vehicleType: "BICYCLE", ghanaCardNumber: "GHA-123456789-0" });
 
     expect(response.status).toBe(200);
+  });
+});
+
+describe("Ghana Card privacy [plan-review Step 13, AC-ADM-07]", () => {
+  it("lists and details show it masked", async () => {
+    const list = await as(admin).get(adminUrl);
+    const one = await as(admin).get(`${adminUrl}/${profile.id}`);
+
+    expect(list.body.data[0].ghanaCardNumber).toBe("GHA-•••••••89-0");
+    expect(one.body.data.ghanaCardNumber).toBe("GHA-•••••••89-0");
+  });
+
+  it("the full number is one audited reveal away", async () => {
+    const response = await as(admin).post(`${adminUrl}/${profile.id}/ghana-card/reveal`);
+
+    expect(response.body.data).toEqual({ ghanaCardNumber: "GHA-123456789-0" });
+    const audit = await AuditLog.findOne({ where: { action: "RIDER_GHANA_CARD_REVEALED" } });
+    expect(audit).toMatchObject({ actorId: admin.id, targetId: profile.id });
+  });
+});
+
+describe("Live map of online riders [AC-ADM-04]", () => {
+  it("shows each online rider, where they last were, and their delivery", async () => {
+    await profile.update({ status: "APPROVED", isOnline: true });
+    await saveLatestLocation(profile.id, { latitude: 6.69, longitude: -1.62 }, Date.now(), 0);
+
+    const response = await as(admin).get(`${adminUrl}/live`);
+
+    expect(response.status).toBe(200);
+    expect(response.body.data).toEqual([
+      {
+        id: profile.id,
+        fullName: "Yaw Mensah",
+        phone: rider.phone,
+        vehicleType: "MOTORBIKE",
+        location: { latitude: 6.69, longitude: -1.62, at: expect.any(String) },
+        delivery: null,
+      },
+    ]);
+  });
+
+  it("is empty when nobody is online, and admins only", async () => {
+    const empty = await as(admin).get(`${adminUrl}/live`);
+    const asRider = await as(rider).get(`${adminUrl}/live`);
+
+    expect(empty.body.data).toEqual([]);
+    expect(asRider.status).toBe(403);
   });
 });

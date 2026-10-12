@@ -77,6 +77,14 @@ export const findOnlineRiderProfiles = () => {
   return RiderProfile.findAll({ where: { isOnline: true } });
 };
 
+// Every online rider with their name and phone (the admin's live map)
+export const findOnlineRidersWithAccounts = () => {
+  return RiderProfile.findAll({
+    where: { isOnline: true },
+    include: [{ model: User, as: "user", attributes: ["id", "fullName", "phone"] }],
+  });
+};
+
 // Approved, online riders among these ids (with their account, for messages)
 export const findAvailableRiderProfiles = (ids, transaction) => {
   return RiderProfile.findAll({

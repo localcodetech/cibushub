@@ -1,5 +1,43 @@
 import { Op } from "sequelize";
-import { Payment } from "../models/index.js";
+import { Order, Payment, User } from "../models/index.js";
+
+// Admins: payments newest first [AC-ADM-06].
+//   status: one status; flaggedBefore: only the flagged ones (AMOUNT_MISMATCH, or PENDING
+//   since before that moment); search: a payment reference or an order number
+export const findPaymentsForAdmin = ({ status, flaggedBefore, search, limit, offset }) => {
+  const where = {};
+  if (status) {
+    where.status = status;
+  }
+  if (flaggedBefore) {
+    where[Op.or] = [
+      { status: "AMOUNT_MISMATCH" },
+      { status: "PENDING", createdAt: { [Op.lte]: flaggedBefore } },
+    ];
+  }
+  if (search) {
+    where[Op.and] = [{ [Op.or]: [{ reference: search }, { "$order.order_number$": search }] }];
+  }
+  return Payment.findAndCountAll({
+    where,
+    include: [
+      {
+        model: Order,
+        as: "order",
+        attributes: ["id", "orderNumber", "totalPesewas", "status"],
+        include: [{ model: User, as: "customer", attributes: ["fullName"], paranoid: false }],
+      },
+    ],
+    order: [["createdAt", "DESC"]],
+    limit,
+    offset,
+    distinct: true,
+  });
+};
+
+export const findPaymentById = (paymentId) => {
+  return Payment.findByPk(paymentId);
+};
 
 export const createPayment = (data) => {
   return Payment.create(data);

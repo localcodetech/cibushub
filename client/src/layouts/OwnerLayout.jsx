@@ -8,6 +8,8 @@ import Container from "./Container";
 const OWNER_LINKS = [
   { label: "Orders", to: "/owner", end: true },
   { label: "History", to: "/owner/history", end: false },
+  { label: "Reviews", to: "/owner/reviews", end: false },
+  { label: "Analytics", to: "/owner/analytics", end: false },
 ];
 
 // The frame around every owner page: the owner menu on top, then the page.

@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import request from "supertest";
 import app from "../../src/app.js";
 import {
+  AuditLog,
   Delivery,
   Order,
   OrderStatusHistory,
@@ -270,6 +271,12 @@ describe("Unlocking the delivery code [AC-DEL-06]", () => {
 
     expect(unlocked.status).toBe(200);
     expect(unlocked.body.data.codeAttemptsLeft).toBe(5);
+    expect(
+      await AuditLog.findOne({ where: { targetId: order.id, action: "DELIVERY_CODE_UNLOCKED" } }),
+    ).toMatchObject({
+      actorId: admin.id,
+      reason: "Customer confirmed by phone",
+    });
     expect(emitToUser).toHaveBeenCalledWith(rider.id, "delivery:code-unlocked", {
       orderId: order.id,
     });

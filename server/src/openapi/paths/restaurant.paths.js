@@ -1,4 +1,5 @@
 import { publicListRestaurantsSchema } from "../../validators/restaurant/publicListRestaurants.validator.js";
+import { listReviewsSchema } from "../../validators/review/review.validator.js";
 import {
   errorResponse,
   listResponse,
@@ -123,6 +124,37 @@ export const restaurantPaths = {
           ],
           menu: exampleMenu,
         }),
+        404: notFound,
+      },
+    },
+  },
+  "/api/v1/restaurants/{restaurantId}/reviews": {
+    get: {
+      tags,
+      summary: "A restaurant's reviews, newest first (no login needed)",
+      description:
+        "Customer shown as first name and last initial. comment is plain text: show it as text, never as HTML [AC-REV-05, AC-REV-08]. The average and count are on the restaurant itself (averageRating, reviewCount).",
+      parameters: [
+        {
+          name: "restaurantId",
+          in: "path",
+          required: true,
+          schema: { type: "string", format: "uuid" },
+        },
+        ...queryParameters(listReviewsSchema),
+      ],
+      responses: {
+        200: listResponse(
+          "One page of reviews",
+          {
+            id: "5b0c1f4e-9a7d-4c2b-8e1f-3d6a2b9c0e11",
+            customerName: "Ama O.",
+            rating: 4,
+            comment: "Hot and tasty, rider was quick!",
+            createdAt: "2026-10-11T12:00:00.000Z",
+          },
+          { page: 1, pageSize: 20, totalItems: 1, totalPages: 1 },
+        ),
         404: notFound,
       },
     },

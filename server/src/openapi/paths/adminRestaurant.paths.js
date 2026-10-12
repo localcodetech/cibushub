@@ -74,6 +74,8 @@ export const adminRestaurantPaths = {
     get: {
       tags,
       summary: "Any restaurant with its opening hours, whatever its status",
+      description:
+        "Also owner { id, fullName, email, phone } and performance for the last 30 days: totalOrders, ordersByStatus (paid or later), deliveredPesewas, averageRating, reviewCount and the 10 newest orders [AC-ADM-03].",
       security: loggedIn,
       parameters: [restaurantId],
       responses: {

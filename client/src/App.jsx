@@ -37,12 +37,29 @@ const OrderDetailPage = lazy(() => import("@/pages/customer/OrderDetailPage"));
 const OwnerLayout = lazy(() => import("@/layouts/OwnerLayout"));
 const OwnerDashboardPage = lazy(() => import("@/pages/owner/OwnerDashboardPage"));
 const OwnerHistoryPage = lazy(() => import("@/pages/owner/OwnerHistoryPage"));
+const OwnerReviewsPage = lazy(() => import("@/pages/owner/OwnerReviewsPage"));
+const OwnerAnalyticsPage = lazy(() => import("@/pages/owner/OwnerAnalyticsPage"));
 const RiderLayout = lazy(() => import("@/layouts/RiderLayout"));
 const RiderHomePage = lazy(() => import("@/pages/rider/RiderHomePage"));
 const RiderDeliveryPage = lazy(() => import("@/pages/rider/RiderDeliveryPage"));
 const RiderEarningsPage = lazy(() => import("@/pages/rider/RiderEarningsPage"));
 const RiderApplicationPage = lazy(() => import("@/pages/rider/RiderApplicationPage"));
+const AdminLayout = lazy(() => import("@/layouts/AdminLayout"));
 const AdminDashboardPage = lazy(() => import("@/pages/admin/AdminDashboardPage"));
+const AdminRestaurantsPage = lazy(() => import("@/pages/admin/AdminRestaurantsPage"));
+const AdminRestaurantDetailPage = lazy(() => import("@/pages/admin/AdminRestaurantDetailPage"));
+const AdminOrdersPage = lazy(() => import("@/pages/admin/AdminOrdersPage"));
+const AdminOrderDetailPage = lazy(() => import("@/pages/admin/AdminOrderDetailPage"));
+const AdminRidersPage = lazy(() => import("@/pages/admin/AdminRidersPage"));
+const AdminPaymentsPage = lazy(() => import("@/pages/admin/AdminPaymentsPage"));
+const AdminUsersPage = lazy(() => import("@/pages/admin/AdminUsersPage"));
+const AdminUserDetailPage = lazy(() => import("@/pages/admin/AdminUserDetailPage"));
+const AdminAuditLogPage = lazy(() => import("@/pages/admin/AdminAuditLogPage"));
+const AdminReviewsPage = lazy(() => import("@/pages/admin/AdminReviewsPage"));
+const SuperAdminAdminsPage = lazy(() => import("@/pages/admin/SuperAdminAdminsPage"));
+const SuperAdminSettingsPage = lazy(() => import("@/pages/admin/SuperAdminSettingsPage"));
+const AdminRiderMapPage = lazy(() => import("@/pages/admin/AdminRiderMapPage"));
+const AdminRiderDetailPage = lazy(() => import("@/pages/admin/AdminRiderDetailPage"));
 const NotificationsPage = lazy(() => import("@/pages/NotificationsPage"));
 const NotificationSettingsPage = lazy(() => import("@/pages/NotificationSettingsPage"));
 
@@ -159,6 +176,8 @@ const router = createBrowserRouter([
             children: [
               { index: true, element: <OwnerDashboardPage /> },
               { path: "history", element: <OwnerHistoryPage /> },
+              { path: "reviews", element: <OwnerReviewsPage /> },
+              { path: "analytics", element: <OwnerAnalyticsPage /> },
             ],
           },
           {
@@ -187,9 +206,43 @@ const router = createBrowserRouter([
             path: "admin",
             element: (
               <RequireRole allowedRoles={["ADMIN", "SUPER_ADMIN"]}>
-                <AdminDashboardPage />
+                <AdminLayout />
               </RequireRole>
             ),
+            children: [
+              { index: true, element: <AdminDashboardPage /> },
+              { path: "restaurants", element: <AdminRestaurantsPage /> },
+              { path: "restaurants/:restaurantId", element: <AdminRestaurantDetailPage /> },
+              { path: "orders", element: <AdminOrdersPage /> },
+              { path: "orders/:orderId", element: <AdminOrderDetailPage /> },
+              { path: "riders", element: <AdminRidersPage /> },
+              // Before "riders/:riderId", so "map" isn't read as a rider id
+              { path: "riders/map", element: <AdminRiderMapPage /> },
+              { path: "riders/:riderId", element: <AdminRiderDetailPage /> },
+              { path: "payments", element: <AdminPaymentsPage /> },
+              { path: "users", element: <AdminUsersPage /> },
+              { path: "users/:userId", element: <AdminUserDetailPage /> },
+              { path: "audit-log", element: <AdminAuditLogPage /> },
+              { path: "reviews", element: <AdminReviewsPage /> },
+              {
+                // Super admins only, inside the admin area [AC-SADM-01]
+                path: "admins",
+                element: (
+                  <RequireRole allowedRoles={["SUPER_ADMIN"]}>
+                    <SuperAdminAdminsPage />
+                  </RequireRole>
+                ),
+              },
+              {
+                // Super admins only: fees, commission, time limits [AC-SADM-02]
+                path: "settings",
+                element: (
+                  <RequireRole allowedRoles={["SUPER_ADMIN"]}>
+                    <SuperAdminSettingsPage />
+                  </RequireRole>
+                ),
+              },
+            ],
           },
 
           {

@@ -8,6 +8,7 @@ import ErrorState from "@/components/common/ErrorState";
 import RestaurantHeader from "@/components/restaurant/RestaurantHeader";
 import OpeningHours from "@/components/restaurant/OpeningHours";
 import MenuSection from "@/components/restaurant/MenuSection";
+import RestaurantReviews from "@/components/review/RestaurantReviews";
 import ViewCartBar from "@/components/cart/ViewCartBar";
 import { getRestaurantRequest } from "@/api/restaurants";
 
@@ -61,6 +62,9 @@ const RestaurantDetailPage = () => {
         <div className="mt-6 grid gap-8 lg:grid-cols-3">
           <div className="lg:col-span-2">
             <MenuSection restaurant={data} />
+            <div id="reviews" className="scroll-mt-4">
+              <RestaurantReviews restaurant={data} />
+            </div>
           </div>
           <aside>
             <OpeningHours openingHours={data.openingHours} />

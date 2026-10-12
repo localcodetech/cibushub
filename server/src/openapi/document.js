@@ -21,6 +21,16 @@ import { riderOfferPaths } from "./paths/riderOffer.paths.js";
 import { riderDeliveryPaths } from "./paths/riderDelivery.paths.js";
 import { riderEarningsPaths } from "./paths/riderEarnings.paths.js";
 import { notificationPaths } from "./paths/notification.paths.js";
+import { ownerReviewPaths } from "./paths/ownerReview.paths.js";
+import { ownerAnalyticsPaths } from "./paths/ownerAnalytics.paths.js";
+import { adminReviewPaths } from "./paths/adminReview.paths.js";
+import { adminDashboardPaths } from "./paths/adminDashboard.paths.js";
+import { adminAnalyticsPaths } from "./paths/adminAnalytics.paths.js";
+import { adminExportPaths } from "./paths/adminExport.paths.js";
+import { adminPaymentPaths } from "./paths/adminPayment.paths.js";
+import { adminUserPaths } from "./paths/adminUser.paths.js";
+import { adminAuditLogPaths } from "./paths/adminAuditLog.paths.js";
+import { superAdminPaths } from "./paths/superAdmin.paths.js";
 import { successResponse, errorResponse } from "./helpers.js";
 
 export const openApiDocument = {
@@ -88,5 +98,15 @@ export const openApiDocument = {
     ...riderDeliveryPaths,
     ...riderEarningsPaths,
     ...notificationPaths,
+    ...ownerReviewPaths,
+    ...ownerAnalyticsPaths,
+    ...adminReviewPaths,
+    ...adminDashboardPaths,
+    ...adminAnalyticsPaths,
+    ...adminExportPaths,
+    ...adminPaymentPaths,
+    ...adminUserPaths,
+    ...adminAuditLogPaths,
+    ...superAdminPaths,
   },
 };

@@ -2,6 +2,14 @@ import AppError from "../utils/AppError.js";
 import env from "../config/env/env.js";
 
 const errorHandler = (err, req, res, next) => {
+  // Part of the answer has already gone (e.g. a CSV download failed halfway): no error
+  // envelope can follow it. Express's own handler cuts the connection, so the download
+  // fails visibly instead of leaving a file that looks complete.
+  if (res.headersSent) {
+    req.log.error({ err }, "Error after the response started");
+    return next(err);
+  }
+
   let error = err;
 
   if (err.type === "entity.parse.failed") {
