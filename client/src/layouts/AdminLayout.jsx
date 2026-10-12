@@ -62,7 +62,9 @@ const AdminLayout = () => {
                 href={QUEUES_URL}
                 target="_blank"
                 rel="noreferrer"
-                className="flex min-h-12 shrink-0 items-center gap-1 border-b-2 border-transparent font-bold"
+                // relative: keeps the hidden screen-reader text inside the scrolling menu,
+                // so it can't widen the whole page on phones
+                className="relative flex min-h-12 shrink-0 items-center gap-1 border-b-2 border-transparent font-bold"
               >
                 Queues
                 <ExternalLink size={14} aria-hidden="true" />
