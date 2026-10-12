@@ -61,3 +61,22 @@ export const formatMonth = (dayText) => {
     year: "numeric",
   }).format(new Date(dayText + "T12:00:00Z"));
 };
+
+// How long ago, in words, for things that just happened [AC-NOTIF-07]:
+// "Just now", "5 min ago", "3 h ago", "Yesterday, 15:34", then the full date.
+//   now: for tests; the current time by default
+export const formatRelative = (isoText, now = new Date()) => {
+  const then = new Date(isoText);
+  const minutes = Math.floor((now.getTime() - then.getTime()) / 60000);
+  if (minutes < 1) return "Just now";
+  if (minutes < 60) return minutes + " min ago";
+  if (isSameGhanaDay(then, now)) return Math.floor(minutes / 60) + " h ago";
+  const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+  if (isSameGhanaDay(then, yesterday)) return "Yesterday, " + formatTime(isoText);
+  return formatDateTime(isoText);
+};
+
+// True when both moments fall on the same day in Ghana (= UTC, all year)
+export const isSameGhanaDay = (first, second) => {
+  return new Date(first).toISOString().slice(0, 10) === new Date(second).toISOString().slice(0, 10);
+};

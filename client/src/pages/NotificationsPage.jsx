@@ -1,28 +1,23 @@
-import { Link, useNavigate, useSearchParams } from "react-router";
-import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Link, useSearchParams } from "react-router";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Bell, Settings } from "lucide-react";
 import Container from "@/layouts/Container";
 import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
 import ErrorState from "@/components/common/ErrorState";
-import {
-  getNotificationsRequest,
-  markAllNotificationsReadRequest,
-  markNotificationReadRequest,
-} from "@/api/notifications";
-import { formatDateTime } from "@/utils/date";
-import { cn } from "@/lib/utils";
+import { getNotificationsRequest } from "@/api/notifications";
+import { isSameGhanaDay } from "@/utils/date";
 import { List } from "@/components/common/List";
 import PageHeader from "@/components/common/PageHeader";
+import NotificationRow from "@/components/notifications/NotificationRow";
+import { useNotificationActions } from "@/hooks/useNotificationActions";
 
 // /notifications: my notification centre, newest first, 20 a page [AC-NOTIF-07].
 // The same page for every role. New ones arrive live (the bell refreshes this list).
 const NotificationsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
 
   const { data, isPending, error, refetch } = useQuery({
     queryKey: ["notifications", "list", { page }],
@@ -30,31 +25,8 @@ const NotificationsPage = () => {
     placeholderData: keepPreviousData,
   });
 
-  // After reading: refresh the list, and put the new count on the bell
-  const handleRead = (result) => {
-    queryClient.setQueryData(["notifications", "unread-count"], result.unreadCount);
-    queryClient.invalidateQueries({ queryKey: ["notifications", "list"] });
-  };
-
-  const markOneRead = useMutation({
-    mutationFn: markNotificationReadRequest,
-    onSuccess: handleRead,
-  });
-
-  const markAllRead = useMutation({
-    mutationFn: markAllNotificationsReadRequest,
-    onSuccess: handleRead,
-  });
-
-  // Tapping one marks it read and opens the screen it is about (if it has one)
-  const handleOpen = (notification) => {
-    if (!notification.readAt) {
-      markOneRead.mutate(notification.id);
-    }
-    if (notification.link) {
-      navigate(notification.link);
-    }
-  };
+  // Tapping one marks it read and opens what it is about; "Mark all as read"
+  const { open: handleOpen, markAllRead } = useNotificationActions();
 
   const handleChangePage = (newPage) => {
     setSearchParams({ page: String(newPage) });
@@ -108,6 +80,17 @@ const NotificationsPage = () => {
   );
 };
 
+// [{ title: "Today", notifications }, { title: "Earlier", notifications }], empty groups left out
+const groupByDay = (notifications) => {
+  const now = new Date();
+  const today = notifications.filter((item) => isSameGhanaDay(item.createdAt, now));
+  const earlier = notifications.filter((item) => !isSameGhanaDay(item.createdAt, now));
+  return [
+    { title: "Today", notifications: today },
+    { title: "Earlier", notifications: earlier },
+  ].filter((group) => group.notifications.length > 0);
+};
+
 // Loading, error, empty or the list [AC-UX-02 to 04]
 const NotificationList = ({ data, isPending, error, onRetry, onOpen, onChangePage }) => {
   if (isPending) {
@@ -137,39 +120,19 @@ const NotificationList = ({ data, isPending, error, onRetry, onOpen, onChangePag
 
   return (
     <>
-      <List>
-        {data.notifications.map((notification) => {
-          const isUnread = !notification.readAt;
-          return (
-            <li key={notification.id}>
-              <button
-                type="button"
-                onClick={() => onOpen(notification)}
-                className="flex w-full items-start gap-3 px-4 py-3 text-left"
-              >
-                {/* A dot for unread ones; an empty space keeps the text lined up */}
-                <span
-                  aria-hidden="true"
-                  className={cn(
-                    "mt-2 size-2.5 shrink-0 rounded-full",
-                    isUnread ? "bg-primary" : "bg-transparent",
-                  )}
-                />
-                <div className="min-w-0 flex-1">
-                  <p className={cn(isUnread ? "font-bold" : "font-normal")}>
-                    {isUnread && <span className="sr-only">Unread: </span>}
-                    {notification.title}
-                  </p>
-                  <p className="mt-0.5 text-[15px]">{notification.body}</p>
-                  <p className="mt-1 text-[13px] text-muted-foreground">
-                    {formatDateTime(notification.createdAt)}
-                  </p>
-                </div>
-              </button>
-            </li>
-          );
-        })}
-      </List>
+      {/* Today first, then everything older, each under its own heading */}
+      {groupByDay(data.notifications).map((group) => (
+        <section key={group.title} className="mb-6">
+          <h2 className="mb-2 text-[13px] font-bold tracking-wide text-muted-foreground uppercase">
+            {group.title}
+          </h2>
+          <List>
+            {group.notifications.map((notification) => (
+              <NotificationRow key={notification.id} notification={notification} onOpen={onOpen} />
+            ))}
+          </List>
+        </section>
+      ))}
 
       {data.meta.totalPages > 1 && (
         <nav aria-label="Pages" className="mt-6 flex items-center justify-between gap-4">

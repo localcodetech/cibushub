@@ -54,7 +54,7 @@ highlights, Terracotta rarely.
   chips could stick to the top while scrolling.
 - [ ] **Order tracking:** the delivery code box and the map are good. The 8-step progress list is long
   on phones: show the current step large and fold the finished ones away.
-- [ ] **Notifications** (planned in Step 13b, item 3): icon and colour per type, an unread tint with a
+- [x] **Notifications** (planned in Step 13b, item 3): icon and colour per type, an unread tint with a
   left accent, relative times, Today/Earlier groups, and a dropdown from the bell on desktop.
 - [x] **Owner board:** works well. The orange "Turn on sound" button was the loudest thing on the
   page; it is now a calm gold button (done with the page header).

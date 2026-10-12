@@ -123,9 +123,10 @@ export const ListRow = ({
 };
 
 // A small tinted square with an icon, at the start of a row
-//   <ListIcon icon={ShoppingBag} />   tone: primary (default) | muted | danger | gold
+//   <ListIcon icon={ShoppingBag} />   tone: primary (default) | success | muted | danger | gold
 const ICON_TONES = {
   primary: "bg-primary/10 text-primary",
+  success: "bg-success text-success-foreground",
   muted: "bg-muted text-muted-foreground",
   danger: "bg-destructive/10 text-destructive",
   gold: "bg-gold/15 text-gold-foreground dark:text-gold",
