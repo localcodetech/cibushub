@@ -29,6 +29,7 @@ Work that must happen later or on a timer runs in a separate **worker** process 
 | `sweepDoorWaits` | maintenance | every minute | Door problems whose 10-minute wait ran out: cancels the order as SYSTEM (no refund), the delivery becomes RETURNING, rider and restaurant are told |
 | `sendNotification` | notifications | on demand | Sends one email (Resend) or SMS (Nalo) logged in `notification_logs`. 3 tries (30 s, then 60 s); a refusal that won't change (no address, bad address, provider not configured) fails at once. The last failure marks the row FAILED and alerts admins (`NOTIFICATION_FAILED`). If Redis can't take the job, the message is sent straight away instead. |
 | `cleanupExpiredTokens` | maintenance | daily 03:00 Accra | Deletes expired login sessions |
+| `sendDailySummary` | maintenance | daily 23:59 Accra | Emails every active admin the day's paid orders, money, average times, top restaurants and open alerts. Same numbers as the dashboard (docs/analytics.md). One email per admin per day (key `daily-summary:<day>`), even if the job runs twice [AC-JOB-02, COULD] |
 
 ## Rules
 

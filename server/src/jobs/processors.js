@@ -13,6 +13,7 @@ import { sweepStaleRiders } from "../services/rider/riderPresence.service.js";
 import { sweepLockedDeliveryCodes } from "../services/delivery/deliveryFlow.service.js";
 import { sweepDoorWaits } from "../services/delivery/doorProblem.service.js";
 import { processNotification } from "../services/notifications/notify.service.js";
+import { sendDailySummary } from "../services/admin/dailySummary.service.js";
 import {
   offerNextRider,
   sweepSearchingDeliveries,
@@ -34,6 +35,7 @@ export const PROCESSORS = {
   sweepLockedDeliveryCodes: () => sweepLockedDeliveryCodes(),
   sweepDoorWaits: () => sweepDoorWaits(),
   sendNotification: (job) => processNotification(job),
+  sendDailySummary: () => sendDailySummary(),
 };
 
 // One function for every queue: find the job's processor by its name

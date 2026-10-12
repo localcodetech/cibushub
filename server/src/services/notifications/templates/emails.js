@@ -252,3 +252,49 @@ export const paymentMismatchEmail = ({ reference, orderNumber, expected, receive
       button("Open the admin dashboard", appLink("/admin")),
     ],
   });
+
+// 2700 seconds -> "45 min"; null -> "no data"
+const minutesText = (seconds) => (seconds === null ? "no data" : Math.round(seconds / 60) + " min");
+const percentText = (percent) => (percent === null ? "no data" : percent + "%");
+
+// Admin: the day in numbers, sent at 23:59 Ghana time [AC-JOB-02]
+//   dayLabel: e.g. "Fri, 9 Oct 2026"; analytics: that day from the admin analytics;
+//   openAlerts: how many alerts still need someone (from the dashboard)
+export const dailySummaryEmail = ({ dayLabel, analytics, openAlerts }) => {
+  const { totals, operations, topRestaurants } = analytics;
+  const top = topRestaurants
+    .slice(0, 3)
+    .map((restaurant) => [
+      `${restaurant.name} (${restaurant.orders})`,
+      formatGhs(restaurant.customerPaidPesewas),
+    ]);
+
+  const ordersText = `${totals.orders} ${totals.orders === 1 ? "order" : "orders"}`;
+
+  return renderEmail({
+    subject: `CibusHub today: ${ordersText}, ${formatGhs(totals.customerPaidPesewas)}`,
+    preheader: `${dayLabel}: ${ordersText} paid, CibusHub kept ${formatGhs(totals.cibushubPesewas)}.`,
+    heading: `Your day: ${dayLabel}`,
+    blocks: [
+      amountRows([
+        ["Paid orders", String(totals.orders)],
+        ["Customers paid (after refunds)", formatGhs(totals.customerPaidPesewas)],
+        ["CibusHub kept", formatGhs(totals.cibushubPesewas)],
+      ]),
+      amountRows([
+        ["Restaurants accepted in", minutesText(operations.averageSeconds.accept)],
+        ["Paid to delivered", minutesText(operations.averageSeconds.total)],
+        ["Rejected by restaurants", percentText(operations.rejectedPercent)],
+        ["Cancelled after paying", percentText(operations.cancelledPercent)],
+      ]),
+      ...(top.length > 0 ? [paragraph("Top restaurants today:"), amountRows(top)] : []),
+      paragraph(
+        openAlerts === 0
+          ? "Nothing needs attention right now."
+          : `${openAlerts} ${openAlerts === 1 ? "alert needs" : "alerts need"} attention on the dashboard.`,
+      ),
+      button("Open the admin dashboard", appLink("/admin")),
+      smallPrint("Counts orders paid from midnight to 23:59 Ghana time. Rules: docs/analytics.md."),
+    ],
+  });
+};
