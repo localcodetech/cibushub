@@ -20,6 +20,7 @@ import {
 import { RIDER_VEHICLES, isMotorised } from "@/data/riderVehicles";
 import { useAuthStore } from "@/store/authStore";
 import PageHeader from "@/components/common/PageHeader";
+import Alert from "@/components/common/Alert";
 
 const APPLICATION_KEY = ["rider-application"];
 
@@ -228,8 +229,8 @@ const StatusBanner = ({ application, onStart }) => {
 
   if (application.status === "REJECTED") {
     return (
-      <div role="alert" className="flex gap-3 rounded-lg border border-destructive p-4">
-        <CircleAlert size={24} className="shrink-0 text-destructive" aria-hidden="true" />
+      <Alert>
+        {" "}
         <div>
           <Text className="font-bold">Your application needs changes</Text>
           <Text className="text-[15px]">{application.rejectionReason}</Text>
@@ -237,7 +238,7 @@ const StatusBanner = ({ application, onStart }) => {
             Fix what's mentioned below, then submit again.
           </Text>
         </div>
-      </div>
+      </Alert>
     );
   }
 
@@ -257,10 +258,10 @@ const StatusBanner = ({ application, onStart }) => {
 
   if (application.status === "SUSPENDED") {
     return (
-      <div role="alert" className="flex gap-3 rounded-lg border border-destructive p-4">
-        <CircleAlert size={24} className="shrink-0 text-destructive" aria-hidden="true" />
+      <Alert>
+        {" "}
         <Text className="font-bold">Your rider account is suspended. Please contact support.</Text>
-      </div>
+      </Alert>
     );
   }
 

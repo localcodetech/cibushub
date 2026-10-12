@@ -67,7 +67,7 @@ highlights, Terracotta rarely.
   two lines or a shorter date.
 - [x] **Admin audit log:** changes show raw field names (`deliveryBasePesewas: 500 → 600`). Use the
   plain labels and money format from the settings page.
-- [ ] **Rider screens:** clear and simple. The online switch card and the current delivery card
+- [x] **Rider screens:** clear and simple. The online switch card and the current delivery card
   should look like the rest once the shared cards are restyled.
 
 - [x] **Navbar in dark mode** is a bright mint bar (the brand green turns light in dark mode).

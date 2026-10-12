@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { CircleAlert } from "lucide-react";
 import Card from "@/components/common/Card";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
@@ -9,6 +8,7 @@ import Stars from "./Stars";
 import StarPicker from "./StarPicker";
 import { editReviewRequest, getMyReviewRequest, writeReviewRequest } from "@/api/reviews";
 import { formatDateTime } from "@/utils/date";
+import Alert from "@/components/common/Alert";
 
 const COMMENT_MAX_LENGTH = 500;
 
@@ -158,13 +158,10 @@ const ReviewForm = ({ orderId, review, canRateRider, onDone }) => {
         </div>
 
         {errorMessage && (
-          <div
-            role="alert"
-            className="flex items-start gap-2 rounded-lg border border-destructive p-3 text-[15px] text-destructive"
-          >
-            <CircleAlert size={20} className="mt-0.5 shrink-0" aria-hidden="true" />
+          <Alert>
+            {" "}
             <span>{errorMessage}</span>
-          </div>
+          </Alert>
         )}
 
         <div className="flex gap-3">

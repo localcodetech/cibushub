@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useLocation, useNavigate } from "react-router";
-import { CircleAlert } from "lucide-react";
 import Container from "@/layouts/Container";
 import Text from "@/components/typography/Text";
 import FormField from "@/components/form/FormField";
@@ -10,6 +9,7 @@ import { resetPasswordSchema } from "@/validators/auth/resetPasswordSchema";
 import { resetPasswordRequest } from "@/api/auth";
 import { useAuthStore } from "@/store/authStore";
 import PageHeader from "@/components/common/PageHeader";
+import Alert from "@/components/common/Alert";
 
 // Step 2 of 2: the SMS code and a new password [AC-AUTH-19]
 const ResetPasswordPage = () => {
@@ -120,13 +120,10 @@ const ResetPasswordPage = () => {
           />
 
           {errors.root && (
-            <div
-              role="alert"
-              className="flex items-start gap-2 rounded-lg border border-destructive p-3 text-[15px] text-destructive"
-            >
-              <CircleAlert size={20} className="mt-0.5 shrink-0" aria-hidden="true" />
+            <Alert>
+              {" "}
               <span>{errors.root.message}</span>
-            </div>
+            </Alert>
           )}
 
           <Button type="submit" disabled={isSubmitting} className="h-12 w-full text-base font-bold">

@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { CircleAlert } from "lucide-react";
 import Sheet from "@/components/common/Sheet";
 import Skeleton from "@/components/common/Skeleton";
 import { Button } from "@/components/ui/button";
 import { adminAssignRiderRequest, getLiveRidersRequest } from "@/api/admin";
 import { VEHICLE_NAMES } from "@/data/riderStatuses";
 import { cn } from "@/lib/utils";
+import Alert from "@/components/common/Alert";
 
 // Give an order to a chosen rider, or swap riders, before pickup [AC-ASSIGN-07].
 // Only online riders who are free (not carrying another order) are listed.
@@ -104,13 +104,10 @@ const AssignRiderSheet = ({ order, currentRiderId, onDone, onClose }) => {
         </div>
 
         {errorMessage && (
-          <div
-            role="alert"
-            className="flex items-start gap-2 rounded-lg border border-destructive p-3 text-[15px] text-destructive"
-          >
-            <CircleAlert size={20} className="mt-0.5 shrink-0" aria-hidden="true" />
+          <Alert>
+            {" "}
             <span>{errorMessage}</span>
-          </div>
+          </Alert>
         )}
 
         <div className="flex gap-3">

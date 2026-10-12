@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Navigate, useNavigate } from "react-router";
 import { z } from "zod";
-import { CircleAlert } from "lucide-react";
 import Container from "@/layouts/Container";
 import Text from "@/components/typography/Text";
 import FormField from "@/components/form/FormField";
@@ -12,6 +11,7 @@ import { useAuthStore } from "@/store/authStore";
 import { homePathFor } from "@/utils/roleHome";
 import { isGhanaPhone } from "@/utils/phone";
 import PageHeader from "@/components/common/PageHeader";
+import Alert from "@/components/common/Alert";
 
 const addPhoneSchema = z.object({
   phone: z.string().trim().refine(isGhanaPhone, "Enter a valid Ghana mobile number"),
@@ -80,13 +80,10 @@ const AddPhonePage = () => {
           />
 
           {errors.root && (
-            <div
-              role="alert"
-              className="flex items-start gap-2 rounded-lg border border-destructive p-3 text-[15px] text-destructive"
-            >
-              <CircleAlert size={20} className="mt-0.5 shrink-0" aria-hidden="true" />
+            <Alert>
+              {" "}
               <span>{errors.root.message}</span>
-            </div>
+            </Alert>
           )}
 
           <Button type="submit" disabled={isSubmitting} className="h-12 w-full text-base font-bold">

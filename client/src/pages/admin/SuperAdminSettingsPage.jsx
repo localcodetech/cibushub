@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { CircleAlert, CircleCheck } from "lucide-react";
+import { CircleCheck } from "lucide-react";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
 import Skeleton from "@/components/common/Skeleton";
@@ -23,6 +23,7 @@ import { formatDateTime } from "@/utils/date";
 import { formatMoney } from "@/utils/money";
 import { List } from "@/components/common/List";
 import PageHeader from "@/components/common/PageHeader";
+import Alert from "@/components/common/Alert";
 
 // ─────────────────────────────────────────────
 // Form rules: the same limits as the server [AC-SADM-02]
@@ -258,13 +259,10 @@ const SettingsForm = ({ values, onSaved, onEdit }) => {
       </div>
 
       {rootError && (
-        <div
-          role="alert"
-          className="flex items-start gap-2 rounded-lg border border-destructive p-3 text-[15px] text-destructive"
-        >
-          <CircleAlert size={20} className="mt-0.5 shrink-0" aria-hidden="true" />
+        <Alert>
+          {" "}
           <span>{rootError}</span>
-        </div>
+        </Alert>
       )}
 
       <Button type="submit" disabled={isSubmitting} className="h-12 w-full font-bold sm:w-auto">

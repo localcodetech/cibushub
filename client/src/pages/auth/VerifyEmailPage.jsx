@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Navigate, useNavigate, useSearchParams } from "react-router";
-import { CircleAlert } from "lucide-react";
 import Container from "@/layouts/Container";
 import Text from "@/components/typography/Text";
 import FormField from "@/components/form/FormField";
@@ -12,6 +11,7 @@ import { sendEmailCodeRequest, verifyEmailRequest } from "@/api/auth";
 import { useAuthStore } from "@/store/authStore";
 import { homePathFor, isSafeLocalPath } from "@/utils/roleHome";
 import PageHeader from "@/components/common/PageHeader";
+import Alert from "@/components/common/Alert";
 
 // The server allows a new code once every 60 seconds
 const RESEND_WAIT_SECONDS = 60;
@@ -129,17 +129,14 @@ const VerifyEmailPage = () => {
 
         {/* Resend told us mail to this address bounced [AC-NOTIF-08] */}
         {user.emailBouncedAt && (
-          <div
-            role="alert"
-            className="mt-6 flex items-start gap-2 rounded-lg border border-destructive p-3 text-[15px] text-destructive"
-          >
-            <CircleAlert size={20} className="mt-0.5 shrink-0" aria-hidden="true" />
+          <Alert className="mt-6">
+            {" "}
             <span>
               Our last email to this address bounced, so we've stopped sending you receipts and
               updates by email. Check your inbox for the code. If it doesn't arrive, the address may
               be mistyped: contact support to change it.
             </span>
-          </div>
+          </Alert>
         )}
 
         <form onSubmit={handleSubmit(onSubmit)} noValidate className="mt-8 flex flex-col gap-5">
@@ -157,13 +154,10 @@ const VerifyEmailPage = () => {
           />
 
           {errors.root && (
-            <div
-              role="alert"
-              className="flex items-start gap-2 rounded-lg border border-destructive p-3 text-[15px] text-destructive"
-            >
-              <CircleAlert size={20} className="mt-0.5 shrink-0" aria-hidden="true" />
+            <Alert>
+              {" "}
               <span>{errors.root.message}</span>
-            </div>
+            </Alert>
           )}
 
           {/* Disabled while sending, so a double tap can't use up an attempt [AC-UX-05] */}
