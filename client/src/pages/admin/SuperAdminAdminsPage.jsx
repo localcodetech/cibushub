@@ -20,6 +20,7 @@ import {
 import { ACCOUNT_STATUSES, ROLE_NAMES } from "@/data/userLabels";
 import { useAuthStore } from "@/store/authStore";
 import { formatDateTime } from "@/utils/date";
+import { List } from "@/components/common/List";
 
 // Each action's sheet: its title, words and request
 const ACTIONS = {
@@ -94,7 +95,7 @@ const SuperAdminAdminsPage = () => {
           {isPending && <Skeleton className="h-40 w-full" />}
           {error && <ErrorState message={error.message} onRetry={refetch} />}
           {data && (
-            <ul className="divide-y divide-border rounded-lg border border-border bg-card">
+            <List>
               {data.map((admin) => {
                 const statusInfo = ACCOUNT_STATUSES[admin.status];
                 const isMe = admin.id === me.id;
@@ -143,7 +144,7 @@ const SuperAdminAdminsPage = () => {
                   </li>
                 );
               })}
-            </ul>
+            </List>
           )}
         </div>
       </section>

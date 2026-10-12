@@ -20,6 +20,7 @@ import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { formatMoney } from "@/utils/money";
 import { formatDateTime } from "@/utils/date";
 import { cn } from "@/lib/utils";
+import { List } from "@/components/common/List";
 
 // How each status reads and looks
 const PAYMENT_STATUSES = {
@@ -231,7 +232,7 @@ const PaymentsTab = () => {
           />
         )}
         {data && data.payments.length > 0 && (
-          <ul className="divide-y divide-border rounded-lg border border-border bg-card">
+          <List>
             {data.payments.map((payment) => (
               <li key={payment.id} className="px-4 py-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
@@ -275,7 +276,7 @@ const PaymentsTab = () => {
                 )}
               </li>
             ))}
-          </ul>
+          </List>
         )}
       </div>
       <Pager meta={data && data.meta} page={page} onPage={setPage} />
@@ -329,7 +330,7 @@ const RefundsTab = () => {
           />
         )}
         {data && data.refunds.length > 0 && (
-          <ul className="divide-y divide-border rounded-lg border border-border bg-card">
+          <List>
             {data.refunds.map((refund) => (
               <li key={refund.id} className="px-4 py-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
@@ -361,7 +362,7 @@ const RefundsTab = () => {
                 )}
               </li>
             ))}
-          </ul>
+          </List>
         )}
       </div>
       <Pager meta={data && data.meta} page={page} onPage={setPage} />

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { Link, useSearchParams } from "react-router";
+import { useSearchParams } from "react-router";
 import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ChevronRight, ReceiptText } from "lucide-react";
+import { ReceiptText, ShoppingBag } from "lucide-react";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
@@ -13,6 +13,7 @@ import { getMyOrdersRequest } from "@/api/orders";
 import { formatMoney } from "@/utils/money";
 import { formatDateTime } from "@/utils/date";
 import { onOrderUpdated } from "@/lib/liveUpdates";
+import { List, ListIcon, ListRow } from "@/components/common/List";
 
 // /customer/orders: my orders, newest first, 20 a page [AC-CUST-09]
 const OrdersPage = () => {
@@ -84,30 +85,19 @@ const OrderList = ({ data, isPending, error, onRetry, onChangePage }) => {
 
   return (
     <>
-      <ul className="divide-y divide-border rounded-lg border border-border bg-card">
+      <List>
         {data.orders.map((order) => (
-          <li key={order.id}>
-            {/* The whole row opens the order */}
-            <Link to={"/customer/orders/" + order.id} className="flex items-center gap-3 px-4 py-3">
-              <div className="min-w-0 flex-1">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <p className="truncate font-bold">{order.restaurant.name}</p>
-                  <OrderStatusBadge status={order.status} />
-                </div>
-                <p className="mt-1 text-[13px] text-muted-foreground">
-                  {order.orderNumber} · {formatDateTime(order.createdAt)}
-                </p>
-                <p className="mt-0.5 text-[15px] font-bold">{formatMoney(order.totalPesewas)}</p>
-              </div>
-              <ChevronRight
-                size={18}
-                className="shrink-0 text-muted-foreground"
-                aria-hidden="true"
-              />
-            </Link>
-          </li>
+          <ListRow
+            key={order.id}
+            to={"/customer/orders/" + order.id}
+            leading={<ListIcon icon={ShoppingBag} />}
+            title={order.restaurant.name}
+            badge={<OrderStatusBadge status={order.status} />}
+            meta={order.orderNumber + " · " + formatDateTime(order.createdAt)}
+            detail={<span className="font-bold">{formatMoney(order.totalPesewas)}</span>}
+          />
         ))}
-      </ul>
+      </List>
 
       {data.meta.totalPages > 1 && (
         <nav aria-label="Pages" className="mt-6 flex items-center justify-between gap-4">

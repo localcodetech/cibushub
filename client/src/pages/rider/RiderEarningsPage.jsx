@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { Wallet } from "lucide-react";
+import { Package, Undo2, Wallet } from "lucide-react";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { formatMoney } from "@/utils/money";
 import { formatDistance } from "@/utils/distance";
 import { formatDay, formatMonth, formatRange, formatTime, todayInGhana } from "@/utils/date";
+import { List, ListIcon, ListRow } from "@/components/common/List";
 
 const PERIODS = [
   { value: "day", label: "Day" },
@@ -166,28 +167,29 @@ const EarningsList = ({ query, onChangePage }) => {
 
   return (
     <>
-      <ul className="divide-y divide-border rounded-lg border border-border bg-card">
+      <List>
         {deliveries.map((delivery) => (
-          <li key={delivery.deliveryId} className="px-4 py-3">
-            <div className="flex items-center justify-between gap-2">
-              <p className="font-bold">{delivery.restaurantName}</p>
-              <p className="font-bold">{formatMoney(delivery.earningsPesewas)}</p>
-            </div>
-            {/* Food taken back to the restaurant pays 1.5x (ADR 003) */}
-            {delivery.outcome === "RETURNED" && (
-              <p className="text-[13px] font-bold text-amber-700 dark:text-amber-400">
-                Returned to the restaurant · 1.5x
-              </p>
-            )}
-            <p className="mt-1 text-[13px] text-muted-foreground">
-              {formatDay(delivery.settledAt.slice(0, 10))} · {formatTime(delivery.settledAt)} ·{" "}
-              {delivery.restaurantArea} → {delivery.dropoffArea || "customer"} ·{" "}
-              {formatDistance(delivery.distanceMetres)}
-            </p>
-            <p className="text-[13px] text-muted-foreground">{delivery.orderNumber}</p>
-          </li>
+          <ListRow
+            key={delivery.deliveryId}
+            leading={<ListIcon icon={delivery.outcome === "RETURNED" ? Undo2 : Package} />}
+            title={delivery.restaurantName}
+            trailing={formatMoney(delivery.earningsPesewas)}
+            meta={
+              <>
+                {/* Food taken back to the restaurant pays 1.5x (ADR 003) */}
+                {delivery.outcome === "RETURNED" && (
+                  <span className="block font-bold text-amber-700 dark:text-amber-400">
+                    Returned to the restaurant · 1.5x
+                  </span>
+                )}
+                {formatDay(delivery.settledAt.slice(0, 10))} · {formatTime(delivery.settledAt)} ·{" "}
+                {delivery.restaurantArea} → {delivery.dropoffArea || "customer"} ·{" "}
+                {formatDistance(delivery.distanceMetres)} · {delivery.orderNumber}
+              </>
+            }
+          />
         ))}
-      </ul>
+      </List>
 
       {meta.totalPages > 1 && (
         <nav aria-label="Pages" className="flex items-center justify-between gap-4">

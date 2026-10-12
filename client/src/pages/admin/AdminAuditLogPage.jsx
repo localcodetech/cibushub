@@ -11,6 +11,7 @@ import ErrorState from "@/components/common/ErrorState";
 import { getAuditActionsRequest, getAuditLogsRequest } from "@/api/admin";
 import { ROLE_NAMES } from "@/data/userLabels";
 import { formatDateTime } from "@/utils/date";
+import { List } from "@/components/common/List";
 
 // What each kind of target is called, and where its page is (if it has one)
 const TARGETS = {
@@ -205,7 +206,7 @@ const LogList = ({ data, isPending, error, onRetry }) => {
   }
 
   return (
-    <ol className="divide-y divide-border rounded-lg border border-border bg-card">
+    <List as="ol">
       {data.logs.map((log) => {
         const target = TARGETS[log.targetType] || { label: log.targetType, path: null };
         const changes = changesOf(log.before, log.after);
@@ -243,7 +244,7 @@ const LogList = ({ data, isPending, error, onRetry }) => {
           </li>
         );
       })}
-    </ol>
+    </List>
   );
 };
 

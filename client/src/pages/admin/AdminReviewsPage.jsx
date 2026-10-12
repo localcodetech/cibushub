@@ -14,6 +14,7 @@ import Stars from "@/components/review/Stars";
 import { getAdminReviewsRequest, hideReviewRequest, showReviewRequest } from "@/api/admin";
 import { formatDateTime } from "@/utils/date";
 import { cn } from "@/lib/utils";
+import { List } from "@/components/common/List";
 
 // The views. Abuse is usually in the 1- and 2-star reviews, so they come first.
 const VIEWS = [
@@ -90,7 +91,7 @@ const AdminReviewsPage = () => {
             />
           )}
           {data && data.reviews.length > 0 && (
-            <ul className="divide-y divide-border rounded-lg border border-border bg-card">
+            <List>
               {data.reviews.map((review) => (
                 <li key={review.id} className="px-4 py-3">
                   <div className="flex flex-wrap items-center justify-between gap-2">
@@ -145,7 +146,7 @@ const AdminReviewsPage = () => {
                   )}
                 </li>
               ))}
-            </ul>
+            </List>
           )}
         </div>
 

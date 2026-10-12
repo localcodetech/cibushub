@@ -22,6 +22,7 @@ import {
 } from "@/data/settingLabels";
 import { formatDateTime } from "@/utils/date";
 import { formatMoney } from "@/utils/money";
+import { List } from "@/components/common/List";
 
 // ─────────────────────────────────────────────
 // Form rules: the same limits as the server [AC-SADM-02]
@@ -287,7 +288,7 @@ const SettingsHistory = ({ history }) => {
   return (
     <section className="mt-10">
       <Heading level={2}>History</Heading>
-      <ul className="mt-3 divide-y divide-border rounded-lg border border-border bg-card">
+      <List className="mt-3">
         {history.map((entry, index) => {
           const previous = history[index + 1];
           const changedKeys = previous
@@ -324,7 +325,7 @@ const SettingsHistory = ({ history }) => {
             </li>
           );
         })}
-      </ul>
+      </List>
     </section>
   );
 };

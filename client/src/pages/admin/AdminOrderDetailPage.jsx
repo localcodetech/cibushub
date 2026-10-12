@@ -24,6 +24,7 @@ import { VEHICLE_NAMES } from "@/data/riderStatuses";
 import { onOrderUpdated } from "@/lib/liveUpdates";
 import { formatMoney } from "@/utils/money";
 import { formatDateTime } from "@/utils/date";
+import { List } from "@/components/common/List";
 
 // Who did a step, in words
 const ACTOR_WORDS = {
@@ -271,7 +272,7 @@ const Timeline = ({ timeline }) => {
   return (
     <section className="mt-8">
       <Heading level={2}>Timeline</Heading>
-      <ol className="mt-3 divide-y divide-border rounded-lg border border-border bg-card">
+      <List as="ol" className="mt-3">
         {timeline.map((entry) => (
           <li key={entry.status + entry.at} className="px-4 py-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
@@ -287,7 +288,7 @@ const Timeline = ({ timeline }) => {
             {entry.reason && <p className="mt-1 text-[15px]">{entry.reason}</p>}
           </li>
         ))}
-      </ol>
+      </List>
     </section>
   );
 };
@@ -327,7 +328,7 @@ const Money = ({ order }) => {
           No payment attempts.
         </Text>
       ) : (
-        <ul className="mt-2 divide-y divide-border rounded-lg border border-border bg-card">
+        <List className="mt-2">
           {order.payments.map((payment) => (
             <li key={payment.id} className="px-4 py-3 text-[15px]">
               <div className="flex flex-wrap justify-between gap-2">
@@ -344,7 +345,7 @@ const Money = ({ order }) => {
               )}
             </li>
           ))}
-        </ul>
+        </List>
       )}
 
       {order.refunds.length > 0 && (
@@ -352,7 +353,7 @@ const Money = ({ order }) => {
           <Heading level={3} className="mt-6">
             Refunds
           </Heading>
-          <ul className="mt-2 divide-y divide-border rounded-lg border border-border bg-card">
+          <List className="mt-2">
             {order.refunds.map((refund) => (
               <li key={refund.id} className="px-4 py-3 text-[15px]">
                 <div className="flex flex-wrap justify-between gap-2">
@@ -362,7 +363,7 @@ const Money = ({ order }) => {
                 <p className="text-[13px] text-muted-foreground">{refund.reason}</p>
               </li>
             ))}
-          </ul>
+          </List>
         </>
       )}
     </section>

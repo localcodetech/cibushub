@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { ChevronRight, Search, Store } from "lucide-react";
+import { Search, Store } from "lucide-react";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
@@ -14,6 +13,7 @@ import { RESTAURANT_STATUSES } from "@/data/restaurantStatuses";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { formatDateTime } from "@/utils/date";
 import { cn } from "@/lib/utils";
+import { List, ListIcon, ListRow } from "@/components/common/List";
 
 // The tabs, the review queue first. status "" means every restaurant.
 const TABS = [
@@ -155,35 +155,27 @@ const RestaurantList = ({ data, isPending, error, onRetry, isQueue }) => {
   }
 
   return (
-    <ul className="divide-y divide-border rounded-lg border border-border bg-card">
+    <List>
       {data.restaurants.map((restaurant) => {
         const statusInfo = RESTAURANT_STATUSES[restaurant.status];
         return (
-          <li key={restaurant.id}>
-            <Link
-              to={"/admin/restaurants/" + restaurant.id}
-              className="flex items-center gap-3 px-4 py-3"
-            >
-              <div className="min-w-0 flex-1">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <p className="truncate font-bold">{restaurant.name}</p>
-                  <StatusPill label={statusInfo.label} tone={statusInfo.tone} />
-                </div>
-                <p className="mt-1 text-[13px] text-muted-foreground">
-                  {restaurant.area} · {restaurant.owner ? restaurant.owner.fullName : "No owner"} ·
-                  since {formatDateTime(restaurant.createdAt)}
-                </p>
-              </div>
-              <ChevronRight
-                size={18}
-                className="shrink-0 text-muted-foreground"
-                aria-hidden="true"
-              />
-            </Link>
-          </li>
+          <ListRow
+            key={restaurant.id}
+            to={"/admin/restaurants/" + restaurant.id}
+            leading={<ListIcon icon={Store} />}
+            title={restaurant.name}
+            badge={<StatusPill label={statusInfo.label} tone={statusInfo.tone} />}
+            meta={
+              restaurant.area +
+              " · " +
+              (restaurant.owner ? restaurant.owner.fullName : "No owner") +
+              " · since " +
+              formatDateTime(restaurant.createdAt)
+            }
+          />
         );
       })}
-    </ul>
+    </List>
   );
 };
 

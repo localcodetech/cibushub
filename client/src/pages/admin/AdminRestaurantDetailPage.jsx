@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { ExternalLink, FileText, Mail, MapPin, Phone } from "lucide-react";
+import { FileText, Mail, MapPin, Phone } from "lucide-react";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
@@ -23,6 +23,7 @@ import {
 import { DOCUMENT_NAMES, RESTAURANT_STATUSES } from "@/data/restaurantStatuses";
 import { formatMoney } from "@/utils/money";
 import { formatDateTime } from "@/utils/date";
+import { List, ListIcon, ListRow } from "@/components/common/List";
 
 // /admin/restaurants/:restaurantId: check one restaurant, then approve, reject, suspend
 // or reactivate it [AC-ADM-03]. Every action asks first; reject and suspend need a reason [AC-ADM-08].
@@ -267,28 +268,21 @@ const Documents = ({ restaurantId }) => {
         </Text>
       )}
       {data && data.length > 0 && (
-        <ul className="mt-3 divide-y divide-border rounded-lg border border-border bg-card">
+        <List className="mt-3">
           {data.map((document) => (
-            <li key={document.documentType}>
-              <a
-                href={document.url}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-3 px-4 py-3"
-              >
-                <FileText size={18} className="shrink-0 text-primary" aria-hidden="true" />
-                <span className="flex-1 font-bold">
-                  {DOCUMENT_NAMES[document.documentType] || document.documentType}
-                </span>
-                <span className="text-[13px] text-muted-foreground uppercase">
+            <ListRow
+              key={document.documentType}
+              href={document.url}
+              leading={<ListIcon icon={FileText} />}
+              title={DOCUMENT_NAMES[document.documentType] || document.documentType}
+              trailing={
+                <span className="text-[13px] font-normal text-muted-foreground uppercase">
                   {document.format}
                 </span>
-                <ExternalLink size={16} className="text-muted-foreground" aria-hidden="true" />
-                <span className="sr-only">(opens in a new tab)</span>
-              </a>
-            </li>
+              }
+            />
           ))}
-        </ul>
+        </List>
       )}
     </section>
   );
@@ -328,22 +322,17 @@ const Performance = ({ performance }) => {
           No orders yet.
         </Text>
       ) : (
-        <ul className="mt-2 divide-y divide-border rounded-lg border border-border bg-card">
+        <List className="mt-2">
           {performance.recentOrders.map((order) => (
-            <li
+            <ListRow
               key={order.id}
-              className="flex flex-wrap items-center justify-between gap-2 px-4 py-3"
-            >
-              <div>
-                <p className="font-bold">{order.orderNumber}</p>
-                <p className="text-[13px] text-muted-foreground">
-                  {formatDateTime(order.createdAt)} · {formatMoney(order.totalPesewas)}
-                </p>
-              </div>
-              <OrderStatusBadge status={order.status} />
-            </li>
+              to={"/admin/orders/" + order.id}
+              title={order.orderNumber}
+              badge={<OrderStatusBadge status={order.status} />}
+              meta={formatDateTime(order.createdAt) + " · " + formatMoney(order.totalPesewas)}
+            />
           ))}
-        </ul>
+        </List>
       )}
     </section>
   );

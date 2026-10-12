@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { Bike, ChevronRight, Map as MapIcon } from "lucide-react";
+import { Bike, Map as MapIcon } from "lucide-react";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
@@ -13,6 +13,8 @@ import { getAdminRidersRequest } from "@/api/admin";
 import { RIDER_STATUSES, VEHICLE_NAMES } from "@/data/riderStatuses";
 import { formatDateTime } from "@/utils/date";
 import { cn } from "@/lib/utils";
+import { List, ListRow } from "@/components/common/List";
+import Avatar from "@/components/common/Avatar";
 
 // The tabs, the review queue first. status "" means every rider.
 const TABS = [
@@ -137,33 +139,25 @@ const RiderList = ({ data, isPending, error, onRetry, isQueue }) => {
   }
 
   return (
-    <ul className="divide-y divide-border rounded-lg border border-border bg-card">
+    <List>
       {data.riders.map((rider) => {
         const statusInfo = RIDER_STATUSES[rider.status];
         return (
-          <li key={rider.id}>
-            <Link to={"/admin/riders/" + rider.id} className="flex items-center gap-3 px-4 py-3">
-              <div className="min-w-0 flex-1">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <p className="truncate font-bold">{rider.rider.fullName}</p>
-                  <StatusPill label={statusInfo.label} tone={statusInfo.tone} />
-                </div>
-                <p className="mt-1 text-[13px] text-muted-foreground">
-                  {VEHICLE_NAMES[rider.vehicleType]}
-                  {rider.plateNumber ? " · " + rider.plateNumber : ""}
-                  {rider.submittedAt ? " · sent " + formatDateTime(rider.submittedAt) : ""}
-                </p>
-              </div>
-              <ChevronRight
-                size={18}
-                className="shrink-0 text-muted-foreground"
-                aria-hidden="true"
-              />
-            </Link>
-          </li>
+          <ListRow
+            key={rider.id}
+            to={"/admin/riders/" + rider.id}
+            leading={<Avatar name={rider.rider.fullName} />}
+            title={rider.rider.fullName}
+            badge={<StatusPill label={statusInfo.label} tone={statusInfo.tone} />}
+            meta={
+              VEHICLE_NAMES[rider.vehicleType] +
+              (rider.plateNumber ? " · " + rider.plateNumber : "") +
+              (rider.submittedAt ? " · sent " + formatDateTime(rider.submittedAt) : "")
+            }
+          />
         );
       })}
-    </ul>
+    </List>
   );
 };
 

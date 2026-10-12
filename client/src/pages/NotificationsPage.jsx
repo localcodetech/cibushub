@@ -14,6 +14,7 @@ import {
 } from "@/api/notifications";
 import { formatDateTime } from "@/utils/date";
 import { cn } from "@/lib/utils";
+import { List } from "@/components/common/List";
 
 // /notifications: my notification centre, newest first, 20 a page [AC-NOTIF-07].
 // The same page for every role. New ones arrive live (the bell refreshes this list).
@@ -131,7 +132,7 @@ const NotificationList = ({ data, isPending, error, onRetry, onOpen, onChangePag
 
   return (
     <>
-      <ul className="divide-y divide-border rounded-lg border border-border bg-card">
+      <List>
         {data.notifications.map((notification) => {
           const isUnread = !notification.readAt;
           return (
@@ -163,7 +164,7 @@ const NotificationList = ({ data, isPending, error, onRetry, onOpen, onChangePag
             </li>
           );
         })}
-      </ul>
+      </List>
 
       {data.meta.totalPages > 1 && (
         <nav aria-label="Pages" className="mt-6 flex items-center justify-between gap-4">

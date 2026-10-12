@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { ExternalLink, Eye, FileText, Mail, Phone, UserRound } from "lucide-react";
+import { Eye, FileText, Mail, Phone, UserRound } from "lucide-react";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
@@ -21,6 +21,7 @@ import {
 } from "@/api/admin";
 import { RIDER_DOCUMENT_NAMES, RIDER_STATUSES, VEHICLE_NAMES } from "@/data/riderStatuses";
 import { formatDateTime } from "@/utils/date";
+import { List, ListIcon, ListRow } from "@/components/common/List";
 
 // /admin/riders/:riderId: check one application, then approve, reject, suspend or
 // reactivate [AC-ADM-04]. Every action asks first; reject and suspend need a reason [AC-ADM-08].
@@ -299,28 +300,21 @@ const Documents = ({ riderId }) => {
         </Text>
       )}
       {data && data.length > 0 && (
-        <ul className="mt-3 divide-y divide-border rounded-lg border border-border bg-card">
+        <List className="mt-3">
           {data.map((document) => (
-            <li key={document.documentType}>
-              <a
-                href={document.url}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-3 px-4 py-3"
-              >
-                <FileText size={18} className="shrink-0 text-primary" aria-hidden="true" />
-                <span className="flex-1 font-bold">
-                  {RIDER_DOCUMENT_NAMES[document.documentType] || document.documentType}
-                </span>
-                <span className="text-[13px] text-muted-foreground uppercase">
+            <ListRow
+              key={document.documentType}
+              href={document.url}
+              leading={<ListIcon icon={FileText} />}
+              title={RIDER_DOCUMENT_NAMES[document.documentType] || document.documentType}
+              trailing={
+                <span className="text-[13px] font-normal text-muted-foreground uppercase">
                   {document.format}
                 </span>
-                <ExternalLink size={16} className="text-muted-foreground" aria-hidden="true" />
-                <span className="sr-only">(opens in a new tab)</span>
-              </a>
-            </li>
+              }
+            />
           ))}
-        </ul>
+        </List>
       )}
     </section>
   );

@@ -14,6 +14,7 @@ import { ORDER_STATUSES } from "@/data/orderStatuses";
 import { onLiveEvent, onOrderUpdated } from "@/lib/liveUpdates";
 import { formatMoney } from "@/utils/money";
 import { cn } from "@/lib/utils";
+import { List } from "@/components/common/List";
 
 // What each alert means, in the order they are shown
 const ALERTS = [
@@ -107,14 +108,14 @@ const DashboardBody = ({ data, isPending, error, onRetry }) => {
 
         <section>
           <Heading level={2}>Active orders ({activeTotal})</Heading>
-          <ul className="mt-3 divide-y divide-border rounded-lg border border-border bg-card">
+          <List className="mt-3">
             {Object.entries(data.activeOrders).map(([status, count]) => (
               <li key={status} className="flex items-center justify-between px-4 py-3">
                 <span>{ORDER_STATUSES[status] ? ORDER_STATUSES[status].label : status}</span>
                 <span className="font-bold">{count}</span>
               </li>
             ))}
-          </ul>
+          </List>
         </section>
       </div>
 
@@ -139,7 +140,7 @@ const AlertList = ({ alerts }) => {
   }
 
   return (
-    <ul className="mt-3 divide-y divide-border rounded-lg border border-border bg-card">
+    <List className="mt-3">
       {ALERTS.map((alert) => {
         const count = alerts[alert.key];
         const hasProblem = count > 0;
@@ -159,7 +160,7 @@ const AlertList = ({ alerts }) => {
           </li>
         );
       })}
-    </ul>
+    </List>
   );
 };
 
