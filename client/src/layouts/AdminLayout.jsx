@@ -18,7 +18,10 @@ const ADMIN_LINKS = [
 ];
 
 // Only super admins see these [AC-SADM-01]
-const SUPER_ADMIN_LINKS = [{ label: "Admins", to: "/admin/admins", end: false }];
+const SUPER_ADMIN_LINKS = [
+  { label: "Admins", to: "/admin/admins", end: false },
+  { label: "Settings", to: "/admin/settings", end: false },
+];
 
 // The frame around every admin page: the admin menu on top, then the page.
 // overflow-x-auto: on a phone the menu scrolls sideways instead of wrapping.

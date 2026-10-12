@@ -33,3 +33,16 @@ export const removeAdminRequest = async (userId, reason) => {
   const result = await api.post("/super-admin/admins/" + userId + "/remove", { reason });
   return result.data;
 };
+
+// { version, values, changedAt, history: [{ version, values, reason, changedAt, changedBy }] }
+// [AC-SADM-02]
+export const getPlatformSettingsRequest = async () => {
+  const result = await api.get("/super-admin/settings");
+  return result.data;
+};
+
+// settings = only the values that change, e.g. { commissionPercent: 12 }; money in pesewas
+export const updatePlatformSettingsRequest = async (settings, reason) => {
+  const result = await api.patch("/super-admin/settings", { settings, reason });
+  return result.data;
+};
