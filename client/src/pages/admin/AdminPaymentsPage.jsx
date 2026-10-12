@@ -19,8 +19,9 @@ import {
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { formatMoney } from "@/utils/money";
 import { formatDateTime } from "@/utils/date";
-import { cn } from "@/lib/utils";
 import { List } from "@/components/common/List";
+import Tabs from "@/components/common/Tabs";
+import { Chip, ChipRow } from "@/components/common/Chips";
 
 // How each status reads and looks
 const PAYMENT_STATUSES = {
@@ -52,27 +53,20 @@ const OUTCOME_WORDS = {
   UNKNOWN_REFERENCE: "Paystack doesn't know this payment.",
 };
 
-// Small pill buttons for the filters
+// The filter chips (one on at a time)
 const Pills = ({ options, value, onChange, label }) => {
   return (
-    <div role="group" aria-label={label} className="flex gap-2 overflow-x-auto pb-1">
+    <ChipRow label={label}>
       {options.map((option) => (
-        <button
+        <Chip
           key={option.label}
-          type="button"
+          selected={value === option.value}
           onClick={() => onChange(option.value)}
-          aria-pressed={value === option.value}
-          className={cn(
-            "min-h-11 shrink-0 rounded-full border px-4 font-bold",
-            value === option.value
-              ? "border-primary bg-primary text-primary-foreground"
-              : "border-border",
-          )}
         >
           {option.label}
-        </button>
+        </Chip>
       ))}
-    </div>
+    </ChipRow>
   );
 };
 
@@ -113,25 +107,16 @@ const AdminPaymentsPage = () => {
     <Container>
       <section className="py-8">
         <Heading level={1}>Payments</Heading>
-        <div className="mt-6 flex gap-6 border-b border-border">
-          {[
+        <Tabs
+          label="Show"
+          className="mt-6"
+          value={tab}
+          onChange={setTab}
+          options={[
             { value: "payments", label: "Payments" },
             { value: "refunds", label: "Refunds" },
-          ].map((option) => (
-            <button
-              key={option.value}
-              type="button"
-              onClick={() => setTab(option.value)}
-              aria-pressed={tab === option.value}
-              className={cn(
-                "min-h-12 border-b-2 font-bold",
-                tab === option.value ? "border-primary text-primary" : "border-transparent",
-              )}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
+          ]}
+        />
         <div className="mt-6">{tab === "payments" ? <PaymentsTab /> : <RefundsTab />}</div>
       </section>
     </Container>

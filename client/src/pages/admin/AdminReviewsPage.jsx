@@ -13,8 +13,8 @@ import ConfirmActionSheet from "@/components/admin/ConfirmActionSheet";
 import Stars from "@/components/review/Stars";
 import { getAdminReviewsRequest, hideReviewRequest, showReviewRequest } from "@/api/admin";
 import { formatDateTime } from "@/utils/date";
-import { cn } from "@/lib/utils";
 import { List } from "@/components/common/List";
+import { Chip, ChipRow } from "@/components/common/Chips";
 
 // The views. Abuse is usually in the 1- and 2-star reviews, so they come first.
 const VIEWS = [
@@ -53,27 +53,20 @@ const AdminReviewsPage = () => {
           insults or personal details, not honest bad reviews.
         </Text>
 
-        <div role="group" aria-label="Show" className="mt-6 flex gap-2 overflow-x-auto pb-1">
+        <ChipRow label="Show" className="mt-6">
           {VIEWS.map((option) => (
-            <button
+            <Chip
               key={option.value}
-              type="button"
+              selected={view === option.value}
               onClick={() => {
                 setView(option.value);
                 setPage(1);
               }}
-              aria-pressed={view === option.value}
-              className={cn(
-                "min-h-11 shrink-0 rounded-full border px-4 font-bold",
-                view === option.value
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border",
-              )}
             >
               {option.label}
-            </button>
+            </Chip>
           ))}
-        </div>
+        </ChipRow>
 
         <div className="mt-6">
           {isPending && (

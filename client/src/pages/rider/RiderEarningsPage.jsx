@@ -9,11 +9,11 @@ import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
 import ErrorState from "@/components/common/ErrorState";
 import { getEarningsRequest } from "@/api/riderWork";
-import { cn } from "@/lib/utils";
 import { formatMoney } from "@/utils/money";
 import { formatDistance } from "@/utils/distance";
 import { formatDay, formatMonth, formatRange, formatTime, todayInGhana } from "@/utils/date";
 import { List, ListIcon, ListRow } from "@/components/common/List";
+import Tabs from "@/components/common/Tabs";
 
 const PERIODS = [
   { value: "day", label: "Day" },
@@ -72,26 +72,14 @@ const RiderEarningsPage = () => {
       <section className="flex flex-col gap-4 py-6">
         <Heading level={1}>Earnings</Heading>
 
-        {/* Day / Week / Month: one choice, like radio buttons */}
-        <div role="radiogroup" aria-label="Period" className="grid grid-cols-3 gap-2">
-          {PERIODS.map((option) => (
-            <button
-              key={option.value}
-              type="button"
-              role="radio"
-              aria-checked={period === option.value}
-              onClick={() => changeFilters({ period: option.value })}
-              className={cn(
-                "min-h-11 rounded-lg border font-bold",
-                period === option.value
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border",
-              )}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
+        {/* Day / Week / Month: one choice */}
+        <Tabs
+          label="Period"
+          fill
+          value={period}
+          onChange={(value) => changeFilters({ period: value })}
+          options={PERIODS}
+        />
 
         <label className="flex flex-col gap-1 text-[15px] font-bold">
           {period === "day" ? "Day" : "Any day in the " + period}

@@ -12,9 +12,9 @@ import StatusBadge from "@/components/common/StatusBadge";
 import { getAdminRidersRequest } from "@/api/admin";
 import { RIDER_STATUSES, VEHICLE_NAMES } from "@/data/riderStatuses";
 import { formatDateTime } from "@/utils/date";
-import { cn } from "@/lib/utils";
 import { List, ListRow } from "@/components/common/List";
 import Avatar from "@/components/common/Avatar";
+import { Chip, ChipRow } from "@/components/common/Chips";
 
 // The tabs, the review queue first. status "" means every rider.
 const TABS = [
@@ -55,24 +55,17 @@ const AdminRidersPage = () => {
           </Link>
         </div>
 
-        <div role="group" aria-label="Show" className="mt-6 flex gap-2 overflow-x-auto pb-1">
+        <ChipRow label="Show" className="mt-6">
           {TABS.map((tab) => (
-            <button
+            <Chip
               key={tab.label}
-              type="button"
+              selected={status === tab.status}
               onClick={() => handleTab(tab.status)}
-              aria-pressed={status === tab.status}
-              className={cn(
-                "min-h-11 shrink-0 rounded-full border px-4 font-bold",
-                status === tab.status
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border",
-              )}
             >
               {tab.label}
-            </button>
+            </Chip>
           ))}
-        </div>
+        </ChipRow>
 
         <div className="mt-6">
           <RiderList

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Bell, BellOff, ChefHat } from "lucide-react";
-import { cn } from "@/lib/utils";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
 import Skeleton from "@/components/common/Skeleton";
@@ -21,6 +20,7 @@ import { onLiveEvent, onOrderUpdated } from "@/lib/liveUpdates";
 import { isAlertSoundOn, playNewOrderSound, turnOnAlertSound } from "@/lib/orderAlertSound";
 import { useNow } from "@/hooks/useNow";
 import { BOARD_TABS } from "@/data/ownerBoard";
+import Tabs from "@/components/common/Tabs";
 
 const BOARD_KEY = ["owner-board"];
 
@@ -233,42 +233,21 @@ const BoardContent = ({
   return (
     <>
       {/* Scrolls sideways on its own on small phones; the page never does */}
-      <div className="-mx-4 mt-5 overflow-x-auto px-4">
-        <div className="flex gap-2">
-          {BOARD_TABS.map((candidate) => {
-            const count = ordersIn(candidate).length;
-            if (candidate.onlyWhenNotEmpty && count === 0) {
-              return null;
-            }
-            const isActive = candidate.key === activeTab;
-            const needsAnswer = candidate.key === "new" && count > 0;
-            return (
-              <button
-                key={candidate.key}
-                type="button"
-                aria-pressed={isActive}
-                onClick={() => onTabChange(candidate.key)}
-                className={cn(
-                  "flex min-h-11 shrink-0 items-center gap-2 rounded-full border px-4 text-[15px] font-bold",
-                  isActive ? "border-foreground bg-foreground text-background" : "border-border",
-                )}
-              >
-                {candidate.label}
-                <span
-                  className={cn(
-                    "min-w-6 rounded-full px-1.5 text-center text-[13px]",
-                    needsAnswer
-                      ? "animate-pulse bg-amber-500 text-black"
-                      : "bg-muted text-foreground",
-                  )}
-                >
-                  {count}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
+      <Tabs
+        label="Orders by stage"
+        className="mt-5"
+        value={activeTab}
+        onChange={onTabChange}
+        options={BOARD_TABS.filter(
+          (candidate) => !candidate.onlyWhenNotEmpty || ordersIn(candidate).length > 0,
+        ).map((candidate) => ({
+          value: candidate.key,
+          label: candidate.label,
+          count: ordersIn(candidate).length,
+          // A new order is waiting for the restaurant's answer
+          urgent: candidate.key === "new",
+        }))}
+      />
 
       {shown.length === 0 ? (
         <EmptyState

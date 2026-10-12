@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import Stars from "@/components/review/Stars";
 import { getOwnerReviewsRequest, replyToReviewRequest } from "@/api/ownerReviews";
 import { formatDateTime } from "@/utils/date";
-import { cn } from "@/lib/utils";
+import { Chip, ChipRow } from "@/components/common/Chips";
 
 const REPLY_MAX_LENGTH = 500;
 
@@ -46,14 +46,14 @@ const OwnerReviewsPage = () => {
         </Text>
 
         {/* All / Waiting for a reply */}
-        <div role="group" aria-label="Show" className="mt-6 flex gap-2">
-          <FilterButton isActive={!unansweredOnly} onClick={handleShowAll}>
+        <ChipRow label="Show" className="mt-6">
+          <Chip selected={!unansweredOnly} onClick={handleShowAll}>
             All
-          </FilterButton>
-          <FilterButton isActive={unansweredOnly} onClick={handleShowUnanswered}>
+          </Chip>
+          <Chip selected={unansweredOnly} onClick={handleShowUnanswered}>
             Waiting for a reply
-          </FilterButton>
-        </div>
+          </Chip>
+        </ChipRow>
 
         <div className="mt-6">
           <ReviewList
@@ -90,22 +90,6 @@ const OwnerReviewsPage = () => {
         )}
       </section>
     </Container>
-  );
-};
-
-const FilterButton = ({ isActive, onClick, children }) => {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={isActive}
-      className={cn(
-        "min-h-11 rounded-full border px-4 font-bold",
-        isActive ? "border-primary bg-primary text-primary-foreground" : "border-border",
-      )}
-    >
-      {children}
-    </button>
   );
 };
 

@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
 import { presetRange } from "@/utils/dateRange";
+import Tabs from "@/components/common/Tabs";
 
 const PRESETS = [
   { value: "today", label: "Today" },
@@ -13,31 +13,19 @@ const PRESETS = [
 const RangePicker = ({ range, onChange }) => {
   return (
     <div className="flex flex-wrap items-end gap-3">
-      <div role="group" aria-label="Period" className="flex rounded-lg border border-border p-1">
-        {PRESETS.map((preset) => {
-          const isChosen = range.preset === preset.value;
-          return (
-            <button
-              key={preset.value}
-              type="button"
-              aria-pressed={isChosen}
-              onClick={() =>
-                onChange(
-                  preset.value === "custom"
-                    ? { ...range, preset: "custom" }
-                    : { preset: preset.value, ...presetRange(preset.value) },
-                )
-              }
-              className={cn(
-                "min-h-10 rounded-md px-3 font-bold",
-                isChosen ? "bg-primary text-primary-foreground" : "text-foreground",
-              )}
-            >
-              {preset.label}
-            </button>
-          );
-        })}
-      </div>
+      <Tabs
+        label="Period"
+        className="mx-0 px-0"
+        value={range.preset}
+        onChange={(preset) =>
+          onChange(
+            preset === "custom"
+              ? { ...range, preset: "custom" }
+              : { preset, ...presetRange(preset) },
+          )
+        }
+        options={PRESETS}
+      />
 
       {range.preset === "custom" && (
         <div className="grid grid-cols-2 gap-2">

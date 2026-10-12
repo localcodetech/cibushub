@@ -1,6 +1,6 @@
 import { Search } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { cuisineOptions, sortOptions } from "@/data/restaurantFilters";
+import { Chip, ChipRow } from "@/components/common/Chips";
 
 // Search box, cuisine chips, "Open now" and sort for the restaurant listing [AC-DISC-05 to 08].
 // This component only draws the controls. The page owns the values and decides what to do.
@@ -45,20 +45,20 @@ const RestaurantFilters = ({ searchText, filters, onSearchChange, onFilterChange
       </div>
 
       {/* One row of chips; on a narrow phone it scrolls sideways instead of wrapping */}
-      <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1">
-        <Chip isSelected={filters.openNow === "true"} onClick={handleOpenNowClick}>
+      <ChipRow label="Filters">
+        <Chip selected={filters.openNow === "true"} onClick={handleOpenNowClick}>
           Open now
         </Chip>
         {cuisineOptions.map((option) => (
           <Chip
             key={option.value}
-            isSelected={filters.cuisine === option.value}
+            selected={filters.cuisine === option.value}
             onClick={() => handleCuisineClick(option.value)}
           >
             {option.label}
           </Chip>
         ))}
-      </div>
+      </ChipRow>
 
       <div className="flex items-center justify-between gap-4">
         <label className="flex items-center gap-2 text-[15px] text-muted-foreground">
@@ -87,25 +87,6 @@ const RestaurantFilters = ({ searchText, filters, onSearchChange, onFilterChange
         )}
       </div>
     </div>
-  );
-};
-
-// A rounded on/off button. aria-pressed tells screen readers whether it is on.
-const Chip = ({ isSelected, onClick, children }) => {
-  return (
-    <button
-      type="button"
-      aria-pressed={isSelected}
-      onClick={onClick}
-      className={cn(
-        "min-h-10 shrink-0 rounded-full border px-4 text-[15px] font-bold whitespace-nowrap",
-        isSelected
-          ? "border-primary bg-primary text-primary-foreground"
-          : "border-border bg-card text-foreground",
-      )}
-    >
-      {children}
-    </button>
   );
 };
 
