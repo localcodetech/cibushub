@@ -2,7 +2,6 @@ import { useState } from "react";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Search, Users } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
@@ -14,6 +13,7 @@ import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { formatDateTime } from "@/utils/date";
 import { List, ListRow } from "@/components/common/List";
 import Avatar from "@/components/common/Avatar";
+import PageHeader from "@/components/common/PageHeader";
 
 // /admin/users: find any account [AC-ADM-02]
 const AdminUsersPage = () => {
@@ -40,7 +40,7 @@ const AdminUsersPage = () => {
   return (
     <Container>
       <section className="py-8">
-        <Heading level={1}>Users</Heading>
+        <PageHeader title="Users" />
 
         <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <label className="relative block sm:col-span-2">

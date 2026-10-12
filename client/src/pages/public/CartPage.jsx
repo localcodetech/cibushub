@@ -2,7 +2,6 @@ import { Link } from "react-router";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { ShoppingBag, Store } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Card from "@/components/common/Card";
 import EmptyState from "@/components/common/EmptyState";
@@ -11,6 +10,7 @@ import CartLineRow from "@/components/cart/CartLineRow";
 import { checkCartRequest } from "@/api/cart";
 import { getSubtotal, useCartStore } from "@/store/cartStore";
 import { formatMoney } from "@/utils/money";
+import PageHeader from "@/components/common/PageHeader";
 
 // /cart: what the customer chose, checked against today's menu [AC-CART-03, 07, 08].
 // Open to guests too; checkout will ask them to log in.
@@ -56,7 +56,7 @@ const CartPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-2xl py-8">
-        <Heading level={1}>Your cart</Heading>
+        <PageHeader title="Your cart" />
         <Text muted className="mt-1">
           From{" "}
           <Link to={"/restaurants/" + restaurant.id} className="font-bold text-primary underline">

@@ -4,7 +4,6 @@ import { Navigate, useNavigate } from "react-router";
 import { z } from "zod";
 import { CircleAlert } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import FormField from "@/components/form/FormField";
 import { Button } from "@/components/ui/button";
@@ -12,6 +11,7 @@ import { addPhoneRequest } from "@/api/auth";
 import { useAuthStore } from "@/store/authStore";
 import { homePathFor } from "@/utils/roleHome";
 import { isGhanaPhone } from "@/utils/phone";
+import PageHeader from "@/components/common/PageHeader";
 
 const addPhoneSchema = z.object({
   phone: z.string().trim().refine(isGhanaPhone, "Enter a valid Ghana mobile number"),
@@ -62,7 +62,7 @@ const AddPhonePage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-md py-10">
-        <Heading level={1}>Add your phone number</Heading>
+        <PageHeader title="Add your phone number" />
         <Text muted className="mt-2">
           Riders and restaurants use it to reach you about your order. We'll text you a code to
           check it's yours.

@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Link } from "react-router";
-import { ArrowLeft, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import Container from "@/layouts/Container";
 import Card from "@/components/common/Card";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import { updatePreferencesRequest } from "@/api/profile";
 import { useAuthStore } from "@/store/authStore";
+import PageHeader from "@/components/common/PageHeader";
 
 // What we always send: these keep orders and accounts working, so they have no switch
 const ALWAYS_SENT = [
@@ -53,13 +53,10 @@ const NotificationSettingsPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-2xl py-8">
-        <Link to="/notifications" className="inline-flex items-center gap-1 font-bold text-primary">
-          <ArrowLeft size={18} aria-hidden="true" />
-          Notifications
-        </Link>
-        <Heading level={1} className="mt-4">
-          Notification settings
-        </Heading>
+        <PageHeader
+          back={{ to: "/notifications", label: "Notifications" }}
+          title="Notification settings"
+        />
 
         <Card className="mt-6">
           <label className="flex cursor-pointer items-start gap-3">

@@ -3,7 +3,6 @@ import { Link } from "react-router";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Bike, Map as MapIcon } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
@@ -15,6 +14,7 @@ import { formatDateTime } from "@/utils/date";
 import { List, ListRow } from "@/components/common/List";
 import Avatar from "@/components/common/Avatar";
 import { Chip, ChipRow } from "@/components/common/Chips";
+import PageHeader from "@/components/common/PageHeader";
 
 // The tabs, the review queue first. status "" means every rider.
 const TABS = [
@@ -44,16 +44,21 @@ const AdminRidersPage = () => {
   return (
     <Container>
       <section className="py-8">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <Heading level={1}>Riders</Heading>
-          <Link
-            to="/admin/riders/map"
-            className="inline-flex min-h-11 items-center gap-2 rounded-md border border-border px-4 font-bold"
-          >
-            <MapIcon size={18} aria-hidden="true" />
-            Live map
-          </Link>
-        </div>
+        <PageHeader
+          title="Riders"
+
+          actions={
+            <>
+              <Link
+                to="/admin/riders/map"
+                className="inline-flex min-h-11 items-center gap-2 rounded-md border border-border px-4 font-bold"
+              >
+                <MapIcon size={18} aria-hidden="true" />
+                Live map
+              </Link>
+            </>
+          }
+        />
 
         <ChipRow label="Show" className="mt-6">
           {TABS.map((tab) => (

@@ -2,7 +2,6 @@ import { useSearchParams } from "react-router";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Package, Undo2, Wallet } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import StatTile from "@/components/common/StatTile";
 import Skeleton from "@/components/common/Skeleton";
@@ -14,6 +13,7 @@ import { formatDistance } from "@/utils/distance";
 import { formatDay, formatMonth, formatRange, formatTime, todayInGhana } from "@/utils/date";
 import { List, ListIcon, ListRow } from "@/components/common/List";
 import Tabs from "@/components/common/Tabs";
+import PageHeader from "@/components/common/PageHeader";
 
 const PERIODS = [
   { value: "day", label: "Day" },
@@ -70,7 +70,7 @@ const RiderEarningsPage = () => {
   return (
     <Container>
       <section className="flex flex-col gap-4 py-6">
-        <Heading level={1}>Earnings</Heading>
+        <PageHeader title="Earnings" />
 
         {/* Day / Week / Month: one choice */}
         <Tabs

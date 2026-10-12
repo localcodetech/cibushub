@@ -2,7 +2,6 @@ import { Link, useNavigate, useSearchParams } from "react-router";
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Bell, Settings } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
@@ -15,6 +14,7 @@ import {
 import { formatDateTime } from "@/utils/date";
 import { cn } from "@/lib/utils";
 import { List } from "@/components/common/List";
+import PageHeader from "@/components/common/PageHeader";
 
 // /notifications: my notification centre, newest first, 20 a page [AC-NOTIF-07].
 // The same page for every role. New ones arrive live (the bell refreshes this list).
@@ -66,28 +66,33 @@ const NotificationsPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-2xl py-8">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <Heading level={1}>Notifications</Heading>
-          <div className="flex items-center gap-2">
-            {unreadCount > 0 && (
-              <button
-                type="button"
-                onClick={() => markAllRead.mutate()}
-                disabled={markAllRead.isPending}
-                className="min-h-11 rounded-md border border-border px-4 font-bold disabled:opacity-40"
-              >
-                Mark all as read
-              </button>
-            )}
-            <Link
-              to="/notifications/settings"
-              aria-label="Notification settings"
-              className="flex size-11 items-center justify-center rounded-md border border-border"
-            >
-              <Settings size={20} aria-hidden="true" />
-            </Link>
-          </div>
-        </div>
+        <PageHeader
+          title="Notifications"
+
+          actions={
+            <>
+              <div className="flex items-center gap-2">
+                {unreadCount > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => markAllRead.mutate()}
+                    disabled={markAllRead.isPending}
+                    className="min-h-11 rounded-md border border-border px-4 font-bold disabled:opacity-40"
+                  >
+                    Mark all as read
+                  </button>
+                )}
+                <Link
+                  to="/notifications/settings"
+                  aria-label="Notification settings"
+                  className="flex size-11 items-center justify-center rounded-md border border-border"
+                >
+                  <Settings size={20} aria-hidden="true" />
+                </Link>
+              </div>
+            </>
+          }
+        />
         <div className="mt-6">
           <NotificationList
             data={data}

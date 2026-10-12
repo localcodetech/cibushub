@@ -5,25 +5,29 @@ the demo accounts, with real dev data: 46 screens, 92 screenshots. No page crash
 sideways. This list is what Step 13b fixes. Each item is ticked when its fix is merged. Dark mode is
 checked on each component as it is restyled.
 
+Shared components built so far (all in `client/src/components/common/`): `Card` (tones: default,
+highlight, danger, quiet) and `StatTile`; `List`, `ListRow`, `ListIcon` and `Avatar`; `StatusBadge`
+(neutral, attention, progress, success, danger, each with an icon); `Tabs` and `Chips`; `PageHeader`.
+
 Rules to keep: [frontendDesign.md](frontendDesign.md). Forest Green leads, Ashanti Gold only for
 highlights, Terracotta rarely.
 
 ## Across every screen (shared components first)
 
-- [ ] **Everything is the same cream card on a cream page.** Cards, list rows, summaries and forms
+- [x] **Everything is the same cream card on a cream page.** Cards, list rows, summaries and forms
   all use `bg-card` with a thin border and no depth, so nothing stands out and every role's screens
   look alike. Needs card levels (raised, flat, tinted highlight), soft shadows, and hover/press
   states for anything tappable.
-- [ ] **List rows all look the same** (orders, users, riders, history, notifications). They need a
+- [x] **List rows all look the same** (orders, users, riders, history, notifications). They need a
   shared row component: a leading icon or avatar, a title, muted meta text, a status on the right
   and a chevron, with clear spacing.
-- [ ] **Status badges** are small and low-contrast. Different stages share the same green ("Sent to
+- [x] **Status badges** are small and low-contrast. Different stages share the same green ("Sent to
   restaurant" and "Ready"). One badge component is needed, with a colour per stage group and an icon
   so colour is never the only signal.
-- [ ] **Filters look different on every page:** pills (admin restaurants, reviews), pills with counts
+- [x] **Filters look different on every page:** pills (admin restaurants, reviews), pills with counts
   (owner board), a segmented control (analytics, rider earnings), plain tabs (admin payments). Settle
   on two shared components: tabs for switching between sections, and chips for filters.
-- [ ] **Page headers** vary: some pages have a subtitle, some have an action on the right, some
+- [x] **Page headers** vary: some pages have a subtitle, some have an action on the right, some
   have a back link. One header component is needed (back link, title, subtitle, actions).
 - [ ] **Desktop width is wasted.** Order detail, my orders, customer home and owner history are a
   narrow column with empty space on both sides. Use two columns where it helps (e.g. order detail:
@@ -52,14 +56,14 @@ highlights, Terracotta rarely.
   on phones: show the current step large and fold the finished ones away.
 - [ ] **Notifications** (planned in Step 13b, item 3): icon and colour per type, an unread tint with a
   left accent, relative times, Today/Earlier groups, and a dropdown from the bell on desktop.
-- [ ] **Owner board:** works well. The orange "Turn on sound" button is the loudest thing on the page;
-  it should become a quieter banner once dismissed.
+- [x] **Owner board:** works well. The orange "Turn on sound" button was the loudest thing on the
+  page; it is now a calm gold button (done with the page header).
 - [ ] **Owner analytics:**
   - The restaurant picker opens on the owner's newest restaurant, even when all the orders are at
     another. Open on the one with recent orders.
   - Bug: the money axis repeats "GHS 0" when every value is 0 or small. Show decimals below GHS 10,
     and give the axis a minimum height.
-- [ ] **Admin users list:** the meta line is cut off ("joined 12 Oct 2026, 1…") on phones. It needs
+- [x] **Admin users list:** the meta line is cut off ("joined 12 Oct 2026, 1…") on phones. It needs
   two lines or a shorter date.
 - [ ] **Admin audit log:** changes show raw field names (`deliveryBasePesewas: 500 → 600`). Use the
   plain labels and money format from the settings page.

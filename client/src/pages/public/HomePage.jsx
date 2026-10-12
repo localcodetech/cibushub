@@ -2,12 +2,13 @@ import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Card from "@/components/common/Card";
+import PageHeader from "@/components/common/PageHeader";
 
 const HomePage = () => {
   return (
     <Container>
       <section className="py-10">
-        <Heading level={1}>Food from Kumasi kitchens, brought to your door</Heading>
+        <PageHeader title="Food from Kumasi kitchens, brought to your door" />
         <Text muted className="mt-2">
           Browse restaurants near you. Coming soon.
         </Text>

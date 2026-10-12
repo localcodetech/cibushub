@@ -24,6 +24,7 @@ import { DOCUMENT_NAMES, RESTAURANT_STATUSES } from "@/data/restaurantStatuses";
 import { formatMoney } from "@/utils/money";
 import { formatDateTime } from "@/utils/date";
 import { List, ListIcon, ListRow } from "@/components/common/List";
+import PageHeader from "@/components/common/PageHeader";
 
 // /admin/restaurants/:restaurantId: check one restaurant, then approve, reject, suspend
 // or reactivate it [AC-ADM-03]. Every action asks first; reject and suspend need a reason [AC-ADM-08].
@@ -78,27 +79,20 @@ const AdminRestaurantDetailPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-3xl py-8">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <Link to="/admin/restaurants" className="text-[15px] font-bold text-primary">
-            ← Restaurants
-          </Link>
-          <Link
-            to={"/admin/audit-log?targetId=" + restaurant.id}
-            className="text-[15px] font-bold text-primary"
-          >
-            History
-          </Link>
-        </div>
-
-        <div className="mt-3 flex flex-wrap items-start justify-between gap-3">
-          <div>
-            <Heading level={1}>{restaurant.name}</Heading>
-            <Text size="small" muted className="mt-1">
-              Legal name: {restaurant.legalName || "not given"}
-            </Text>
-          </div>
-          <StatusBadge label={statusInfo.label} tone={statusInfo.tone} />
-        </div>
+        <PageHeader
+          back={{ to: "/admin/restaurants", label: "Restaurants" }}
+          title={restaurant.name}
+          meta={"Legal name: " + (restaurant.legalName || "not given")}
+          badge={<StatusBadge label={statusInfo.label} tone={statusInfo.tone} />}
+          actions={
+            <Link
+              to={"/admin/audit-log?targetId=" + restaurant.id}
+              className="inline-flex min-h-11 items-center text-[15px] font-bold text-primary"
+            >
+              History
+            </Link>
+          }
+        />
 
         {restaurant.rejectionReason && (
           <Card tone="danger" className="mt-4">

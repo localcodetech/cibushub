@@ -3,7 +3,6 @@ import { useSearchParams } from "react-router";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { SearchX, Store } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
@@ -11,6 +10,7 @@ import ErrorState from "@/components/common/ErrorState";
 import RestaurantCard from "@/components/restaurant/RestaurantCard";
 import RestaurantFilters from "@/components/restaurant/RestaurantFilters";
 import { getRestaurantsRequest } from "@/api/restaurants";
+import PageHeader from "@/components/common/PageHeader";
 
 // How long to wait after the last key press before searching [AC-DISC-06]
 const SEARCH_DELAY_MS = 300;
@@ -116,10 +116,10 @@ const RestaurantsPage = () => {
   return (
     <Container>
       <section className="py-8">
-        <Heading level={1}>Restaurants in Kumasi</Heading>
-        <Text muted className="mt-1">
-          Order from local kitchens and get it delivered to your door.
-        </Text>
+        <PageHeader
+          title="Restaurants in Kumasi"
+          subtitle="Order from local kitchens and get it delivered to your door."
+        />
 
         <div className="mt-6">
           <RestaurantFilters

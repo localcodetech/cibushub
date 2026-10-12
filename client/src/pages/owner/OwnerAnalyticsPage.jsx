@@ -2,7 +2,6 @@ import { useState } from "react";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Store } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import StatTile from "@/components/common/StatTile";
 import Card from "@/components/common/Card";
@@ -18,6 +17,7 @@ import { getMyRestaurantsRequest, getRestaurantAnalyticsRequest } from "@/api/ow
 import { formatDay } from "@/utils/date";
 import { presetRange, rangeProblem } from "@/utils/dateRange";
 import { formatMoney } from "@/utils/money";
+import PageHeader from "@/components/common/PageHeader";
 
 // /owner/analytics: how one of my restaurants is doing [AC-ANL-03].
 // Only my own restaurants: the server returns 404 for anyone else's.
@@ -78,10 +78,15 @@ const OwnerAnalyticsPage = () => {
   return (
     <Container>
       <section className="py-8">
-        <div className="flex flex-wrap items-end justify-between gap-3">
-          <Heading level={1}>Analytics</Heading>
-          <RangePicker range={range} onChange={setRange} />
-        </div>
+        <PageHeader
+          title="Analytics"
+
+          actions={
+            <>
+              <RangePicker range={range} onChange={setRange} />
+            </>
+          }
+        />
 
         {/* Only owners with more than one restaurant need to choose */}
         {restaurantList.length > 1 && (

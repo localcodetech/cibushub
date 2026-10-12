@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Eye, FileText, Mail, Phone, UserRound } from "lucide-react";
+import { Eye, FileText, Mail, Phone } from "lucide-react";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
@@ -22,6 +22,8 @@ import {
 import { RIDER_DOCUMENT_NAMES, RIDER_STATUSES, VEHICLE_NAMES } from "@/data/riderStatuses";
 import { formatDateTime } from "@/utils/date";
 import { List, ListIcon, ListRow } from "@/components/common/List";
+import PageHeader from "@/components/common/PageHeader";
+import Avatar from "@/components/common/Avatar";
 
 // /admin/riders/:riderId: check one application, then approve, reject, suspend or
 // reactivate [AC-ADM-04]. Every action asks first; reject and suspend need a reason [AC-ADM-08].
@@ -76,37 +78,30 @@ const AdminRiderDetailPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-3xl py-8">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <Link to="/admin/riders" className="text-[15px] font-bold text-primary">
-            ← Riders
-          </Link>
-          <Link
-            to={"/admin/audit-log?targetId=" + profile.id}
-            className="text-[15px] font-bold text-primary"
-          >
-            History
-          </Link>
-        </div>
-
-        <div className="mt-3 flex flex-wrap items-center gap-4">
-          {profile.rider.photoUrl ? (
-            <img
-              src={profile.rider.photoUrl}
-              alt={"Photo of " + name}
-              className="size-20 rounded-full object-cover"
-            />
-          ) : (
-            <div className="flex size-20 items-center justify-center rounded-full bg-muted">
-              <UserRound size={32} className="text-muted-foreground" aria-hidden="true" />
-            </div>
-          )}
-          <div className="flex-1">
-            <Heading level={1}>{name}</Heading>
-            <div className="mt-1">
-              <StatusBadge label={statusInfo.label} tone={statusInfo.tone} />
-            </div>
-          </div>
-        </div>
+        <PageHeader
+          back={{ to: "/admin/riders", label: "Riders" }}
+          leading={
+            profile.rider.photoUrl ? (
+              <img
+                src={profile.rider.photoUrl}
+                alt={"Photo of " + name}
+                className="size-14 rounded-full object-cover"
+              />
+            ) : (
+              <Avatar name={name} size="lg" />
+            )
+          }
+          title={name}
+          badge={<StatusBadge label={statusInfo.label} tone={statusInfo.tone} />}
+          actions={
+            <Link
+              to={"/admin/audit-log?targetId=" + profile.id}
+              className="inline-flex min-h-11 items-center text-[15px] font-bold text-primary"
+            >
+              History
+            </Link>
+          }
+        />
 
         {profile.rejectionReason && (
           <Card tone="danger" className="mt-4">

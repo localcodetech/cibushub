@@ -3,7 +3,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useLocation, useNavigate } from "react-router";
 import { CircleAlert, CircleCheck } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import FormField from "@/components/form/FormField";
 import { Button } from "@/components/ui/button";
@@ -12,6 +11,7 @@ import { loginRequest } from "@/api/auth";
 import { useAuthStore } from "@/store/authStore";
 import { afterLoginPath } from "@/utils/roleHome";
 import SocialSignInButtons from "@/components/auth/SocialSignInButtons";
+import PageHeader from "@/components/common/PageHeader";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -62,7 +62,7 @@ const LoginPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-md py-10">
-        <Heading level={1}>Welcome back</Heading>
+        <PageHeader title="Welcome back" />
         <Text muted className="mt-2">
           Log in to order from kitchens across Kumasi.
         </Text>

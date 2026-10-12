@@ -25,6 +25,7 @@ import { onOrderUpdated } from "@/lib/liveUpdates";
 import { formatMoney } from "@/utils/money";
 import { formatDateTime } from "@/utils/date";
 import { List } from "@/components/common/List";
+import PageHeader from "@/components/common/PageHeader";
 
 // Who did a step, in words
 const ACTOR_WORDS = {
@@ -99,27 +100,20 @@ const AdminOrderDetailPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-3xl py-8">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <Link to="/admin/orders" className="text-[15px] font-bold text-primary">
-            ← Orders
-          </Link>
-          <Link
-            to={"/admin/audit-log?targetId=" + order.id}
-            className="text-[15px] font-bold text-primary"
-          >
-            History
-          </Link>
-        </div>
-
-        <div className="mt-3 flex flex-wrap items-start justify-between gap-3">
-          <div>
-            <Heading level={1}>{order.orderNumber}</Heading>
-            <Text size="small" muted className="mt-1">
-              Placed {formatDateTime(order.createdAt)}
-            </Text>
-          </div>
-          <OrderStatusBadge status={order.status} />
-        </div>
+        <PageHeader
+          back={{ to: "/admin/orders", label: "Orders" }}
+          title={order.orderNumber}
+          meta={"Placed " + formatDateTime(order.createdAt)}
+          badge={<OrderStatusBadge status={order.status} />}
+          actions={
+            <Link
+              to={"/admin/audit-log?targetId=" + order.id}
+              className="inline-flex min-h-11 items-center text-[15px] font-bold text-primary"
+            >
+              History
+            </Link>
+          }
+        />
 
         {/* Only the actions that apply now */}
         <div className="mt-6 flex flex-wrap gap-3">

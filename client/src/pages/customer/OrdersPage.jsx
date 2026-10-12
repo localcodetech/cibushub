@@ -3,7 +3,6 @@ import { useSearchParams } from "react-router";
 import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ReceiptText, ShoppingBag } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
@@ -14,6 +13,7 @@ import { formatMoney } from "@/utils/money";
 import { formatDateTime } from "@/utils/date";
 import { onOrderUpdated } from "@/lib/liveUpdates";
 import { List, ListIcon, ListRow } from "@/components/common/List";
+import PageHeader from "@/components/common/PageHeader";
 
 // /customer/orders: my orders, newest first, 20 a page [AC-CUST-09]
 const OrdersPage = () => {
@@ -40,7 +40,7 @@ const OrdersPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-2xl py-8">
-        <Heading level={1}>My orders</Heading>
+        <PageHeader title="My orders" />
         <div className="mt-6">
           <OrderList
             data={data}

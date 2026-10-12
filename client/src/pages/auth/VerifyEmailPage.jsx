@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Navigate, useNavigate, useSearchParams } from "react-router";
 import { CircleAlert } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import FormField from "@/components/form/FormField";
 import { Button } from "@/components/ui/button";
@@ -12,6 +11,7 @@ import { verifyEmailSchema } from "@/validators/auth/verifyEmailSchema";
 import { sendEmailCodeRequest, verifyEmailRequest } from "@/api/auth";
 import { useAuthStore } from "@/store/authStore";
 import { homePathFor, isSafeLocalPath } from "@/utils/roleHome";
+import PageHeader from "@/components/common/PageHeader";
 
 // The server allows a new code once every 60 seconds
 const RESEND_WAIT_SECONDS = 60;
@@ -120,7 +120,7 @@ const VerifyEmailPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-md py-10">
-        <Heading level={1}>Confirm your email</Heading>
+        <PageHeader title="Confirm your email" />
         <Text muted className="mt-2">
           We emailed a 6-digit code to{" "}
           <span className="font-bold break-all text-foreground">{user.email}</span>. It expires in

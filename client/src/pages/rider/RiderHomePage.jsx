@@ -11,7 +11,6 @@ import {
   Sun,
 } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Card from "@/components/common/Card";
 import Skeleton from "@/components/common/Skeleton";
@@ -29,6 +28,7 @@ import { getCurrentPoint } from "@/lib/geolocation";
 import { turnOnAlertSound } from "@/lib/orderAlertSound";
 import { useNow } from "@/hooks/useNow";
 import { useAuthStore } from "@/store/authStore";
+import PageHeader from "@/components/common/PageHeader";
 
 // What to tell the rider when the phone won't give its location
 const LOCATION_PROBLEMS = {
@@ -93,7 +93,7 @@ const RiderHomePage = () => {
     return (
       <Container>
         <section className="flex flex-col gap-4 py-8">
-          <Heading level={1}>Rider home</Heading>
+          <PageHeader title="Rider home" />
           <Card className="flex gap-3">
             <CircleAlert size={24} className="shrink-0 text-destructive" aria-hidden="true" />
             <div>
@@ -129,7 +129,7 @@ const RiderHomePage = () => {
   return (
     <Container>
       <section className="flex flex-col gap-4 py-8">
-        <Heading level={1}>Hello, {user.fullName.split(" ")[0]}</Heading>
+        <PageHeader title={<>Hello, {user.fullName.split(" ")[0]}</>} />
 
         <OnlineSwitch
           isOnline={isOnline}

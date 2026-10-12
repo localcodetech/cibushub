@@ -2,7 +2,6 @@ import { useState } from "react";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Search, Store } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
@@ -14,6 +13,7 @@ import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { formatDateTime } from "@/utils/date";
 import { List, ListIcon, ListRow } from "@/components/common/List";
 import { Chip, ChipRow } from "@/components/common/Chips";
+import PageHeader from "@/components/common/PageHeader";
 
 // The tabs, the review queue first. status "" means every restaurant.
 const TABS = [
@@ -52,7 +52,7 @@ const AdminRestaurantsPage = () => {
   return (
     <Container>
       <section className="py-8">
-        <Heading level={1}>Restaurants</Heading>
+        <PageHeader title="Restaurants" />
 
         <ChipRow label="Show" className="mt-6">
           {TABS.map((tab) => (

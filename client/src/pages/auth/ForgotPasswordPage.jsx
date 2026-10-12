@@ -3,12 +3,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router";
 import { CircleAlert } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import FormField from "@/components/form/FormField";
 import { Button } from "@/components/ui/button";
 import { forgotPasswordSchema } from "@/validators/auth/forgotPasswordSchema";
 import { forgotPasswordRequest } from "@/api/auth";
+import PageHeader from "@/components/common/PageHeader";
 
 // Step 1 of 2: ask for a reset code [AC-AUTH-18]
 const ForgotPasswordPage = () => {
@@ -40,7 +40,7 @@ const ForgotPasswordPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-md py-10">
-        <Heading level={1}>Forgot your password?</Heading>
+        <PageHeader title="Forgot your password?" />
         <Text muted className="mt-2">
           Enter your email or phone number. If it matches an account, we'll text a reset code to
           that account's phone.

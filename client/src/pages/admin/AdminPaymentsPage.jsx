@@ -3,7 +3,6 @@ import { Link } from "react-router";
 import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Banknote, RefreshCw, Search, Undo2 } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
@@ -22,6 +21,7 @@ import { formatDateTime } from "@/utils/date";
 import { List } from "@/components/common/List";
 import Tabs from "@/components/common/Tabs";
 import { Chip, ChipRow } from "@/components/common/Chips";
+import PageHeader from "@/components/common/PageHeader";
 
 // How each status reads and looks
 const PAYMENT_STATUSES = {
@@ -106,7 +106,7 @@ const AdminPaymentsPage = () => {
   return (
     <Container>
       <section className="py-8">
-        <Heading level={1}>Payments</Heading>
+        <PageHeader title="Payments" />
         <Tabs
           label="Show"
           className="mt-6"

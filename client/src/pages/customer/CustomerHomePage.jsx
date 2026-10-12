@@ -1,8 +1,8 @@
 import { Link } from "react-router";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import { useAuthStore } from "@/store/authStore";
+import PageHeader from "@/components/common/PageHeader";
 
 const CustomerHomePage = () => {
   const user = useAuthStore((state) => state.user);
@@ -10,7 +10,7 @@ const CustomerHomePage = () => {
   return (
     <Container>
       <section className="py-10">
-        <Heading level={1}>Hello, {user?.fullName}</Heading>
+        <PageHeader title={<>Hello, {user?.fullName}</>} />
         <Text muted className="mt-2">
           What would you like to eat today?
         </Text>

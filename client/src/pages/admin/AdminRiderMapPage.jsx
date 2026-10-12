@@ -1,9 +1,6 @@
-import { Link } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { MapPinOff } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
-import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
 import ErrorState from "@/components/common/ErrorState";
@@ -13,6 +10,7 @@ import { VEHICLE_NAMES } from "@/data/riderStatuses";
 import { formatTime } from "@/utils/date";
 import Avatar from "@/components/common/Avatar";
 import { List, ListRow } from "@/components/common/List";
+import PageHeader from "@/components/common/PageHeader";
 
 // How often the map asks for fresh positions
 const REFRESH_MS = 15 * 1000;
@@ -29,15 +27,11 @@ const AdminRiderMapPage = () => {
   return (
     <Container>
       <section className="py-8">
-        <Link to="/admin/riders" className="text-[15px] font-bold text-primary">
-          ← Riders
-        </Link>
-        <Heading level={1} className="mt-3">
-          Riders online
-        </Heading>
-        <Text muted className="mt-1">
-          Blue: free. Orange: on a delivery. Updates every 15 seconds.
-        </Text>
+        <PageHeader
+          back={{ to: "/admin/riders", label: "Riders" }}
+          title="Riders online"
+          subtitle="Blue: free. Orange: on a delivery. Updates every 15 seconds."
+        />
 
         <div className="mt-6">
           <LiveRiders data={data} isPending={isPending} error={error} onRetry={refetch} />

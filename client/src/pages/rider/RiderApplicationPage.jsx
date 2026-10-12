@@ -19,6 +19,7 @@ import {
 } from "@/api/riderApplication";
 import { RIDER_VEHICLES, isMotorised } from "@/data/riderVehicles";
 import { useAuthStore } from "@/store/authStore";
+import PageHeader from "@/components/common/PageHeader";
 
 const APPLICATION_KEY = ["rider-application"];
 
@@ -99,7 +100,7 @@ const RiderApplicationPage = () => {
     <Container>
       <section className="mx-auto flex max-w-lg flex-col gap-6 py-8">
         <div>
-          <Heading level={1}>Become a CibusHub rider</Heading>
+          <PageHeader title="Become a CibusHub rider" />
           <Text muted className="mt-2">
             We check every rider before their first delivery. It takes about 5 minutes.
           </Text>

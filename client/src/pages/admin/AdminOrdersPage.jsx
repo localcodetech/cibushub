@@ -2,7 +2,6 @@ import { useState } from "react";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { ReceiptText, Search } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
@@ -14,6 +13,7 @@ import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { formatMoney } from "@/utils/money";
 import { formatDateTime } from "@/utils/date";
 import { List, ListIcon, ListRow } from "@/components/common/List";
+import PageHeader from "@/components/common/PageHeader";
 
 // /admin/orders: find any order [AC-ADM-05]
 const AdminOrdersPage = () => {
@@ -42,7 +42,7 @@ const AdminOrdersPage = () => {
   return (
     <Container>
       <section className="py-8">
-        <Heading level={1}>Orders</Heading>
+        <PageHeader title="Orders" />
 
         <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <label className="relative block sm:col-span-2">

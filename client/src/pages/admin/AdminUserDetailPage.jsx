@@ -3,7 +3,6 @@ import { Link, useParams } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Mail, Phone } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Card from "@/components/common/Card";
 import Skeleton from "@/components/common/Skeleton";
@@ -15,6 +14,7 @@ import { getAdminUserRequest, reactivateUserRequest, suspendUserRequest } from "
 import { ACCOUNT_STATUSES, ROLE_NAMES } from "@/data/userLabels";
 import { RESTAURANT_STATUSES } from "@/data/restaurantStatuses";
 import { formatDateTime } from "@/utils/date";
+import PageHeader from "@/components/common/PageHeader";
 
 // /admin/users/:userId: one account, and suspend or reactivate it [AC-ADM-02, AC-ADM-08]
 const AdminUserDetailPage = () => {
@@ -66,27 +66,20 @@ const AdminUserDetailPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-3xl py-8">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <Link to="/admin/users" className="text-[15px] font-bold text-primary">
-            ← Users
-          </Link>
-          <Link
-            to={"/admin/audit-log?targetId=" + user.id}
-            className="text-[15px] font-bold text-primary"
-          >
-            History
-          </Link>
-        </div>
-
-        <div className="mt-3 flex flex-wrap items-start justify-between gap-3">
-          <div>
-            <Heading level={1}>{user.fullName}</Heading>
-            <Text size="small" muted className="mt-1">
-              {ROLE_NAMES[user.role]} · joined {formatDateTime(user.createdAt)}
-            </Text>
-          </div>
-          <StatusBadge label={statusInfo.label} tone={statusInfo.tone} />
-        </div>
+        <PageHeader
+          back={{ to: "/admin/users", label: "Users" }}
+          title={user.fullName}
+          meta={ROLE_NAMES[user.role] + " · joined " + formatDateTime(user.createdAt)}
+          badge={<StatusBadge label={statusInfo.label} tone={statusInfo.tone} />}
+          actions={
+            <Link
+              to={"/admin/audit-log?targetId=" + user.id}
+              className="inline-flex min-h-11 items-center text-[15px] font-bold text-primary"
+            >
+              History
+            </Link>
+          }
+        />
 
         {/* Admin accounts are managed by the super admin [AC-SADM-01] */}
         {user.canBeSuspended ? (

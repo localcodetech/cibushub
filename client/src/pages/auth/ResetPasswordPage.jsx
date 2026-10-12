@@ -3,13 +3,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useLocation, useNavigate } from "react-router";
 import { CircleAlert } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import FormField from "@/components/form/FormField";
 import { Button } from "@/components/ui/button";
 import { resetPasswordSchema } from "@/validators/auth/resetPasswordSchema";
 import { resetPasswordRequest } from "@/api/auth";
 import { useAuthStore } from "@/store/authStore";
+import PageHeader from "@/components/common/PageHeader";
 
 // Step 2 of 2: the SMS code and a new password [AC-AUTH-19]
 const ResetPasswordPage = () => {
@@ -39,7 +39,7 @@ const ResetPasswordPage = () => {
     return (
       <Container>
         <section className="mx-auto max-w-md py-10">
-          <Heading level={1}>Reset your password</Heading>
+          <PageHeader title="Reset your password" />
           <Text muted className="mt-2">
             Start by asking for a reset code.
           </Text>
@@ -81,7 +81,7 @@ const ResetPasswordPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-md py-10">
-        <Heading level={1}>Reset your password</Heading>
+        <PageHeader title="Reset your password" />
         <Text muted className="mt-2">
           If <span className="font-bold text-foreground">{identifier}</span> matches an account, we
           texted a 6-digit code to its phone. It expires in 15 minutes.

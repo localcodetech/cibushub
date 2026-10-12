@@ -3,7 +3,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router";
 import { CircleAlert } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import FormField from "@/components/form/FormField";
 import { Button } from "@/components/ui/button";
@@ -11,6 +10,7 @@ import { registerSchema } from "@/validators/auth/registerSchema";
 import { registerRequest } from "@/api/auth";
 import { registerRoles } from "@/data/registerRoles";
 import SocialSignInButtons from "@/components/auth/SocialSignInButtons";
+import PageHeader from "@/components/common/PageHeader";
 
 // Sign-up for customers, restaurant owners and riders [AC-AUTH-01, AC-AUTH-05]
 
@@ -77,7 +77,7 @@ const RegisterPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-md py-10">
-        <Heading level={1}>Create an account</Heading>
+        <PageHeader title="Create an account" />
         <Text muted className="mt-2">
           Join CibusHub in Kumasi. Choose how you'll use it.
         </Text>

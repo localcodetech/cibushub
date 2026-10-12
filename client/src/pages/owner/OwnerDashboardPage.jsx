@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Bell, BellOff, ChefHat } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
 import ErrorState from "@/components/common/ErrorState";
@@ -21,6 +20,7 @@ import { isAlertSoundOn, playNewOrderSound, turnOnAlertSound } from "@/lib/order
 import { useNow } from "@/hooks/useNow";
 import { BOARD_TABS } from "@/data/ownerBoard";
 import Tabs from "@/components/common/Tabs";
+import PageHeader from "@/components/common/PageHeader";
 
 const BOARD_KEY = ["owner-board"];
 
@@ -133,23 +133,28 @@ const OwnerDashboardPage = () => {
   return (
     <Container>
       <section className="py-6">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <Heading level={1}>Orders</Heading>
-          {/* Browsers stay silent until a tap: this is that tap [AC-RORD-01] */}
-          {isSoundOn ? (
-            <p className="flex items-center gap-2 text-[15px] font-bold text-primary">
-              <Bell size={18} aria-hidden="true" /> Sound on
-            </p>
-          ) : (
-            <button
-              type="button"
-              onClick={handleTurnOnSound}
-              className="flex min-h-11 items-center gap-2 rounded-md bg-amber-500 px-4 font-bold text-black"
-            >
-              <BellOff size={18} aria-hidden="true" /> Turn on sound for new orders
-            </button>
-          )}
-        </div>
+        <PageHeader
+          title="Orders"
+
+          actions={
+            <>
+              {/* Browsers stay silent until a tap: this is that tap [AC-RORD-01] */}
+              {isSoundOn ? (
+                <p className="flex items-center gap-2 text-[15px] font-bold text-primary">
+                  <Bell size={18} aria-hidden="true" /> Sound on
+                </p>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleTurnOnSound}
+                  className="flex min-h-11 items-center gap-2 rounded-md border border-gold bg-gold/20 px-4 font-bold text-foreground"
+                >
+                  <BellOff size={18} aria-hidden="true" /> Turn on sound for new orders
+                </button>
+              )}
+            </>
+          }
+        />
 
         <BoardContent
           orders={orders}

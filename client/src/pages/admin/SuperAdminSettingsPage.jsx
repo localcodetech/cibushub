@@ -6,7 +6,6 @@ import { z } from "zod";
 import { CircleAlert, CircleCheck } from "lucide-react";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
-import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import ErrorState from "@/components/common/ErrorState";
 import Card from "@/components/common/Card";
@@ -23,6 +22,7 @@ import {
 import { formatDateTime } from "@/utils/date";
 import { formatMoney } from "@/utils/money";
 import { List } from "@/components/common/List";
+import PageHeader from "@/components/common/PageHeader";
 
 // ─────────────────────────────────────────────
 // Form rules: the same limits as the server [AC-SADM-02]
@@ -105,10 +105,10 @@ const SuperAdminSettingsPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-3xl py-8">
-        <Heading level={1}>Platform settings</Heading>
-        <Text muted className="mt-1">
-          Changes apply to new orders at once. Orders already placed keep their fees.
-        </Text>
+        <PageHeader
+          title="Platform settings"
+          subtitle="Changes apply to new orders at once. Orders already placed keep their fees."
+        />
 
         <div className="mt-6">
           {isPending && <Skeleton className="h-96 w-full" />}

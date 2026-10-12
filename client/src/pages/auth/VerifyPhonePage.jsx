@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import { CircleAlert } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import FormField from "@/components/form/FormField";
 import { Button } from "@/components/ui/button";
@@ -12,6 +11,7 @@ import { verifyPhoneSchema } from "@/validators/auth/verifyPhoneSchema";
 import { resendOtpRequest, verifyPhoneRequest } from "@/api/auth";
 import { useAuthStore } from "@/store/authStore";
 import { homePathFor } from "@/utils/roleHome";
+import PageHeader from "@/components/common/PageHeader";
 
 // The server allows a new code once every 60 seconds
 const RESEND_WAIT_SECONDS = 60;
@@ -80,7 +80,7 @@ const VerifyPhonePage = () => {
     return (
       <Container>
         <section className="mx-auto max-w-md py-10">
-          <Heading level={1}>Verify your phone</Heading>
+          <PageHeader title="Verify your phone" />
           <Text muted className="mt-2">
             We don't know which number to verify. Log in, and we'll bring you back here.
           </Text>
@@ -132,7 +132,7 @@ const VerifyPhonePage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-md py-10">
-        <Heading level={1}>Verify your phone</Heading>
+        <PageHeader title="Verify your phone" />
         <Text muted className="mt-2">
           We texted a 6-digit code to <span className="font-bold text-foreground">{phone}</span>. It
           expires in 5 minutes.

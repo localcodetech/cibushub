@@ -3,7 +3,6 @@ import { Link, useSearchParams } from "react-router";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { ScrollText } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
@@ -12,6 +11,7 @@ import { getAuditActionsRequest, getAuditLogsRequest } from "@/api/admin";
 import { ROLE_NAMES } from "@/data/userLabels";
 import { formatDateTime } from "@/utils/date";
 import { List } from "@/components/common/List";
+import PageHeader from "@/components/common/PageHeader";
 
 // What each kind of target is called, and where its page is (if it has one)
 const TARGETS = {
@@ -87,10 +87,10 @@ const AdminAuditLogPage = () => {
   return (
     <Container>
       <section className="py-8">
-        <Heading level={1}>Audit log</Heading>
-        <Text muted className="mt-1">
-          Every admin action, newest first. Nothing here can be changed or deleted.
-        </Text>
+        <PageHeader
+          title="Audit log"
+          subtitle="Every admin action, newest first. Nothing here can be changed or deleted."
+        />
         {targetId && (
           <Text className="mt-2">
             Showing one item's history.{" "}

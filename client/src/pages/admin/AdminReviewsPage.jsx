@@ -3,7 +3,6 @@ import { Link } from "react-router";
 import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query";
 import { MessageSquare } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
@@ -15,6 +14,7 @@ import { getAdminReviewsRequest, hideReviewRequest, showReviewRequest } from "@/
 import { formatDateTime } from "@/utils/date";
 import { List } from "@/components/common/List";
 import { Chip, ChipRow } from "@/components/common/Chips";
+import PageHeader from "@/components/common/PageHeader";
 
 // The views. Abuse is usually in the 1- and 2-star reviews, so they come first.
 const VIEWS = [
@@ -47,11 +47,10 @@ const AdminReviewsPage = () => {
   return (
     <Container>
       <section className="py-8">
-        <Heading level={1}>Reviews</Heading>
-        <Text muted className="mt-1">
-          A hidden review disappears from the restaurant page and its rating. Hide only abuse,
-          insults or personal details, not honest bad reviews.
-        </Text>
+        <PageHeader
+          title="Reviews"
+          subtitle="A hidden review disappears from the restaurant page and its rating. Hide only abuse, insults or personal details, not honest bad reviews."
+        />
 
         <ChipRow label="Show" className="mt-6">
           {VIEWS.map((option) => (

@@ -14,6 +14,7 @@ import { ORDER_STATUSES } from "@/data/orderStatuses";
 import { formatMoney } from "@/utils/money";
 import { formatDay, formatTime, todayInGhana } from "@/utils/date";
 import { List, ListRow } from "@/components/common/List";
+import PageHeader from "@/components/common/PageHeader";
 
 // Statuses an owner can filter by (unpaid orders never reached the kitchen)
 const STATUS_FILTERS = Object.keys(ORDER_STATUSES).filter((status) => status !== "PENDING_PAYMENT");
@@ -61,7 +62,7 @@ const OwnerHistoryPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-2xl py-6">
-        <Heading level={1}>History</Heading>
+        <PageHeader title="History" />
 
         <div className="mt-5 grid gap-3 sm:grid-cols-2">
           <div className="flex flex-col gap-2">

@@ -26,6 +26,7 @@ import { formatMoney } from "@/utils/money";
 import { formatDateTime, formatTime } from "@/utils/date";
 import { followOrder, onOrderUpdated } from "@/lib/liveUpdates";
 import { useConnectionStore } from "@/store/connectionStore";
+import PageHeader from "@/components/common/PageHeader";
 
 // Changes normally arrive instantly over the live connection [AC-RT-03].
 // Checking now and then is the backup: rarely while live, more often while it is down.
@@ -212,19 +213,12 @@ const OrderDetailPage = () => {
 
   return (
     <DetailLayout>
-      <Link to="/customer/orders" className="text-[15px] font-bold text-primary">
-        ← My orders
-      </Link>
-
-      <div className="mt-3 flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <Heading level={1}>{order.restaurant.name}</Heading>
-          <Text size="small" muted className="mt-1">
-            {order.orderNumber} · {formatDateTime(order.createdAt)}
-          </Text>
-        </div>
-        <OrderStatusBadge status={order.status} />
-      </div>
+      <PageHeader
+        back={{ to: "/customer/orders", label: "My orders" }}
+        title={order.restaurant.name}
+        meta={order.orderNumber + " · " + formatDateTime(order.createdAt)}
+        badge={<OrderStatusBadge status={order.status} />}
+      />
 
       {/* Not paid yet: the way to pay [AC-PAY-10] */}
       {order.status === "PENDING_PAYMENT" && (

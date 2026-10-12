@@ -15,6 +15,7 @@ import { onLiveEvent, onOrderUpdated } from "@/lib/liveUpdates";
 import { formatMoney } from "@/utils/money";
 import { cn } from "@/lib/utils";
 import { List } from "@/components/common/List";
+import PageHeader from "@/components/common/PageHeader";
 
 // What each alert means, in the order they are shown
 const ALERTS = [
@@ -51,7 +52,7 @@ const AdminDashboardPage = () => {
   return (
     <Container>
       <section className="py-8">
-        <Heading level={1}>Overview</Heading>
+        <PageHeader title="Overview" />
         <div className="mt-6">
           <DashboardBody data={data} isPending={isPending} error={error} onRetry={refetch} />
         </div>

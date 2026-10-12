@@ -3,7 +3,6 @@ import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-quer
 import { MessageSquare } from "lucide-react";
 import Container from "@/layouts/Container";
 import Card from "@/components/common/Card";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
@@ -13,6 +12,7 @@ import Stars from "@/components/review/Stars";
 import { getOwnerReviewsRequest, replyToReviewRequest } from "@/api/ownerReviews";
 import { formatDateTime } from "@/utils/date";
 import { Chip, ChipRow } from "@/components/common/Chips";
+import PageHeader from "@/components/common/PageHeader";
 
 const REPLY_MAX_LENGTH = 500;
 
@@ -40,10 +40,10 @@ const OwnerReviewsPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-2xl py-8">
-        <Heading level={1}>Reviews</Heading>
-        <Text muted className="mt-1">
-          Your reply is public and shows under the review. You can reply once to each review.
-        </Text>
+        <PageHeader
+          title="Reviews"
+          subtitle="Your reply is public and shows under the review. You can reply once to each review."
+        />
 
         {/* All / Waiting for a reply */}
         <ChipRow label="Show" className="mt-6">
