@@ -2,6 +2,7 @@ import { useState } from "react";
 import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query";
 import { MessageSquare } from "lucide-react";
 import Container from "@/layouts/Container";
+import Card from "@/components/common/Card";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
@@ -141,9 +142,9 @@ const ReviewList = ({ data, isPending, error, onRetry, unansweredOnly }) => {
   return (
     <ul className="space-y-4">
       {data.reviews.map((review) => (
-        <li key={review.id} className="rounded-lg border border-border bg-card p-4">
+        <Card as="li" key={review.id}>
           <OwnerReview review={review} />
-        </li>
+        </Card>
       ))}
     </ul>
   );

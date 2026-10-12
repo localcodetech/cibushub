@@ -4,6 +4,7 @@ import { CircleAlert, CircleCheck } from "lucide-react";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
+import StatTile from "@/components/common/StatTile";
 import Card from "@/components/common/Card";
 import Skeleton from "@/components/common/Skeleton";
 import ErrorState from "@/components/common/ErrorState";
@@ -84,10 +85,10 @@ const DashboardBody = ({ data, isPending, error, onRetry }) => {
     <>
       {/* The headline numbers: two a row on phones, four on laptops */}
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
-        <Stat label="Orders paid today" value={data.today.paidOrders} />
-        <Stat label="GMV today" value={formatMoney(data.today.gmvPesewas)} />
-        <Stat label="Riders online" value={data.onlineRiders} />
-        <Stat
+        <StatTile label="Orders paid today" value={data.today.paidOrders} />
+        <StatTile label="GMV today" value={formatMoney(data.today.gmvPesewas)} />
+        <StatTile label="Riders online" value={data.onlineRiders} />
+        <StatTile
           label="Waiting for approval"
           value={pendingTotal}
           note={
@@ -124,30 +125,16 @@ const DashboardBody = ({ data, isPending, error, onRetry }) => {
   );
 };
 
-const Stat = ({ label, value, note }) => {
-  return (
-    <Card>
-      <p className="text-[15px] text-muted-foreground">{label}</p>
-      <p className="mt-1 font-heading text-2xl font-bold sm:text-3xl">{value}</p>
-      {note && (
-        <Text size="small" muted className="mt-1">
-          {note}
-        </Text>
-      )}
-    </Card>
-  );
-};
-
 // The alerts that have something in them stand out; when there are none, say so
 const AlertList = ({ alerts }) => {
   const anyAlerts = ALERTS.some((alert) => alerts[alert.key] > 0);
 
   if (!anyAlerts) {
     return (
-      <p className="mt-3 flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-3">
+      <Card as="p" padding="none" className="mt-3 flex items-center gap-2 px-4 py-3">
         <CircleCheck size={20} className="text-primary" aria-hidden="true" />
         All clear: nothing needs attention right now.
-      </p>
+      </Card>
     );
   }
 

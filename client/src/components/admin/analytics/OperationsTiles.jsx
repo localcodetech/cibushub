@@ -1,4 +1,5 @@
 import Heading from "@/components/typography/Heading";
+import Card from "@/components/common/Card";
 
 // 45 -> "45 s", 200 -> "3 min 20 s", 3900 -> "1 h 5 min"; null -> "No data"
 const formatDuration = (seconds) => {
@@ -34,10 +35,10 @@ const OperationsTiles = ({ operations }) => {
       <Heading level={3}>How fast (averages)</Heading>
       <dl className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
         {tiles.map((tile) => (
-          <div key={tile.label} className="rounded-lg border border-border bg-card p-3">
+          <Card key={tile.label} padding="sm">
             <dt className="text-[13px] text-muted-foreground">{tile.label}</dt>
             <dd className="mt-1 font-heading text-xl font-bold">{tile.value}</dd>
-          </div>
+          </Card>
         ))}
       </dl>
       <p className="mt-2 text-[13px] text-muted-foreground">

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router";
 import { ArrowLeft, Check } from "lucide-react";
 import Container from "@/layouts/Container";
+import Card from "@/components/common/Card";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import { updatePreferencesRequest } from "@/api/profile";
@@ -60,7 +61,7 @@ const NotificationSettingsPage = () => {
           Notification settings
         </Heading>
 
-        <div className="mt-6 rounded-lg border border-border bg-card p-4">
+        <Card className="mt-6">
           <label className="flex cursor-pointer items-start gap-3">
             <input
               type="checkbox"
@@ -87,7 +88,7 @@ const NotificationSettingsPage = () => {
               {errorMessage}
             </p>
           )}
-        </div>
+        </Card>
 
         <Heading level={2} className="mt-8">
           Always sent

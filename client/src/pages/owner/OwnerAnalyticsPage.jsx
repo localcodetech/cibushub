@@ -4,6 +4,7 @@ import { Store } from "lucide-react";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
+import StatTile from "@/components/common/StatTile";
 import Card from "@/components/common/Card";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
@@ -149,9 +150,9 @@ const AnalyticsBody = ({ data, isPending, error, onRetry }) => {
   return (
     <>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:gap-4">
-        <Total label="Paid orders" value={data.totals.orders} />
-        <Total label="Your earnings" value={formatMoney(data.totals.earningsPesewas)} />
-        <Total
+        <StatTile label="Paid orders" value={data.totals.orders} />
+        <StatTile label="Your earnings" value={formatMoney(data.totals.earningsPesewas)} />
+        <StatTile
           label="Average rating"
           value={
             data.totals.averageRating === null
@@ -198,20 +199,10 @@ const AnalyticsBody = ({ data, isPending, error, onRetry }) => {
   );
 };
 
-const Total = ({ label, value, note }) => {
-  return (
-    <Card>
-      <p className="text-[15px] text-muted-foreground">{label}</p>
-      <p className="mt-1 font-heading text-2xl font-bold">{value}</p>
-      {note && <p className="mt-1 text-[13px] text-muted-foreground">{note}</p>}
-    </Card>
-  );
-};
-
 // The same numbers as a table, for anyone who can't read the charts [AC-UX-08]
 const DaysTable = ({ days }) => {
   return (
-    <details className="mt-4 rounded-lg border border-border bg-card">
+    <Card as="details" padding="none" className="mt-4">
       <summary className="min-h-12 cursor-pointer px-4 py-3 font-bold">
         Show the numbers as a table
       </summary>
@@ -253,7 +244,7 @@ const DaysTable = ({ days }) => {
           </tbody>
         </table>
       </div>
-    </details>
+    </Card>
   );
 };
 

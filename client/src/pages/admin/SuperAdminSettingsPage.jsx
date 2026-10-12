@@ -9,6 +9,7 @@ import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import ErrorState from "@/components/common/ErrorState";
+import Card from "@/components/common/Card";
 import FormField from "@/components/form/FormField";
 import { Button } from "@/components/ui/button";
 import { getPlatformSettingsRequest, updatePlatformSettingsRequest } from "@/api/superAdmin";
@@ -114,9 +115,11 @@ const SuperAdminSettingsPage = () => {
           {data && (
             <>
               {savedVersion && (
-                <div
+                <Card
                   role="status"
-                  className="mb-4 flex items-start gap-2 rounded-lg border border-border bg-card p-3 text-[15px]"
+                  tone="highlight"
+                  padding="sm"
+                  className="mb-4 flex items-start gap-2 text-[15px]"
                 >
                   <CircleCheck
                     size={20}
@@ -124,7 +127,7 @@ const SuperAdminSettingsPage = () => {
                     aria-hidden="true"
                   />
                   <span>Saved. Version {savedVersion} is now in force for new orders.</span>
-                </div>
+                </Card>
               )}
               {/* key: a new version starts a fresh form with its values */}
               <SettingsForm
@@ -199,7 +202,7 @@ const SettingsForm = ({ values, onSaved, onEdit }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} onChange={onEdit} noValidate className="space-y-6">
       {SETTING_GROUPS.map((group) => (
-        <fieldset key={group.title} className="rounded-lg border border-border bg-card p-4">
+        <Card as="fieldset" key={group.title}>
           <legend className="px-1 font-bold">{group.title}</legend>
           <div className="grid gap-4 sm:grid-cols-2">
             {group.settings.map((setting) => {
@@ -218,17 +221,17 @@ const SettingsForm = ({ values, onSaved, onEdit }) => {
               );
             })}
           </div>
-        </fieldset>
+        </Card>
       ))}
 
       {/* Only Paystack exists until cash on delivery is built, so nothing to choose yet */}
-      <div className="rounded-lg border border-border bg-card p-4">
+      <Card>
         <p className="font-bold">Ways to pay</p>
         <p className="mt-1 text-[15px] text-muted-foreground">
           {values.paymentMethods.map((method) => PAYMENT_METHOD_NAMES[method]).join(", ")}. Cash on
           delivery comes later.
         </p>
-      </div>
+      </Card>
 
       <div>
         <label htmlFor="settings-reason" className="text-[15px] font-bold">

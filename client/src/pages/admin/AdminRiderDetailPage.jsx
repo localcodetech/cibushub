@@ -108,7 +108,7 @@ const AdminRiderDetailPage = () => {
         </div>
 
         {profile.rejectionReason && (
-          <Card className="mt-4 border-destructive">
+          <Card tone="danger" className="mt-4">
             <p className="font-bold text-destructive">Last reason given</p>
             <p className="mt-1">{profile.rejectionReason}</p>
           </Card>

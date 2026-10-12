@@ -4,7 +4,7 @@ import { Wallet } from "lucide-react";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
-import Card from "@/components/common/Card";
+import StatTile from "@/components/common/StatTile";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
 import ErrorState from "@/components/common/ErrorState";
@@ -129,15 +129,12 @@ const EarningsSummary = ({ query, period, date }) => {
   }
 
   return (
-    <Card className="flex flex-col gap-1">
-      <Text muted className="text-[15px]">
-        {title}
-      </Text>
-      <p className="font-heading text-4xl font-bold">{formatMoney(summary.earningsPesewas)}</p>
-      <Text className="text-[15px]">
-        {summary.deliveryCount} {summary.deliveryCount === 1 ? "delivery" : "deliveries"}
-      </Text>
-    </Card>
+    <StatTile
+      size="lg"
+      label={title}
+      value={formatMoney(summary.earningsPesewas)}
+      note={summary.deliveryCount + " " + (summary.deliveryCount === 1 ? "delivery" : "deliveries")}
+    />
   );
 };
 

@@ -4,6 +4,7 @@ import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import { formatMoney } from "@/utils/money";
 import RatingBadge from "@/components/review/RatingBadge";
+import Card from "@/components/common/Card";
 
 // One restaurant in the listing. The whole card is a link to its menu [AC-DISC-01].
 // restaurant: one item from GET /restaurants
@@ -11,9 +12,12 @@ const RestaurantCard = ({ restaurant }) => {
   const isOpen = restaurant.openStatus.isOpen;
 
   return (
-    <Link
+    <Card
+      as={Link}
       to={"/restaurants/" + restaurant.id}
-      className="block overflow-hidden rounded-lg border border-border bg-card text-card-foreground"
+      interactive
+      padding="none"
+      className="overflow-hidden"
     >
       <CoverImage url={restaurant.coverImageUrl} name={restaurant.name} isOpen={isOpen} />
 
@@ -61,7 +65,7 @@ const RestaurantCard = ({ restaurant }) => {
           <span>Min. order {formatMoney(restaurant.minOrderPesewas)}</span>
         </div>
       </div>
-    </Link>
+    </Card>
   );
 };
 

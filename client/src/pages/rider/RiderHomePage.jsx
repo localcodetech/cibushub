@@ -223,21 +223,25 @@ const DeliveryInHand = ({ delivery }) => {
   }
 
   return (
-    <Link to="/rider/delivery" className="block">
-      <Card className="flex items-center gap-3 border-primary">
-        <Package size={24} className="shrink-0 text-primary" aria-hidden="true" />
-        <div className="flex-1">
-          <Text className="font-bold">Your delivery · {delivery.orderNumber}</Text>
-          <Text className="text-[15px]">
-            {delivery.pickup.restaurantName} → {delivery.dropoff.area || "the customer"}
-          </Text>
-          <Text muted className="text-[15px]">
-            {stepText}
-          </Text>
-        </div>
-        <ChevronRight size={24} className="shrink-0" aria-hidden="true" />
-      </Card>
-    </Link>
+    <Card
+      as={Link}
+      to="/rider/delivery"
+      tone="highlight"
+      interactive
+      className="flex items-center gap-3"
+    >
+      <Package size={24} className="shrink-0 text-primary" aria-hidden="true" />
+      <div className="flex-1">
+        <Text className="font-bold">Your delivery · {delivery.orderNumber}</Text>
+        <Text className="text-[15px]">
+          {delivery.pickup.restaurantName} → {delivery.dropoff.area || "the customer"}
+        </Text>
+        <Text muted className="text-[15px]">
+          {stepText}
+        </Text>
+      </div>
+      <ChevronRight size={24} className="shrink-0" aria-hidden="true" />
+    </Card>
   );
 };
 
