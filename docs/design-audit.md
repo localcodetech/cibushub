@@ -50,7 +50,7 @@ highlights, Terracotta rarely.
   recent orders with reorder, and restaurants open now.
 - [x] **Restaurants list:** the placeholder images are too tall (see above), and the meta line
   (time, area, minimum order) is cramped on phones.
-- [ ] **Restaurant page:** the hero placeholder; the dish rows need room for an image; the category
+- [x] **Restaurant page:** the hero placeholder; the dish rows need room for an image; the category
   chips could stick to the top while scrolling.
 - [x] **Order tracking:** the delivery code box and the map are good. The 8-step progress list is long
   on phones: show the current step large and fold the finished ones away.
@@ -72,7 +72,7 @@ highlights, Terracotta rarely.
 
 - [x] **Navbar in dark mode** is a bright mint bar (the brand green turns light in dark mode).
   Use a dark surface with a green accent instead, as done for the home page hero.
-- [ ] **Dish rows** still have no room for a photo (restaurant page).
+- [x] **Dish rows** still have no room for a photo (restaurant page).
 
 ## Not issues
 

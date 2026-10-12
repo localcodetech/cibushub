@@ -1,22 +1,9 @@
 import { cn } from "@/lib/utils";
+import { initialsOf } from "@/utils/initials";
 
 // What shows when a restaurant has no cover photo yet: a short green band with its
 // initials, instead of a tall empty box. Decorative: the name is always written nearby.
 //   size: card (restaurant lists) | header (the restaurant's own page)
-
-// "Maame Akua's Chop Bar" -> "MA"
-const initialsOf = (name = "") => {
-  const words = name
-    .replace(/[^\p{L}\p{N}\s]/gu, "")
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean);
-  return words
-    .slice(0, 2)
-    .map((word) => word[0])
-    .join("")
-    .toUpperCase();
-};
 
 const CoverPlaceholder = ({ name, size = "card", dimmed = false }) => {
   return (
