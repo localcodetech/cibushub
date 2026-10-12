@@ -9,6 +9,12 @@ export const getAdminDashboardRequest = async () => {
   return result.data;
 };
 
+// from, to: Ghana days like "2026-10-01", both included [AC-ANL-01]
+export const getAdminAnalyticsRequest = async ({ from, to }) => {
+  const result = await api.get("/admin/analytics?" + new URLSearchParams({ from, to }));
+  return result.data;
+};
+
 // ─────────────────────────────────────────────
 // Restaurants [AC-ADM-03]
 // ─────────────────────────────────────────────

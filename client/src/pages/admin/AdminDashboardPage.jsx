@@ -7,6 +7,7 @@ import Text from "@/components/typography/Text";
 import Card from "@/components/common/Card";
 import Skeleton from "@/components/common/Skeleton";
 import ErrorState from "@/components/common/ErrorState";
+import AnalyticsSection from "@/components/admin/analytics/AnalyticsSection";
 import { getAdminDashboardRequest } from "@/api/admin";
 import { ORDER_STATUSES } from "@/data/orderStatuses";
 import { onLiveEvent, onOrderUpdated } from "@/lib/liveUpdates";
@@ -52,6 +53,7 @@ const AdminDashboardPage = () => {
         <div className="mt-6">
           <DashboardBody data={data} isPending={isPending} error={error} onRetry={refetch} />
         </div>
+        <AnalyticsSection />
       </section>
     </Container>
   );

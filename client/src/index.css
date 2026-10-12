@@ -38,8 +38,10 @@
   --input: #8c8070; /* input outlines: 3.4:1 or more, so fields are visible */
   --ring: #123c2a; /* focus rings are Forest Green */
   --radius: 0.75rem; /* 12px: inputs and cards */
-  --chart-1: #123c2a;
-  --chart-2: #c89b3c;
+  /* chart-1 and chart-2 sit side by side on the money chart: checked for colour blindness
+     against the page (dataviz validator); the second line is also dashed */
+  --chart-1: #1f7a4d;
+  --chart-2: #b07a1c;
   --chart-3: #1f6b43;
   --chart-4: #b9573e;
   --chart-5: #6e6458;
@@ -83,8 +85,8 @@
   --border: #2c3a31;
   --input: #6b7b70;
   --ring: #6cc497;
-  --chart-1: #6cc497;
-  --chart-2: #d9b25a;
+  --chart-1: #3fa56f;
+  --chart-2: #bd8424;
   --chart-3: #7bd3a0;
   --chart-4: #e08a6e;
   --chart-5: #a99f8f;
