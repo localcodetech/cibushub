@@ -13,12 +13,15 @@ const {
   OptionGroup,
   Option,
 } = require("../../models/index.js");
-const { users, restaurants } = require("./data/kumasiRestaurants.cjs");
+const { hashPassword } = require("../../utils/auth/password.js");
+const { DEMO_PASSWORD, users, restaurants } = require("./data/kumasiRestaurants.cjs");
+const { verifiedDemoAccount } = require("./data/demoAccount.cjs");
 const { withDisplayOrder } = require("./data/menuHelpers.cjs");
 
 const PHOTO_FOLDER = path.join(__dirname, "data", "photos");
 
 // Brings the demo restaurants up to date with data/kumasiRestaurants.cjs:
+//   - adds any demo owner who isn't there yet (only once the demo has been seeded at all)
 //   - adds any restaurant that isn't there yet, with its opening hours
 //   - adds any dish that isn't there yet (a dish an owner deleted stays deleted)
 //   - gives every restaurant its cover photo and every dish its photo, if it has none
@@ -31,17 +34,30 @@ module.exports = {
       return;
     }
 
-    const demoOwners = await User.findAll({ where: { email: users.map((user) => user.email) } });
+    let demoOwners = await User.findAll({ where: { email: users.map((user) => user.email) } });
+    if (demoOwners.length === 0) {
+      console.log("No demo restaurants yet (run the demo-restaurants seeder first), skipping.");
+      return;
+    }
+
+    // Owners added to the data later (e.g. a new restaurant's owner)
+    const missingUsers = users.filter(
+      (user) => !demoOwners.some((owner) => owner.email === user.email),
+    );
+    if (missingUsers.length > 0) {
+      const passwordHash = await hashPassword(DEMO_PASSWORD);
+      // "key" isn't a user column: Sequelize leaves it out
+      for (const user of missingUsers) {
+        await User.create({ ...user, passwordHash, ...verifiedDemoAccount(new Date()) });
+      }
+      demoOwners = await User.findAll({ where: { email: users.map((user) => user.email) } });
+    }
     const ownerIds = demoOwners.map((owner) => owner.id);
     // "akua" -> her user id, for restaurants that are added here
     const ownerIdByKey = {};
     for (const user of users) {
       const owner = demoOwners.find((found) => found.email === user.email);
       if (owner) ownerIdByKey[user.key] = owner.id;
-    }
-    if (ownerIds.length === 0) {
-      console.log("No demo restaurants yet (run the demo-restaurants seeder first), skipping.");
-      return;
     }
 
     // Each photo goes to Cloudinary once, as cibushub/demo/<name>
