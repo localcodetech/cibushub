@@ -29,10 +29,13 @@ x-server: &server
     redis:
       condition: service_healthy
 
-# The same, with the demo's settings
+# The same, for the demo: it reads the real site's settings first, then server/.env.demo on
+# top. So SMS, email, Cloudinary, Google, Apple and maps are always identical to the real
+# site, and .env.demo only holds what must differ (address, database, Paystack test keys...)
 x-demo-server: &demo-server
   <<: *server
   env_file:
+    - ./server/.env.production
     - ./server/.env.demo
 
 x-api-healthcheck: &api-healthcheck

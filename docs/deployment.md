@@ -98,11 +98,12 @@ Fill in both files. Make every secret new, never the development ones:
 openssl rand -hex 32    # once for each: OTP_SECRET, JWT_ACCESS_SECRET, MYSQL_PASSWORD, MYSQL_ROOT_PASSWORD
 ```
 
-Then the demo's settings: start from a copy of the real ones and change only the lines in `server/.env.demo.example`. That means the address, `MYSQL_DATABASE=cibushub_demo`, `REDIS_URL=…/1`, `DEMO_SITE=true`, Paystack **test** keys, new secrets and its own super admin.
+Then the demo's settings. The demo reads `server/.env.production` first and `server/.env.demo` on top of it. So it automatically has everything the real site has: real SMS, real email, Cloudinary photos, Google and Apple sign-in, and maps. `server/.env.demo` holds **only** what differs: its address, its database and Redis number, `DEMO_SITE=true`, Paystack **test** keys, its own secrets and its own super admin.
 
 ```bash
-cp server/.env.production server/.env.demo
+cp server/.env.demo.example server/.env.demo
 nano server/.env.demo
+chmod 600 .env.production server/.env.production server/.env.demo
 ```
 
 ## 4. The first deploy
