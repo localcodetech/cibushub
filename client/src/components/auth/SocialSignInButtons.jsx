@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router";
 import { socialSignInRequest } from "@/api/auth";
 import TermsAgreementSheet from "@/components/auth/TermsAgreementSheet";
 import { loadScript } from "@/lib/loadScript";
+import { GOOGLE_SCRIPT } from "@/lib/googleSignIn";
 import { useAuthStore } from "@/store/authStore";
 import { afterLoginPath } from "@/utils/roleHome";
 import { isDarkTheme } from "@/utils/theme";
@@ -13,7 +14,6 @@ import Alert from "@/components/common/Alert";
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 const APPLE_SERVICE_ID = import.meta.env.VITE_APPLE_SERVICE_ID;
 
-const GOOGLE_SCRIPT = "https://accounts.google.com/gsi/client";
 const APPLE_SCRIPT =
   "https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js";
 
@@ -25,6 +25,8 @@ const SocialSignInButtons = ({ getSignupDetails }) => {
   const location = useLocation();
   const setUser = useAuthStore((state) => state.setUser);
   const googleButtonRef = useRef(null);
+  // Google's own button is drawn by Google's script; until then a placeholder holds its place
+  const [isGoogleReady, setIsGoogleReady] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
   // A Google / Apple sign-in kept aside while the Terms pop-up is open:
@@ -102,8 +104,10 @@ const SocialSignInButtons = ({ getSignupDetails }) => {
           shape: "rectangular",
           width: googleButtonRef.current.offsetWidth || 320,
         });
+        setIsGoogleReady(true);
       })
       .catch(() => {
+        setIsGoogleReady(true);
         setErrorMessage("Google sign-in couldn't load. Check your connection.");
       });
     // Run once when the buttons appear. finishSignIn reads the form when it runs.
@@ -147,7 +151,7 @@ const SocialSignInButtons = ({ getSignupDetails }) => {
   }
 
   return (
-    <div className="mt-6 flex flex-col gap-3">
+    <div className="mt-4 flex flex-col gap-3">
       {/* The "or" line between the form and the buttons */}
       <div className="flex items-center gap-3 text-[13px] text-muted-foreground">
         <span className="h-px flex-1 bg-border" />
@@ -155,21 +159,35 @@ const SocialSignInButtons = ({ getSignupDetails }) => {
         <span className="h-px flex-1 bg-border" />
       </div>
 
-      {GOOGLE_CLIENT_ID && <div ref={googleButtonRef} className="flex min-h-11 justify-center" />}
+      {/* Phones: one under the other, at most 320px. Wider screens: side by side, in one row */}
+      <div className="mx-auto flex w-full max-w-[320px] flex-col gap-3 sm:max-w-none sm:flex-row">
+        {GOOGLE_CLIENT_ID && (
+          <div className="relative sm:flex-1">
+            {/* Holds the place, the size of Google's button, until Google has drawn it */}
+            {!isGoogleReady && (
+              <div
+                aria-hidden="true"
+                className="absolute inset-x-0 top-0 mx-auto h-11 animate-pulse rounded-md border border-border bg-muted motion-reduce:animate-none"
+              />
+            )}
+            <div ref={googleButtonRef} className="flex min-h-11 justify-center" />
+          </div>
+        )}
 
-      {APPLE_SERVICE_ID && (
-        <button
-          type="button"
-          onClick={handleAppleClick}
-          disabled={isSending}
-          className="flex h-11 items-center justify-center gap-2 rounded-md bg-black font-bold text-white dark:bg-white dark:text-black"
-        >
-          <svg viewBox="0 0 17 20" className="size-4 fill-current" aria-hidden="true">
-            <path d="M14.1 10.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8s2 .8 3.4.8c1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.7-4.1zM11.6 3c.7-.9 1.2-2 1-3.2-1 .1-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3.1-1.5z" />
-          </svg>
-          Continue with Apple
-        </button>
-      )}
+        {APPLE_SERVICE_ID && (
+          <button
+            type="button"
+            onClick={handleAppleClick}
+            disabled={isSending}
+            className="flex h-11 items-center justify-center gap-2 rounded-md bg-black font-bold text-white sm:flex-1 dark:bg-white dark:text-black"
+          >
+            <svg viewBox="0 0 17 20" className="size-4 fill-current" aria-hidden="true">
+              <path d="M14.1 10.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8s2 .8 3.4.8c1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.7-4.1zM11.6 3c.7-.9 1.2-2 1-3.2-1 .1-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3.1-1.5z" />
+            </svg>
+            Continue with Apple
+          </button>
+        )}
+      </div>
 
       {errorMessage && (
         <Alert>

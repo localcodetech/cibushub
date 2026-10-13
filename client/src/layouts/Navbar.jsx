@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { Menu, X } from "lucide-react";
 import { accountLinksFor, guestLinks } from "@/data/navigation";
 import { useAuthStore } from "@/store/authStore";
+import { prefetchGoogleSignIn } from "@/lib/googleSignIn";
 import Container from "./Container";
 import MobileMenu from "./MobileMenu";
 import ThemeToggle from "@/components/common/ThemeToggle";
@@ -15,7 +16,16 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
+  const isCheckingSession = useAuthStore((state) => state.isCheckingSession);
   const navigate = useNavigate();
+
+  // A guest may log in or sign up soon: fetch Google's sign-in script in the background, so its
+  // button is ready the moment they get there. Never for someone already logged in.
+  useEffect(() => {
+    if (!isCheckingSession && !user) {
+      prefetchGoogleSignIn();
+    }
+  }, [isCheckingSession, user]);
 
   // Only guests and customers order food, so only they see the cart
   const canHaveCart = !user || user.role === "CUSTOMER";
