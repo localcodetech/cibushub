@@ -27,7 +27,8 @@ const OwnerLayout = () => {
     <>
       <div className="border-b border-border">
         <Container>
-          <nav aria-label="Restaurant" className="flex gap-6">
+          {/* overflow-x-auto: on a phone the menu scrolls sideways instead of widening the page */}
+          <nav aria-label="Restaurant" className="flex gap-6 overflow-x-auto">
             {links.map((link) => (
               // NavLink knows when its page is open, and marks it (aria-current="page")
               <NavLink
@@ -36,7 +37,7 @@ const OwnerLayout = () => {
                 end={link.end}
                 className={({ isActive }) =>
                   cn(
-                    "flex min-h-12 items-center border-b-2 font-bold",
+                    "flex min-h-12 shrink-0 items-center border-b-2 font-bold",
                     isActive ? "border-primary text-primary" : "border-transparent",
                   )
                 }

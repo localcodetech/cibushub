@@ -9,7 +9,7 @@ import Card from "@/components/common/Card";
 import Skeleton from "@/components/common/Skeleton";
 import ErrorState from "@/components/common/ErrorState";
 import RiderDetailsForm from "@/components/rider/RiderDetailsForm";
-import FileUploadRow from "@/components/rider/FileUploadRow";
+import FileUploadRow from "@/components/common/FileUploadRow";
 import { Button } from "@/components/ui/button";
 import {
   getMyApplicationRequest,

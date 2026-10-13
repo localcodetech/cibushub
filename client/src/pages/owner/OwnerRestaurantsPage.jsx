@@ -83,6 +83,7 @@ const OwnerRestaurantsPage = () => {
                 return (
                   <ListRow
                     key={restaurant.id}
+                    to={"/owner/restaurants/" + restaurant.id}
                     leading={<ListIcon icon={Store} />}
                     title={restaurant.name}
                     badge={<StatusBadge label={status.label} tone={status.tone} />}
