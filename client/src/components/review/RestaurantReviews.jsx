@@ -94,13 +94,13 @@ const ReviewList = ({ data, isPending, error, onShowMore, hasMore, isLoadingMore
             <Stars rating={review.rating} size={14} className="mt-1" />
             {/* Plain text: React shows anything typed, even "<script>", as text [AC-REV-08] */}
             {review.comment && (
-              <p className="mt-2 wrap-break-words whitespace-pre-line">{review.comment}</p>
+              <p className="mt-2 break-words whitespace-pre-line">{review.comment}</p>
             )}
             {/* The restaurant's one public reply [AC-REV-06] */}
             {review.ownerReply && (
               <div className="mt-3 border-l-2 border-primary pl-3">
                 <p className="text-[13px] font-bold">Reply from the restaurant</p>
-                <p className="wrap-break-words whitespace-pre-line">{review.ownerReply.text}</p>
+                <p className="break-words whitespace-pre-line">{review.ownerReply.text}</p>
               </div>
             )}
           </li>

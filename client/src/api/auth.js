@@ -77,3 +77,10 @@ export const addPhoneRequest = async (phone) => {
   const result = await api.post("/auth/phone", { phone });
   return result.data;
 };
+
+// The current password proves it's really me. This device stays logged in (new cookies);
+// every other device is logged out [AC-AUTH-20].
+export const changePasswordRequest = async (currentPassword, newPassword) => {
+  const result = await api.post("/auth/change-password", { currentPassword, newPassword });
+  return result.data;
+};

@@ -67,6 +67,7 @@ const AdminRiderMapPage = lazy(() => import("@/pages/admin/AdminRiderMapPage"));
 const AdminRiderDetailPage = lazy(() => import("@/pages/admin/AdminRiderDetailPage"));
 const NotificationsPage = lazy(() => import("@/pages/NotificationsPage"));
 const NotificationSettingsPage = lazy(() => import("@/pages/NotificationSettingsPage"));
+const ProfilePage = lazy(() => import("@/pages/ProfilePage"));
 
 // The map of the app: which page shows for which address.
 // Every page inside "children" is drawn inside RootLayout (navbar + footer).
@@ -276,6 +277,17 @@ const router = createBrowserRouter([
                 allowPending
               >
                 <NotificationsPage />
+              </RequireRole>
+            ),
+          },
+          {
+            // My profile: name, photo, phone, email, password [AC-CUST-01, AC-CUST-02, AC-AUTH-20]
+            path: "account",
+            element: (
+              <RequireRole
+                allowedRoles={["CUSTOMER", "RESTAURANT_OWNER", "RIDER", "ADMIN", "SUPER_ADMIN"]}
+              >
+                <ProfilePage />
               </RequireRole>
             ),
           },

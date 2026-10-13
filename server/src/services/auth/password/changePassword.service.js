@@ -12,6 +12,17 @@ export const changePassword = async (userId, currentPassword, newPassword, devic
     throw new AppError(401, "UNAUTHENTICATED", "Please log in to continue");
   }
 
+  // Google / Apple accounts start with no password: they set one with "Forgot password"
+  if (!user.passwordHash) {
+    throw new AppError(400, "VALIDATION_ERROR", "Invalid request data", [
+      {
+        field: "currentPassword",
+        message:
+          "Your account has no password yet (you sign in with Google or Apple). Use Forgot password to set one",
+      },
+    ]);
+  }
+
   const currentIsCorrect = await verifyPassword(currentPassword, user.passwordHash);
 
   if (!currentIsCorrect) {

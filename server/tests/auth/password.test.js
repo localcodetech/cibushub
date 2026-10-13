@@ -3,6 +3,7 @@ import request from "supertest";
 import app from "../../src/app.js";
 import { lastCodeSentTo, sentSms } from "../helpers/fakeSms.js";
 import { createTestUser, TEST_PASSWORD } from "../helpers/users.js";
+import { User } from "../../src/models/index.js";
 
 const PHONE = "+233241234567";
 
@@ -139,6 +140,21 @@ describe("POST /api/v1/auth/change-password", () => {
     expect((await thisDevice.post("/api/v1/auth/refresh")).status).toBe(200);
     expect((await otherDevice.post("/api/v1/auth/refresh")).status).toBe(401);
     expect((await login(request(app), "NewPass1")).status).toBe(200);
+  });
+
+  it("explains instead of crashing when a Google / Apple account has no password yet", async () => {
+    const user = await createTestUser();
+    const browser = request.agent(app);
+    await login(browser);
+    await User.update({ passwordHash: null }, { where: { id: user.id } });
+
+    const response = await browser
+      .post("/api/v1/auth/change-password")
+      .send({ currentPassword: "Anything1", newPassword: "NewPass1" });
+
+    expect(response.status).toBe(400);
+    expect(response.body.error.details[0].field).toBe("currentPassword");
+    expect(response.body.error.details[0].message).toMatch(/Forgot password/);
   });
 
   it("refuses a new password equal to the current one", async () => {
