@@ -36,6 +36,21 @@ export const uploadPublicImage = async (buffer, folder) => {
   return { url: result.secure_url, publicId: result.public_id };
 };
 
+// Public image under a fixed name (e.g. "cibushub/demo/jollof"), already small and WebP.
+// Uploaded once: when that name already exists, Cloudinary hands back the existing image, so
+// running the demo seeders again never makes copies.
+export const uploadNamedImage = async (buffer, publicId) => {
+  const result = await sendToCloudinary(buffer, {
+    public_id: publicId,
+    overwrite: false,
+    resource_type: "image",
+    // Many photos in a row on a slow line: give each one time
+    timeout: 120000,
+  });
+
+  return { url: result.secure_url, publicId: result.public_id };
+};
+
 // Private document: stored as "authenticated", so it has no public link [AC-IMG-03]
 export const uploadPrivateDocument = async (buffer, folder) => {
   const result = await sendToCloudinary(buffer, {

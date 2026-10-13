@@ -14,20 +14,9 @@ const {
   Option,
 } = require("../../models/index.js");
 const { DEMO_PASSWORD, users, restaurants } = require("./data/kumasiRestaurants.cjs");
+const { withDisplayOrder } = require("./data/menuHelpers.cjs");
 
 const demoEmails = users.map((user) => user.email);
-
-// Gives every option group and option its position, in the order they are written
-const withDisplayOrder = (optionGroups = []) => {
-  return optionGroups.map((group, groupPosition) => ({
-    ...group,
-    displayOrder: groupPosition,
-    options: group.options.map((option, optionPosition) => ({
-      ...option,
-      displayOrder: optionPosition,
-    })),
-  }));
-};
 
 module.exports = {
   async up() {
