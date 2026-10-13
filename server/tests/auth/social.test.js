@@ -161,6 +161,42 @@ describe("POST /api/v1/auth/social", () => {
   });
 });
 
+describe("profile photo from Google", () => {
+  const picture = "https://lh3.googleusercontent.com/a/esi-photo=s400-c";
+
+  it("uses the Google picture as the photo when there is none", async () => {
+    fakeIdentity.current = { ...googlePerson, pictureUrl: picture };
+
+    const response = await socialSignIn({ acceptTerms: true });
+
+    expect(response.body.data.avatarUrl).toBe(picture);
+  });
+
+  it("follows a changed Google picture at the next sign-in", async () => {
+    fakeIdentity.current = { ...googlePerson, pictureUrl: picture };
+    await socialSignIn({ acceptTerms: true });
+    fakeIdentity.current = { ...googlePerson, pictureUrl: picture.replace("esi-photo", "new") };
+
+    const response = await socialSignIn({});
+
+    expect(response.body.data.avatarUrl).toContain("/a/new");
+  });
+
+  it("never replaces a photo the person uploaded", async () => {
+    const uploaded = "https://res.cloudinary.com/demo/avatars/mine.webp";
+    await createTestUser({
+      email: "esi@gmail.com",
+      avatarUrl: uploaded,
+      avatarPublicId: "avatars/mine",
+    });
+    fakeIdentity.current = { ...googlePerson, pictureUrl: picture };
+
+    const response = await socialSignIn({});
+
+    expect(response.body.data.avatarUrl).toBe(uploaded);
+  });
+});
+
 describe("Google / Apple users without a password", () => {
   it("can't log in with a password (same answer as a wrong password) [AC-AUTH-12]", async () => {
     await socialSignIn({ acceptTerms: true });

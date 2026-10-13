@@ -61,7 +61,10 @@ describe("POST /api/v1/auth/delete-account", () => {
     const user = await createTestUser();
 
     const noWord = await deleteAccount(user, { confirmText: "delete", password: TEST_PASSWORD });
-    const wrongPassword = await deleteAccount(user, { confirmText: "DELETE", password: "Wrong123" });
+    const wrongPassword = await deleteAccount(user, {
+      confirmText: "DELETE",
+      password: "Wrong123",
+    });
     const noPassword = await deleteAccount(user, { confirmText: "DELETE" });
 
     expect(noWord.status).toBe(400);
