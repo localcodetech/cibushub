@@ -33,6 +33,11 @@ const PendingApprovalPage = () => {
     return <Navigate to="/rider/apply" replace />;
   }
 
+  // Owners register their restaurant first; that page also shows what happens next [AC-REST-01]
+  if (user.role === "RESTAURANT_OWNER") {
+    return <Navigate to="/owner/restaurants" replace />;
+  }
+
   const handleLogout = async () => {
     await logout();
     navigate("/login");

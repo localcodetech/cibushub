@@ -6,7 +6,8 @@ Addresses used below:
 
 | Where | Address |
 |---|---|
-| App (production) | `https://app.cibushubgh.com` |
+| App (production) | `https://cibushubgh.com` (the old `app.` address redirects here) |
+| Demo | `https://demo.cibushubgh.com` |
 | API (production) | `https://api.cibushubgh.com` |
 | Laptop through a tunnel (testing) | `https://dev.cibushubgh.com` |
 | Laptop (normal development) | `http://localhost:5173` |
@@ -24,18 +25,20 @@ Free. Takes about 15 minutes.
    - App name: `CibusHub`
    - User support email: your email
    - App logo: optional (adding one can trigger a short Google review)
-   - App home page: `https://app.cibushubgh.com`
-   - Privacy policy: `https://app.cibushubgh.com/privacy`
-   - Terms of service: `https://app.cibushubgh.com/terms`
+   - App home page: `https://cibushubgh.com`
+   - Privacy policy: `https://cibushubgh.com/privacy`
+   - Terms of service: `https://cibushubgh.com/terms`
    - Authorised domain: `cibushubgh.com`
    - Developer contact: your email
 3. **Audience:** choose **External**. While it is in **Testing**, only the Google accounts you add under "Test users" can sign in, so add your own. Click **Publish app** before launch. We only ask for name and email, so no Google verification is needed.
 4. **Data access:** keep the defaults (`openid`, `email`, `profile`).
-5. **Clients → Create client → Web application**, name it `CibusHub Web`. Under **Authorised JavaScript origins**, add all four:
+5. **Clients → Create client → Web application**, name it `CibusHub Web`. Under **Authorised JavaScript origins**, add all of these:
    - `http://localhost`
    - `http://localhost:5173`
    - `https://dev.cibushubgh.com`
-   - `https://app.cibushubgh.com`
+   - `https://cibushubgh.com`
+   - `https://demo.cibushubgh.com`
+   - `https://app.cibushubgh.com` (already there from before; harmless to keep)
 
    Leave **Authorised redirect URIs** empty. The button hands the token straight to the page.
 6. Copy the **Client ID**. It ends in `.apps.googleusercontent.com` and is public (not a secret). Put the same value in two places:
@@ -59,13 +62,14 @@ All of this is in [developer.apple.com/account](https://developer.apple.com/acco
    - Description: `CibusHub Web`. Identifier: `com.cibushub.web`.
    - Register it, open it again, tick **Sign In with Apple** and click **Configure**:
      - Primary App ID: `com.cibushubgh.app`
-     - Domains and Subdomains: `app.cibushubgh.com`, `dev.cibushubgh.com`
-     - Return URLs: `https://app.cibushubgh.com/login`, `https://dev.cibushubgh.com/login`
+     - Domains and Subdomains: `cibushubgh.com`, `demo.cibushubgh.com`, `dev.cibushubgh.com` (keeping `app.cibushubgh.com` is harmless)
+     - Return URLs: `https://cibushubgh.com/login`, `https://demo.cibushubgh.com/login`, `https://dev.cibushubgh.com/login`
    - **Next → Done → Continue → Save**.
 3. Put the Services ID (`com.cibushub.web`) in:
    - `server/.env`: `APPLE_SERVICE_ID=com.cibushub.web`
    - `client/.env`: `VITE_APPLE_SERVICE_ID=com.cibushub.web`
-   - `client/.env`: `VITE_APPLE_REDIRECT_URI=https://dev.cibushubgh.com/login` (on the live server: `https://app.cibushubgh.com/login`)
+
+The return URL needs no setting: the app uses its own address + `/login`, so the same build works on every address above.
 
 Apple may give us a **private relay** email (`...@privaterelay.appleid.com`). To send emails to those addresses later (Step 12), register the sending domain under **Sign in with Apple for Email Communication** in the same Apple account.
 

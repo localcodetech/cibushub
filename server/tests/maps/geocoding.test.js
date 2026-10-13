@@ -154,3 +154,35 @@ describe("GET /api/v1/customer/maps/search [AC-MAP-02]", () => {
     expect(response.status).toBe(400);
   });
 });
+
+describe("GET /api/v1/owner/maps [placing the restaurant's pin]", () => {
+  it("lets an owner still waiting for approval use the pin lookup", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => answer(200, nominatimReverse)),
+    );
+    const owner = await createTestUser({
+      role: "RESTAURANT_OWNER",
+      status: "PENDING_APPROVAL",
+      email: "owner@example.com",
+      phone: "+233201112223",
+    });
+
+    const response = await getAs(
+      owner,
+      "/api/v1/owner/maps/reverse?latitude=6.6745&longitude=-1.5716",
+    );
+
+    expect(response.status).toBe(200);
+    expect(response.body.data.area).toBe("Ayeduase");
+  });
+
+  it("is for restaurant owners only", async () => {
+    const response = await getAs(
+      customer,
+      "/api/v1/owner/maps/reverse?latitude=6.67&longitude=-1.57",
+    );
+
+    expect(response.status).toBe(403);
+  });
+});

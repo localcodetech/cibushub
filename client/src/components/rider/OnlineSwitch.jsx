@@ -1,6 +1,6 @@
 import Text from "@/components/typography/Text";
 import Card from "@/components/common/Card";
-import { cn } from "@/lib/utils";
+import Switch from "@/components/common/Switch";
 
 // The big Online / Offline switch at the top of the rider home [AC-RIDER-03].
 // isOnline: the server's answer; isWorking: a change is being sent; onToggle(): flip it
@@ -18,26 +18,7 @@ const OnlineSwitch = ({ isOnline, isWorking, onToggle }) => {
         </Text>
       </div>
 
-      {/* role="switch" + aria-checked: screen readers say "on" / "off" */}
-      <button
-        type="button"
-        role="switch"
-        aria-checked={isOnline}
-        aria-label="Online"
-        disabled={isWorking}
-        onClick={onToggle}
-        className={cn(
-          "relative h-9 w-16 shrink-0 rounded-full transition-colors disabled:opacity-60",
-          isOnline ? "bg-success" : "bg-muted-foreground/40",
-        )}
-      >
-        <span
-          className={cn(
-            "absolute top-1 left-1 size-7 rounded-full bg-white shadow transition-transform",
-            isOnline && "translate-x-7",
-          )}
-        />
-      </button>
+      <Switch checked={isOnline} onChange={onToggle} label="Online" disabled={isWorking} />
     </Card>
   );
 };

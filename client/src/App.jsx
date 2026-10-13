@@ -40,6 +40,10 @@ const OwnerDashboardPage = lazy(() => import("@/pages/owner/OwnerDashboardPage")
 const OwnerHistoryPage = lazy(() => import("@/pages/owner/OwnerHistoryPage"));
 const OwnerReviewsPage = lazy(() => import("@/pages/owner/OwnerReviewsPage"));
 const OwnerAnalyticsPage = lazy(() => import("@/pages/owner/OwnerAnalyticsPage"));
+const OwnerRestaurantsPage = lazy(() => import("@/pages/owner/OwnerRestaurantsPage"));
+const NewRestaurantPage = lazy(() => import("@/pages/owner/NewRestaurantPage"));
+const RestaurantSettingsPage = lazy(() => import("@/pages/owner/RestaurantSettingsPage"));
+const MenuBuilderPage = lazy(() => import("@/pages/owner/MenuBuilderPage"));
 const RiderLayout = lazy(() => import("@/layouts/RiderLayout"));
 const RiderHomePage = lazy(() => import("@/pages/rider/RiderHomePage"));
 const RiderDeliveryPage = lazy(() => import("@/pages/rider/RiderDeliveryPage"));
@@ -63,6 +67,7 @@ const AdminRiderMapPage = lazy(() => import("@/pages/admin/AdminRiderMapPage"));
 const AdminRiderDetailPage = lazy(() => import("@/pages/admin/AdminRiderDetailPage"));
 const NotificationsPage = lazy(() => import("@/pages/NotificationsPage"));
 const NotificationSettingsPage = lazy(() => import("@/pages/NotificationSettingsPage"));
+const ProfilePage = lazy(() => import("@/pages/ProfilePage"));
 
 // The map of the app: which page shows for which address.
 // Every page inside "children" is drawn inside RootLayout (navbar + footer).
@@ -168,6 +173,22 @@ const router = createBrowserRouter([
             ),
           },
           {
+            // Setting up restaurants: open to owners still waiting for approval, because
+            // registering their first restaurant is how they get approved [AC-REST-01]
+            path: "owner/restaurants",
+            element: (
+              <RequireRole allowedRoles={["RESTAURANT_OWNER"]} allowPending>
+                <OwnerLayout />
+              </RequireRole>
+            ),
+            children: [
+              { index: true, element: <OwnerRestaurantsPage /> },
+              { path: "new", element: <NewRestaurantPage /> },
+              { path: ":restaurantId", element: <RestaurantSettingsPage /> },
+              { path: ":restaurantId/menu", element: <MenuBuilderPage /> },
+            ],
+          },
+          {
             path: "owner",
             element: (
               <RequireRole allowedRoles={["RESTAURANT_OWNER"]}>
@@ -256,6 +277,17 @@ const router = createBrowserRouter([
                 allowPending
               >
                 <NotificationsPage />
+              </RequireRole>
+            ),
+          },
+          {
+            // My profile: name, photo, phone, email, password [AC-CUST-01, AC-CUST-02, AC-AUTH-20]
+            path: "account",
+            element: (
+              <RequireRole
+                allowedRoles={["CUSTOMER", "RESTAURANT_OWNER", "RIDER", "ADMIN", "SUPER_ADMIN"]}
+              >
+                <ProfilePage />
               </RequireRole>
             ),
           },

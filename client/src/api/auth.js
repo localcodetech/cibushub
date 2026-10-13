@@ -77,3 +77,20 @@ export const addPhoneRequest = async (phone) => {
   const result = await api.post("/auth/phone", { phone });
   return result.data;
 };
+
+// The current password proves it's really me. This device stays logged in (new cookies);
+// every other device is logged out [AC-AUTH-20].
+export const changePasswordRequest = async (currentPassword, newPassword) => {
+  const result = await api.post("/auth/change-password", { currentPassword, newPassword });
+  return result.data;
+};
+
+// Delete my account and personal data [AC-CUST-11]. confirmText must be "DELETE";
+// password is left out only by a Google / Apple account that never set one.
+// The server logs this browser out (clears the cookies).
+export const deleteAccountRequest = async (password, confirmText) => {
+  const body = { confirmText };
+  if (password) body.password = password;
+  const result = await api.post("/auth/delete-account", body);
+  return result.data;
+};

@@ -1,4 +1,4 @@
-import { Bell, LayoutDashboard, MapPin, ShoppingBag } from "lucide-react";
+import { Bell, LayoutDashboard, MapPin, ShoppingBag, UserRound } from "lucide-react";
 import { homePathFor } from "@/utils/roleHome";
 
 // Links shown to guests (people who are not logged in).
@@ -9,9 +9,12 @@ export const guestLinks = [
 ];
 
 // The account menu of a logged-in user (desktop drop-down and phone menu): their dashboard,
-// a customer's orders and addresses, and notification settings. "Log out" is added by the menus.
+// their profile, a customer's orders and addresses, and notification settings. "Log out" is added by the menus.
 export const accountLinksFor = (role) => {
-  const links = [{ label: "My dashboard", to: homePathFor(role), icon: LayoutDashboard }];
+  const links = [
+    { label: "My dashboard", to: homePathFor(role), icon: LayoutDashboard },
+    { label: "My profile", to: "/account", icon: UserRound },
+  ];
   if (role === "CUSTOMER") {
     links.push({ label: "My orders", to: "/customer/orders", icon: ShoppingBag });
     links.push({ label: "My addresses", to: "/customer/addresses", icon: MapPin });

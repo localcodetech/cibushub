@@ -19,7 +19,8 @@ export const buildReceipt = async (orderId) => {
     customerId: order.customerId,
     placedAt: order.createdAt,
     paymentStatus: order.paymentStatus, // PAID, REFUNDED or PARTIALLY_REFUNDED
-    customerName: customer.fullName,
+    // A deleted account is no longer found: its receipts still work
+    customerName: customer ? customer.fullName : "Deleted user",
     // The address and phone as they were when the order was placed (the order's own copy)
     contactPhone: order.contactPhone,
     deliveryArea: order.deliveryArea,

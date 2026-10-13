@@ -5,6 +5,12 @@ export const envSchema = zod.object({
   NODE_ENV: zod.enum(["development", "test", "production"]),
   CLIENT_URL: zod.url(),
   TRUST_PROXY: zod.coerce.number().int().min(0).default(0),
+  // "true" only on demo.cibushubgh.com: demo data may be seeded there although it runs in
+  // production mode. Never set it on the real site.
+  DEMO_SITE: zod
+    .enum(["true", "false"])
+    .default("false")
+    .transform((value) => value === "true"),
 
   DB_HOST: zod.string().min(1),
   DB_PORT: zod.coerce.number().int().positive().default(3306),

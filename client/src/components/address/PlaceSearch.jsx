@@ -10,7 +10,8 @@ const MIN_LETTERS = 3;
 // "Search a place" above the map: KNUST, Kejetia, Asafo market... [AC-MAP-02].
 // Picking a result moves the pin there; the customer then drags it to their exact door.
 // onPick: called with { name, area, displayName, latitude, longitude }
-const PlaceSearch = ({ onPick }) => {
+// mapsBase: "/customer/maps" (default) or "/owner/maps" when an owner places their restaurant
+const PlaceSearch = ({ onPick, mapsBase }) => {
   const [text, setText] = useState("");
   const searchText = useDebouncedValue(text.trim(), SEARCH_DELAY_MS);
 
@@ -20,7 +21,7 @@ const PlaceSearch = ({ onPick }) => {
     isFetching,
   } = useQuery({
     queryKey: ["places", searchText],
-    queryFn: () => searchPlacesRequest(searchText),
+    queryFn: () => searchPlacesRequest(searchText, mapsBase),
     // Only search once there are enough letters
     enabled: searchText.length >= MIN_LETTERS,
     // A place doesn't move: keep the answer for an hour

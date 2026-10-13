@@ -32,16 +32,19 @@ export const makeDefaultAddressRequest = async (addressId) => {
   return result.data;
 };
 
+// The maps endpoints exist for customers and for restaurant owners (placing their restaurant);
+// mapsBase says which: "/customer/maps" (default) or "/owner/maps"
+
 // Map pin -> { area, displayName }. area is null if the map service is down [AC-MAP-02, AC-MAP-06]
-export const getPlaceForPinRequest = async (latitude, longitude) => {
+export const getPlaceForPinRequest = async (latitude, longitude, mapsBase = "/customer/maps") => {
   const query = new URLSearchParams({ latitude: String(latitude), longitude: String(longitude) });
-  const result = await api.get("/customer/maps/reverse?" + query.toString());
+  const result = await api.get(mapsBase + "/reverse?" + query.toString());
   return result.data;
 };
 
 // Typed place -> up to 5 of { name, area, displayName, latitude, longitude }
-export const searchPlacesRequest = async (text) => {
+export const searchPlacesRequest = async (text, mapsBase = "/customer/maps") => {
   const query = new URLSearchParams({ q: text });
-  const result = await api.get("/customer/maps/search?" + query.toString());
+  const result = await api.get(mapsBase + "/search?" + query.toString());
   return result.data;
 };

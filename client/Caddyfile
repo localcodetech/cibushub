@@ -1,0 +1,78 @@
+# The web server in production (the "web" container in compose.prod.yaml).
+# Caddy gets and renews the HTTPS certificates by itself, and sends http:// to https://
+# [AC-SEC-10]. The addresses come from .env.production.
+#
+#   cibushubgh.com        the real site       -> api container
+#   www. and app.         redirect to the real site
+#   api.cibushubgh.com    the real API's own address (live webhooks) -> api container
+#   demo.cibushubgh.com   the demo site (its own data) -> demo-api container
+#
+# Both sites serve the same built app from /srv. The app calls /api and /socket.io on its own
+# address, exactly like the Vite proxy in development: no CORS, and the login cookies just work.
+
+{
+	# Let's Encrypt writes here if a certificate is about to expire and can't renew
+	email {$ACME_EMAIL}
+}
+
+# One site: the built app, with /api and /socket.io forwarded to the given api container
+(site) {
+	encode zstd gzip
+
+	handle /api/* {
+		reverse_proxy {args[0]}:5000
+	}
+	handle /socket.io/* {
+		reverse_proxy {args[0]}:5000
+	}
+
+	# Built files with a fingerprint in their name never change: browsers keep them a year
+	handle /assets/* {
+		root * /srv
+		header Cache-Control "public, max-age=31536000, immutable"
+		file_server
+	}
+
+	# Everything else: the app. Browsers check for a newer version every time (no-cache), and
+	# an address that isn't a file (e.g. /customer/orders) gets index.html, so React Router
+	# shows the right page.
+	handle {
+		root * /srv
+		header Cache-Control "no-cache"
+		try_files {path} /index.html
+		file_server
+	}
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+}
+
+# ─────────────────────────────────────────────
+# The real site
+# ─────────────────────────────────────────────
+{$APP_DOMAIN} {
+	import site api
+}
+
+# www. and the old app. address (registered with Google and Apple first) go to the real site
+www.{$APP_DOMAIN}, app.{$APP_DOMAIN} {
+	redir https://{$APP_DOMAIN}{uri} permanent
+}
+
+# ─────────────────────────────────────────────
+# The real API's own address (Paystack live and Resend webhooks call it)
+# ─────────────────────────────────────────────
+{$API_DOMAIN} {
+	reverse_proxy api:5000
+}
+
+# ─────────────────────────────────────────────
+# The demo site: same app, its own database and Redis (demo-api)
+# ─────────────────────────────────────────────
+{$DEMO_DOMAIN} {
+	import site demo-api
+}

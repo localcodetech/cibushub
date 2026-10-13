@@ -16,6 +16,7 @@ import { loginSchema } from "../validators/auth/session/login.validator.js";
 import { forgotPasswordSchema } from "../validators/auth/password/forgotPassword.validator.js";
 import { resetPasswordSchema } from "../validators/auth/password/resetPassword.validator.js";
 import { changePasswordSchema } from "../validators/auth/password/changePassword.validator.js";
+import { deleteAccountSchema } from "../validators/profile/deleteAccount.validator.js";
 import { socialSignInSchema } from "../validators/auth/social/socialSignIn.validator.js";
 import { addPhoneSchema } from "../validators/auth/registration/addPhone.validator.js";
 import { verifyEmailSchema } from "../validators/auth/registration/verifyEmail.validator.js";
@@ -31,6 +32,7 @@ import { getMe } from "../controllers/auth/session/me.controller.js";
 import { forgotPassword } from "../controllers/auth/password/forgotPassword.controller.js";
 import { resetPassword } from "../controllers/auth/password/resetPassword.controller.js";
 import { changePassword } from "../controllers/auth/password/changePassword.controller.js";
+import { deleteAccount } from "../controllers/profile/deleteAccount.controller.js";
 import { socialSignIn } from "../controllers/auth/social/socialSignIn.controller.js";
 import { addPhone } from "../controllers/auth/registration/addPhone.controller.js";
 import {
@@ -105,5 +107,10 @@ router.post("/reset-password", validate(resetPasswordSchema), otpLimiter, resetP
 // Change password while logged in (keeps this device logged in)
 // ─────────────────────────────────────────────
 router.post("/change-password", authenticate, validate(changePasswordSchema), changePassword);
+
+// ─────────────────────────────────────────────
+// Delete my account and personal data (any status, e.g. still waiting for approval) [AC-CUST-11]
+// ─────────────────────────────────────────────
+router.post("/delete-account", authenticate, validate(deleteAccountSchema), deleteAccount);
 
 export default router;
