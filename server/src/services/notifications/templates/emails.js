@@ -102,6 +102,38 @@ export const emailChangedEmail = ({ newEmail }) =>
     ],
   });
 
+// Welcome, once the phone is verified: what to do next depends on the role
+//   firstName: e.g. "Ama"   role: CUSTOMER | RESTAURANT_OWNER | RIDER
+const WELCOME_NEXT = {
+  CUSTOMER: {
+    text: "Your account is ready. Find hot waakye, jollof and chop bar favourites from kitchens across Kumasi, delivered to your door.",
+    button: ["Find food", "/restaurants"],
+  },
+  RESTAURANT_OWNER: {
+    text: "Next, register your restaurant: your details, location, opening hours and documents. Our team reviews it, usually within 1 to 2 working days.",
+    button: ["Register your restaurant", "/owner/restaurants"],
+  },
+  RIDER: {
+    text: "Next, finish your rider application: your vehicle and documents. Our team reviews it, then you can go online and start earning.",
+    button: ["Finish your application", "/rider"],
+  },
+};
+
+export const welcomeEmail = ({ firstName, role }) => {
+  const next = WELCOME_NEXT[role] || WELCOME_NEXT.CUSTOMER;
+  return renderEmail({
+    subject: "Welcome to CibusHub",
+    preheader: "Your account is ready.",
+    heading: `Welcome, ${firstName}!`,
+    blocks: [
+      paragraph("Thank you for joining CibusHub."),
+      paragraph(next.text),
+      button(next.button[0], appLink(next.button[1])),
+      smallPrint("Questions? Just reply to this email."),
+    ],
+  });
+};
+
 // The last message we send to a deleted account [AC-CUST-11]
 export const accountDeletedEmail = () =>
   renderEmail({
