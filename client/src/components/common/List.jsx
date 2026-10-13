@@ -78,14 +78,18 @@ export const ListRow = ({
         </>
       ) : (
         isInteractive && (
-          <ChevronRight size={18} className="shrink-0 text-muted-foreground" aria-hidden="true" />
+          <ChevronRight
+            size={18}
+            className="shrink-0 text-muted-foreground transition-transform duration-200 group-hover:translate-x-1 group-hover:text-primary motion-reduce:group-hover:translate-x-0"
+            aria-hidden="true"
+          />
         )
       )}
     </>
   );
 
   const rowClass = cn(
-    "flex w-full items-center gap-3 px-4 py-3 text-left",
+    "group flex w-full items-center gap-3 px-4 py-3 text-left",
     isInteractive &&
       "transition-colors duration-100 hover:bg-primary/[0.04] active:bg-primary/[0.08] " +
         "focus-visible:bg-primary/[0.04] focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none focus-visible:ring-inset",

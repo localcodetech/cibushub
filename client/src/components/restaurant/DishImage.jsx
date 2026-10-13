@@ -8,16 +8,21 @@ const DishImage = ({ item, size = "md" }) => {
   const isSmall = size === "sm";
   if (item.imageUrl) {
     return (
-      <img
-        src={item.imageUrl}
-        alt={item.name}
-        // lazy: the phone only downloads the photo when it scrolls near the screen
-        loading="lazy"
+      // The frame clips the photo, so it can zoom gently when its row is hovered ("group")
+      <span
         className={cn(
-          "shrink-0 object-cover",
+          "block shrink-0 overflow-hidden",
           isSmall ? "size-14 rounded-lg" : "size-24 rounded-xl",
         )}
-      />
+      >
+        <img
+          src={item.imageUrl}
+          alt={item.name}
+          // lazy: the phone only downloads the photo when it scrolls near the screen
+          loading="lazy"
+          className="size-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+        />
+      </span>
     );
   }
 

@@ -40,7 +40,7 @@ const Navbar = () => {
   return (
     // Forest Green in light mode. In dark mode the brand green is a light mint, too bright for a
     // whole bar, so the bar uses the dark surface and the logo carries the green
-    <header className="bg-primary text-primary-foreground dark:border-b dark:border-border dark:bg-card dark:text-foreground print:hidden">
+    <header className="brand-surface text-primary-foreground dark:border-b dark:border-border dark:text-foreground print:hidden">
       <Container>
         <div className="flex h-16 items-center justify-between">
           <Link
