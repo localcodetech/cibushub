@@ -6,12 +6,14 @@ import Container from "./Container";
 import { useAuthStore } from "@/store/authStore";
 
 // The owner's pages, each reached from this small menu
+// Restaurants first: on a narrow phone the menu scrolls sideways, and setting up a restaurant
+// is the first thing a new owner needs
 const OWNER_LINKS = [
+  { label: "Restaurants", to: "/owner/restaurants", end: false },
   { label: "Orders", to: "/owner", end: true },
   { label: "History", to: "/owner/history", end: false },
   { label: "Reviews", to: "/owner/reviews", end: false },
   { label: "Analytics", to: "/owner/analytics", end: false },
-  { label: "Restaurants", to: "/owner/restaurants", end: false },
 ];
 
 // The frame around every owner page: the owner menu on top, then the page.

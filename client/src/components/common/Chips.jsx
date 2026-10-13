@@ -31,7 +31,7 @@ export const Chip = ({ selected = false, onClick, count, children }) => {
       className={cn(
         // Fully round: the design guide keeps round pills for filters
         "flex min-h-10 shrink-0 items-center gap-1.5 rounded-full border px-4 text-[15px] font-bold whitespace-nowrap",
-        "transition-colors duration-100 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none",
+        "transition-[color,background-color,border-color,scale] duration-150 active:scale-95 motion-reduce:active:scale-100 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none",
         selected
           ? "border-primary bg-primary/10 text-primary"
           : "border-border bg-card text-foreground hover:border-primary/40",

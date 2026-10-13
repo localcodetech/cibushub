@@ -4,6 +4,7 @@ import { buildPageMeta, toLimitAndOffset } from "../../utils/pagination.js";
 import { signedDocumentUrl } from "../upload/cloudinary.service.js";
 import { forgetRider, getLatestLocation } from "./riderLocationStore.js";
 import { maskGhanaCard } from "../../utils/rider/maskGhanaCard.js";
+import { averageRating } from "../../utils/review/reviewRules.js";
 import { findActiveDeliveriesOfRiders } from "../../repositories/delivery.repository.js";
 import { updateUser } from "../../repositories/user.repository.js";
 import { saveAuditLog } from "../../repositories/auditLog.repository.js";
@@ -38,6 +39,8 @@ const toAdminView = (profile) => ({
   rejectionReason: profile.rejectionReason,
   submittedAt: profile.submittedAt,
   approvedAt: profile.approvedAt,
+  averageRating: averageRating(profile.ratingTotal, profile.ratingCount),
+  ratingCount: profile.ratingCount,
   rider: {
     id: profile.user.id,
     fullName: profile.user.fullName,

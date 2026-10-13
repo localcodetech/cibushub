@@ -8,7 +8,7 @@ const HeroSection = () => {
   // Forest Green in light mode; in dark mode the brand green is a light mint, too bright for
   // a whole block, so the hero uses the dark card surface instead
   return (
-    <section className="bg-primary text-primary-foreground dark:bg-card dark:text-foreground">
+    <section className="brand-surface text-primary-foreground dark:text-foreground">
       <Container>
         <div className="grid items-center gap-10 py-12 md:grid-cols-[1.2fr_1fr] md:py-16">
           <div>

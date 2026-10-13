@@ -80,7 +80,7 @@ Each step contains:
 | 11 | **Riders, Assignment and Delivery** | AC-RIDER-01 to 07, AC-ASSIGN-01 to 08, AC-DEL-01 to 08, AC-RT-04, 05, 06, 09, AC-MAP-01, 03, 05 … | 🟢 IN PROGRESS |
 | 12 | **Notifications** | AC-NOTIF-01 to 09, AC-PAY-15, AC-MON-04 | ✅ DONE |
 | 13 | **Reviews, Admin, Super Admin and Analytics** | AC-REV-01 to 08, AC-ADM-01 to 09, AC-SADM-01 to 04, AC-ANL-01 to 06, AC-JOB-02, 05 | ✅ DONE |
-| 13b | **Visual Design Pass** | AC-UX-01, 08, 09, 10, 12 | 🟢 IN PROGRESS |
+| 13b | **Visual Design Pass** | AC-UX-01, 08, 09, 10, 12 | ✅ DONE |
 | 13c | **Catch-up: Scheduled Orders, Promo Codes, Cash on Delivery** | AC-CHK-11, AC-CHK-12, AC-PAY-13 | ⏸️ AFTER LAUNCH |
 | 14 | **Hardening and Quality** | AC-TEST-01 to 05, 07, AC-SEC-06, 11, 13, AC-PERF-01, 02, 05, 07, AC-UX-08, 10, 11, AC-API-03, 04 … | ⚪ PLANNED |
 | 15 | **Production, Monitoring and Delivery** | AC-OPS-03 to 06, AC-TEST-06, AC-SEC-10, AC-DB-06, AC-MON-01, 03, 06 … | ⚪ PLANNED |

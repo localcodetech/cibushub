@@ -101,7 +101,7 @@ const ChangePasswordCard = () => {
           {/* Google / Apple accounts have no password yet: this is how they set one */}
           <Link
             to="/forgot-password"
-            className="font-bold text-primary underline-offset-4 hover:underline"
+            className="inline-flex min-h-11 items-center font-bold text-primary underline-offset-4 hover:underline"
           >
             Forgot your password?
           </Link>

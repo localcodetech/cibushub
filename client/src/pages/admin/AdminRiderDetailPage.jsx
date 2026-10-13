@@ -1,4 +1,6 @@
 import { useState } from "react";
+import SymbolBadge from "@/components/common/SymbolBadge";
+import { isTopRatedRider } from "@/utils/topRated";
 import { Link, useParams } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Eye, FileText, Mail, Phone } from "lucide-react";
@@ -93,6 +95,20 @@ const AdminRiderDetailPage = () => {
           }
           title={name}
           badge={<StatusBadge label={statusInfo.label} tone={statusInfo.tone} />}
+          meta={
+            profile.averageRating !== null ? (
+              <span className="inline-flex flex-wrap items-center gap-2">
+                {profile.averageRating} stars from {profile.ratingCount} rated deliveries
+                {isTopRatedRider(profile) && (
+                  <SymbolBadge
+                    symbol="dwennimmen"
+                    label="Top-rated rider"
+                    explain="Dwennimmen, the ram's horns, stands for humility and strength: 4.5 stars or more from customers"
+                  />
+                )}
+              </span>
+            ) : null
+          }
           actions={
             <Link
               to={"/admin/audit-log?targetId=" + profile.id}

@@ -165,7 +165,7 @@ const MenuItemRow = ({ item, canOrder, onAddClick }) => {
   const isAvailable = isItemAvailable(item);
 
   return (
-    <li className={isAvailable ? "flex gap-4 py-4" : "flex gap-4 py-4 opacity-50"}>
+    <li className={isAvailable ? "group flex gap-4 py-4" : "flex gap-4 py-4 opacity-50"}>
       <div className="min-w-0 flex-1">
         <Heading level={4}>{item.name}</Heading>
         {item.description && (

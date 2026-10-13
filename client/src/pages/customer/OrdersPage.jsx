@@ -14,6 +14,7 @@ import { formatDateTime } from "@/utils/date";
 import { onOrderUpdated } from "@/lib/liveUpdates";
 import { List, ListIcon, ListRow } from "@/components/common/List";
 import PageHeader from "@/components/common/PageHeader";
+import AdinkraSymbol from "@/components/common/AdinkraSymbol";
 
 // /customer/orders: my orders, newest first, 20 a page [AC-CUST-09]
 const OrdersPage = () => {
@@ -40,7 +41,18 @@ const OrdersPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-2xl py-8">
-        <PageHeader title="My orders" />
+        <PageHeader
+          title="My orders"
+          subtitle={
+            <span className="inline-flex items-start gap-2">
+              <AdinkraSymbol symbol="sankofa" size={20} className="mt-0.5 text-primary" />
+              <span>
+                Sankofa: &ldquo;go back and get it&rdquo;. Open a past order and tap Reorder to have
+                it again.
+              </span>
+            </span>
+          }
+        />
         <div className="mt-6">
           <OrderList
             data={data}

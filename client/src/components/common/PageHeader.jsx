@@ -45,6 +45,12 @@ const PageHeader = ({ title, back, leading, badge, meta, subtitle, actions, clas
             <Heading level={1}>{title}</Heading>
             {badge}
           </div>
+          {/* A short gold stroke under every page title: the brand's highlight colour, drawn in
+              from the left when the page opens (no movement for reduced-motion users) */}
+          <span
+            aria-hidden="true"
+            className="mt-2 block h-1 w-10 rounded-full bg-gold duration-500 animate-in slide-in-from-left-3 fade-in motion-reduce:animate-none"
+          />
           {meta && <p className="mt-1 text-[15px] text-muted-foreground">{meta}</p>}
           {subtitle && (
             <Text muted className="mt-1 max-w-prose">

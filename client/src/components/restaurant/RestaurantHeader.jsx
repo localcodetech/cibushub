@@ -1,4 +1,6 @@
 import { Clock, MapPin, ShoppingBag } from "lucide-react";
+import SymbolBadge from "@/components/common/SymbolBadge";
+import { isTopRatedRestaurant } from "@/utils/topRated";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import { formatMoney } from "@/utils/money";
@@ -60,6 +62,19 @@ const RestaurantHeader = ({ restaurant }) => {
           {restaurant.addressLine}, {restaurant.area}
         </span>
       </div>
+
+      {/* Adinkrahene, explained in plain words where it appears [design guide: Adinkra] */}
+      {isTopRatedRestaurant(restaurant) && (
+        <p className="mt-3 flex flex-wrap items-center gap-2 text-[15px] text-muted-foreground">
+          <SymbolBadge
+            symbol="adinkrahene"
+            label="Top rated"
+            explain="Adinkrahene, the chief of Adinkra symbols, marks greatness: 4.5 stars or more"
+          />
+          Adinkrahene, the chief of Adinkra symbols, marks kitchens customers rate 4.5 stars or
+          more.
+        </p>
+      )}
 
       {/* Closed restaurants still show their menu, but customers know they can't order yet */}
       {!isOpen && (

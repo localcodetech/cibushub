@@ -1,6 +1,7 @@
 import AppError from "../../utils/AppError.js";
 import logger from "../../config/logger.js";
 import { distanceInMetres } from "../../utils/distance.js";
+import { averageRating } from "../../utils/review/reviewRules.js";
 import { RiderLocation } from "../../models/index.js";
 import {
   findOnlineRiderProfiles,
@@ -54,6 +55,9 @@ const toStatusView = (profile, lastSeenMs) => ({
   isOnline: profile ? profile.isOnline : false,
   wentOnlineAt: profile ? profile.wentOnlineAt : null,
   lastLocationAt: lastSeenMs ? new Date(lastSeenMs) : null,
+  // Customers' stars for this rider's deliveries (the top-rated badge uses them)
+  averageRating: profile ? averageRating(profile.ratingTotal, profile.ratingCount) : null,
+  ratingCount: profile ? profile.ratingCount : 0,
 });
 
 export const getMyRiderStatus = async (userId) => {

@@ -93,6 +93,20 @@ Each symbol has **one job** that matches its meaning. They are never decoration.
 | **Nyame Dua** | Divine protection, sacredness | **Payment confirmed** screen only, if at all | Sacred symbol; use with restraint |
 | **Gye Nyame** | Supremacy of God | **About page / brand story only** | Deeply religious; not used in functional UI (no buttons, badges, menus or food screens) |
 
+### What CibusHub uses (13 Oct 2026)
+
+| Symbol | Where it is | Artwork |
+|---|---|---|
+| **Sankofa** (bird form) | My orders (explained once in the page's subtitle) and the **Reorder** button on an order | "Sankofa bird symbol.svg" by LunaEclipse, Wikimedia Commons, public domain |
+| **Adinkrahene** | **Top rated** badge on restaurant cards and the restaurant page (4.5 stars or more from at least 3 reviews), explained once on the restaurant page | "Adinkrahene.svg" by Pablo Busatto, Wikimedia Commons, public domain |
+| **Dwennimmen** | **Top-rated rider** badge on the rider's home and the admin's rider page (4.5 stars or more from at least 5 rated deliveries), explained on the rider's home | "Dwennimmen.svg" by Pablo Busatto, Wikimedia Commons, public domain |
+| **Nyame Dua** | Not used: no accurate, licensed drawing was found, and the guide allows leaving it out | |
+| **Gye Nyame** | Not used: there is no About page | |
+
+Code: `client/src/data/adinkra.js` (the drawings), `client/src/components/common/AdinkraSymbol.jsx` (one colour, icon size, screen-reader label) and `SymbolBadge.jsx` (the gold badge). The rules are in `client/src/utils/topRated.js`.
+
+Still to do (rule 5): show the three symbols to a few customers, owners and riders, and note how they feel about them.
+
 ### Rules
 
 1. **Accurate artwork only.** Use SVGs from a source whose licence allows your use, or redraw carefully against several references. Proportions matter.
@@ -170,7 +184,7 @@ Do not use one radius for everything:
 
 - Don't keep the default grey theme or the default radius.
 - Don't wrap every piece of content in a Card. Menus are lists; settings are rows.
-- Don't add soft shadows to everything. Use borders and spacing; shadows only for floating layers (sheets, dropdowns).
+- Don't add soft shadows to everything. Use borders and spacing; shadows for floating layers (sheets, dropdowns), and the soft hover shadow on clickable cards and buttons (section 6).
 - Don't mix icon libraries.
 - Don't remove focus styles to make buttons "cleaner".
 
@@ -195,15 +209,33 @@ Animation shows **what changed because the user did something**. It is never dec
 | Order status advancing | The current timeline step fills in; the one memorable moment | ~400ms |
 | Toasts | Slide in and fade | ~200ms |
 | Expanding and collapsing sections | Height and opacity | ~200ms |
-| Button press | Very slight scale (to about 0.98) | ~100ms |
+| Button press | Slight scale (to about 0.96) | ~150ms |
+
+### Lively touches (decided 13 Oct 2026)
+
+The owner asked for a livelier, less plain app. These are allowed on top of the table above:
+
+| Where | Effect | How |
+|---|---|---|
+| Every page | Soft green and gold light behind the content (fixed, never a pattern) | `body` background in `index.css` |
+| Navbar and home hero | Deep Forest Green gradient with a warm gold glow | `.brand-surface` in `index.css` |
+| Page titles | A short gold stroke under the title, drawn in from the left | `PageHeader` |
+| Page changes | The new page fades and rises 8px | `RootLayout` (Motion), ~250ms |
+| Clickable cards | Lift 4px with a soft green shadow on hover; press in on tap | `Card` with `interactive`, ~200ms |
+| Restaurant and dish photos | Zoom to 105% while their card or row is hovered (clipped by the frame) | `group-hover` in `RestaurantCard` and `DishImage`, ~500ms |
+| Buttons | Lift 1px with a green glow on hover; press to 0.96 on tap | `components/ui/button.jsx` |
+| Chips | Press to 0.95 on tap | `Chips` |
+| List rows | The arrow slides right and turns green on hover | `ListRow` |
+
+Tailwind v4 moves things with the separate `translate` and `scale` properties, so a
+`transition-[...]` list must name `translate` and `scale` (not `transform`), or the movement
+jumps instead of gliding.
 
 ### Don't use motion for
 
 - Sections fading or sliding up as the page scrolls
-- Hover animations on every card
 - Looping or decorative animation (bouncing icons, pulsing backgrounds, floating shapes)
-- Page transitions on every route change
-- Animated Adinkra symbols
+- Animated Adinkra symbols, or Adinkra symbols as backgrounds or patterns
 
 ### Rules
 
@@ -265,21 +297,22 @@ to the component (once) instead of styling one page.
 
 ## 8. Implementation Checklist (Step 6)
 
-- [ ] Fonts load (Schibsted Grotesk 600–800, Atkinson Hyperlegible 400 and 700) with `display=swap`
-- [ ] shadcn/ui initialised, and every theme variable mapped to the palette
-- [ ] Custom tokens added for success and gold
-- [ ] Radius values set by hierarchy, not one global value
-- [ ] Focus rings are Forest Green and visible on every interactive element
-- [ ] All colour pairs used in the UI checked in a contrast checker
-- [ ] Gold never used as text on cream or under white text
-- [ ] Lucide is the only icon library
-- [ ] Motion installed from the `motion` package, with reduced motion respected globally
-- [ ] No scroll-reveal or decorative animations
-- [ ] Adinkra symbol artwork sourced accurately with a suitable licence
-- [ ] Each Adinkra symbol used only in its assigned place, with an accessible label
-- [ ] Gye Nyame appears only in the brand story, if at all
-- [ ] Screens checked on a 360px-wide viewport (AC-UX-01)
+Checked on 13 Oct 2026.
 
+- [x] Fonts load (Schibsted Grotesk 600–800, Atkinson Hyperlegible 400 and 700) with `display=swap` (self-hosted with Fontsource, in `index.css`)
+- [x] shadcn/ui initialised, and every theme variable mapped to the palette
+- [x] Custom tokens added for success and gold
+- [x] Radius values set by hierarchy, not one global value (`--radius-sm` 8px to `--radius-2xl` 20px)
+- [x] Focus rings are Forest Green and visible on every interactive element
+- [x] All colour pairs used in the UI checked in a contrast checker: 18 pairs in light and 18 in dark, all pass (lowest: terracotta button text 4.67:1; muted text on cards 5.10:1)
+- [x] Gold never used as text on cream or under white text (gold appears as fills: badges, stars)
+- [x] Lucide is the only icon library (plus the three Adinkra drawings, which are not icons)
+- [x] Motion installed from the `motion` package, with reduced motion respected globally (`MotionConfig reducedMotion="user"`)
+- [x] No scroll-reveal or looping animations (the lively touches in section 6 are allowed, and all of them respect reduced motion)
+- [x] Adinkra symbol artwork sourced accurately with a suitable licence (public domain, see section 4)
+- [x] Each Adinkra symbol used only in its assigned place, with an accessible label
+- [x] Gye Nyame appears only in the brand story, if at all (not used: there is no About page)
+- [x] Screens checked on a 360px-wide viewport (AC-UX-01), including the owner setup, menu builder and profile screens added after Step 13b
 ---
 
 *CibusHub Design Guide — companion to the Build Plan and Acceptance Criteria v1.0*

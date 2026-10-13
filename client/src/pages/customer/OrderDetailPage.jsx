@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { MapPin, Phone, ReceiptText, RotateCcw } from "lucide-react";
+import { MapPin, Phone, ReceiptText } from "lucide-react";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Card from "@/components/common/Card";
+import AdinkraSymbol from "@/components/common/AdinkraSymbol";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
 import ErrorState from "@/components/common/ErrorState";
@@ -347,7 +348,8 @@ const OrderDetailPage = () => {
                 disabled={isReordering}
                 className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-primary font-bold text-primary-foreground disabled:opacity-60"
               >
-                <RotateCcw size={18} aria-hidden="true" />
+                {/* Sankofa: "go back and get it" (explained on My orders) */}
+                <AdinkraSymbol symbol="sankofa" size={18} />
                 {isReordering ? "Checking the menu…" : "Reorder"}
               </button>
             )}

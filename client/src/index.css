@@ -192,6 +192,56 @@
   }
 }
 
+/* ─────────────────────────────────────────────
+   Lively surfaces (13 Oct 2026, docs/frontendDesign.md section 6)
+   Soft colour light, never patterns: Adinkra symbols are never used as backgrounds.
+   ───────────────────────────────────────────── */
+
+/* The page: a faint green glow top left, warm gold top right, green again at the bottom.
+   Fixed, so it stays put while the content scrolls. */
+body {
+  background-image:
+    radial-gradient(
+      60rem 30rem at -10% -10%,
+      color-mix(in oklab, var(--primary) 10%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      50rem 28rem at 110% 0%,
+      color-mix(in oklab, var(--gold) 16%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      45rem 30rem at 50% 115%,
+      color-mix(in oklab, var(--primary) 7%, transparent),
+      transparent 70%
+    );
+  background-attachment: fixed;
+}
+
+/* The brand band (navbar, home hero): deep Forest Green with a warm gold light */
+.brand-surface {
+  background-color: #123c2a;
+  background-image:
+    radial-gradient(
+      40rem 18rem at 85% -30%,
+      color-mix(in oklab, #c89b3c 38%, transparent),
+      transparent 70%
+    ),
+    linear-gradient(135deg, #123c2a 0%, #0c2c1e 55%, #17503a 100%);
+}
+
+.dark .brand-surface {
+  background-color: #17221b;
+  background-image:
+    radial-gradient(
+      40rem 18rem at 85% -30%,
+      color-mix(in oklab, #6cc497 18%, transparent),
+      transparent 70%
+    ),
+    linear-gradient(135deg, #17221b 0%, #0f1712 60%, #1a2a20 100%);
+}
+
 /* Printing and "Save as PDF" (the receipt page) [AC-PAY-17] */
 @media print {
   /* A4 paper with even margins */
@@ -204,6 +254,7 @@
   html,
   body {
     background: #ffffff !important;
+    background-image: none !important;
   }
 
   /* Browsers drop background colours when printing unless told not to:

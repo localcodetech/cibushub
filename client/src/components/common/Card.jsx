@@ -16,8 +16,8 @@ import { cn } from "@/lib/utils";
 //   danger     red tint: a warning about this thing (e.g. "Suspended")
 //   quiet      page-coloured: secondary details next to a default card, so cream doesn't
 //              stack on cream
-// interactive: the card is a link or button. It changes colour on hover, presses in slightly
-//              when tapped (none for reduced-motion users) and shows the focus ring.
+// interactive: the card is a link or button. It lifts with a soft shadow on hover, presses in
+//              when tapped (colour only for reduced-motion users) and shows the focus ring.
 // padding:     none | sm (12px) | md (16px, default) | lg (20px, 24px on wider screens)
 // as:          the element or component to draw ("div" by default)
 // ...props:    passed on (e.g. to, onClick, aria-label)
@@ -35,9 +35,13 @@ const PADDING = {
   lg: "p-5 sm:p-6",
 };
 
+// Hover: the card lifts a little with a soft green shadow; tap: it presses in.
+// "group" lets what's inside react too (e.g. the photo zooms). Reduced motion: colour only.
 const INTERACTIVE =
-  "cursor-pointer transition-[background-color,border-color,transform] duration-100 " +
-  "hover:border-primary/40 hover:bg-primary/[0.04] active:scale-[0.98] motion-reduce:active:scale-100 " +
+  "group cursor-pointer transition-[background-color,border-color,translate,scale,box-shadow] duration-200 ease-out " +
+  "hover:-translate-y-1 hover:border-primary/40 hover:bg-primary/[0.03] hover:shadow-lg hover:shadow-primary/10 " +
+  "active:translate-y-0 active:scale-[0.98] active:shadow-sm " +
+  "motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100 " +
   "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none";
 
 const Card = ({

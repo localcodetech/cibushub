@@ -7,6 +7,8 @@ import RatingBadge from "@/components/review/RatingBadge";
 import Card from "@/components/common/Card";
 import CoverPlaceholder from "./CoverPlaceholder";
 import StatusBadge from "@/components/common/StatusBadge";
+import SymbolBadge from "@/components/common/SymbolBadge";
+import { isTopRatedRestaurant } from "@/utils/topRated";
 
 // One restaurant in the listing. The whole card is a link to its menu [AC-DISC-01].
 // restaurant: one item from GET /restaurants
@@ -52,6 +54,13 @@ const RestaurantCard = ({ restaurant }) => {
             averageRating={restaurant.averageRating}
             reviewCount={restaurant.reviewCount}
           />
+          {isTopRatedRestaurant(restaurant) && (
+            <SymbolBadge
+              symbol="adinkrahene"
+              label="Top rated"
+              explain="Adinkrahene, the chief of Adinkra symbols, marks greatness: 4.5 stars or more"
+            />
+          )}
           <span className="inline-flex items-center gap-1">
             <Clock size={14} aria-hidden="true" />
             {restaurant.prepTimeMinutes} min
@@ -80,8 +89,10 @@ const CoverImage = ({ url, name, isOpen }) => {
       // lazy: the phone only downloads the photo when it scrolls near the screen
       loading="lazy"
       // Closed restaurants look faded so open ones stand out
+      // The card is a "group": hovering it zooms the photo gently (the card clips the edges)
       className={
-        isOpen ? "aspect-video w-full object-cover" : "aspect-video w-full object-cover opacity-60"
+        "aspect-video w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100" +
+        (isOpen ? "" : " opacity-60")
       }
     />
   );

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import SymbolBadge from "@/components/common/SymbolBadge";
+import { isTopRatedRider } from "@/utils/topRated";
 import { Link, useOutletContext } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
@@ -134,7 +136,25 @@ const RiderHomePage = () => {
   return (
     <Container>
       <section className="flex flex-col gap-4 py-8">
-        <PageHeader title={<>Hello, {user.fullName.split(" ")[0]}</>} />
+        <PageHeader
+          title={<>Hello, {user.fullName.split(" ")[0]}</>}
+          badge={
+            status && isTopRatedRider(status) ? (
+              <SymbolBadge
+                symbol="dwennimmen"
+                label="Top-rated rider"
+                explain="Dwennimmen, the ram's horns, stands for humility and strength: 4.5 stars or more from customers"
+              />
+            ) : null
+          }
+          subtitle={
+            status && isTopRatedRider(status)
+              ? "Dwennimmen, the ram's horns, honours humility and strength: customers rate your deliveries " +
+                status.averageRating +
+                " stars."
+              : null
+          }
+        />
 
         <OnlineSwitch
           isOnline={isOnline}
