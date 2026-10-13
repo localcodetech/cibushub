@@ -97,6 +97,15 @@ const createSocialUser = async (provider, identity, details) => {
   }
 };
 
+// Their Google picture becomes their CibusHub photo, and is refreshed at every Google sign-in,
+// unless they uploaded their own photo (that one has a Cloudinary ID and always wins)
+const pictureChange = (user, identity) => {
+  if (!identity.pictureUrl || user.avatarPublicId || user.avatarUrl === identity.pictureUrl) {
+    return {};
+  }
+  return { avatarUrl: identity.pictureUrl };
+};
+
 // Sign in (or sign up) with Google or Apple.
 // details = { provider, idToken, fullName?, role?, acceptTerms? }
 export const socialSignIn = async (details, device) => {
@@ -145,7 +154,7 @@ export const socialSignIn = async (details, device) => {
 
   // Same session as a password login: the same cookies, refresh and logout work
   const tokens = await createSession(user, device);
-  await updateUser(user, { lastLoginAt: new Date() });
+  await updateUser(user, { lastLoginAt: new Date(), ...pictureChange(user, identity) });
 
   return {
     user: await findUserById(user.id),

@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 // written next to it, so screen readers skip it.
 //   <Avatar name="Kofi Adjei" />   -> "KA"
 //   size: md (40px, list rows) | lg (56px, detail pages) | xl (96px, the profile page)
-//   src:  their photo, if they uploaded one (initials otherwise)
+//   src:  their photo: one they uploaded, else their Google picture (initials otherwise)
 
 // "Kofi Adjei" -> "KA", "Yaa Asantewaa Boateng" -> "YB", "Esi" -> "E"
 const initialsOf = (name = "") => {
@@ -23,6 +23,8 @@ const Avatar = ({ name, src, size = "md", className }) => {
       <img
         src={src}
         alt=""
+        // Google profile pictures can refuse to load when told which site asked
+        referrerPolicy="no-referrer"
         className={cn("shrink-0 rounded-full object-cover", SIZES[size], className)}
       />
     );
