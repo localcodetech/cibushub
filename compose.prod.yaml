@@ -1,0 +1,149 @@
+# Production on the VPS (see docs/deployment.md): the real site and the demo site.
+# Run everything through deploy/deploy.sh, or by hand:
+#   docker compose -f compose.prod.yaml --env-file .env.production up -d --build
+#
+# Only the web container (Caddy) is reachable from the internet, on ports 80 and 443.
+# MySQL and Redis are never published.
+#
+# The demo shares the MySQL and Redis containers but never the data: its own database
+# (cibushub_demo) and its own Redis database (number 1), so jobs and caches can't mix.
+
+# Its own name, so it can never take over the development containers or their data
+name: cibushub-prod
+
+# The api, worker and migrate containers run the same server image with different commands
+x-server: &server
+  build:
+    context: ./server
+    target: prod
+  image: cibushub-server
+  env_file:
+    - ./server/.env.production
+  restart: unless-stopped
+  init: true
+  # Time to finish requests and jobs in progress before being stopped [AC-OPS-08]
+  stop_grace_period: 30s
+  depends_on:
+    mysql:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+
+# The same, with the demo's settings
+x-demo-server: &demo-server
+  <<: *server
+  env_file:
+    - ./server/.env.demo
+
+x-api-healthcheck: &api-healthcheck
+  test:
+    [
+      "CMD",
+      "node",
+      "-e",
+      "fetch('http://127.0.0.1:5000/api/health').then((r) => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))",
+    ]
+  interval: 30s
+  timeout: 5s
+  retries: 3
+  start_period: 20s
+
+services:
+  # ─────────────────────────────────────────────
+  # Caddy: HTTPS, the built app, and /api + /socket.io forwarded to the right api
+  # ─────────────────────────────────────────────
+  web:
+    build:
+      context: ./client
+      target: web
+      # Public values baked into the app's files (from .env.production)
+      args:
+        VITE_GOOGLE_CLIENT_ID: ${VITE_GOOGLE_CLIENT_ID:-}
+        VITE_APPLE_SERVICE_ID: ${VITE_APPLE_SERVICE_ID:-}
+    image: cibushub-web
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      APP_DOMAIN: ${APP_DOMAIN:?Set APP_DOMAIN in .env.production}
+      API_DOMAIN: ${API_DOMAIN:?Set API_DOMAIN in .env.production}
+      DEMO_DOMAIN: ${DEMO_DOMAIN:?Set DEMO_DOMAIN in .env.production}
+      ACME_EMAIL: ${ACME_EMAIL:?Set ACME_EMAIL in .env.production}
+    volumes:
+      # The HTTPS certificates: kept, so a restart doesn't ask Let's Encrypt again
+      - caddy_data:/data
+      - caddy_config:/config
+
+  # ─────────────────────────────────────────────
+  # The real site: API (HTTP routes and Socket.IO), background jobs, migrations
+  # ─────────────────────────────────────────────
+  api:
+    <<: *server
+    healthcheck: *api-healthcheck
+
+  worker:
+    <<: *server
+    command: ["node", "src/worker.js"]
+
+  # Runs the new migrations once, then stops. Not started by "up": deploy/deploy.sh runs it
+  migrate:
+    <<: *server
+    command: ["npx", "sequelize-cli", "db:migrate"]
+    restart: "no"
+    profiles: ["tools"]
+
+  # ─────────────────────────────────────────────
+  # The demo site: the same three, with server/.env.demo
+  # ─────────────────────────────────────────────
+  demo-api:
+    <<: *demo-server
+    healthcheck: *api-healthcheck
+
+  demo-worker:
+    <<: *demo-server
+    command: ["node", "src/worker.js"]
+
+  demo-migrate:
+    <<: *demo-server
+    command: ["npx", "sequelize-cli", "db:migrate"]
+    restart: "no"
+    profiles: ["tools"]
+
+  # ─────────────────────────────────────────────
+  # Shared storage (each site has its own database inside)
+  # ─────────────────────────────────────────────
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    env_file:
+      - ./server/.env.production
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_0900_ai_ci
+    volumes:
+      - mysql_data:/var/lib/mysql
+      # On the very first start only: also creates the demo database (docker/mysql/prod-init)
+      - ./docker/mysql/prod-init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:8-alpine
+    restart: unless-stopped
+    command: redis-server --appendonly yes --appendfsync everysec --maxmemory-policy noeviction
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  mysql_data:
+  redis_data:
+  caddy_data:
+  caddy_config:

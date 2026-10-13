@@ -1,6 +1,7 @@
 "use strict";
 
 const { default: env } = require("../../config/env/env.js");
+const { verifiedDemoAccount } = require("./data/demoAccount.cjs");
 const { default: sequelize } = require("../../config/database.js");
 const { hashPassword } = require("../../utils/auth/password.js");
 const { User, RiderProfile } = require("../../models/index.js");
@@ -14,8 +15,8 @@ const demoEmails = riders.map((rider) => rider.user.email);
 module.exports = {
   async up() {
     // Demo accounts with a shared password must never reach real users
-    if (env.NODE_ENV === "production") {
-      console.log("Demo riders are never seeded in production, skipping.");
+    if (env.NODE_ENV === "production" && !env.DEMO_SITE) {
+      console.log("Demo riders are never seeded on the real site, skipping.");
       return;
     }
 
@@ -31,7 +32,7 @@ module.exports = {
     await sequelize.transaction(async (transaction) => {
       for (const rider of riders) {
         const user = await User.create(
-          { ...rider.user, role: "RIDER", passwordHash, phoneVerifiedAt: now },
+          { ...rider.user, role: "RIDER", passwordHash, ...verifiedDemoAccount(now) },
           { transaction },
         );
         const isApproved = rider.profile.status === "APPROVED";

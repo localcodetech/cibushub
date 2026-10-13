@@ -1,6 +1,7 @@
 .env
 .env.local
 .env.production
+.env.demo
 dist
 build
 *logs

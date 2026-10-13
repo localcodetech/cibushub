@@ -1,6 +1,7 @@
 "use strict";
 
 const { default: env } = require("../../config/env/env.js");
+const { verifiedDemoAccount } = require("./data/demoAccount.cjs");
 const { default: sequelize } = require("../../config/database.js");
 const { hashPassword } = require("../../utils/auth/password.js");
 const {
@@ -31,8 +32,8 @@ const withDisplayOrder = (optionGroups = []) => {
 module.exports = {
   async up() {
     // Demo accounts with a shared password must never reach real users
-    if (env.NODE_ENV === "production") {
-      console.log("Demo restaurants are never seeded in production, skipping.");
+    if (env.NODE_ENV === "production" && !env.DEMO_SITE) {
+      console.log("Demo restaurants are never seeded on the real site, skipping.");
       return;
     }
 
@@ -53,7 +54,7 @@ module.exports = {
       for (const user of users) {
         const { key, ...details } = user;
         const saved = await User.create(
-          { ...details, passwordHash, phoneVerifiedAt: now },
+          { ...details, passwordHash, ...verifiedDemoAccount(now) },
           { transaction },
         );
         userIdByKey[key] = saved.id;

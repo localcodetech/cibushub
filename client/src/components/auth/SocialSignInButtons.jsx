@@ -119,8 +119,9 @@ const SocialSignInButtons = ({ getSignupDetails }) => {
       window.AppleID.auth.init({
         clientId: APPLE_SERVICE_ID,
         scope: "name email",
-        // The page Apple returns to; it must be listed in the Apple console
-        redirectURI: import.meta.env.VITE_APPLE_REDIRECT_URI || window.location.origin,
+        // The page Apple returns to; it must be listed in the Apple console. Built from the
+        // site's own address, so one build works on cibushubgh.com, demo. and dev.
+        redirectURI: window.location.origin + "/login",
         usePopup: true,
       });
       const response = await window.AppleID.auth.signIn();
