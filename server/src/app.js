@@ -185,6 +185,12 @@ app.use("/api/v1/owner/restaurants", ownerRestaurantRoutes);
 app.use("/api/v1/owner/restaurants/:restaurantId/menu", ownerMenuRoutes);
 
 // ─────────────────────────────────────────────
+// Owner: the same place search and pin lookup customers use, for placing the restaurant's pin
+// (open to owners still waiting for approval: they set up their first restaurant)
+// ─────────────────────────────────────────────
+app.use("/api/v1/owner/maps", customerMapsRoutes);
+
+// ─────────────────────────────────────────────
 // Owner's orders: board, accept or reject, preparing, ready, history, daily summary
 // ─────────────────────────────────────────────
 app.use("/api/v1/owner/orders", ownerOrderRoutes);

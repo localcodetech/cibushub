@@ -40,6 +40,8 @@ const OwnerDashboardPage = lazy(() => import("@/pages/owner/OwnerDashboardPage")
 const OwnerHistoryPage = lazy(() => import("@/pages/owner/OwnerHistoryPage"));
 const OwnerReviewsPage = lazy(() => import("@/pages/owner/OwnerReviewsPage"));
 const OwnerAnalyticsPage = lazy(() => import("@/pages/owner/OwnerAnalyticsPage"));
+const OwnerRestaurantsPage = lazy(() => import("@/pages/owner/OwnerRestaurantsPage"));
+const NewRestaurantPage = lazy(() => import("@/pages/owner/NewRestaurantPage"));
 const RiderLayout = lazy(() => import("@/layouts/RiderLayout"));
 const RiderHomePage = lazy(() => import("@/pages/rider/RiderHomePage"));
 const RiderDeliveryPage = lazy(() => import("@/pages/rider/RiderDeliveryPage"));
@@ -166,6 +168,20 @@ const router = createBrowserRouter([
                 <OrderDetailPage />
               </RequireRole>
             ),
+          },
+          {
+            // Setting up restaurants: open to owners still waiting for approval, because
+            // registering their first restaurant is how they get approved [AC-REST-01]
+            path: "owner/restaurants",
+            element: (
+              <RequireRole allowedRoles={["RESTAURANT_OWNER"]} allowPending>
+                <OwnerLayout />
+              </RequireRole>
+            ),
+            children: [
+              { index: true, element: <OwnerRestaurantsPage /> },
+              { path: "new", element: <NewRestaurantPage /> },
+            ],
           },
           {
             path: "owner",

@@ -3,6 +3,7 @@ import { NavLink, Outlet } from "react-router";
 import PageLoader from "@/components/common/PageLoader";
 import { cn } from "@/lib/utils";
 import Container from "./Container";
+import { useAuthStore } from "@/store/authStore";
 
 // The owner's pages, each reached from this small menu
 const OWNER_LINKS = [
@@ -10,16 +11,24 @@ const OWNER_LINKS = [
   { label: "History", to: "/owner/history", end: false },
   { label: "Reviews", to: "/owner/reviews", end: false },
   { label: "Analytics", to: "/owner/analytics", end: false },
+  { label: "Restaurants", to: "/owner/restaurants", end: false },
 ];
 
 // The frame around every owner page: the owner menu on top, then the page.
 const OwnerLayout = () => {
+  const user = useAuthStore((state) => state.user);
+  // While waiting for approval only the restaurant setup is open
+  const links =
+    user && user.status === "PENDING_APPROVAL"
+      ? OWNER_LINKS.filter((link) => link.to === "/owner/restaurants")
+      : OWNER_LINKS;
+
   return (
     <>
       <div className="border-b border-border">
         <Container>
           <nav aria-label="Restaurant" className="flex gap-6">
-            {OWNER_LINKS.map((link) => (
+            {links.map((link) => (
               // NavLink knows when its page is open, and marks it (aria-current="page")
               <NavLink
                 key={link.to}

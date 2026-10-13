@@ -20,3 +20,15 @@ export const sortOptions = [
   { label: "Newest", value: "newest" },
   { label: "A to Z", value: "name" },
 ];
+
+// The cuisines an owner can tick for their restaurant: the listing's chips plus a few more.
+// Same lowercase values, so customer filters keep working.
+export const ownerCuisineOptions = [
+  ...cuisineOptions,
+  { label: "Chop bar", value: "chop bar" },
+  { label: "Continental", value: "continental" },
+  { label: "Chinese", value: "chinese" },
+  { label: "Pastries", value: "pastries" },
+  { label: "Drinks", value: "drinks" },
+  { label: "Vegetarian", value: "vegetarian" },
+];
