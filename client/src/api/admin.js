@@ -239,6 +239,12 @@ export const suspendUserRequest = async (userId, reason) => {
   return result.data;
 };
 
+// Delete an account and its personal data, for someone who asked us to [AC-CUST-11]
+export const deleteUserRequest = async (userId, reason) => {
+  const result = await api.post("/admin/users/" + userId + "/delete", { reason });
+  return result.data;
+};
+
 export const reactivateUserRequest = async (userId, reason) => {
   const result = await api.post("/admin/users/" + userId + "/reactivate", { reason });
   return result.data;

@@ -107,7 +107,7 @@ const FOR_KITCHEN = {
       attributes: ["id", "name", "prepTimeMinutes", "latitude", "longitude"],
     },
     // Only the name: the kitchen never gets the customer's phone or address [AC-RORD-02]
-    { model: User, as: "customer", attributes: ["fullName"] },
+    { model: User, as: "customer", attributes: ["fullName"], paranoid: false },
   ],
 };
 

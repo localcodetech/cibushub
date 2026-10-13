@@ -102,6 +102,24 @@ export const emailChangedEmail = ({ newEmail }) =>
     ],
   });
 
+// The last message we send to a deleted account [AC-CUST-11]
+export const accountDeletedEmail = () =>
+  renderEmail({
+    subject: "Your CibusHub account was deleted",
+    preheader: "Your personal details have been removed.",
+    heading: "Your account was deleted",
+    blocks: [
+      paragraph(
+        "Your CibusHub account and your personal details (name, phone, email, addresses and photo) have been removed.",
+      ),
+      paragraph(
+        "Records of past orders and payments are kept for tax and accounting, without your name or contact details.",
+      ),
+      paragraph("You're welcome to sign up again at any time."),
+      smallPrint("If you didn't ask for this, contact CibusHub support straight away."),
+    ],
+  });
+
 // The restaurant said no, or didn't answer in time [AC-NOTIF-01, AC-RORD-03, AC-RORD-04]
 //   reason: what the restaurant typed (the customer sees it), or "RESTAURANT_TIMEOUT"
 export const orderRejectedEmail = ({

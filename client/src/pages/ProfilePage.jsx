@@ -5,9 +5,11 @@ import { List, ListIcon, ListRow } from "@/components/common/List";
 import ProfileNameCard from "@/components/profile/ProfileNameCard";
 import ContactChangeCard from "@/components/profile/ContactChangeCard";
 import ChangePasswordCard from "@/components/profile/ChangePasswordCard";
+import DeleteAccountCard from "@/components/profile/DeleteAccountCard";
 
 // /account: my profile, for every role [AC-CUST-01, AC-CUST-02, AC-AUTH-20].
-// Photo and name, phone and email (each changed with a code sent to the new one), password.
+// Photo and name, phone and email (each changed with a code sent to the new one), password,
+// and deleting the account [AC-CUST-11].
 const ProfilePage = () => {
   return (
     <Container>
@@ -26,6 +28,7 @@ const ProfilePage = () => {
               meta="Offers and news by email and SMS"
             />
           </List>
+          <DeleteAccountCard />
         </div>
       </section>
     </Container>

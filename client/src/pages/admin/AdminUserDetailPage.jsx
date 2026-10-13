@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Mail, Phone } from "lucide-react";
 import Container from "@/layouts/Container";
@@ -10,17 +10,24 @@ import ErrorState from "@/components/common/ErrorState";
 import { Button } from "@/components/ui/button";
 import StatusBadge from "@/components/common/StatusBadge";
 import ConfirmActionSheet from "@/components/admin/ConfirmActionSheet";
-import { getAdminUserRequest, reactivateUserRequest, suspendUserRequest } from "@/api/admin";
+import {
+  deleteUserRequest,
+  getAdminUserRequest,
+  reactivateUserRequest,
+  suspendUserRequest,
+} from "@/api/admin";
 import { ACCOUNT_STATUSES, ROLE_NAMES } from "@/data/userLabels";
 import { RESTAURANT_STATUSES } from "@/data/restaurantStatuses";
 import { formatDateTime } from "@/utils/date";
 import PageHeader from "@/components/common/PageHeader";
 
-// /admin/users/:userId: one account, and suspend or reactivate it [AC-ADM-02, AC-ADM-08]
+// /admin/users/:userId: one account, and suspend, reactivate or delete it
+// [AC-ADM-02, AC-ADM-08, AC-CUST-11]
 const AdminUserDetailPage = () => {
   const { userId } = useParams();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
-  // "suspend", "reactivate" or null
+  // "suspend", "reactivate", "delete" or null
   const [openAction, setOpenAction] = useState(null);
 
   const {
@@ -97,6 +104,14 @@ const AdminUserDetailPage = () => {
                 Suspend account
               </Button>
             )}
+            {/* For someone who asked us by email or phone to delete their data */}
+            <Button
+              variant="ghost"
+              onClick={() => setOpenAction("delete")}
+              className="ml-2 h-12 font-bold text-destructive"
+            >
+              Delete account
+            </Button>
           </div>
         ) : (
           <Text muted className="mt-6">
@@ -194,6 +209,21 @@ const AdminUserDetailPage = () => {
           onConfirm={async (reason) => {
             await suspendUserRequest(user.id, reason);
             await refreshAll();
+          }}
+          onClose={() => setOpenAction(null)}
+        />
+      )}
+      {openAction === "delete" && (
+        <ConfirmActionSheet
+          title={"Delete " + user.fullName + "'s account?"}
+          description="Only when they asked us to. Their name, phone, email, photo and addresses are removed for good; past orders stay without them. They get a last email. Write when and how they asked."
+          confirmLabel="Delete account"
+          needsReason
+          isDangerous
+          onConfirm={async (reason) => {
+            await deleteUserRequest(user.id, reason);
+            queryClient.invalidateQueries({ queryKey: ["admin-users"] });
+            navigate("/admin/users", { replace: true });
           }}
           onClose={() => setOpenAction(null)}
         />

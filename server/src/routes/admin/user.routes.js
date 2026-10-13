@@ -10,6 +10,7 @@ import {
   reactivate,
   suspend,
 } from "../../controllers/admin/adminUsers.controller.js";
+import { deleteUserForAdmin } from "../../controllers/profile/deleteAccount.controller.js";
 
 const router = Router();
 
@@ -32,5 +33,10 @@ router.post("/:userId/suspend", validate(userActionSchema), suspend);
 // Reactivate a suspended account, with a reason (audited)
 // ─────────────────────────────────────────────
 router.post("/:userId/reactivate", validate(userActionSchema), reactivate);
+
+// ─────────────────────────────────────────────
+// Delete an account and its personal data, for someone who asked us to [AC-CUST-11]
+// ─────────────────────────────────────────────
+router.post("/:userId/delete", validate(userActionSchema), deleteUserForAdmin);
 
 export default router;
