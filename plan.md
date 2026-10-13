@@ -59,6 +59,7 @@ Each step contains:
 | 🟢 IN PROGRESS | Currently being built |
 | 🔵 NEXT | Starts once the current step passes review |
 | ⚪ PLANNED | Later; details may be refined as earlier steps teach us more |
+| ⏸️ AFTER LAUNCH | Deferred until after deployment |
 
 ---
 
@@ -80,7 +81,7 @@ Each step contains:
 | 12 | **Notifications** | AC-NOTIF-01 to 09, AC-PAY-15, AC-MON-04 | ✅ DONE |
 | 13 | **Reviews, Admin, Super Admin and Analytics** | AC-REV-01 to 08, AC-ADM-01 to 09, AC-SADM-01 to 04, AC-ANL-01 to 06, AC-JOB-02, 05 | ✅ DONE |
 | 13b | **Visual Design Pass** | AC-UX-01, 08, 09, 10, 12 | 🟢 IN PROGRESS |
-| 13c | **Catch-up: Scheduled Orders, Promo Codes, Cash on Delivery** | AC-CHK-11, AC-CHK-12, AC-PAY-13 | 🔵 NEXT |
+| 13c | **Catch-up: Scheduled Orders, Promo Codes, Cash on Delivery** | AC-CHK-11, AC-CHK-12, AC-PAY-13 | ⏸️ AFTER LAUNCH |
 | 14 | **Hardening and Quality** | AC-TEST-01 to 05, 07, AC-SEC-06, 11, 13, AC-PERF-01, 02, 05, 07, AC-UX-08, 10, 11, AC-API-03, 04 … | ⚪ PLANNED |
 | 15 | **Production, Monitoring and Delivery** | AC-OPS-03 to 06, AC-TEST-06, AC-SEC-10, AC-DB-06, AC-MON-01, 03, 06 … | ⚪ PLANNED |
 
@@ -866,7 +867,7 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 ## Step 13c — Catch-up: Scheduled Orders, Promo Codes, Cash on Delivery
 
-**Status:** 🔵 NEXT
+**Status:** ⏸️ AFTER LAUNCH (deferred 2026-10-13: the deadline has passed, so these [COULD] items come after deployment; the policies below stay as decided)
 
 > **Goal.** The three [COULD] checkout features planned for Step 8 and skipped, built now on top of
 > the finished order engine.
