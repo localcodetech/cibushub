@@ -1,10 +1,10 @@
 // What each restaurant status means to an admin, and how its badge looks
 export const RESTAURANT_STATUSES = {
-  DRAFT: { label: "Draft", tone: "muted" },
-  PENDING_APPROVAL: { label: "Waiting for review", tone: "gold" },
-  APPROVED: { label: "Live", tone: "green" },
-  REJECTED: { label: "Rejected", tone: "red" },
-  SUSPENDED: { label: "Suspended", tone: "red" },
+  DRAFT: { label: "Draft", tone: "neutral" },
+  PENDING_APPROVAL: { label: "Waiting for review", tone: "attention" },
+  APPROVED: { label: "Live", tone: "success" },
+  REJECTED: { label: "Rejected", tone: "danger" },
+  SUSPENDED: { label: "Suspended", tone: "danger" },
 };
 
 export const DOCUMENT_NAMES = {

@@ -1,19 +1,19 @@
 import { useState } from "react";
-import { Link } from "react-router";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { ChevronRight, Search, Store } from "lucide-react";
+import { Search, Store } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
 import ErrorState from "@/components/common/ErrorState";
-import StatusPill from "@/components/admin/StatusPill";
+import StatusBadge from "@/components/common/StatusBadge";
 import { getAdminRestaurantsRequest } from "@/api/admin";
 import { RESTAURANT_STATUSES } from "@/data/restaurantStatuses";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { formatDateTime } from "@/utils/date";
-import { cn } from "@/lib/utils";
+import { List, ListIcon, ListRow } from "@/components/common/List";
+import { Chip, ChipRow } from "@/components/common/Chips";
+import PageHeader from "@/components/common/PageHeader";
 
 // The tabs, the review queue first. status "" means every restaurant.
 const TABS = [
@@ -52,26 +52,19 @@ const AdminRestaurantsPage = () => {
   return (
     <Container>
       <section className="py-8">
-        <Heading level={1}>Restaurants</Heading>
+        <PageHeader title="Restaurants" />
 
-        <div role="group" aria-label="Show" className="mt-6 flex gap-2 overflow-x-auto pb-1">
+        <ChipRow label="Show" className="mt-6">
           {TABS.map((tab) => (
-            <button
+            <Chip
               key={tab.label}
-              type="button"
+              selected={status === tab.status}
               onClick={() => handleTab(tab.status)}
-              aria-pressed={status === tab.status}
-              className={cn(
-                "min-h-11 shrink-0 rounded-full border px-4 font-bold",
-                status === tab.status
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border",
-              )}
             >
               {tab.label}
-            </button>
+            </Chip>
           ))}
-        </div>
+        </ChipRow>
 
         <label className="relative mt-4 block max-w-md">
           <span className="sr-only">Search by name</span>
@@ -155,35 +148,27 @@ const RestaurantList = ({ data, isPending, error, onRetry, isQueue }) => {
   }
 
   return (
-    <ul className="divide-y divide-border rounded-lg border border-border bg-card">
+    <List>
       {data.restaurants.map((restaurant) => {
         const statusInfo = RESTAURANT_STATUSES[restaurant.status];
         return (
-          <li key={restaurant.id}>
-            <Link
-              to={"/admin/restaurants/" + restaurant.id}
-              className="flex items-center gap-3 px-4 py-3"
-            >
-              <div className="min-w-0 flex-1">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <p className="truncate font-bold">{restaurant.name}</p>
-                  <StatusPill label={statusInfo.label} tone={statusInfo.tone} />
-                </div>
-                <p className="mt-1 text-[13px] text-muted-foreground">
-                  {restaurant.area} · {restaurant.owner ? restaurant.owner.fullName : "No owner"} ·
-                  since {formatDateTime(restaurant.createdAt)}
-                </p>
-              </div>
-              <ChevronRight
-                size={18}
-                className="shrink-0 text-muted-foreground"
-                aria-hidden="true"
-              />
-            </Link>
-          </li>
+          <ListRow
+            key={restaurant.id}
+            to={"/admin/restaurants/" + restaurant.id}
+            leading={<ListIcon icon={Store} />}
+            title={restaurant.name}
+            badge={<StatusBadge label={statusInfo.label} tone={statusInfo.tone} />}
+            meta={
+              restaurant.area +
+              " · " +
+              (restaurant.owner ? restaurant.owner.fullName : "No owner") +
+              " · since " +
+              formatDateTime(restaurant.createdAt)
+            }
+          />
         );
       })}
-    </ul>
+    </List>
   );
 };
 

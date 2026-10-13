@@ -3,17 +3,18 @@ import { Link } from "react-router";
 import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query";
 import { MessageSquare } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
 import ErrorState from "@/components/common/ErrorState";
-import StatusPill from "@/components/admin/StatusPill";
+import StatusBadge from "@/components/common/StatusBadge";
 import ConfirmActionSheet from "@/components/admin/ConfirmActionSheet";
 import Stars from "@/components/review/Stars";
 import { getAdminReviewsRequest, hideReviewRequest, showReviewRequest } from "@/api/admin";
 import { formatDateTime } from "@/utils/date";
-import { cn } from "@/lib/utils";
+import { List } from "@/components/common/List";
+import { Chip, ChipRow } from "@/components/common/Chips";
+import PageHeader from "@/components/common/PageHeader";
 
 // The views. Abuse is usually in the 1- and 2-star reviews, so they come first.
 const VIEWS = [
@@ -46,33 +47,25 @@ const AdminReviewsPage = () => {
   return (
     <Container>
       <section className="py-8">
-        <Heading level={1}>Reviews</Heading>
-        <Text muted className="mt-1">
-          A hidden review disappears from the restaurant page and its rating. Hide only abuse,
-          insults or personal details, not honest bad reviews.
-        </Text>
+        <PageHeader
+          title="Reviews"
+          subtitle="A hidden review disappears from the restaurant page and its rating. Hide only abuse, insults or personal details, not honest bad reviews."
+        />
 
-        <div role="group" aria-label="Show" className="mt-6 flex gap-2 overflow-x-auto pb-1">
+        <ChipRow label="Show" className="mt-6">
           {VIEWS.map((option) => (
-            <button
+            <Chip
               key={option.value}
-              type="button"
+              selected={view === option.value}
               onClick={() => {
                 setView(option.value);
                 setPage(1);
               }}
-              aria-pressed={view === option.value}
-              className={cn(
-                "min-h-11 shrink-0 rounded-full border px-4 font-bold",
-                view === option.value
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border",
-              )}
             >
               {option.label}
-            </button>
+            </Chip>
           ))}
-        </div>
+        </ChipRow>
 
         <div className="mt-6">
           {isPending && (
@@ -90,7 +83,7 @@ const AdminReviewsPage = () => {
             />
           )}
           {data && data.reviews.length > 0 && (
-            <ul className="divide-y divide-border rounded-lg border border-border bg-card">
+            <List>
               {data.reviews.map((review) => (
                 <li key={review.id} className="px-4 py-3">
                   <div className="flex flex-wrap items-center justify-between gap-2">
@@ -122,7 +115,7 @@ const AdminReviewsPage = () => {
 
                   {review.hiddenAt ? (
                     <div className="mt-2 flex flex-wrap items-center gap-2">
-                      <StatusPill label="Hidden" tone="red" />
+                      <StatusBadge label="Hidden" tone="danger" />
                       <span className="text-[13px] text-muted-foreground">
                         {review.hiddenReason}
                       </span>
@@ -145,7 +138,7 @@ const AdminReviewsPage = () => {
                   )}
                 </li>
               ))}
-            </ul>
+            </List>
           )}
         </div>
 

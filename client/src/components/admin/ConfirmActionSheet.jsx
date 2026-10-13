@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { CircleAlert } from "lucide-react";
 import Sheet from "@/components/common/Sheet";
 import { Button } from "@/components/ui/button";
+import Alert from "@/components/common/Alert";
 
 // "Are you sure?" for admin actions [AC-ADM-08]. Sensitive ones (suspend, reject, refund,
 // cancel) also need a written reason, which goes into the audit log [AC-ADM-07].
@@ -71,13 +71,10 @@ const ConfirmActionSheet = ({
         )}
 
         {errorMessage && (
-          <div
-            role="alert"
-            className="flex items-start gap-2 rounded-lg border border-destructive p-3 text-[15px] text-destructive"
-          >
-            <CircleAlert size={20} className="mt-0.5 shrink-0" aria-hidden="true" />
+          <Alert>
+            {" "}
             <span>{errorMessage}</span>
-          </div>
+          </Alert>
         )}
 
         <div className="flex gap-3">

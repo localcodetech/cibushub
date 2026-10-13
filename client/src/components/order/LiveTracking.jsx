@@ -11,6 +11,7 @@ import { confirmReceivedRequest, getOrderTrackingRequest } from "@/api/orders";
 import { onLiveEvent } from "@/lib/liveUpdates";
 import { useNow } from "@/hooks/useNow";
 import { formatTime } from "@/utils/date";
+import Alert from "@/components/common/Alert";
 
 // The ETA is worked out on the server: ask again once a minute [AC-MAP-03]
 const ETA_EVERY_MS = 60 * 1000;
@@ -124,7 +125,8 @@ const LiveTracking = ({ order }) => {
 
       {/* The rider typed a wrong code 5 times: the customer can finish it [AC-DEL-06] */}
       {order.canConfirmReceived && (
-        <div role="alert" className="flex flex-col gap-3 rounded-lg border border-destructive p-4">
+        <Alert>
+          {" "}
           <p className="text-[15px]">
             Your rider entered a wrong code too many times. If you have your food, confirm it here.
           </p>
@@ -136,7 +138,7 @@ const LiveTracking = ({ order }) => {
             <PackageCheck size={20} aria-hidden="true" />
             I've received my food
           </Button>
-        </div>
+        </Alert>
       )}
 
       {/* The 4-digit code: the rider needs it to finish the delivery [AC-DEL-06] */}

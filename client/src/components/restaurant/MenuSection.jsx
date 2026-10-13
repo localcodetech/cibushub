@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Plus, UtensilsCrossed } from "lucide-react";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
@@ -8,6 +8,8 @@ import NewCartSheet from "@/components/cart/NewCartSheet";
 import { isFromAnotherRestaurant, useCartStore } from "@/store/cartStore";
 import { formatMoney } from "@/utils/money";
 import { isItemAvailable } from "@/utils/menu";
+import StatusBadge from "@/components/common/StatusBadge";
+import DishImage from "./DishImage";
 
 // The whole menu: category links at the top, then each category with its dishes [AC-DISC-10].
 // Tapping "Add" opens the dish sheet; adding from a second restaurant asks first [AC-CART-01, 02].
@@ -26,6 +28,39 @@ const MenuSection = ({ restaurant }) => {
   const categories = restaurant.menu.filter((category) => category.items.length > 0);
   // A closed restaurant shows its menu, but nothing can be added
   const canOrder = restaurant.openStatus.isOpen;
+
+  // The category being read right now, highlighted in the sticky links
+  const [currentId, setCurrentId] = useState(categories[0] ? categories[0].id : null);
+  const linksRef = useRef(null);
+
+  // Watches which category heading sits just under the sticky links while scrolling.
+  // rootMargin: only a band near the top of the screen counts as "being read".
+  useEffect(() => {
+    const sections = categories
+      .map((category) => document.getElementById("category-" + category.id))
+      .filter(Boolean);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((entry) => entry.isIntersecting);
+        if (visible.length > 0) {
+          setCurrentId(visible[0].target.id.replace("category-", ""));
+        }
+      },
+      { rootMargin: "-80px 0px -70% 0px" },
+    );
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+    // categories is rebuilt every render; its ids only change with the restaurant's menu
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [restaurant.menu]);
+
+  // Keep the highlighted link in view inside the sideways-scrolling bar
+  useEffect(() => {
+    const link = linksRef.current?.querySelector('[aria-current="true"]');
+    if (link) {
+      link.scrollIntoView({ block: "nearest", inline: "nearest" });
+    }
+  }, [currentId]);
 
   // The customer tapped "Add to cart" in the dish sheet
   const handleAdd = (options, quantity) => {
@@ -59,18 +94,29 @@ const MenuSection = ({ restaurant }) => {
     <section>
       {/* Category links stick to the top while scrolling; tapping one jumps to it */}
       <nav
+        ref={linksRef}
         aria-label="Menu categories"
         className="sticky top-0 z-10 -mx-4 flex gap-2 overflow-x-auto border-b border-border bg-background px-4 py-3"
       >
-        {categories.map((category) => (
-          <a
-            key={category.id}
-            href={"#category-" + category.id}
-            className="min-h-10 shrink-0 content-center rounded-full border border-border bg-card px-4 text-[15px] font-bold whitespace-nowrap"
-          >
-            {category.name} ({category.items.length})
-          </a>
-        ))}
+        {categories.map((category) => {
+          const isCurrent = String(category.id) === String(currentId);
+          return (
+            <a
+              key={category.id}
+              href={"#category-" + category.id}
+              onClick={() => setCurrentId(category.id)}
+              aria-current={isCurrent ? "true" : undefined}
+              className={
+                "min-h-10 shrink-0 content-center rounded-full border px-4 text-[15px] font-bold whitespace-nowrap transition-colors duration-100 " +
+                (isCurrent
+                  ? "border-primary bg-primary text-primary-foreground"
+                  : "border-border bg-card text-foreground")
+              }
+            >
+              {category.name} ({category.items.length})
+            </a>
+          );
+        })}
       </nav>
 
       {categories.map((category) => (
@@ -129,23 +175,12 @@ const MenuItemRow = ({ item, canOrder, onAddClick }) => {
         )}
         <div className="mt-2 flex items-center gap-3">
           <span className="font-bold">{formatMoney(item.pricePesewas)}</span>
-          {!isAvailable && (
-            <span className="rounded-full bg-muted px-2 py-0.5 text-[13px] font-bold">
-              Sold out
-            </span>
-          )}
+          {!isAvailable && <StatusBadge label="Sold out" tone="neutral" icon={null} />}
         </div>
       </div>
 
       <div className="flex shrink-0 flex-col items-end gap-2">
-        {item.imageUrl && (
-          <img
-            src={item.imageUrl}
-            alt={item.name}
-            loading="lazy"
-            className="size-24 rounded-md object-cover"
-          />
-        )}
+        <DishImage item={item} />
         {isAvailable && canOrder && (
           <button
             type="button"

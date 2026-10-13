@@ -9,6 +9,7 @@ import {
   YAxis,
 } from "recharts";
 import ChartFigure from "./ChartFigure";
+import Card from "@/components/common/Card";
 import ChartTooltip from "./ChartTooltip";
 import { AXIS_TICK, SERIES_COLORS } from "./chartTheme";
 
@@ -30,10 +31,10 @@ const HorizontalBarChart = ({
 }) => {
   if (rows.length === 0) {
     return (
-      <figure className="rounded-lg border border-border bg-card p-4">
+      <Card as="figure">
         <figcaption className="font-bold">{title}</figcaption>
         <p className="mt-3 text-muted-foreground">{emptyText}</p>
-      </figure>
+      </Card>
     );
   }
 

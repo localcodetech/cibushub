@@ -11,7 +11,6 @@ import {
   Sun,
 } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Card from "@/components/common/Card";
 import Skeleton from "@/components/common/Skeleton";
@@ -20,6 +19,7 @@ import OnlineSwitch from "@/components/rider/OnlineSwitch";
 import {
   getCurrentDeliveryRequest,
   getCurrentOfferRequest,
+  getEarningsRequest,
   getRiderStatusRequest,
   goOfflineRequest,
   goOnlineRequest,
@@ -29,6 +29,11 @@ import { getCurrentPoint } from "@/lib/geolocation";
 import { turnOnAlertSound } from "@/lib/orderAlertSound";
 import { useNow } from "@/hooks/useNow";
 import { useAuthStore } from "@/store/authStore";
+import PageHeader from "@/components/common/PageHeader";
+import Alert from "@/components/common/Alert";
+import { ListIcon } from "@/components/common/List";
+import { formatMoney } from "@/utils/money";
+import { todayInGhana } from "@/utils/date";
 
 // What to tell the rider when the phone won't give its location
 const LOCATION_PROBLEMS = {
@@ -93,7 +98,7 @@ const RiderHomePage = () => {
     return (
       <Container>
         <section className="flex flex-col gap-4 py-8">
-          <Heading level={1}>Rider home</Heading>
+          <PageHeader title="Rider home" />
           <Card className="flex gap-3">
             <CircleAlert size={24} className="shrink-0 text-destructive" aria-hidden="true" />
             <div>
@@ -129,7 +134,7 @@ const RiderHomePage = () => {
   return (
     <Container>
       <section className="flex flex-col gap-4 py-8">
-        <Heading level={1}>Hello, {user.fullName.split(" ")[0]}</Heading>
+        <PageHeader title={<>Hello, {user.fullName.split(" ")[0]}</>} />
 
         <OnlineSwitch
           isOnline={isOnline}
@@ -144,26 +149,30 @@ const RiderHomePage = () => {
         )}
 
         {switchError && (
-          <div role="alert" className="flex gap-3 rounded-lg border border-destructive p-4">
-            <LocateOff size={24} className="shrink-0 text-destructive" aria-hidden="true" />
+          <Alert icon={LocateOff}>
+            {" "}
             <Text className="text-[15px]">{switchError}</Text>
-          </div>
+          </Alert>
         )}
 
         {isOnline && problem && (
-          <div role="alert" className="flex gap-3 rounded-lg border border-destructive p-4">
-            <LocateOff size={24} className="shrink-0 text-destructive" aria-hidden="true" />
+          <Alert icon={LocateOff}>
+            {" "}
             <Text className="text-[15px]">{LOCATION_PROBLEMS[problem]}</Text>
-          </div>
+          </Alert>
         )}
 
         {isOnline && <LocationNote lastSentAt={lastSentAt} isScreenAwake={isScreenAwake} />}
+
+        <TodayStrip />
 
         {delivery && <DeliveryInHand delivery={delivery} />}
 
         {isOnline && !delivery && !offerQuery.data && (
           <Card className="flex flex-col items-center gap-2 py-10 text-center">
-            <BellRing size={36} className="text-primary" aria-hidden="true" />
+            <span className="flex size-16 items-center justify-center rounded-full bg-primary/10 text-primary">
+              <BellRing size={32} aria-hidden="true" />
+            </span>
             <Text className="font-bold">Waiting for offers</Text>
             <Text muted className="text-[15px]">
               Keep this screen open. Offers ring and pop up here.
@@ -172,6 +181,34 @@ const RiderHomePage = () => {
         )}
       </section>
     </Container>
+  );
+};
+
+// Today at a glance: what this rider has earned and how many deliveries, with a link to
+// the full earnings page. Hidden while loading or if it fails: the page works without it.
+const TodayStrip = () => {
+  const { data } = useQuery({
+    queryKey: ["rider-earnings", { period: "day", date: todayInGhana(), page: 1 }],
+    queryFn: () => getEarningsRequest({ period: "day", date: todayInGhana(), page: 1 }),
+  });
+  if (!data) {
+    return null;
+  }
+  const count = data.summary.deliveryCount;
+
+  return (
+    <Card as={Link} to="/rider/earnings" interactive className="flex items-center gap-4">
+      <div className="flex-1">
+        <p className="text-[15px] text-muted-foreground">Today</p>
+        <p className="font-heading text-2xl font-bold">
+          {formatMoney(data.summary.earningsPesewas)}
+        </p>
+      </div>
+      <p className="text-[15px] font-bold">
+        {count} {count === 1 ? "delivery" : "deliveries"}
+      </p>
+      <ChevronRight size={20} className="text-muted-foreground" aria-hidden="true" />
+    </Card>
   );
 };
 
@@ -223,21 +260,25 @@ const DeliveryInHand = ({ delivery }) => {
   }
 
   return (
-    <Link to="/rider/delivery" className="block">
-      <Card className="flex items-center gap-3 border-primary">
-        <Package size={24} className="shrink-0 text-primary" aria-hidden="true" />
-        <div className="flex-1">
-          <Text className="font-bold">Your delivery · {delivery.orderNumber}</Text>
-          <Text className="text-[15px]">
-            {delivery.pickup.restaurantName} → {delivery.dropoff.area || "the customer"}
-          </Text>
-          <Text muted className="text-[15px]">
-            {stepText}
-          </Text>
-        </div>
-        <ChevronRight size={24} className="shrink-0" aria-hidden="true" />
-      </Card>
-    </Link>
+    <Card
+      as={Link}
+      to="/rider/delivery"
+      tone="highlight"
+      interactive
+      className="flex items-center gap-3"
+    >
+      <ListIcon icon={Package} />
+      <div className="flex-1">
+        <Text className="font-bold">Your delivery · {delivery.orderNumber}</Text>
+        <Text className="text-[15px]">
+          {delivery.pickup.restaurantName} → {delivery.dropoff.area || "the customer"}
+        </Text>
+        <Text muted className="text-[15px]">
+          {stepText}
+        </Text>
+      </div>
+      <ChevronRight size={24} className="shrink-0" aria-hidden="true" />
+    </Card>
   );
 };
 

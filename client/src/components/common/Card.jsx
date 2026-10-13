@@ -1,17 +1,79 @@
 import { cn } from "@/lib/utils";
 
-// A cream box with a border and 12px corners, for things that belong together
-// (a restaurant, an order, the price summary).
-// The design guide says: don't put everything in a card. Menus are lists; settings are rows.
+// A box for things that belong together (a restaurant, an order, the price summary).
+
+// Depth comes from the tone and the border, never from shadows (shadows are only for
+// floating layers: sheets and dropdowns).
 //
 // <Card>...</Card>
-// <Card className="p-6">...</Card>  -> more padding for this one card
-const Card = ({ className, children }) => {
+// <Card tone="highlight">The one thing to look at first</Card>
+// <Card as={Link} to="/restaurants/1" interactive>...</Card>   -> the whole card is tappable
+// <Card as="figure" padding="none">...</Card>
+//
+// tone:
+//   default    cream surface: most cards
+//   highlight  green tint: the most important card on the page (e.g. a delivery in progress)
+//   danger     red tint: a warning about this thing (e.g. "Suspended")
+//   quiet      page-coloured: secondary details next to a default card, so cream doesn't
+//              stack on cream
+// interactive: the card is a link or button. It changes colour on hover, presses in slightly
+//              when tapped (none for reduced-motion users) and shows the focus ring.
+// padding:     none | sm (12px) | md (16px, default) | lg (20px, 24px on wider screens)
+// as:          the element or component to draw ("div" by default)
+// ...props:    passed on (e.g. to, onClick, aria-label)
+const TONES = {
+  default: "border-border bg-card",
+  highlight: "border-primary/40 bg-primary/[0.06]",
+  danger: "border-destructive/50 bg-destructive/[0.06]",
+  quiet: "border-border bg-background",
+};
+
+const PADDING = {
+  none: "",
+  sm: "p-3",
+  md: "p-4",
+  lg: "p-5 sm:p-6",
+};
+
+const INTERACTIVE =
+  "cursor-pointer transition-[background-color,border-color,transform] duration-100 " +
+  "hover:border-primary/40 hover:bg-primary/[0.04] active:scale-[0.98] motion-reduce:active:scale-100 " +
+  "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none";
+
+const Card = ({
+  as: Tag = "div",
+  tone = "default",
+  padding = "md",
+  interactive = false,
+  className,
+  children,
+  ...props
+}) => {
   return (
-    <div
-      className={cn("rounded-lg border border-border bg-card p-4 text-card-foreground", className)}
+    <Tag
+      className={cn(
+        "block rounded-lg border text-card-foreground",
+        TONES[tone],
+        PADDING[padding],
+        interactive && INTERACTIVE,
+        className,
+      )}
+      {...props}
     >
       {children}
+    </Tag>
+  );
+};
+
+// The title line of a card, with an optional action on the right (e.g. "Change", "History")
+//   <CardHeader title="Contact" action={<Link to="...">Edit</Link>} />
+//   level: the heading level that fits the page (3 by default, under the page's h1 and h2s)
+export const CardHeader = ({ title, action, level = 3, className }) => {
+  const Heading = "h" + level;
+  return (
+    <div className={cn("mb-3 flex items-center justify-between gap-3", className)}>
+      <Heading className="font-heading text-[15px] font-bold text-foreground">{title}</Heading>
+      {action}
     </div>
   );
 };

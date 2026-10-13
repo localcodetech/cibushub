@@ -2,12 +2,12 @@ import { useLocation, useNavigate, useParams } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { MapPinOff } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
 import ErrorState from "@/components/common/ErrorState";
 import AddressForm from "@/components/address/AddressForm";
 import { createAddressRequest, getAddressesRequest, updateAddressRequest } from "@/api/addresses";
+import PageHeader from "@/components/common/PageHeader";
 
 // /customer/addresses/new and /customer/addresses/:addressId/edit [AC-CUST-03, AC-CUST-04]
 const AddressFormPage = () => {
@@ -101,7 +101,7 @@ const FormLayout = ({ title, children }) => {
   return (
     <Container>
       <section className="mx-auto max-w-xl py-8">
-        <Heading level={1}>{title}</Heading>
+        <PageHeader title={title} />
         <div className="mt-6">{children}</div>
       </section>
     </Container>

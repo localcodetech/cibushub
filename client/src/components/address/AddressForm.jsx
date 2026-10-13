@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CircleAlert, LocateFixed } from "lucide-react";
+import { LocateFixed } from "lucide-react";
 import FormField from "@/components/form/FormField";
 import { Button } from "@/components/ui/button";
 import PinMap from "@/components/address/PinMap";
@@ -9,6 +9,7 @@ import PlaceSearch from "@/components/address/PlaceSearch";
 import { addressLabels } from "@/data/addressLabels";
 import { addressSchema } from "@/validators/address/addressSchema";
 import { getPlaceForPinRequest } from "@/api/addresses";
+import Alert from "@/components/common/Alert";
 
 // Ready-made notes for the rider: tap to add, tap again to remove. They can't be edited.
 const QUICK_INSTRUCTIONS = [
@@ -327,13 +328,10 @@ const AddressForm = ({ address, onSave }) => {
       </div>
 
       {errors.root && (
-        <div
-          role="alert"
-          className="flex items-start gap-2 rounded-lg border border-destructive p-3 text-[15px] text-destructive"
-        >
-          <CircleAlert size={20} className="mt-0.5 shrink-0" aria-hidden="true" />
+        <Alert>
+          {" "}
           <span>{errors.root.message}</span>
-        </div>
+        </Alert>
       )}
 
       <Button type="submit" disabled={isSubmitting} className="h-12 w-full text-base font-bold">

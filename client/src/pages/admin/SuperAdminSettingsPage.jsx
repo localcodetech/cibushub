@@ -3,12 +3,12 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { CircleAlert, CircleCheck } from "lucide-react";
+import { CircleCheck } from "lucide-react";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
-import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import ErrorState from "@/components/common/ErrorState";
+import Card from "@/components/common/Card";
 import FormField from "@/components/form/FormField";
 import { Button } from "@/components/ui/button";
 import { getPlatformSettingsRequest, updatePlatformSettingsRequest } from "@/api/superAdmin";
@@ -21,6 +21,9 @@ import {
 } from "@/data/settingLabels";
 import { formatDateTime } from "@/utils/date";
 import { formatMoney } from "@/utils/money";
+import { List } from "@/components/common/List";
+import PageHeader from "@/components/common/PageHeader";
+import Alert from "@/components/common/Alert";
 
 // ─────────────────────────────────────────────
 // Form rules: the same limits as the server [AC-SADM-02]
@@ -103,10 +106,10 @@ const SuperAdminSettingsPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-3xl py-8">
-        <Heading level={1}>Platform settings</Heading>
-        <Text muted className="mt-1">
-          Changes apply to new orders at once. Orders already placed keep their fees.
-        </Text>
+        <PageHeader
+          title="Platform settings"
+          subtitle="Changes apply to new orders at once. Orders already placed keep their fees."
+        />
 
         <div className="mt-6">
           {isPending && <Skeleton className="h-96 w-full" />}
@@ -114,9 +117,11 @@ const SuperAdminSettingsPage = () => {
           {data && (
             <>
               {savedVersion && (
-                <div
+                <Card
                   role="status"
-                  className="mb-4 flex items-start gap-2 rounded-lg border border-border bg-card p-3 text-[15px]"
+                  tone="highlight"
+                  padding="sm"
+                  className="mb-4 flex items-start gap-2 text-[15px]"
                 >
                   <CircleCheck
                     size={20}
@@ -124,7 +129,7 @@ const SuperAdminSettingsPage = () => {
                     aria-hidden="true"
                   />
                   <span>Saved. Version {savedVersion} is now in force for new orders.</span>
-                </div>
+                </Card>
               )}
               {/* key: a new version starts a fresh form with its values */}
               <SettingsForm
@@ -199,7 +204,7 @@ const SettingsForm = ({ values, onSaved, onEdit }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} onChange={onEdit} noValidate className="space-y-6">
       {SETTING_GROUPS.map((group) => (
-        <fieldset key={group.title} className="rounded-lg border border-border bg-card p-4">
+        <Card as="fieldset" key={group.title}>
           <legend className="px-1 font-bold">{group.title}</legend>
           <div className="grid gap-4 sm:grid-cols-2">
             {group.settings.map((setting) => {
@@ -218,17 +223,17 @@ const SettingsForm = ({ values, onSaved, onEdit }) => {
               );
             })}
           </div>
-        </fieldset>
+        </Card>
       ))}
 
       {/* Only Paystack exists until cash on delivery is built, so nothing to choose yet */}
-      <div className="rounded-lg border border-border bg-card p-4">
+      <Card>
         <p className="font-bold">Ways to pay</p>
         <p className="mt-1 text-[15px] text-muted-foreground">
           {values.paymentMethods.map((method) => PAYMENT_METHOD_NAMES[method]).join(", ")}. Cash on
           delivery comes later.
         </p>
-      </div>
+      </Card>
 
       <div>
         <label htmlFor="settings-reason" className="text-[15px] font-bold">
@@ -254,13 +259,10 @@ const SettingsForm = ({ values, onSaved, onEdit }) => {
       </div>
 
       {rootError && (
-        <div
-          role="alert"
-          className="flex items-start gap-2 rounded-lg border border-destructive p-3 text-[15px] text-destructive"
-        >
-          <CircleAlert size={20} className="mt-0.5 shrink-0" aria-hidden="true" />
+        <Alert>
+          {" "}
           <span>{rootError}</span>
-        </div>
+        </Alert>
       )}
 
       <Button type="submit" disabled={isSubmitting} className="h-12 w-full font-bold sm:w-auto">
@@ -284,7 +286,7 @@ const SettingsHistory = ({ history }) => {
   return (
     <section className="mt-10">
       <Heading level={2}>History</Heading>
-      <ul className="mt-3 divide-y divide-border rounded-lg border border-border bg-card">
+      <List className="mt-3">
         {history.map((entry, index) => {
           const previous = history[index + 1];
           const changedKeys = previous
@@ -321,7 +323,7 @@ const SettingsHistory = ({ history }) => {
             </li>
           );
         })}
-      </ul>
+      </List>
     </section>
   );
 };

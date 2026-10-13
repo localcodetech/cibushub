@@ -3,12 +3,11 @@ import { Link } from "react-router";
 import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Banknote, RefreshCw, Search, Undo2 } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
 import ErrorState from "@/components/common/ErrorState";
-import StatusPill from "@/components/admin/StatusPill";
+import StatusBadge from "@/components/common/StatusBadge";
 import ConfirmActionSheet from "@/components/admin/ConfirmActionSheet";
 import {
   getAdminPaymentsRequest,
@@ -19,20 +18,23 @@ import {
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { formatMoney } from "@/utils/money";
 import { formatDateTime } from "@/utils/date";
-import { cn } from "@/lib/utils";
+import { List } from "@/components/common/List";
+import Tabs from "@/components/common/Tabs";
+import { Chip, ChipRow } from "@/components/common/Chips";
+import PageHeader from "@/components/common/PageHeader";
 
 // How each status reads and looks
 const PAYMENT_STATUSES = {
-  SUCCESS: { label: "Paid", tone: "green" },
-  PENDING: { label: "Pending", tone: "gold" },
-  FAILED: { label: "Failed", tone: "red" },
-  ABANDONED: { label: "Abandoned", tone: "muted" },
-  AMOUNT_MISMATCH: { label: "Wrong amount", tone: "red" },
+  SUCCESS: { label: "Paid", tone: "success" },
+  PENDING: { label: "Pending", tone: "attention" },
+  FAILED: { label: "Failed", tone: "danger" },
+  ABANDONED: { label: "Abandoned", tone: "neutral" },
+  AMOUNT_MISMATCH: { label: "Wrong amount", tone: "danger" },
 };
 const REFUND_STATUSES = {
-  PENDING: { label: "Pending", tone: "gold" },
-  PROCESSED: { label: "Refunded", tone: "green" },
-  FAILED: { label: "Failed", tone: "red" },
+  PENDING: { label: "Pending", tone: "progress" },
+  PROCESSED: { label: "Refunded", tone: "success" },
+  FAILED: { label: "Failed", tone: "danger" },
 };
 
 // Reasons saved as codes, in words
@@ -51,27 +53,20 @@ const OUTCOME_WORDS = {
   UNKNOWN_REFERENCE: "Paystack doesn't know this payment.",
 };
 
-// Small pill buttons for the filters
+// The filter chips (one on at a time)
 const Pills = ({ options, value, onChange, label }) => {
   return (
-    <div role="group" aria-label={label} className="flex gap-2 overflow-x-auto pb-1">
+    <ChipRow label={label}>
       {options.map((option) => (
-        <button
+        <Chip
           key={option.label}
-          type="button"
+          selected={value === option.value}
           onClick={() => onChange(option.value)}
-          aria-pressed={value === option.value}
-          className={cn(
-            "min-h-11 shrink-0 rounded-full border px-4 font-bold",
-            value === option.value
-              ? "border-primary bg-primary text-primary-foreground"
-              : "border-border",
-          )}
         >
           {option.label}
-        </button>
+        </Chip>
       ))}
-    </div>
+    </ChipRow>
   );
 };
 
@@ -111,26 +106,17 @@ const AdminPaymentsPage = () => {
   return (
     <Container>
       <section className="py-8">
-        <Heading level={1}>Payments</Heading>
-        <div className="mt-6 flex gap-6 border-b border-border">
-          {[
+        <PageHeader title="Payments" />
+        <Tabs
+          label="Show"
+          className="mt-6"
+          value={tab}
+          onChange={setTab}
+          options={[
             { value: "payments", label: "Payments" },
             { value: "refunds", label: "Refunds" },
-          ].map((option) => (
-            <button
-              key={option.value}
-              type="button"
-              onClick={() => setTab(option.value)}
-              aria-pressed={tab === option.value}
-              className={cn(
-                "min-h-12 border-b-2 font-bold",
-                tab === option.value ? "border-primary text-primary" : "border-transparent",
-              )}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
+          ]}
+        />
         <div className="mt-6">{tab === "payments" ? <PaymentsTab /> : <RefundsTab />}</div>
       </section>
     </Container>
@@ -231,12 +217,12 @@ const PaymentsTab = () => {
           />
         )}
         {data && data.payments.length > 0 && (
-          <ul className="divide-y divide-border rounded-lg border border-border bg-card">
+          <List>
             {data.payments.map((payment) => (
               <li key={payment.id} className="px-4 py-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <span className="font-bold break-all">{payment.reference}</span>
-                  <StatusPill
+                  <StatusBadge
                     label={PAYMENT_STATUSES[payment.status].label}
                     tone={PAYMENT_STATUSES[payment.status].tone}
                   />
@@ -275,7 +261,7 @@ const PaymentsTab = () => {
                 )}
               </li>
             ))}
-          </ul>
+          </List>
         )}
       </div>
       <Pager meta={data && data.meta} page={page} onPage={setPage} />
@@ -329,12 +315,12 @@ const RefundsTab = () => {
           />
         )}
         {data && data.refunds.length > 0 && (
-          <ul className="divide-y divide-border rounded-lg border border-border bg-card">
+          <List>
             {data.refunds.map((refund) => (
               <li key={refund.id} className="px-4 py-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <span className="font-bold">{formatMoney(refund.amountPesewas)}</span>
-                  <StatusPill
+                  <StatusBadge
                     label={REFUND_STATUSES[refund.status].label}
                     tone={REFUND_STATUSES[refund.status].tone}
                   />
@@ -361,7 +347,7 @@ const RefundsTab = () => {
                 )}
               </li>
             ))}
-          </ul>
+          </List>
         )}
       </div>
       <Pager meta={data && data.meta} page={page} onPage={setPage} />

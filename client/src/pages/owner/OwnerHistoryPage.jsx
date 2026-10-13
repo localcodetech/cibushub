@@ -13,6 +13,8 @@ import { getOwnerHistoryRequest, getOwnerSummaryRequest } from "@/api/ownerOrder
 import { ORDER_STATUSES } from "@/data/orderStatuses";
 import { formatMoney } from "@/utils/money";
 import { formatDay, formatTime, todayInGhana } from "@/utils/date";
+import { List, ListRow } from "@/components/common/List";
+import PageHeader from "@/components/common/PageHeader";
 
 // Statuses an owner can filter by (unpaid orders never reached the kitchen)
 const STATUS_FILTERS = Object.keys(ORDER_STATUSES).filter((status) => status !== "PENDING_PAYMENT");
@@ -59,8 +61,8 @@ const OwnerHistoryPage = () => {
 
   return (
     <Container>
-      <section className="mx-auto max-w-2xl py-6">
-        <Heading level={1}>History</Heading>
+      <section className="mx-auto max-w-2xl py-6 lg:max-w-5xl">
+        <PageHeader title="History" />
 
         <div className="mt-5 grid gap-3 sm:grid-cols-2">
           <div className="flex flex-col gap-2">
@@ -96,16 +98,23 @@ const OwnerHistoryPage = () => {
           </div>
         </div>
 
-        <DaySummary date={date} query={summary} />
-
-        <Heading level={2} className="mt-8">
-          Orders
-        </Heading>
-        <div className="mt-3">
-          <HistoryList
-            query={history}
-            onChangePage={(newPage) => changeFilters({ page: newPage })}
-          />
+        {/* Wide screens: the order list on the left, the day's numbers on the right staying in
+            view. Phones: the numbers first, then the list. */}
+        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start lg:gap-8">
+          <div className="lg:order-2 lg:sticky lg:top-6">
+            <DaySummary date={date} query={summary} />
+          </div>
+          <div className="lg:order-1">
+            <Heading level={2} className="mt-8 lg:mt-6">
+              Orders
+            </Heading>
+            <div className="mt-3">
+              <HistoryList
+                query={history}
+                onChangePage={(newPage) => changeFilters({ page: newPage })}
+              />
+            </div>
+          </div>
         </div>
       </section>
     </Container>
@@ -134,7 +143,7 @@ const DaySummary = ({ date, query }) => {
       <Text size="small" muted>
         {formatDay(date)}
       </Text>
-      <dl className="mt-3 grid grid-cols-3 gap-3">
+      <dl className="mt-3 grid grid-cols-3 gap-3 lg:grid-cols-1">
         <div>
           <dt className="text-[13px] text-muted-foreground">Orders</dt>
           <dd className="font-heading text-2xl font-bold">{summary.orderCount}</dd>
@@ -192,31 +201,31 @@ const HistoryList = ({ query, onChangePage }) => {
 
   return (
     <>
-      <ul className="divide-y divide-border rounded-lg border border-border bg-card">
+      <List>
         {orders.map((order) => (
-          <li key={order.id} className="px-4 py-3">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <p className="font-bold">{order.orderNumber}</p>
-              <OrderStatusBadge status={order.status} />
-            </div>
-            <p className="mt-1 text-[13px] text-muted-foreground">
-              {formatTime(order.placedAt)}
-              {showRestaurant && " · " + order.restaurant.name}
-            </p>
-            <p className="mt-0.5 flex justify-between text-[15px]">
-              <span>Food {formatMoney(order.subtotalPesewas)}</span>
-              {/* Refunded orders earn nothing, so don't show earnings for them */}
-              {REFUNDED_STATUSES.includes(order.status) ? (
-                <span className="text-muted-foreground">Refunded</span>
-              ) : (
-                <span className="font-bold">
-                  You earn {formatMoney(order.restaurantEarningsPesewas)}
-                </span>
-              )}
-            </p>
-          </li>
+          <ListRow
+            key={order.id}
+            title={order.orderNumber}
+            badge={<OrderStatusBadge status={order.status} />}
+            meta={
+              formatTime(order.placedAt) + (showRestaurant ? " · " + order.restaurant.name : "")
+            }
+            detail={
+              <span className="flex justify-between gap-2">
+                <span>Food {formatMoney(order.subtotalPesewas)}</span>
+                {/* Refunded orders earn nothing, so don't show earnings for them */}
+                {REFUNDED_STATUSES.includes(order.status) ? (
+                  <span className="text-muted-foreground">Refunded</span>
+                ) : (
+                  <span className="font-bold">
+                    You earn {formatMoney(order.restaurantEarningsPesewas)}
+                  </span>
+                )}
+              </span>
+            }
+          />
         ))}
-      </ul>
+      </List>
 
       {meta.totalPages > 1 && (
         <nav aria-label="Pages" className="mt-6 flex items-center justify-between gap-4">

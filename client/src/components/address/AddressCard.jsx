@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import Card from "@/components/common/Card";
 import { findAddressLabel } from "@/data/addressLabels";
+import StatusBadge from "@/components/common/StatusBadge";
 
 // One saved address with its actions: Make default, Edit, Delete [AC-CUST-03, AC-CUST-07].
 // address:          one item from GET /customer/addresses
@@ -18,11 +19,7 @@ const AddressCard = ({ address, isBusy, onMakeDefault, onDelete }) => {
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
             <p className="font-bold">{label.label}</p>
-            {address.isDefault && (
-              <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[13px] font-bold text-primary">
-                Default
-              </span>
-            )}
+            {address.isDefault && <StatusBadge label="Default" tone="progress" icon={null} />}
           </div>
 
           {/* Only the parts the customer filled in */}

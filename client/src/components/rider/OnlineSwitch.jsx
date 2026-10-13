@@ -1,15 +1,15 @@
 import Text from "@/components/typography/Text";
+import Card from "@/components/common/Card";
 import { cn } from "@/lib/utils";
 
 // The big Online / Offline switch at the top of the rider home [AC-RIDER-03].
 // isOnline: the server's answer; isWorking: a change is being sent; onToggle(): flip it
 const OnlineSwitch = ({ isOnline, isWorking, onToggle }) => {
   return (
-    <div
-      className={cn(
-        "flex items-center justify-between gap-4 rounded-lg border p-4",
-        isOnline ? "border-success bg-success/10" : "border-border",
-      )}
+    <Card
+      tone={isOnline ? "highlight" : "default"}
+      padding="lg"
+      className="flex items-center justify-between gap-4"
     >
       <div>
         <Text className="text-lg font-bold">{isOnline ? "You're online" : "You're offline"}</Text>
@@ -38,7 +38,7 @@ const OnlineSwitch = ({ isOnline, isWorking, onToggle }) => {
           )}
         />
       </button>
-    </div>
+    </Card>
   );
 };
 

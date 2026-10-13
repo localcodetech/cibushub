@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { CircleAlert } from "lucide-react";
 import { socialSignInRequest } from "@/api/auth";
 import TermsAgreementSheet from "@/components/auth/TermsAgreementSheet";
 import { loadScript } from "@/lib/loadScript";
 import { useAuthStore } from "@/store/authStore";
 import { afterLoginPath } from "@/utils/roleHome";
 import { isDarkTheme } from "@/utils/theme";
+import Alert from "@/components/common/Alert";
 
 // Public IDs from the Google and Apple developer consoles (safe to show in the browser).
 // A button only appears once its ID is set in client/.env.
@@ -171,13 +171,10 @@ const SocialSignInButtons = ({ getSignupDetails }) => {
       )}
 
       {errorMessage && (
-        <div
-          role="alert"
-          className="flex items-start gap-2 rounded-lg border border-destructive p-3 text-[15px] text-destructive"
-        >
-          <CircleAlert size={20} className="mt-0.5 shrink-0" aria-hidden="true" />
+        <Alert>
+          {" "}
           <span>{errorMessage}</span>
-        </div>
+        </Alert>
       )}
 
       {waitingForTerms && (

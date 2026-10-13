@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { ExternalLink, FileText, Mail, MapPin, Phone } from "lucide-react";
+import { FileText, Mail, MapPin, Phone } from "lucide-react";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
@@ -9,7 +9,7 @@ import Card from "@/components/common/Card";
 import Skeleton from "@/components/common/Skeleton";
 import ErrorState from "@/components/common/ErrorState";
 import { Button } from "@/components/ui/button";
-import StatusPill from "@/components/admin/StatusPill";
+import StatusBadge from "@/components/common/StatusBadge";
 import ConfirmActionSheet from "@/components/admin/ConfirmActionSheet";
 import OrderStatusBadge from "@/components/order/OrderStatusBadge";
 import RatingBadge from "@/components/review/RatingBadge";
@@ -23,6 +23,8 @@ import {
 import { DOCUMENT_NAMES, RESTAURANT_STATUSES } from "@/data/restaurantStatuses";
 import { formatMoney } from "@/utils/money";
 import { formatDateTime } from "@/utils/date";
+import { List, ListIcon, ListRow } from "@/components/common/List";
+import PageHeader from "@/components/common/PageHeader";
 
 // /admin/restaurants/:restaurantId: check one restaurant, then approve, reject, suspend
 // or reactivate it [AC-ADM-03]. Every action asks first; reject and suspend need a reason [AC-ADM-08].
@@ -77,30 +79,23 @@ const AdminRestaurantDetailPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-3xl py-8">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <Link to="/admin/restaurants" className="text-[15px] font-bold text-primary">
-            ← Restaurants
-          </Link>
-          <Link
-            to={"/admin/audit-log?targetId=" + restaurant.id}
-            className="text-[15px] font-bold text-primary"
-          >
-            History
-          </Link>
-        </div>
-
-        <div className="mt-3 flex flex-wrap items-start justify-between gap-3">
-          <div>
-            <Heading level={1}>{restaurant.name}</Heading>
-            <Text size="small" muted className="mt-1">
-              Legal name: {restaurant.legalName || "not given"}
-            </Text>
-          </div>
-          <StatusPill label={statusInfo.label} tone={statusInfo.tone} />
-        </div>
+        <PageHeader
+          back={{ to: "/admin/restaurants", label: "Restaurants" }}
+          title={restaurant.name}
+          meta={"Legal name: " + (restaurant.legalName || "not given")}
+          badge={<StatusBadge label={statusInfo.label} tone={statusInfo.tone} />}
+          actions={
+            <Link
+              to={"/admin/audit-log?targetId=" + restaurant.id}
+              className="inline-flex min-h-11 items-center text-[15px] font-bold text-primary"
+            >
+              History
+            </Link>
+          }
+        />
 
         {restaurant.rejectionReason && (
-          <Card className="mt-4 border-destructive">
+          <Card tone="danger" className="mt-4">
             <p className="font-bold text-destructive">Last reason given</p>
             <p className="mt-1">{restaurant.rejectionReason}</p>
           </Card>
@@ -267,28 +262,21 @@ const Documents = ({ restaurantId }) => {
         </Text>
       )}
       {data && data.length > 0 && (
-        <ul className="mt-3 divide-y divide-border rounded-lg border border-border bg-card">
+        <List className="mt-3">
           {data.map((document) => (
-            <li key={document.documentType}>
-              <a
-                href={document.url}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-3 px-4 py-3"
-              >
-                <FileText size={18} className="shrink-0 text-primary" aria-hidden="true" />
-                <span className="flex-1 font-bold">
-                  {DOCUMENT_NAMES[document.documentType] || document.documentType}
-                </span>
-                <span className="text-[13px] text-muted-foreground uppercase">
+            <ListRow
+              key={document.documentType}
+              href={document.url}
+              leading={<ListIcon icon={FileText} />}
+              title={DOCUMENT_NAMES[document.documentType] || document.documentType}
+              trailing={
+                <span className="text-[13px] font-normal text-muted-foreground uppercase">
                   {document.format}
                 </span>
-                <ExternalLink size={16} className="text-muted-foreground" aria-hidden="true" />
-                <span className="sr-only">(opens in a new tab)</span>
-              </a>
-            </li>
+              }
+            />
           ))}
-        </ul>
+        </List>
       )}
     </section>
   );
@@ -328,22 +316,17 @@ const Performance = ({ performance }) => {
           No orders yet.
         </Text>
       ) : (
-        <ul className="mt-2 divide-y divide-border rounded-lg border border-border bg-card">
+        <List className="mt-2">
           {performance.recentOrders.map((order) => (
-            <li
+            <ListRow
               key={order.id}
-              className="flex flex-wrap items-center justify-between gap-2 px-4 py-3"
-            >
-              <div>
-                <p className="font-bold">{order.orderNumber}</p>
-                <p className="text-[13px] text-muted-foreground">
-                  {formatDateTime(order.createdAt)} · {formatMoney(order.totalPesewas)}
-                </p>
-              </div>
-              <OrderStatusBadge status={order.status} />
-            </li>
+              to={"/admin/orders/" + order.id}
+              title={order.orderNumber}
+              badge={<OrderStatusBadge status={order.status} />}
+              meta={formatDateTime(order.createdAt) + " · " + formatMoney(order.totalPesewas)}
+            />
           ))}
-        </ul>
+        </List>
       )}
     </section>
   );

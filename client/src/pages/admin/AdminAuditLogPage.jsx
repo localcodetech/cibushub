@@ -3,7 +3,6 @@ import { Link, useSearchParams } from "react-router";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { ScrollText } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
@@ -11,6 +10,9 @@ import ErrorState from "@/components/common/ErrorState";
 import { getAuditActionsRequest, getAuditLogsRequest } from "@/api/admin";
 import { ROLE_NAMES } from "@/data/userLabels";
 import { formatDateTime } from "@/utils/date";
+import { List } from "@/components/common/List";
+import PageHeader from "@/components/common/PageHeader";
+import { fieldLabel, fieldValue } from "@/data/auditLabels";
 
 // What each kind of target is called, and where its page is (if it has one)
 const TARGETS = {
@@ -30,28 +32,14 @@ const actionWords = (action) => {
   return words.charAt(0).toUpperCase() + words.slice(1);
 };
 
-// A value from before/after, as short text
-const valueText = (value) => {
-  if (value === null || value === undefined) {
-    return "—";
-  }
-  // A map point: "6.6886, -1.6244" instead of its raw data
-  if (typeof value === "object" && "latitude" in value && "longitude" in value) {
-    return Number(value.latitude).toFixed(5) + ", " + Number(value.longitude).toFixed(5);
-  }
-  if (typeof value === "object") {
-    return JSON.stringify(value);
-  }
-  return String(value);
-};
-
-// { status: "ACTIVE" } and { status: "SUSPENDED" } -> [["status", "ACTIVE", "SUSPENDED"]]
+// { status: "ACTIVE" } and { status: "SUSPENDED" } -> [["Status", "Active", "Suspended"]]
+// (labels and values in words: data/auditLabels.js)
 const changesOf = (before, after) => {
   const keys = new Set([...Object.keys(before || {}), ...Object.keys(after || {})]);
   return [...keys].map((key) => [
-    key,
-    valueText(before ? before[key] : undefined),
-    valueText(after ? after[key] : undefined),
+    fieldLabel(key),
+    fieldValue(key, before ? before[key] : undefined),
+    fieldValue(key, after ? after[key] : undefined),
   ]);
 };
 
@@ -86,10 +74,10 @@ const AdminAuditLogPage = () => {
   return (
     <Container>
       <section className="py-8">
-        <Heading level={1}>Audit log</Heading>
-        <Text muted className="mt-1">
-          Every admin action, newest first. Nothing here can be changed or deleted.
-        </Text>
+        <PageHeader
+          title="Audit log"
+          subtitle="Every admin action, newest first. Nothing here can be changed or deleted."
+        />
         {targetId && (
           <Text className="mt-2">
             Showing one item's history.{" "}
@@ -205,7 +193,7 @@ const LogList = ({ data, isPending, error, onRetry }) => {
   }
 
   return (
-    <ol className="divide-y divide-border rounded-lg border border-border bg-card">
+    <List as="ol">
       {data.logs.map((log) => {
         const target = TARGETS[log.targetType] || { label: log.targetType, path: null };
         const changes = changesOf(log.before, log.after);
@@ -243,7 +231,7 @@ const LogList = ({ data, isPending, error, onRetry }) => {
           </li>
         );
       })}
-    </ol>
+    </List>
   );
 };
 

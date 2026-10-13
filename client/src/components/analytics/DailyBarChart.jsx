@@ -8,6 +8,7 @@ import { AXIS_TICK, GRID_PROPS, SERIES_COLORS, shortDay } from "./chartTheme";
 //   days: [{ day: "2026-10-09", ... }]; dataKey: which number to draw; name: what it is
 //   formatValue: number -> words for the tooltip; axisFormat: shorter words for the axis
 //   axisWidth: room for the axis numbers (money needs more)
+//   minTop: the axis reaches at least this high (e.g. MONEY_AXIS_MIN_TOP for money)
 const DailyBarChart = ({
   title,
   summary,
@@ -17,6 +18,7 @@ const DailyBarChart = ({
   formatValue = String,
   axisFormat = String,
   axisWidth = 40,
+  minTop = 4,
 }) => {
   return (
     <ChartFigure title={title} summary={summary}>
@@ -33,6 +35,7 @@ const DailyBarChart = ({
           />
           <YAxis
             allowDecimals={false}
+            domain={[0, (dataMax) => Math.max(dataMax, minTop)]}
             tickFormatter={axisFormat}
             tick={AXIS_TICK}
             tickLine={false}

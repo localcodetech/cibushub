@@ -1,9 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router";
-import { CircleAlert } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import FormField from "@/components/form/FormField";
 import { Button } from "@/components/ui/button";
@@ -11,6 +9,8 @@ import { registerSchema } from "@/validators/auth/registerSchema";
 import { registerRequest } from "@/api/auth";
 import { registerRoles } from "@/data/registerRoles";
 import SocialSignInButtons from "@/components/auth/SocialSignInButtons";
+import PageHeader from "@/components/common/PageHeader";
+import Alert from "@/components/common/Alert";
 
 // Sign-up for customers, restaurant owners and riders [AC-AUTH-01, AC-AUTH-05]
 
@@ -77,7 +77,7 @@ const RegisterPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-md py-10">
-        <Heading level={1}>Create an account</Heading>
+        <PageHeader title="Create an account" />
         <Text muted className="mt-2">
           Join CibusHub in Kumasi. Choose how you'll use it.
         </Text>
@@ -185,13 +185,10 @@ const RegisterPage = () => {
           </label>
 
           {errors.root && (
-            <div
-              role="alert"
-              className="flex items-start gap-2 rounded-lg border border-destructive p-3 text-[15px] text-destructive"
-            >
-              <CircleAlert size={20} className="mt-0.5 shrink-0" aria-hidden="true" />
+            <Alert>
+              {" "}
               <span>{errors.root.message}</span>
-            </div>
+            </Alert>
           )}
 
           {/* Disabled while sending, so a double tap can't create two accounts [AC-UX-05] */}

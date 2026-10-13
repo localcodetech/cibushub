@@ -24,6 +24,8 @@ import { VEHICLE_NAMES } from "@/data/riderStatuses";
 import { onOrderUpdated } from "@/lib/liveUpdates";
 import { formatMoney } from "@/utils/money";
 import { formatDateTime } from "@/utils/date";
+import { List } from "@/components/common/List";
+import PageHeader from "@/components/common/PageHeader";
 
 // Who did a step, in words
 const ACTOR_WORDS = {
@@ -98,27 +100,20 @@ const AdminOrderDetailPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-3xl py-8">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <Link to="/admin/orders" className="text-[15px] font-bold text-primary">
-            ← Orders
-          </Link>
-          <Link
-            to={"/admin/audit-log?targetId=" + order.id}
-            className="text-[15px] font-bold text-primary"
-          >
-            History
-          </Link>
-        </div>
-
-        <div className="mt-3 flex flex-wrap items-start justify-between gap-3">
-          <div>
-            <Heading level={1}>{order.orderNumber}</Heading>
-            <Text size="small" muted className="mt-1">
-              Placed {formatDateTime(order.createdAt)}
-            </Text>
-          </div>
-          <OrderStatusBadge status={order.status} />
-        </div>
+        <PageHeader
+          back={{ to: "/admin/orders", label: "Orders" }}
+          title={order.orderNumber}
+          meta={"Placed " + formatDateTime(order.createdAt)}
+          badge={<OrderStatusBadge status={order.status} />}
+          actions={
+            <Link
+              to={"/admin/audit-log?targetId=" + order.id}
+              className="inline-flex min-h-11 items-center text-[15px] font-bold text-primary"
+            >
+              History
+            </Link>
+          }
+        />
 
         {/* Only the actions that apply now */}
         <div className="mt-6 flex flex-wrap gap-3">
@@ -271,7 +266,7 @@ const Timeline = ({ timeline }) => {
   return (
     <section className="mt-8">
       <Heading level={2}>Timeline</Heading>
-      <ol className="mt-3 divide-y divide-border rounded-lg border border-border bg-card">
+      <List as="ol" className="mt-3">
         {timeline.map((entry) => (
           <li key={entry.status + entry.at} className="px-4 py-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
@@ -287,7 +282,7 @@ const Timeline = ({ timeline }) => {
             {entry.reason && <p className="mt-1 text-[15px]">{entry.reason}</p>}
           </li>
         ))}
-      </ol>
+      </List>
     </section>
   );
 };
@@ -327,7 +322,7 @@ const Money = ({ order }) => {
           No payment attempts.
         </Text>
       ) : (
-        <ul className="mt-2 divide-y divide-border rounded-lg border border-border bg-card">
+        <List className="mt-2">
           {order.payments.map((payment) => (
             <li key={payment.id} className="px-4 py-3 text-[15px]">
               <div className="flex flex-wrap justify-between gap-2">
@@ -344,7 +339,7 @@ const Money = ({ order }) => {
               )}
             </li>
           ))}
-        </ul>
+        </List>
       )}
 
       {order.refunds.length > 0 && (
@@ -352,7 +347,7 @@ const Money = ({ order }) => {
           <Heading level={3} className="mt-6">
             Refunds
           </Heading>
-          <ul className="mt-2 divide-y divide-border rounded-lg border border-border bg-card">
+          <List className="mt-2">
             {order.refunds.map((refund) => (
               <li key={refund.id} className="px-4 py-3 text-[15px]">
                 <div className="flex flex-wrap justify-between gap-2">
@@ -362,7 +357,7 @@ const Money = ({ order }) => {
                 <p className="text-[13px] text-muted-foreground">{refund.reason}</p>
               </li>
             ))}
-          </ul>
+          </List>
         </>
       )}
     </section>

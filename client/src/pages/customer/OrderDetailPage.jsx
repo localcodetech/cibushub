@@ -26,6 +26,7 @@ import { formatMoney } from "@/utils/money";
 import { formatDateTime, formatTime } from "@/utils/date";
 import { followOrder, onOrderUpdated } from "@/lib/liveUpdates";
 import { useConnectionStore } from "@/store/connectionStore";
+import PageHeader from "@/components/common/PageHeader";
 
 // Changes normally arrive instantly over the live connection [AC-RT-03].
 // Checking now and then is the backup: rarely while live, more often while it is down.
@@ -212,181 +213,184 @@ const OrderDetailPage = () => {
 
   return (
     <DetailLayout>
-      <Link to="/customer/orders" className="text-[15px] font-bold text-primary">
-        ← My orders
-      </Link>
+      <PageHeader
+        back={{ to: "/customer/orders", label: "My orders" }}
+        title={order.restaurant.name}
+        meta={order.orderNumber + " · " + formatDateTime(order.createdAt)}
+        badge={<OrderStatusBadge status={order.status} />}
+      />
 
-      <div className="mt-3 flex flex-wrap items-start justify-between gap-3">
+      {/* Wide screens: what's happening on the left; the order, address and buttons on the
+          right, staying in view while scrolling. Phones: one column, in this same order. */}
+      <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-start lg:gap-10">
         <div>
-          <Heading level={1}>{order.restaurant.name}</Heading>
-          <Text size="small" muted className="mt-1">
-            {order.orderNumber} · {formatDateTime(order.createdAt)}
-          </Text>
-        </div>
-        <OrderStatusBadge status={order.status} />
-      </div>
+          {/* Not paid yet: the way to pay [AC-PAY-10] */}
+          {order.status === "PENDING_PAYMENT" && (
+            <Card className="mt-6">
+              <p className="font-bold">Waiting for payment</p>
+              <Text size="small" muted className="mt-1">
+                The restaurant gets your order once it is paid. Unpaid orders are cancelled after 30
+                minutes.
+              </Text>
+              <Link
+                to={"/orders/" + order.id + "/payment"}
+                className="mt-4 flex min-h-12 items-center justify-center rounded-md bg-primary font-bold text-primary-foreground"
+              >
+                Pay {formatMoney(order.totalPesewas)}
+              </Link>
+            </Card>
+          )}
 
-      {/* Not paid yet: the way to pay [AC-PAY-10] */}
-      {order.status === "PENDING_PAYMENT" && (
-        <Card className="mt-6">
-          <p className="font-bold">Waiting for payment</p>
-          <Text size="small" muted className="mt-1">
-            The restaurant gets your order once it is paid. Unpaid orders are cancelled after 30
-            minutes.
-          </Text>
-          <Link
-            to={"/orders/" + order.id + "/payment"}
-            className="mt-4 flex min-h-12 items-center justify-center rounded-md bg-primary font-bold text-primary-foreground"
-          >
-            Pay {formatMoney(order.totalPesewas)}
-          </Link>
-        </Card>
-      )}
+          {SHOW_READY_TIME_FOR.includes(order.status) && order.estimatedReadyAt && (
+            <Card className="mt-6">
+              <p className="text-[15px] text-muted-foreground">Food ready around</p>
+              <p className="font-heading text-2xl font-bold">
+                {formatTime(order.estimatedReadyAt)}
+              </p>
+            </Card>
+          )}
 
-      {SHOW_READY_TIME_FOR.includes(order.status) && order.estimatedReadyAt && (
-        <Card className="mt-6">
-          <p className="text-[15px] text-muted-foreground">Food ready around</p>
-          <p className="font-heading text-2xl font-bold">{formatTime(order.estimatedReadyAt)}</p>
-        </Card>
-      )}
+          {/* Delivered: rate the food (and the rider) [AC-REV-01 to 03] */}
+          {order.status === "DELIVERED" && <ReviewPanel orderId={order.id} />}
 
-      {/* Delivered: rate the food (and the rider) [AC-REV-01 to 03] */}
-      {order.status === "DELIVERED" && <ReviewPanel orderId={order.id} />}
+          {/* The rider is on the way: live map, ETA and the delivery code [AC-RT-04] */}
+          {TRACKED_STATUSES.includes(order.status) && <LiveTracking order={order} />}
 
-      {/* The rider is on the way: live map, ETA and the delivery code [AC-RT-04] */}
-      {TRACKED_STATUSES.includes(order.status) && <LiveTracking order={order} />}
+          <section className="mt-8">
+            <Heading level={2} className="mb-4">
+              Progress
+            </Heading>
+            <OrderTimeline status={order.status} timeline={order.timeline} />
+          </section>
 
-      <section className="mt-8">
-        <Heading level={2} className="mb-4">
-          Progress
-        </Heading>
-        <OrderTimeline status={order.status} timeline={order.timeline} />
-      </section>
-
-      {/* Money coming back after a cancel or rejection [AC-CANC-04] */}
-      {order.refunds.length > 0 && (
-        <Card className="mt-4">
-          {order.refunds.map((refund) => (
-            <p key={refund.id} className="text-[15px]">
-              Refund of <span className="font-bold">{formatMoney(refund.amountPesewas)}</span>{" "}
-              {REFUND_STATUS_WORDS[refund.status] || refund.status}. It usually reaches your account
-              in a few working days.
-            </p>
-          ))}
-        </Card>
-      )}
-
-      <section className="mt-8">
-        <Heading level={2}>Your order</Heading>
-        <ul className="mt-3 divide-y divide-border border-y border-border">
-          {order.items.map((item) => (
-            <li key={item.id} className="flex justify-between gap-4 py-3">
-              <div className="min-w-0">
-                <p>
-                  <span className="font-bold">{item.quantity} ×</span> {item.name}
+          {/* Money coming back after a cancel or rejection [AC-CANC-04] */}
+          {order.refunds.length > 0 && (
+            <Card className="mt-4">
+              {order.refunds.map((refund) => (
+                <p key={refund.id} className="text-[15px]">
+                  Refund of <span className="font-bold">{formatMoney(refund.amountPesewas)}</span>{" "}
+                  {REFUND_STATUS_WORDS[refund.status] || refund.status}. It usually reaches your
+                  account in a few working days.
                 </p>
-                {item.options.length > 0 && (
-                  <p className="text-[15px] text-muted-foreground">
-                    {item.options.map((option) => option.name).join(", ")}
-                  </p>
-                )}
+              ))}
+            </Card>
+          )}
+        </div>
+
+        <aside className="lg:sticky lg:top-6 lg:[&>*:first-child]:mt-6">
+          <section className="mt-8">
+            <Heading level={2}>Your order</Heading>
+            <ul className="mt-3 divide-y divide-border border-y border-border">
+              {order.items.map((item) => (
+                <li key={item.id} className="flex justify-between gap-4 py-3">
+                  <div className="min-w-0">
+                    <p>
+                      <span className="font-bold">{item.quantity} ×</span> {item.name}
+                    </p>
+                    {item.options.length > 0 && (
+                      <p className="text-[15px] text-muted-foreground">
+                        {item.options.map((option) => option.name).join(", ")}
+                      </p>
+                    )}
+                  </div>
+                  <p className="shrink-0">{formatMoney(item.lineTotalPesewas)}</p>
+                </li>
+              ))}
+            </ul>
+            <dl className="mt-3 space-y-1 text-[15px]">
+              <MoneyRow label="Subtotal" pesewas={order.subtotalPesewas} />
+              <MoneyRow label="Delivery fee" pesewas={order.deliveryFeePesewas} />
+              {order.serviceFeePesewas > 0 && (
+                <MoneyRow label="Service fee" pesewas={order.serviceFeePesewas} />
+              )}
+              {order.discountPesewas > 0 && (
+                <MoneyRow label="Discount" pesewas={-order.discountPesewas} />
+              )}
+              <div className="flex justify-between border-t border-border pt-2 text-base font-bold">
+                <dt>Total</dt>
+                <dd>{formatMoney(order.totalPesewas)}</dd>
               </div>
-              <p className="shrink-0">{formatMoney(item.lineTotalPesewas)}</p>
-            </li>
-          ))}
-        </ul>
-        <dl className="mt-3 space-y-1 text-[15px]">
-          <MoneyRow label="Subtotal" pesewas={order.subtotalPesewas} />
-          <MoneyRow label="Delivery fee" pesewas={order.deliveryFeePesewas} />
-          {order.serviceFeePesewas > 0 && (
-            <MoneyRow label="Service fee" pesewas={order.serviceFeePesewas} />
-          )}
-          {order.discountPesewas > 0 && (
-            <MoneyRow label="Discount" pesewas={-order.discountPesewas} />
-          )}
-          <div className="flex justify-between border-t border-border pt-2 text-base font-bold">
-            <dt>Total</dt>
-            <dd>{formatMoney(order.totalPesewas)}</dd>
+            </dl>
+          </section>
+
+          {/* Where it goes: the order's own copy of the address [AC-CHK-07] */}
+          <Card className="mt-8 space-y-2 text-[15px]">
+            <p className="flex items-start gap-2">
+              <MapPin size={18} className="mt-0.5 shrink-0 text-primary" aria-hidden="true" />
+              <span>
+                {[order.deliveryArea, order.deliveryLandmark].filter(Boolean).join(" · ") ||
+                  "Your pinned location"}
+              </span>
+            </p>
+            <p className="flex items-start gap-2">
+              <Phone size={18} className="mt-0.5 shrink-0 text-primary" aria-hidden="true" />
+              <span>The rider will call {order.contactPhone}</span>
+            </p>
+            {order.restaurantNote && (
+              <p>
+                <span className="font-bold">Kitchen note:</span> {order.restaurantNote}
+              </p>
+            )}
+            {order.riderNote && (
+              <p>
+                <span className="font-bold">Rider note:</span> {order.riderNote}
+              </p>
+            )}
+          </Card>
+
+          <div className="mt-8 flex flex-col gap-3">
+            {/* Only finished, delivered orders can be ordered again [AC-CUST-10] */}
+            {order.status === "DELIVERED" && (
+              <button
+                type="button"
+                onClick={handleReorder}
+                disabled={isReordering}
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-primary font-bold text-primary-foreground disabled:opacity-60"
+              >
+                <RotateCcw size={18} aria-hidden="true" />
+                {isReordering ? "Checking the menu…" : "Reorder"}
+              </button>
+            )}
+            {reorderError && (
+              <p role="alert" className="text-center text-[15px] text-destructive">
+                {reorderError}
+              </p>
+            )}
+
+            {wasPaid && (
+              <Link
+                to={"/customer/orders/" + order.id + "/receipt"}
+                className="flex min-h-12 items-center justify-center rounded-md border border-border font-bold"
+              >
+                View receipt
+              </Link>
+            )}
+
+            {canCancel && (
+              <button
+                type="button"
+                onClick={() => setIsCancelOpen(true)}
+                className="min-h-12 rounded-md border border-destructive font-bold text-destructive"
+              >
+                Cancel order
+              </button>
+            )}
+
+            {/* Too late to cancel in the app: who to contact instead [AC-CANC-02] */}
+            {!canCancel && !isFinished && (
+              <Text size="small" muted className="text-center">
+                The restaurant has started on your order, so it can't be cancelled here. Need help?
+                Call {order.restaurant.name} on {order.restaurant.phone} or email {CONTACT_EMAIL}.
+              </Text>
+            )}
+
+            {cancelError && !isCancelOpen && (
+              <p role="alert" className="text-center text-[15px] text-destructive">
+                {cancelError}
+              </p>
+            )}
           </div>
-        </dl>
-      </section>
-
-      {/* Where it goes: the order's own copy of the address [AC-CHK-07] */}
-      <Card className="mt-8 space-y-2 text-[15px]">
-        <p className="flex items-start gap-2">
-          <MapPin size={18} className="mt-0.5 shrink-0 text-primary" aria-hidden="true" />
-          <span>
-            {[order.deliveryArea, order.deliveryLandmark].filter(Boolean).join(" · ") ||
-              "Your pinned location"}
-          </span>
-        </p>
-        <p className="flex items-start gap-2">
-          <Phone size={18} className="mt-0.5 shrink-0 text-primary" aria-hidden="true" />
-          <span>The rider will call {order.contactPhone}</span>
-        </p>
-        {order.restaurantNote && (
-          <p>
-            <span className="font-bold">Kitchen note:</span> {order.restaurantNote}
-          </p>
-        )}
-        {order.riderNote && (
-          <p>
-            <span className="font-bold">Rider note:</span> {order.riderNote}
-          </p>
-        )}
-      </Card>
-
-      <div className="mt-8 flex flex-col gap-3">
-        {/* Only finished, delivered orders can be ordered again [AC-CUST-10] */}
-        {order.status === "DELIVERED" && (
-          <button
-            type="button"
-            onClick={handleReorder}
-            disabled={isReordering}
-            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-primary font-bold text-primary-foreground disabled:opacity-60"
-          >
-            <RotateCcw size={18} aria-hidden="true" />
-            {isReordering ? "Checking the menu…" : "Reorder"}
-          </button>
-        )}
-        {reorderError && (
-          <p role="alert" className="text-center text-[15px] text-destructive">
-            {reorderError}
-          </p>
-        )}
-
-        {wasPaid && (
-          <Link
-            to={"/customer/orders/" + order.id + "/receipt"}
-            className="flex min-h-12 items-center justify-center rounded-md border border-border font-bold"
-          >
-            View receipt
-          </Link>
-        )}
-
-        {canCancel && (
-          <button
-            type="button"
-            onClick={() => setIsCancelOpen(true)}
-            className="min-h-12 rounded-md border border-destructive font-bold text-destructive"
-          >
-            Cancel order
-          </button>
-        )}
-
-        {/* Too late to cancel in the app: who to contact instead [AC-CANC-02] */}
-        {!canCancel && !isFinished && (
-          <Text size="small" muted className="text-center">
-            The restaurant has started on your order, so it can't be cancelled here. Need help? Call{" "}
-            {order.restaurant.name} on {order.restaurant.phone} or email {CONTACT_EMAIL}.
-          </Text>
-        )}
-
-        {cancelError && !isCancelOpen && (
-          <p role="alert" className="text-center text-[15px] text-destructive">
-            {cancelError}
-          </p>
-        )}
+        </aside>
       </div>
 
       {reorderResult && (
@@ -431,7 +435,7 @@ const MoneyRow = ({ label, pesewas }) => {
 const DetailLayout = ({ children }) => {
   return (
     <Container>
-      <section className="mx-auto max-w-2xl py-8">{children}</section>
+      <section className="mx-auto max-w-2xl py-8 lg:max-w-5xl">{children}</section>
     </Container>
   );
 };

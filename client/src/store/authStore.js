@@ -15,6 +15,9 @@ export const useAuthStore = create((set) => ({
 
   // true while we ask the server "who is logged in?" when the app first opens
   isCheckingSession: true,
+  // Set when "who is logged in?" could not be answered (too many requests, no connection,
+  // server trouble): the app asks to try again instead of treating the user as logged out
+  sessionError: null,
 
   // After a successful login
   setUser: (user) => {
@@ -49,12 +52,19 @@ export const useAuthStore = create((set) => ({
   // Runs once when the app opens, so a page refresh keeps the user logged in.
   // If the 15-minute cookie has run out, lib/api.js renews it on its own (silent refresh).
   // If that fails too, the visitor is a guest.
+  // Only a real "not logged in" answer (401) makes the visitor a guest. Any other failure keeps
+  // the question open and shows "Try again" (App.jsx), so a busy moment never logs anyone out.
   checkSession: async () => {
+    set({ isCheckingSession: true, sessionError: null });
     try {
       const user = await getMeRequest();
       set({ user: user, isCheckingSession: false });
-    } catch {
-      set({ user: null, isCheckingSession: false });
+    } catch (error) {
+      if (error.status === 401) {
+        set({ user: null, isCheckingSession: false });
+      } else {
+        set({ user: null, isCheckingSession: false, sessionError: error.message });
+      }
     }
   },
 }));

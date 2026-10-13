@@ -1,18 +1,19 @@
 import { useSearchParams } from "react-router";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { Wallet } from "lucide-react";
+import { Package, Undo2, Wallet } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
-import Card from "@/components/common/Card";
+import StatTile from "@/components/common/StatTile";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
 import ErrorState from "@/components/common/ErrorState";
 import { getEarningsRequest } from "@/api/riderWork";
-import { cn } from "@/lib/utils";
 import { formatMoney } from "@/utils/money";
 import { formatDistance } from "@/utils/distance";
 import { formatDay, formatMonth, formatRange, formatTime, todayInGhana } from "@/utils/date";
+import { List, ListIcon, ListRow } from "@/components/common/List";
+import Tabs from "@/components/common/Tabs";
+import PageHeader from "@/components/common/PageHeader";
 
 const PERIODS = [
   { value: "day", label: "Day" },
@@ -69,28 +70,16 @@ const RiderEarningsPage = () => {
   return (
     <Container>
       <section className="flex flex-col gap-4 py-6">
-        <Heading level={1}>Earnings</Heading>
+        <PageHeader title="Earnings" />
 
-        {/* Day / Week / Month: one choice, like radio buttons */}
-        <div role="radiogroup" aria-label="Period" className="grid grid-cols-3 gap-2">
-          {PERIODS.map((option) => (
-            <button
-              key={option.value}
-              type="button"
-              role="radio"
-              aria-checked={period === option.value}
-              onClick={() => changeFilters({ period: option.value })}
-              className={cn(
-                "min-h-11 rounded-lg border font-bold",
-                period === option.value
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border",
-              )}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
+        {/* Day / Week / Month: one choice */}
+        <Tabs
+          label="Period"
+          fill
+          value={period}
+          onChange={(value) => changeFilters({ period: value })}
+          options={PERIODS}
+        />
 
         <label className="flex flex-col gap-1 text-[15px] font-bold">
           {period === "day" ? "Day" : "Any day in the " + period}
@@ -129,15 +118,12 @@ const EarningsSummary = ({ query, period, date }) => {
   }
 
   return (
-    <Card className="flex flex-col gap-1">
-      <Text muted className="text-[15px]">
-        {title}
-      </Text>
-      <p className="font-heading text-4xl font-bold">{formatMoney(summary.earningsPesewas)}</p>
-      <Text className="text-[15px]">
-        {summary.deliveryCount} {summary.deliveryCount === 1 ? "delivery" : "deliveries"}
-      </Text>
-    </Card>
+    <StatTile
+      size="lg"
+      label={title}
+      value={formatMoney(summary.earningsPesewas)}
+      note={summary.deliveryCount + " " + (summary.deliveryCount === 1 ? "delivery" : "deliveries")}
+    />
   );
 };
 
@@ -169,28 +155,29 @@ const EarningsList = ({ query, onChangePage }) => {
 
   return (
     <>
-      <ul className="divide-y divide-border rounded-lg border border-border bg-card">
+      <List>
         {deliveries.map((delivery) => (
-          <li key={delivery.deliveryId} className="px-4 py-3">
-            <div className="flex items-center justify-between gap-2">
-              <p className="font-bold">{delivery.restaurantName}</p>
-              <p className="font-bold">{formatMoney(delivery.earningsPesewas)}</p>
-            </div>
-            {/* Food taken back to the restaurant pays 1.5x (ADR 003) */}
-            {delivery.outcome === "RETURNED" && (
-              <p className="text-[13px] font-bold text-amber-700 dark:text-amber-400">
-                Returned to the restaurant · 1.5x
-              </p>
-            )}
-            <p className="mt-1 text-[13px] text-muted-foreground">
-              {formatDay(delivery.settledAt.slice(0, 10))} · {formatTime(delivery.settledAt)} ·{" "}
-              {delivery.restaurantArea} → {delivery.dropoffArea || "customer"} ·{" "}
-              {formatDistance(delivery.distanceMetres)}
-            </p>
-            <p className="text-[13px] text-muted-foreground">{delivery.orderNumber}</p>
-          </li>
+          <ListRow
+            key={delivery.deliveryId}
+            leading={<ListIcon icon={delivery.outcome === "RETURNED" ? Undo2 : Package} />}
+            title={delivery.restaurantName}
+            trailing={formatMoney(delivery.earningsPesewas)}
+            meta={
+              <>
+                {/* Food taken back to the restaurant pays 1.5x (ADR 003) */}
+                {delivery.outcome === "RETURNED" && (
+                  <span className="block font-bold text-amber-700 dark:text-amber-400">
+                    Returned to the restaurant · 1.5x
+                  </span>
+                )}
+                {formatDay(delivery.settledAt.slice(0, 10))} · {formatTime(delivery.settledAt)} ·{" "}
+                {delivery.restaurantArea} → {delivery.dropoffArea || "customer"} ·{" "}
+                {formatDistance(delivery.distanceMetres)} · {delivery.orderNumber}
+              </>
+            }
+          />
         ))}
-      </ul>
+      </List>
 
       {meta.totalPages > 1 && (
         <nav aria-label="Pages" className="flex items-center justify-between gap-4">

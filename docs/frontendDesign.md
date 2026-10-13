@@ -1,6 +1,6 @@
 # CibusHub Design Guide
 
-**Covers:** colour palette, contrast rules, typography, Adinkra symbols, shadcn/ui theming and Motion (animation).
+**Covers:** colour palette, contrast rules, typography, Adinkra symbols, shadcn/ui theming, Motion (animation) and the shared components every screen is built from.
 **Applies from:** Step 6 (Frontend Foundation) onward.
 **Related criteria:** AC-UX-01 to AC-UX-12, AC-PERF-05, AC-IMG-05.
 
@@ -214,9 +214,56 @@ Animation shows **what changed because the user did something**. It is never dec
 5. **Never block the user.** Animations must never delay a tap or hide a result.
 6. **Load Motion only where needed,** so it doesn't add weight to every page.
 
+### How it is built (Step 13b)
+
+- **One switch:** `MotionConfig reducedMotion="user"` in `main.jsx`. With reduced motion on,
+  movement (slide, scale) is dropped everywhere; short fades stay, as Motion intends.
+- **Plain CSS** (`tw-animate-css`, `motion-reduce:` variants) for simple entrances: the cart
+  badge pop, button press, step progress bar.
+- **Motion** only where CSS can't do it:
+  - sheets that slide out when closed and can be swiped down by their handle
+  - owner board cards gliding in, out and into place (`layout` animates with transforms, so
+    rule 2 still holds)
+  - the sliding highlight in `Tabs`
+- **Focus after a sheet closes** goes back to the button that opened it.
+
 ---
 
-## 7. Implementation Checklist (Step 6)
+## 7. Shared Components (Step 13b)
+
+Every screen is built from these, all in `client/src/components/common/`. A page never makes its
+own card, list, badge, filter, header or alert style: if a component is missing something, add it
+to the component (once) instead of styling one page.
+
+| Need | Use | Rules it encodes |
+|---|---|---|
+| A group of related content | `Card` | Tones: `default` (cream), `highlight` (green tint: the one thing to look at first), `danger` (red tint: a warning about this thing), `quiet` (page colour, for secondary content next to a default card). `interactive` for a tappable card: hover tint, press to 0.98, focus ring. No shadows. |
+| One headline number | `StatTile` | Label, value, optional note; `size="lg"` for the one figure a page is about. |
+| Rows of things | `List` + `ListRow` | Icon tile (`ListIcon`) or `Avatar` on the left, bold title, status on the right of the title, muted meta (wraps, never cut off), optional detail and trailing value. `to` / `href` / `onClick` make the whole row tappable, with a chevron. |
+| A status | `StatusBadge` | Five groups, each with its own colour **and icon**: `neutral` (nothing happening), `attention` (someone must act, gold), `progress` (moving along), `success` (done and good), `danger` (ended badly). Statuses name their group in `data/` files, never a colour. 8px corners. |
+| Switch between views of a page | `Tabs` | Segmented control, one always chosen; optional counts; `urgent` counts are gold and pulse (not for reduced motion). |
+| Filter a list | `ChipRow` + `Chip` | Fully round (filter pills); a chosen chip shows a tick, so "on" is never colour alone. |
+| The top of a page | `PageHeader` | Named back link ("← Orders"), the page's only `h1`, optional photo/avatar and badge, meta line, subtitle, actions that move under the title on phones. |
+| An error or confirmation | `Alert` | Red icon and border with normal-coloured text (danger, `role="alert"`), or green (success, `role="status"`). |
+| Nothing to show | `EmptyState` | Icon in a soft green circle, a title, one sentence, and the next step. |
+| A panel over the page | `Sheet` | Radix Dialog: bottom sheet on phones (swipe down by the handle), centred on wider screens. |
+| No photo yet | `CoverPlaceholder`, `DishImage` | Initials on soft green, never a tall empty grey box. |
+
+### Layout
+
+- **Phones first** (360–390px), one column, in reading order.
+- **Wide screens use the space:** two columns where it helps, with the summary column sticky
+  (order detail, owner history); lists and forms keep a comfortable centred width.
+
+### Dark mode
+
+- The brand green becomes a light mint in dark mode. Use it for **accents** (links, the logo,
+  badges, the chosen tab), never for a **large area**: big blocks (the navbar, the home page hero)
+  use the dark card surface instead.
+
+---
+
+## 8. Implementation Checklist (Step 6)
 
 - [ ] Fonts load (Schibsted Grotesk 600–800, Atkinson Hyperlegible 400 and 700) with `display=swap`
 - [ ] shadcn/ui initialised, and every theme variable mapped to the palette

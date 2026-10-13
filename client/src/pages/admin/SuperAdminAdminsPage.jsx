@@ -2,12 +2,10 @@ import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { UserPlus } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
-import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import ErrorState from "@/components/common/ErrorState";
 import { Button } from "@/components/ui/button";
-import StatusPill from "@/components/admin/StatusPill";
+import StatusBadge from "@/components/common/StatusBadge";
 import ConfirmActionSheet from "@/components/admin/ConfirmActionSheet";
 import CreateAdminSheet from "@/components/admin/CreateAdminSheet";
 import {
@@ -20,6 +18,8 @@ import {
 import { ACCOUNT_STATUSES, ROLE_NAMES } from "@/data/userLabels";
 import { useAuthStore } from "@/store/authStore";
 import { formatDateTime } from "@/utils/date";
+import { List } from "@/components/common/List";
+import PageHeader from "@/components/common/PageHeader";
 
 // Each action's sheet: its title, words and request
 const ACTIONS = {
@@ -79,22 +79,25 @@ const SuperAdminAdminsPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-3xl py-8">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <Heading level={1}>Admins</Heading>
-          <Button onClick={() => setIsAdding(true)} className="h-12 font-bold">
-            <UserPlus size={18} aria-hidden="true" />
-            Add admin
-          </Button>
-        </div>
-        <Text muted className="mt-1">
-          There must always be at least one active super admin.
-        </Text>
+        <PageHeader
+          title="Admins"
+          subtitle="There must always be at least one active super admin."
+
+          actions={
+            <>
+              <Button onClick={() => setIsAdding(true)} className="h-12 font-bold">
+                <UserPlus size={18} aria-hidden="true" />
+                Add admin
+              </Button>
+            </>
+          }
+        />
 
         <div className="mt-6">
           {isPending && <Skeleton className="h-40 w-full" />}
           {error && <ErrorState message={error.message} onRetry={refetch} />}
           {data && (
-            <ul className="divide-y divide-border rounded-lg border border-border bg-card">
+            <List>
               {data.map((admin) => {
                 const statusInfo = ACCOUNT_STATUSES[admin.status];
                 const isMe = admin.id === me.id;
@@ -106,7 +109,7 @@ const SuperAdminAdminsPage = () => {
                         {admin.fullName}
                         {isMe && <span className="font-normal text-muted-foreground"> (you)</span>}
                       </span>
-                      <StatusPill label={statusInfo.label} tone={statusInfo.tone} />
+                      <StatusBadge label={statusInfo.label} tone={statusInfo.tone} />
                     </div>
                     <p className="text-[13px] text-muted-foreground">
                       {ROLE_NAMES[admin.role]} · {admin.email} · {admin.phone} · last login{" "}
@@ -143,7 +146,7 @@ const SuperAdminAdminsPage = () => {
                   </li>
                 );
               })}
-            </ul>
+            </List>
           )}
         </div>
       </section>

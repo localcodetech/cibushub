@@ -2,8 +2,8 @@ import { useState } from "react";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Store } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
+import StatTile from "@/components/common/StatTile";
 import Card from "@/components/common/Card";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
@@ -11,12 +11,13 @@ import ErrorState from "@/components/common/ErrorState";
 import RangePicker from "@/components/analytics/RangePicker";
 import DailyBarChart from "@/components/analytics/DailyBarChart";
 import HorizontalBarChart from "@/components/analytics/HorizontalBarChart";
-import { cedisTick } from "@/components/analytics/chartTheme";
+import { MONEY_AXIS_MIN_TOP, cedisTick } from "@/components/analytics/chartTheme";
 import RatingChart from "@/components/owner/analytics/RatingChart";
 import { getMyRestaurantsRequest, getRestaurantAnalyticsRequest } from "@/api/ownerAnalytics";
 import { formatDay } from "@/utils/date";
 import { presetRange, rangeProblem } from "@/utils/dateRange";
 import { formatMoney } from "@/utils/money";
+import PageHeader from "@/components/common/PageHeader";
 
 // /owner/analytics: how one of my restaurants is doing [AC-ANL-03].
 // Only my own restaurants: the server returns 404 for anyone else's.
@@ -31,7 +32,12 @@ const OwnerAnalyticsPage = () => {
   });
 
   const restaurantList = restaurants.data || [];
-  const restaurantId = chosenId || (restaurantList[0] ? restaurantList[0].id : "");
+  // Until the owner picks one: the restaurant that had an order most recently (the one they
+  // most likely want to see), or their newest restaurant if none has orders yet
+  const busiest = [...restaurantList].sort((a, b) =>
+    (b.lastOrderAt || "").localeCompare(a.lastOrderAt || ""),
+  )[0];
+  const restaurantId = chosenId || (busiest ? busiest.id : "");
   const problem = rangeProblem(range);
 
   const analytics = useQuery({
@@ -77,10 +83,15 @@ const OwnerAnalyticsPage = () => {
   return (
     <Container>
       <section className="py-8">
-        <div className="flex flex-wrap items-end justify-between gap-3">
-          <Heading level={1}>Analytics</Heading>
-          <RangePicker range={range} onChange={setRange} />
-        </div>
+        <PageHeader
+          title="Analytics"
+
+          actions={
+            <>
+              <RangePicker range={range} onChange={setRange} />
+            </>
+          }
+        />
 
         {/* Only owners with more than one restaurant need to choose */}
         {restaurantList.length > 1 && (
@@ -149,9 +160,9 @@ const AnalyticsBody = ({ data, isPending, error, onRetry }) => {
   return (
     <>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:gap-4">
-        <Total label="Paid orders" value={data.totals.orders} />
-        <Total label="Your earnings" value={formatMoney(data.totals.earningsPesewas)} />
-        <Total
+        <StatTile label="Paid orders" value={data.totals.orders} />
+        <StatTile label="Your earnings" value={formatMoney(data.totals.earningsPesewas)} />
+        <StatTile
           label="Average rating"
           value={
             data.totals.averageRating === null
@@ -179,6 +190,7 @@ const AnalyticsBody = ({ data, isPending, error, onRetry }) => {
           formatValue={formatMoney}
           axisFormat={cedisTick}
           axisWidth={84}
+          minTop={MONEY_AXIS_MIN_TOP}
         />
         <HorizontalBarChart
           title="Best sellers"
@@ -198,20 +210,10 @@ const AnalyticsBody = ({ data, isPending, error, onRetry }) => {
   );
 };
 
-const Total = ({ label, value, note }) => {
-  return (
-    <Card>
-      <p className="text-[15px] text-muted-foreground">{label}</p>
-      <p className="mt-1 font-heading text-2xl font-bold">{value}</p>
-      {note && <p className="mt-1 text-[13px] text-muted-foreground">{note}</p>}
-    </Card>
-  );
-};
-
 // The same numbers as a table, for anyone who can't read the charts [AC-UX-08]
 const DaysTable = ({ days }) => {
   return (
-    <details className="mt-4 rounded-lg border border-border bg-card">
+    <Card as="details" padding="none" className="mt-4">
       <summary className="min-h-12 cursor-pointer px-4 py-3 font-bold">
         Show the numbers as a table
       </summary>
@@ -253,7 +255,7 @@ const DaysTable = ({ days }) => {
           </tbody>
         </table>
       </div>
-    </details>
+    </Card>
   );
 };
 

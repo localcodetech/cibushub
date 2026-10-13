@@ -2,13 +2,13 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { CircleAlert } from "lucide-react";
 import Sheet from "@/components/common/Sheet";
 import FormField from "@/components/form/FormField";
 import { Button } from "@/components/ui/button";
 import { createAdminRequest } from "@/api/superAdmin";
 import { isGhanaPhone } from "@/utils/phone";
 import { passwordField } from "@/validators/auth/fields";
+import Alert from "@/components/common/Alert";
 
 // The same rules as the server [AC-AUTH-03]
 const createAdminSchema = z.object({
@@ -124,13 +124,10 @@ const CreateAdminSheet = ({ onDone, onClose }) => {
         </fieldset>
 
         {rootError && (
-          <div
-            role="alert"
-            className="flex items-start gap-2 rounded-lg border border-destructive p-3 text-[15px] text-destructive"
-          >
-            <CircleAlert size={20} className="mt-0.5 shrink-0" aria-hidden="true" />
+          <Alert>
+            {" "}
             <span>{rootError}</span>
-          </div>
+          </Alert>
         )}
 
         <div className="flex gap-3">

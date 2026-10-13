@@ -1,18 +1,19 @@
 import { useState } from "react";
-import { Link } from "react-router";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { ChevronRight, Search, Users } from "lucide-react";
+import { Search, Users } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
 import ErrorState from "@/components/common/ErrorState";
-import StatusPill from "@/components/admin/StatusPill";
+import StatusBadge from "@/components/common/StatusBadge";
 import { getAdminUsersRequest } from "@/api/admin";
 import { ACCOUNT_STATUSES, ROLE_NAMES } from "@/data/userLabels";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { formatDateTime } from "@/utils/date";
+import { List, ListRow } from "@/components/common/List";
+import Avatar from "@/components/common/Avatar";
+import PageHeader from "@/components/common/PageHeader";
 
 // /admin/users: find any account [AC-ADM-02]
 const AdminUsersPage = () => {
@@ -39,7 +40,7 @@ const AdminUsersPage = () => {
   return (
     <Container>
       <section className="py-8">
-        <Heading level={1}>Users</Heading>
+        <PageHeader title="Users" />
 
         <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <label className="relative block sm:col-span-2">
@@ -142,32 +143,27 @@ const UserList = ({ data, isPending, error, onRetry }) => {
   }
 
   return (
-    <ul className="divide-y divide-border rounded-lg border border-border bg-card">
+    <List>
       {data.users.map((user) => {
         const statusInfo = ACCOUNT_STATUSES[user.status];
         return (
-          <li key={user.id}>
-            <Link to={"/admin/users/" + user.id} className="flex items-center gap-3 px-4 py-3">
-              <div className="min-w-0 flex-1">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <p className="truncate font-bold">{user.fullName}</p>
-                  <StatusPill label={statusInfo.label} tone={statusInfo.tone} />
-                </div>
-                <p className="mt-1 truncate text-[13px] text-muted-foreground">
-                  {ROLE_NAMES[user.role]} · {user.phone || user.email} · joined{" "}
-                  {formatDateTime(user.createdAt)}
-                </p>
-              </div>
-              <ChevronRight
-                size={18}
-                className="shrink-0 text-muted-foreground"
-                aria-hidden="true"
-              />
-            </Link>
-          </li>
+          <ListRow
+            key={user.id}
+            to={"/admin/users/" + user.id}
+            leading={<Avatar name={user.fullName} />}
+            title={user.fullName}
+            badge={<StatusBadge label={statusInfo.label} tone={statusInfo.tone} />}
+            meta={
+              ROLE_NAMES[user.role] +
+              " · " +
+              (user.phone || user.email) +
+              " · joined " +
+              formatDateTime(user.createdAt)
+            }
+          />
         );
       })}
-    </ul>
+    </List>
   );
 };
 

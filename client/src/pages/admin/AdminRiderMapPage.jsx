@@ -1,9 +1,6 @@
-import { Link } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { MapPinOff } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
-import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
 import ErrorState from "@/components/common/ErrorState";
@@ -11,6 +8,9 @@ import RidersMap from "@/components/map/RidersMap";
 import { getLiveRidersRequest } from "@/api/admin";
 import { VEHICLE_NAMES } from "@/data/riderStatuses";
 import { formatTime } from "@/utils/date";
+import Avatar from "@/components/common/Avatar";
+import { List, ListRow } from "@/components/common/List";
+import PageHeader from "@/components/common/PageHeader";
 
 // How often the map asks for fresh positions
 const REFRESH_MS = 15 * 1000;
@@ -27,15 +27,11 @@ const AdminRiderMapPage = () => {
   return (
     <Container>
       <section className="py-8">
-        <Link to="/admin/riders" className="text-[15px] font-bold text-primary">
-          ← Riders
-        </Link>
-        <Heading level={1} className="mt-3">
-          Riders online
-        </Heading>
-        <Text muted className="mt-1">
-          Blue: free. Orange: on a delivery. Updates every 15 seconds.
-        </Text>
+        <PageHeader
+          back={{ to: "/admin/riders", label: "Riders" }}
+          title="Riders online"
+          subtitle="Blue: free. Orange: on a delivery. Updates every 15 seconds."
+        />
 
         <div className="mt-6">
           <LiveRiders data={data} isPending={isPending} error={error} onRetry={refetch} />
@@ -72,27 +68,28 @@ const LiveRiders = ({ data, isPending, error, onRetry }) => {
   return (
     <>
       <RidersMap riders={data} />
-      <ul className="mt-6 divide-y divide-border rounded-lg border border-border bg-card">
+      <List className="mt-6">
         {data.map((rider) => (
-          <li key={rider.id}>
-            <Link
-              to={"/admin/riders/" + rider.id}
-              className="flex flex-wrap items-center justify-between gap-2 px-4 py-3"
-            >
-              <div>
-                <p className="font-bold">{rider.fullName}</p>
-                <p className="text-[13px] text-muted-foreground">
-                  {VEHICLE_NAMES[rider.vehicleType]} ·{" "}
-                  {rider.location ? "seen " + formatTime(rider.location.at) : "no position yet"}
-                </p>
-              </div>
-              <span className="text-[15px] font-bold">
-                {rider.delivery ? rider.delivery.orderNumber : "Free"}
-              </span>
-            </Link>
-          </li>
+          <ListRow
+            key={rider.id}
+            to={"/admin/riders/" + rider.id}
+            leading={<Avatar name={rider.fullName} />}
+            title={rider.fullName}
+            meta={
+              VEHICLE_NAMES[rider.vehicleType] +
+              " · " +
+              (rider.location ? "seen " + formatTime(rider.location.at) : "no position yet")
+            }
+            trailing={
+              rider.delivery ? (
+                rider.delivery.orderNumber
+              ) : (
+                <span className="text-success">Free</span>
+              )
+            }
+          />
         ))}
-      </ul>
+      </List>
     </>
   );
 };

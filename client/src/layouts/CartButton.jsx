@@ -15,8 +15,12 @@ const CartButton = () => {
       className="relative flex size-11 items-center justify-center rounded-md"
     >
       <ShoppingBag size={22} aria-hidden="true" />
+      {/* key: a new count is a new badge, so it pops once each time a dish is added */}
       {itemCount > 0 && (
-        <span className="absolute top-0.5 right-0.5 flex min-w-5 items-center justify-center rounded-full bg-secondary px-1 text-[12px] font-bold text-secondary-foreground">
+        <span
+          key={itemCount}
+          className="absolute top-0.5 right-0.5 flex min-w-5 items-center justify-center rounded-full bg-secondary px-1 text-[12px] font-bold text-secondary-foreground duration-200 animate-in zoom-in-50 motion-reduce:animate-none"
+        >
           {itemCount}
         </span>
       )}

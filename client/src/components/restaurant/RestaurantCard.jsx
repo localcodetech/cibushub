@@ -1,9 +1,12 @@
 import { Link } from "react-router";
-import { Clock, MapPin, UtensilsCrossed } from "lucide-react";
+import { Clock, MapPin } from "lucide-react";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import { formatMoney } from "@/utils/money";
 import RatingBadge from "@/components/review/RatingBadge";
+import Card from "@/components/common/Card";
+import CoverPlaceholder from "./CoverPlaceholder";
+import StatusBadge from "@/components/common/StatusBadge";
 
 // One restaurant in the listing. The whole card is a link to its menu [AC-DISC-01].
 // restaurant: one item from GET /restaurants
@@ -11,9 +14,12 @@ const RestaurantCard = ({ restaurant }) => {
   const isOpen = restaurant.openStatus.isOpen;
 
   return (
-    <Link
+    <Card
+      as={Link}
       to={"/restaurants/" + restaurant.id}
-      className="block overflow-hidden rounded-lg border border-border bg-card text-card-foreground"
+      interactive
+      padding="none"
+      className="overflow-hidden"
     >
       <CoverImage url={restaurant.coverImageUrl} name={restaurant.name} isOpen={isOpen} />
 
@@ -21,15 +27,11 @@ const RestaurantCard = ({ restaurant }) => {
         <div className="flex items-start justify-between gap-2">
           <Heading level={3}>{restaurant.name}</Heading>
           {/* Open / Closed / Opens at 18:00, worked out by the server in Ghana time [AC-DISC-04] */}
-          <span
-            className={
-              isOpen
-                ? "shrink-0 rounded-full bg-primary/10 px-2 py-0.5 text-[13px] font-bold text-primary"
-                : "shrink-0 rounded-full bg-muted px-2 py-0.5 text-[13px] font-bold text-muted-foreground"
-            }
-          >
-            {restaurant.openStatus.label}
-          </span>
+          <StatusBadge
+            label={restaurant.openStatus.label}
+            tone={isOpen ? "success" : "neutral"}
+            icon={isOpen ? undefined : Clock}
+          />
         </div>
 
         {/* ["ghanaian", "grill"] -> "ghanaian · grill" */}
@@ -61,18 +63,14 @@ const RestaurantCard = ({ restaurant }) => {
           <span>Min. order {formatMoney(restaurant.minOrderPesewas)}</span>
         </div>
       </div>
-    </Link>
+    </Card>
   );
 };
 
 // The photo at the top of the card, or a plain block with an icon if there is none [AC-IMG-05]
 const CoverImage = ({ url, name, isOpen }) => {
   if (!url) {
-    return (
-      <div className="flex aspect-video w-full items-center justify-center bg-muted">
-        <UtensilsCrossed size={32} className="text-muted-foreground" aria-hidden="true" />
-      </div>
-    );
+    return <CoverPlaceholder name={name} dimmed={!isOpen} />;
   }
 
   return (

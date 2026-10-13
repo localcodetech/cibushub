@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Bell, BellOff, ChefHat } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { AnimatePresence, motion } from "motion/react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
 import ErrorState from "@/components/common/ErrorState";
@@ -21,6 +20,8 @@ import { onLiveEvent, onOrderUpdated } from "@/lib/liveUpdates";
 import { isAlertSoundOn, playNewOrderSound, turnOnAlertSound } from "@/lib/orderAlertSound";
 import { useNow } from "@/hooks/useNow";
 import { BOARD_TABS } from "@/data/ownerBoard";
+import Tabs from "@/components/common/Tabs";
+import PageHeader from "@/components/common/PageHeader";
 
 const BOARD_KEY = ["owner-board"];
 
@@ -133,23 +134,28 @@ const OwnerDashboardPage = () => {
   return (
     <Container>
       <section className="py-6">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <Heading level={1}>Orders</Heading>
-          {/* Browsers stay silent until a tap: this is that tap [AC-RORD-01] */}
-          {isSoundOn ? (
-            <p className="flex items-center gap-2 text-[15px] font-bold text-primary">
-              <Bell size={18} aria-hidden="true" /> Sound on
-            </p>
-          ) : (
-            <button
-              type="button"
-              onClick={handleTurnOnSound}
-              className="flex min-h-11 items-center gap-2 rounded-md bg-amber-500 px-4 font-bold text-black"
-            >
-              <BellOff size={18} aria-hidden="true" /> Turn on sound for new orders
-            </button>
-          )}
-        </div>
+        <PageHeader
+          title="Orders"
+
+          actions={
+            <>
+              {/* Browsers stay silent until a tap: this is that tap [AC-RORD-01] */}
+              {isSoundOn ? (
+                <p className="flex items-center gap-2 text-[15px] font-bold text-primary">
+                  <Bell size={18} aria-hidden="true" /> Sound on
+                </p>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleTurnOnSound}
+                  className="flex min-h-11 items-center gap-2 rounded-md border border-gold bg-gold/20 px-4 font-bold text-foreground"
+                >
+                  <BellOff size={18} aria-hidden="true" /> Turn on sound for new orders
+                </button>
+              )}
+            </>
+          }
+        />
 
         <BoardContent
           orders={orders}
@@ -233,42 +239,21 @@ const BoardContent = ({
   return (
     <>
       {/* Scrolls sideways on its own on small phones; the page never does */}
-      <div className="-mx-4 mt-5 overflow-x-auto px-4">
-        <div className="flex gap-2">
-          {BOARD_TABS.map((candidate) => {
-            const count = ordersIn(candidate).length;
-            if (candidate.onlyWhenNotEmpty && count === 0) {
-              return null;
-            }
-            const isActive = candidate.key === activeTab;
-            const needsAnswer = candidate.key === "new" && count > 0;
-            return (
-              <button
-                key={candidate.key}
-                type="button"
-                aria-pressed={isActive}
-                onClick={() => onTabChange(candidate.key)}
-                className={cn(
-                  "flex min-h-11 shrink-0 items-center gap-2 rounded-full border px-4 text-[15px] font-bold",
-                  isActive ? "border-foreground bg-foreground text-background" : "border-border",
-                )}
-              >
-                {candidate.label}
-                <span
-                  className={cn(
-                    "min-w-6 rounded-full px-1.5 text-center text-[13px]",
-                    needsAnswer
-                      ? "animate-pulse bg-amber-500 text-black"
-                      : "bg-muted text-foreground",
-                  )}
-                >
-                  {count}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
+      <Tabs
+        label="Orders by stage"
+        className="mt-5"
+        value={activeTab}
+        onChange={onTabChange}
+        options={BOARD_TABS.filter(
+          (candidate) => !candidate.onlyWhenNotEmpty || ordersIn(candidate).length > 0,
+        ).map((candidate) => ({
+          value: candidate.key,
+          label: candidate.label,
+          count: ordersIn(candidate).length,
+          // A new order is waiting for the restaurant's answer
+          urgent: candidate.key === "new",
+        }))}
+      />
 
       {shown.length === 0 ? (
         <EmptyState
@@ -281,18 +266,30 @@ const BoardContent = ({
           }
         />
       ) : (
+        // Orders glide: a new one slides in, one that moves to another stage slides out,
+        // and the others close the gap (layout). Instant for reduced-motion users.
         <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {shown.map((order) => (
-            <KitchenOrderCard
-              key={order.id}
-              order={order}
-              now={now}
-              showRestaurant={showRestaurant}
-              isWorking={workingOrderId === order.id}
-              error={actionError && actionError.orderId === order.id ? actionError.message : ""}
-              onAction={onAction}
-            />
-          ))}
+          <AnimatePresence mode="popLayout" initial={false}>
+            {shown.map((order) => (
+              <motion.div
+                key={order.id}
+                layout
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.96 }}
+                transition={{ duration: 0.25 }}
+              >
+                <KitchenOrderCard
+                  order={order}
+                  now={now}
+                  showRestaurant={showRestaurant}
+                  isWorking={workingOrderId === order.id}
+                  error={actionError && actionError.orderId === order.id ? actionError.message : ""}
+                  onAction={onAction}
+                />
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
       )}
     </>

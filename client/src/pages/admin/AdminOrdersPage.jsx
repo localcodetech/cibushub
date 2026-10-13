@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { ChevronRight, ReceiptText, Search } from "lucide-react";
+import { ReceiptText, Search } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
@@ -14,6 +12,8 @@ import { ORDER_STATUSES } from "@/data/orderStatuses";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { formatMoney } from "@/utils/money";
 import { formatDateTime } from "@/utils/date";
+import { List, ListIcon, ListRow } from "@/components/common/List";
+import PageHeader from "@/components/common/PageHeader";
 
 // /admin/orders: find any order [AC-ADM-05]
 const AdminOrdersPage = () => {
@@ -42,7 +42,7 @@ const AdminOrdersPage = () => {
   return (
     <Container>
       <section className="py-8">
-        <Heading level={1}>Orders</Heading>
+        <PageHeader title="Orders" />
 
         <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <label className="relative block sm:col-span-2">
@@ -151,26 +151,25 @@ const OrderList = ({ data, isPending, error, onRetry }) => {
   }
 
   return (
-    <ul className="divide-y divide-border rounded-lg border border-border bg-card">
+    <List>
       {data.orders.map((order) => (
-        <li key={order.id}>
-          <Link to={"/admin/orders/" + order.id} className="flex items-center gap-3 px-4 py-3">
-            <div className="min-w-0 flex-1">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <p className="font-bold">{order.orderNumber}</p>
-                <OrderStatusBadge status={order.status} />
-              </div>
-              <p className="mt-1 truncate text-[13px] text-muted-foreground">
-                {order.restaurant ? order.restaurant.name : "—"} ·{" "}
-                {order.customer ? order.customer.fullName : "—"} · {formatDateTime(order.createdAt)}
-              </p>
-              <p className="mt-0.5 text-[15px] font-bold">{formatMoney(order.totalPesewas)}</p>
-            </div>
-            <ChevronRight size={18} className="shrink-0 text-muted-foreground" aria-hidden="true" />
-          </Link>
-        </li>
+        <ListRow
+          key={order.id}
+          to={"/admin/orders/" + order.id}
+          leading={<ListIcon icon={ReceiptText} />}
+          title={order.orderNumber}
+          badge={<OrderStatusBadge status={order.status} />}
+          meta={
+            (order.restaurant ? order.restaurant.name : "—") +
+            " · " +
+            (order.customer ? order.customer.fullName : "—") +
+            " · " +
+            formatDateTime(order.createdAt)
+          }
+          detail={<span className="font-bold">{formatMoney(order.totalPesewas)}</span>}
+        />
       ))}
-    </ul>
+    </List>
   );
 };
 

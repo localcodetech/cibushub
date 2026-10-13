@@ -10,7 +10,6 @@ import {
   Wallet,
 } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Card from "@/components/common/Card";
 import Skeleton from "@/components/common/Skeleton";
@@ -23,6 +22,7 @@ import { getCheckoutQuoteRequest, placeOrderRequest, startPaymentRequest } from 
 import { makeIdempotencyKey } from "@/lib/idempotencyKey";
 import { useCartStore } from "@/store/cartStore";
 import { formatMoney } from "@/utils/money";
+import PageHeader from "@/components/common/PageHeader";
 
 const NOTE_MAX = 500;
 
@@ -374,9 +374,7 @@ const CheckoutLayout = ({ children }) => {
   return (
     <Container>
       <section className="mx-auto max-w-xl py-8">
-        <Heading level={1} className="mb-6">
-          Checkout
-        </Heading>
+        <PageHeader title="Checkout" className="mb-6" />
         {children}
       </section>
     </Container>

@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { Menu, X } from "lucide-react";
-import { guestLinks } from "@/data/navigation";
+import { accountLinksFor, guestLinks } from "@/data/navigation";
 import { useAuthStore } from "@/store/authStore";
-import { homePathFor } from "@/utils/roleHome";
 import Container from "./Container";
 import MobileMenu from "./MobileMenu";
 import ThemeToggle from "@/components/common/ThemeToggle";
 import CartButton from "./CartButton";
 import NotificationBell from "./NotificationBell";
+import AccountMenu from "./AccountMenu";
 
 const Navbar = () => {
   // true when the phone menu is open, false when it is closed
@@ -17,14 +17,11 @@ const Navbar = () => {
   const logout = useAuthStore((state) => state.logout);
   const navigate = useNavigate();
 
-  // Guests see "Log in" and "Sign up"; a logged-in user sees a link to their own home
   // Only guests and customers order food, so only they see the cart
   const canHaveCart = !user || user.role === "CUSTOMER";
 
-  let links = guestLinks;
-  if (user) {
-    links = [{ label: "My dashboard", to: homePathFor(user.role) }];
-  }
+  // The phone menu: guests get "Log in" and "Sign up"; a logged-in user their account links
+  const links = user ? accountLinksFor(user.role) : guestLinks;
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -41,30 +38,35 @@ const Navbar = () => {
   };
 
   return (
-    <header className="bg-primary text-primary-foreground print:hidden">
+    // Forest Green in light mode. In dark mode the brand green is a light mint, too bright for a
+    // whole bar, so the bar uses the dark surface and the logo carries the green
+    <header className="bg-primary text-primary-foreground dark:border-b dark:border-border dark:bg-card dark:text-foreground print:hidden">
       <Container>
         <div className="flex h-16 items-center justify-between">
-          <Link to="/" onClick={closeMenu} className="font-heading text-2xl font-extrabold">
+          <Link
+            to="/"
+            onClick={closeMenu}
+            className="font-heading text-2xl font-extrabold dark:text-primary"
+          >
             CibusHub
           </Link>
 
           {/* Right side: links (big screens), theme switch, menu button (phones) */}
           <div className="flex items-center gap-2 md:gap-6">
-            {/* Big screens: the links sit in the bar */}
-            <nav aria-label="Main" className="hidden items-center gap-6 md:flex">
-              {links.map((link) => (
-                <Link key={link.to} to={link.to} className="font-bold hover:underline">
-                  {link.label}
+            {/* Big screens, guests: log in, or sign up (the one gold call to action) */}
+            {!user && (
+              <nav aria-label="Main" className="hidden items-center gap-4 md:flex">
+                <Link to="/login" className="font-bold hover:underline">
+                  Log in
                 </Link>
-              ))}
-
-              {/* Only a logged-in user can log out */}
-              {user && (
-                <button type="button" onClick={handleLogout} className="font-bold hover:underline">
-                  Log out
-                </button>
-              )}
-            </nav>
+                <Link
+                  to="/register"
+                  className="inline-flex min-h-10 items-center rounded-md bg-gold px-4 font-bold text-gold-foreground focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+                >
+                  Sign up
+                </Link>
+              </nav>
+            )}
 
             {/* Every logged-in role has notifications [AC-NOTIF-07] */}
             {user && <NotificationBell />}
@@ -73,6 +75,13 @@ const Navbar = () => {
 
             {/* Light / dark switch, on every screen size */}
             <ThemeToggle />
+
+            {/* Big screens, logged in: the account menu (dashboard, orders, log out...) */}
+            {user && (
+              <div className="hidden md:block">
+                <AccountMenu user={user} onLogout={handleLogout} />
+              </div>
+            )}
 
             {/* Phones: one button that opens and closes the menu */}
             <button
@@ -90,9 +99,9 @@ const Navbar = () => {
 
       <MobileMenu
         links={links}
+        user={user}
         isOpen={isMenuOpen}
         onClose={closeMenu}
-        isLoggedIn={Boolean(user)}
         onLogout={handleLogout}
       />
     </header>

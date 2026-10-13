@@ -19,6 +19,7 @@ import NotFoundPage from "@/pages/NotFoundPage";
 import ForbiddenPage from "@/pages/ForbiddenPage";
 import ErrorPage from "@/pages/ErrorPage";
 import FullPageLoader from "@/components/common/FullPageLoader";
+import ErrorState from "@/components/common/ErrorState";
 import RequireRole from "@/components/auth/RequireRole";
 import { useAuthStore } from "@/store/authStore";
 
@@ -283,10 +284,24 @@ const router = createBrowserRouter([
 
 const App = () => {
   const isCheckingSession = useAuthStore((state) => state.isCheckingSession);
+  const sessionError = useAuthStore((state) => state.sessionError);
+  const checkSession = useAuthStore((state) => state.checkSession);
 
   // Wait until we know who is logged in, so pages never flash the wrong thing
   if (isCheckingSession) {
     return <FullPageLoader />;
+  }
+
+  // We couldn't find out (not "logged out": e.g. too many requests or no connection)
+  if (sessionError) {
+    return (
+      <main className="mx-auto max-w-md px-4 py-16">
+        <ErrorState
+          message={"We couldn't check your login. " + sessionError}
+          onRetry={checkSession}
+        />
+      </main>
+    );
   }
 
   return <RouterProvider router={router} />;

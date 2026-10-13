@@ -3,7 +3,6 @@ import { Link } from "react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { MapPinned, Plus } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
@@ -11,6 +10,7 @@ import ErrorState from "@/components/common/ErrorState";
 import Sheet from "@/components/common/Sheet";
 import AddressCard from "@/components/address/AddressCard";
 import { MAX_ADDRESSES } from "@/data/addressLabels";
+import PageHeader from "@/components/common/PageHeader";
 import {
   deleteAddressRequest,
   getAddressesRequest,
@@ -72,18 +72,23 @@ const AddressesPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-2xl py-8">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <Heading level={1}>My addresses</Heading>
-          {addresses && addresses.length > 0 && !isFull && (
-            <Link
-              to="/customer/addresses/new"
-              className="inline-flex min-h-11 items-center gap-1 rounded-md bg-primary px-4 font-bold text-primary-foreground"
-            >
-              <Plus size={18} aria-hidden="true" />
-              Add address
-            </Link>
-          )}
-        </div>
+        <PageHeader
+          title="My addresses"
+
+          actions={
+            <>
+              {addresses && addresses.length > 0 && !isFull && (
+                <Link
+                  to="/customer/addresses/new"
+                  className="inline-flex min-h-11 items-center gap-1 rounded-md bg-primary px-4 font-bold text-primary-foreground"
+                >
+                  <Plus size={18} aria-hidden="true" />
+                  Add address
+                </Link>
+              )}
+            </>
+          }
+        />
 
         {isFull && (
           <Text size="small" muted className="mt-2">

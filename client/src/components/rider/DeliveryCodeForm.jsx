@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { CircleAlert } from "lucide-react";
 import Text from "@/components/typography/Text";
 import { Button } from "@/components/ui/button";
+import Alert from "@/components/common/Alert";
 
 // The customer's 4-digit code, typed by the rider at the door [AC-DEL-06].
 // attemptsLeft: from the server; 0 means locked until an admin unlocks it
@@ -13,13 +13,13 @@ const DeliveryCodeForm = ({ attemptsLeft, onSubmit }) => {
 
   if (attemptsLeft <= 0) {
     return (
-      <div role="alert" className="flex gap-3 rounded-lg border border-destructive p-4">
-        <CircleAlert size={24} className="shrink-0 text-destructive" aria-hidden="true" />
+      <Alert>
+        {" "}
         <Text className="text-[15px]">
           Too many wrong codes. CibusHub support has been told and will contact you. Stay with the
           customer.
         </Text>
-      </div>
+      </Alert>
     );
   }
 

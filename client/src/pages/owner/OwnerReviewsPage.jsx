@@ -2,7 +2,7 @@ import { useState } from "react";
 import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query";
 import { MessageSquare } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
+import Card from "@/components/common/Card";
 import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
@@ -11,7 +11,8 @@ import { Button } from "@/components/ui/button";
 import Stars from "@/components/review/Stars";
 import { getOwnerReviewsRequest, replyToReviewRequest } from "@/api/ownerReviews";
 import { formatDateTime } from "@/utils/date";
-import { cn } from "@/lib/utils";
+import { Chip, ChipRow } from "@/components/common/Chips";
+import PageHeader from "@/components/common/PageHeader";
 
 const REPLY_MAX_LENGTH = 500;
 
@@ -39,20 +40,20 @@ const OwnerReviewsPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-2xl py-8">
-        <Heading level={1}>Reviews</Heading>
-        <Text muted className="mt-1">
-          Your reply is public and shows under the review. You can reply once to each review.
-        </Text>
+        <PageHeader
+          title="Reviews"
+          subtitle="Your reply is public and shows under the review. You can reply once to each review."
+        />
 
         {/* All / Waiting for a reply */}
-        <div role="group" aria-label="Show" className="mt-6 flex gap-2">
-          <FilterButton isActive={!unansweredOnly} onClick={handleShowAll}>
+        <ChipRow label="Show" className="mt-6">
+          <Chip selected={!unansweredOnly} onClick={handleShowAll}>
             All
-          </FilterButton>
-          <FilterButton isActive={unansweredOnly} onClick={handleShowUnanswered}>
+          </Chip>
+          <Chip selected={unansweredOnly} onClick={handleShowUnanswered}>
             Waiting for a reply
-          </FilterButton>
-        </div>
+          </Chip>
+        </ChipRow>
 
         <div className="mt-6">
           <ReviewList
@@ -92,22 +93,6 @@ const OwnerReviewsPage = () => {
   );
 };
 
-const FilterButton = ({ isActive, onClick, children }) => {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={isActive}
-      className={cn(
-        "min-h-11 rounded-full border px-4 font-bold",
-        isActive ? "border-primary bg-primary text-primary-foreground" : "border-border",
-      )}
-    >
-      {children}
-    </button>
-  );
-};
-
 // Loading, error, empty or the list [AC-UX-02 to 04]
 const ReviewList = ({ data, isPending, error, onRetry, unansweredOnly }) => {
   if (isPending) {
@@ -141,9 +126,9 @@ const ReviewList = ({ data, isPending, error, onRetry, unansweredOnly }) => {
   return (
     <ul className="space-y-4">
       {data.reviews.map((review) => (
-        <li key={review.id} className="rounded-lg border border-border bg-card p-4">
+        <Card as="li" key={review.id}>
           <OwnerReview review={review} />
-        </li>
+        </Card>
       ))}
     </ul>
   );

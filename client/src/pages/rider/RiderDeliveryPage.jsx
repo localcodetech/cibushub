@@ -38,6 +38,7 @@ import { RIDER_DELIVERY_KEY } from "@/data/riderQueries";
 import { onLiveEvent } from "@/lib/liveUpdates";
 import { directionsUrl } from "@/utils/googleMaps";
 import { formatMoney } from "@/utils/money";
+import PageHeader from "@/components/common/PageHeader";
 
 const REFRESH_EVERY_MS = 30 * 1000; // a safety net; live events normally refresh it sooner
 
@@ -243,11 +244,15 @@ const RiderDeliveryPage = () => {
     <Container>
       <section className="flex flex-col gap-4 py-6">
         <div>
-          <Heading level={1}>{heading}</Heading>
-          <Text muted className="mt-1">
-            {delivery.orderNumber} · you earn{" "}
-            {formatMoney(isReturning ? delivery.returnPayoutPesewas : delivery.earningsPesewas)}
-          </Text>
+          <PageHeader
+            title={heading}
+            subtitle={
+              <>
+                {delivery.orderNumber} · you earn{" "}
+                {formatMoney(isReturning ? delivery.returnPayoutPesewas : delivery.earningsPesewas)}
+              </>
+            }
+          />
         </div>
 
         <DeliveryMap
