@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest";
 import request from "supertest";
 import app from "../../src/app.js";
 import { User } from "../../src/models/index.js";
-import { lastCodeSentTo } from "../helpers/fakeSms.js";
+import { lastCodeSentTo, sentSms } from "../helpers/fakeSms.js";
+import { sentEmails } from "../helpers/fakeEmail.js";
 import { TERMS_VERSION } from "../../src/utils/legal.js";
 
 const validCustomer = {
@@ -145,6 +146,29 @@ describe("POST /api/v1/auth/verify-phone", () => {
     expect(response.status).toBe(200);
     expect(response.body.data.status).toBe("ACTIVE");
     expect(response.body.data.phoneVerifiedAt).not.toBeNull();
+  });
+
+  it("welcomes the new customer by text and email, once", async () => {
+    await register(validCustomer);
+    await verifyPhone({ phone: "0241234567", code: lastCodeSentTo("+233241234567") });
+
+    const welcomeTexts = sentSms.filter((sms) => sms.message.startsWith("Welcome to CibusHub"));
+    const welcomeEmails = sentEmails.filter((email) => email.subject === "Welcome to CibusHub");
+    expect(welcomeTexts).toHaveLength(1);
+    expect(welcomeTexts[0].phone).toBe("+233241234567");
+    expect(welcomeTexts[0].message).toContain("Welcome to CibusHub, Ama!");
+    expect(welcomeTexts[0].message).toContain("/restaurants");
+    expect(welcomeEmails).toHaveLength(1);
+    expect(welcomeEmails[0].to).toBe("ama@example.com");
+  });
+
+  it("points a new restaurant owner to registering their restaurant", async () => {
+    await register({ ...validCustomer, role: "RESTAURANT_OWNER" });
+    await verifyPhone({ phone: "0241234567", code: lastCodeSentTo("+233241234567") });
+
+    const welcome = sentSms.find((sms) => sms.message.startsWith("Welcome to CibusHub"));
+    expect(welcome.message).toContain("register your restaurant");
+    expect(welcome.message).toContain("/owner/restaurants");
   });
 
   it("accepts each code only once [AC-AUTH-08]", async () => {

@@ -76,7 +76,7 @@ const checkNothingInProgress = async (user, transaction) => {
 
 // Removes one person's data [AC-CUST-11]. In one transaction: the checks, the account itself
 // (anonymised, then soft-deleted), their records, and an audit entry. Then, outside it: the
-// files on Cloudinary, live connections, and one last email to the old address.
+// files on Cloudinary, live connections, and one last email and text to the old address and number.
 //   actor: { id, ipAddress, reason } (the person themselves, or the admin acting on a request)
 const eraseAccount = async (userId, actor) => {
   const erased = await sequelize.transaction(async (transaction) => {
@@ -87,7 +87,12 @@ const eraseAccount = async (userId, actor) => {
     await checkNothingInProgress(user, transaction);
 
     // Kept for after the transaction: the files to delete and where to send the notice
-    const before = { email: user.email, avatarPublicId: user.avatarPublicId, role: user.role };
+    const before = {
+      email: user.email,
+      phone: user.phone,
+      avatarPublicId: user.avatarPublicId,
+      role: user.role,
+    };
 
     await deleteUserRecords(user.id, transaction);
     await anonymiseCustomerOrders(user.id, transaction);
@@ -170,6 +175,12 @@ const eraseAccount = async (userId, actor) => {
       to: erased.email,
       template: "account.deleted",
       ...accountDeletedEmail(),
+    });
+    await notify({
+      channel: "SMS",
+      to: erased.phone,
+      template: "account.deleted",
+      text: "Your CibusHub account has been deleted and your personal details removed. You're welcome back anytime. If this wasn't you, contact CibusHub support.",
     });
   } catch (error) {
     logger.error({ err: error, userId }, "Account deleted, but a clean-up step failed");

@@ -15,6 +15,7 @@ import { TEST_PASSWORD, createTestUser } from "../helpers/users.js";
 import { createOwner, createTestRestaurant } from "../helpers/restaurants.js";
 import { createPaidOrder } from "../helpers/orders.js";
 import { sentEmails } from "../helpers/fakeEmail.js";
+import { sentSms } from "../helpers/fakeSms.js";
 
 // Pretend Cloudinary and live connections: tests never touch either
 vi.mock("../../src/services/upload/cloudinary.service.js", () => ({
@@ -117,6 +118,8 @@ describe("POST /api/v1/auth/delete-account", () => {
     // One last email to the old address, and an audit entry
     expect(sentEmails.at(-1).to).toBe("ama1@example.com");
     expect(sentEmails.at(-1).subject).toBe("Your CibusHub account was deleted");
+    expect(sentSms.at(-1).phone).toBe("+233551234561");
+    expect(sentSms.at(-1).message).toMatch(/account has been deleted/);
     const audit = await AuditLog.findOne({ where: { targetId: customer.id } });
     expect(audit.action).toBe("ACCOUNT_DELETED");
     expect(audit.actorId).toBe(customer.id);

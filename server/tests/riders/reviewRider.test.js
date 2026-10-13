@@ -266,6 +266,8 @@ describe("Live map of online riders [AC-ADM-04]", () => {
         id: profile.id,
         fullName: "Yaw Mensah",
         phone: rider.phone,
+        // Their profile photo, shown next to their name
+        photoUrl: rider.avatarUrl,
         vehicleType: "MOTORBIKE",
         location: { latitude: 6.69, longitude: -1.62, at: expect.any(String) },
         delivery: null,
