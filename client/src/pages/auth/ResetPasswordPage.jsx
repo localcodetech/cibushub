@@ -39,7 +39,7 @@ const ResetPasswordPage = () => {
     return (
       <Container>
         <section className="mx-auto max-w-md py-10">
-          <PageHeader title="Reset your password" />
+          <PageHeader back={{ to: "/login", label: "Log in" }} title="Reset your password" />
           <Text muted className="mt-2">
             Start by asking for a reset code.
           </Text>
@@ -81,7 +81,7 @@ const ResetPasswordPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-md py-10">
-        <PageHeader title="Reset your password" />
+        <PageHeader back={{ to: "/login", label: "Log in" }} title="Reset your password" />
         <Text muted className="mt-2">
           If <span className="font-bold text-foreground">{identifier}</span> matches an account, we
           texted a 6-digit code to its phone. It expires in 15 minutes.

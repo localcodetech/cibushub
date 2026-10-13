@@ -91,6 +91,7 @@ const ReceiptPage = () => {
     <ReceiptLayout>
       {/* The bar above the receipt: on screen only, never on the paper */}
       <PageHeader
+        back={{ to: "/customer/orders/" + orderId, label: "Order" }}
         title="Receipt"
         className="mb-4 print:hidden"
         actions={

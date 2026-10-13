@@ -1,5 +1,7 @@
 "use strict";
 
+const { withAdditions } = require("./menuAdditions.cjs");
+
 // Fictional demo data for Kumasi. Names, menus and people are made up. Prices are in pesewas.
 // cover / photo: a file in data/photos (without .webp), credited in data/photos/credits.json
 
@@ -1455,4 +1457,5 @@ const restaurants = [
   },
 ];
 
-module.exports = { DEMO_PASSWORD, users, restaurants };
+// Fuller menus with more Ghanaian dishes and a drinks section (data/menuAdditions.cjs)
+module.exports = { DEMO_PASSWORD, users, restaurants: withAdditions(restaurants) };

@@ -62,12 +62,31 @@ module.exports = {
 
     // Each photo goes to Cloudinary once, as cibushub/demo/<name>
     const uploaded = {};
+    // Each photo goes to Cloudinary once, tried up to 3 times (a slow line can drop one).
+    // If it still fails, the dish simply stays without a photo for now: running this seeder
+    // again fills it in. Cloudinary reports errors as plain objects, so the message is read out.
+    const skipped = [];
     const photo = async (name) => {
-      if (!uploaded[name]) {
-        const file = fs.readFileSync(path.join(PHOTO_FOLDER, `${name}.webp`));
-        uploaded[name] = await uploadNamedImage(file, `cibushub/demo/${name}`);
+      if (uploaded[name]) {
+        return uploaded[name];
       }
-      return uploaded[name];
+      const file = fs.readFileSync(path.join(PHOTO_FOLDER, `${name}.webp`));
+      for (let attempt = 1; attempt <= 3; attempt += 1) {
+        try {
+          uploaded[name] = await uploadNamedImage(file, `cibushub/demo/${name}`);
+          return uploaded[name];
+        } catch (error) {
+          const reason =
+            error.message || (error.error && error.error.message) || JSON.stringify(error);
+          if (attempt === 3) {
+            console.log(`Photo "${name}" not uploaded (${reason}); run this seeder again later.`);
+            skipped.push(name);
+            return null;
+          }
+          await new Promise((resolve) => setTimeout(resolve, 2000 * attempt));
+        }
+      }
+      return null;
     };
 
     let addedRestaurants = 0;
@@ -104,11 +123,13 @@ module.exports = {
 
       if (restaurantData.cover && !restaurant.coverImageUrl) {
         const cover = await photo(restaurantData.cover);
-        await restaurant.update({
-          coverImageUrl: cover.url,
-          coverImagePublicId: cover.publicId,
-        });
-        addedPhotos += 1;
+        if (cover) {
+          await restaurant.update({
+            coverImageUrl: cover.url,
+            coverImagePublicId: cover.publicId,
+          });
+          addedPhotos += 1;
+        }
       }
 
       for (const [categoryPosition, categoryData] of restaurantData.menu.entries()) {
@@ -149,8 +170,10 @@ module.exports = {
 
           if (itemData.photo && !item.imageUrl && !item.deletedAt) {
             const image = await photo(itemData.photo);
-            await item.update({ imageUrl: image.url, imagePublicId: image.publicId });
-            addedPhotos += 1;
+            if (image) {
+              await item.update({ imageUrl: image.url, imagePublicId: image.publicId });
+              addedPhotos += 1;
+            }
           }
         }
       }
@@ -159,6 +182,9 @@ module.exports = {
     console.log(
       `Demo menus: ${addedRestaurants} restaurants, ${addedDishes} dishes and ${addedPhotos} photos added.`,
     );
+    if (skipped.length > 0) {
+      console.log(`${skipped.length} photos still to upload: run this seeder again to add them.`);
+    }
   },
 
   // The photos stay on Cloudinary (other runs reuse them); the demo-restaurants seeder's

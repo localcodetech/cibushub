@@ -6,6 +6,7 @@ import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
 import ErrorState from "@/components/common/ErrorState";
 import RestaurantHeader from "@/components/restaurant/RestaurantHeader";
+import { BackLink } from "@/components/common/PageHeader";
 import OpeningHours from "@/components/restaurant/OpeningHours";
 import MenuSection from "@/components/restaurant/MenuSection";
 import RestaurantReviews from "@/components/review/RestaurantReviews";
@@ -56,11 +57,14 @@ const RestaurantDetailPage = () => {
     <Container>
       {/* pb-24 leaves room at the bottom for the View cart bar */}
       <div className="py-6 pb-24">
+        <BackLink to="/restaurants" label="Restaurants" />
         <RestaurantHeader restaurant={data} />
 
         {/* Phones: menu, then hours below it. Laptops: menu on the left, hours on the right */}
         <div className="mt-6 grid gap-8 lg:grid-cols-3">
-          <div className="lg:col-span-2">
+          {/* min-w-0: a grid cell otherwise stretches to fit the category tabs, and many tabs
+              would make the whole page wider than the phone; this way the tabs scroll instead */}
+          <div className="min-w-0 lg:col-span-2">
             <MenuSection restaurant={data} />
             <div id="reviews" className="scroll-mt-4">
               <RestaurantReviews restaurant={data} />
