@@ -18,9 +18,9 @@ const POINTS = [
   },
 ];
 
-// The left half of the sign-up page on laptops and desktops (like Facebook's sign-up page):
+// The left half of the Log in and Sign up pages on laptops and desktops (like Facebook's):
 // what CibusHub is, beside the form. Hidden on phones, where the form comes first.
-const SignUpWelcome = () => {
+const AuthWelcome = () => {
   return (
     <div className="hidden lg:block lg:pt-6">
       <p className="font-heading text-4xl font-extrabold text-primary">CibusHub</p>
@@ -46,4 +46,4 @@ const SignUpWelcome = () => {
   );
 };
 
-export default SignUpWelcome;
+export default AuthWelcome;

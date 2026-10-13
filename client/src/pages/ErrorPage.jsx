@@ -1,8 +1,7 @@
 import { useRouteError } from "react-router";
-import { TriangleAlert } from "lucide-react";
+import { RefreshCw, TriangleAlert } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
-import Text from "@/components/typography/Text";
+import StatusScreen from "@/components/common/StatusScreen";
 
 // Shown instead of a blank screen when a page crashes while drawing [AC-UX-04].
 // React Router catches the crash and draws this page in its place (errorElement in App.jsx).
@@ -27,32 +26,30 @@ const ErrorPage = () => {
 
   return (
     <Container>
-      <section role="alert" className="py-16 text-center">
-        <TriangleAlert size={48} className="mx-auto text-destructive" aria-hidden="true" />
-        <Heading level={1} className="mt-4">
-          {isOldVersion ? "CibusHub has been updated" : "Something went wrong"}
-        </Heading>
-        <Text muted className="mt-2">
-          {isOldVersion
+      <StatusScreen
+        role="alert"
+        icon={isOldVersion ? RefreshCw : TriangleAlert}
+        tone={isOldVersion ? "primary" : "danger"}
+        title={isOldVersion ? "CibusHub has been updated" : "Something went wrong"}
+        message={
+          isOldVersion
             ? "Reload to get the latest version."
-            : "Sorry, this page stopped working. Try again, or go back to the home page."}
-        </Text>
+            : "Sorry, this page stopped working. Try again, or go back to the home page."
+        }
+      >
+        <button
+          type="button"
+          onClick={handleTryAgain}
+          className="inline-flex min-h-11 items-center rounded-md bg-primary px-5 font-bold text-primary-foreground"
+        >
+          {isOldVersion ? "Reload" : "Try again"}
+        </button>
 
-        <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-          <button
-            type="button"
-            onClick={handleTryAgain}
-            className="inline-flex min-h-11 items-center rounded-md bg-primary px-5 font-bold text-primary-foreground"
-          >
-            {isOldVersion ? "Reload" : "Try again"}
-          </button>
-
-          {/* A plain <a>, not <Link>: it reloads the app, in case the crash broke the router */}
-          <a href="/" className="inline-flex min-h-11 items-center font-bold text-primary">
-            Go to the home page
-          </a>
-        </div>
-      </section>
+        {/* A plain <a>, not <Link>: it reloads the app, in case the crash broke the router */}
+        <a href="/" className="inline-flex min-h-11 items-center px-2 font-bold text-primary">
+          Go to the home page
+        </a>
+      </StatusScreen>
     </Container>
   );
 };

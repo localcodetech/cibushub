@@ -1,37 +1,38 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { ArrowLeft, Lock } from "lucide-react";
 import Container from "@/layouts/Container";
-import Heading from "@/components/typography/Heading";
-import Text from "@/components/typography/Text";
+import StatusScreen from "@/components/common/StatusScreen";
 import { useAuthStore } from "@/store/authStore";
 import { homePathFor } from "@/utils/roleHome";
+
+const PRIMARY =
+  "inline-flex min-h-11 items-center rounded-md bg-primary px-5 font-bold text-primary-foreground";
+const SECONDARY = "inline-flex min-h-11 items-center gap-1 px-2 font-bold text-primary";
 
 // Shown when a user opens a page their role is not allowed to see [AC-RBAC-07]
 const ForbiddenPage = () => {
   const user = useAuthStore((state) => state.user);
+  const navigate = useNavigate();
 
   // A guest has no role, so their home is the public home page
-  let homePath = "/";
-  if (user) {
-    homePath = homePathFor(user.role);
-  }
+  const homePath = user ? homePathFor(user.role) : "/";
 
   return (
     <Container>
-      <section className="py-16 text-center">
-        <Text className="font-heading text-6xl font-extrabold text-primary">403</Text>
-        <Heading level={1} className="mt-4">
-          You can't open this page
-        </Heading>
-        <Text muted className="mt-2">
-          Your account does not have access to this area.
-        </Text>
-        <Link
-          to={homePath}
-          className="mt-6 inline-flex min-h-11 items-center rounded-md bg-primary px-5 font-bold text-primary-foreground"
-        >
+      <StatusScreen
+        icon={Lock}
+        code="403"
+        title="You can't open this page"
+        message="Your account doesn't have access to this area. If you think it should, contact CibusHub support."
+      >
+        <Link to={homePath} className={PRIMARY}>
           Go to my home page
         </Link>
-      </section>
+        <button type="button" onClick={() => navigate(-1)} className={SECONDARY}>
+          <ArrowLeft size={18} aria-hidden="true" />
+          Go back
+        </button>
+      </StatusScreen>
     </Container>
   );
 };
