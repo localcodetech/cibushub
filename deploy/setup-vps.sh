@@ -86,6 +86,8 @@ PermitRootLogin no
 PasswordAuthentication no
 KbdInteractiveAuthentication no
 EOF
+# Ubuntu 24.04 starts SSH on demand, so its run folder may not exist yet; the check needs it
+mkdir -p /run/sshd
 sshd -t
 systemctl restart ssh
 
