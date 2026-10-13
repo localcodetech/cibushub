@@ -56,7 +56,10 @@ const CartPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-2xl py-8">
-        <PageHeader title="Your cart" />
+        <PageHeader
+          back={{ to: "/restaurants/" + restaurant.id, label: restaurant.name }}
+          title="Your cart"
+        />
         <Text muted className="mt-1">
           From{" "}
           <Link to={"/restaurants/" + restaurant.id} className="font-bold text-primary underline">

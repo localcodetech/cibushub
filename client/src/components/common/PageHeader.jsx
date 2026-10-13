@@ -24,18 +24,27 @@ import Text from "@/components/typography/Text";
 // actions:  buttons or links on the right; they move under the title on narrow screens
 // className: spacing for this page (e.g. "mb-6")
 
+// "← Restaurants": the way back to the page this one belongs to. Also used on its own by
+// pages with their own header (e.g. a restaurant's page): <BackLink to="/restaurants" label="Restaurants" />
+export const BackLink = ({ to, label, className }) => {
+  return (
+    <Link
+      to={to}
+      className={
+        "-ml-1 mb-1 inline-flex min-h-11 items-center gap-1 rounded-md px-1 text-[15px] font-bold text-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none " +
+        (className || "")
+      }
+    >
+      <ArrowLeft size={18} aria-hidden="true" />
+      {label}
+    </Link>
+  );
+};
+
 const PageHeader = ({ title, back, leading, badge, meta, subtitle, actions, className }) => {
   return (
     <header className={className}>
-      {back && (
-        <Link
-          to={back.to}
-          className="-ml-1 mb-1 inline-flex min-h-11 items-center gap-1 rounded-md px-1 text-[15px] font-bold text-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-        >
-          <ArrowLeft size={18} aria-hidden="true" />
-          {back.label}
-        </Link>
-      )}
+      {back && <BackLink to={back.to} label={back.label} />}
       <div className="flex flex-wrap items-start justify-between gap-3">
         {leading}
         {/* At least 12rem for the title: long actions move under it on phones instead of

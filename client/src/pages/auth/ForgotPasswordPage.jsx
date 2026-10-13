@@ -40,7 +40,7 @@ const ForgotPasswordPage = () => {
   return (
     <Container>
       <section className="mx-auto max-w-md py-10">
-        <PageHeader title="Forgot your password?" />
+        <PageHeader back={{ to: "/login", label: "Log in" }} title="Forgot your password?" />
         <Text muted className="mt-2">
           Enter your email or phone number. If it matches an account, we'll text a reset code to
           that account's phone.

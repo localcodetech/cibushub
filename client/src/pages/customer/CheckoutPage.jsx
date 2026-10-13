@@ -374,7 +374,7 @@ const CheckoutLayout = ({ children }) => {
   return (
     <Container>
       <section className="mx-auto max-w-xl py-8">
-        <PageHeader title="Checkout" className="mb-6" />
+        <PageHeader back={{ to: "/cart", label: "Your cart" }} title="Checkout" className="mb-6" />
         {children}
       </section>
     </Container>

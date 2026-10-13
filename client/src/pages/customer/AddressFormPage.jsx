@@ -101,7 +101,7 @@ const FormLayout = ({ title, children }) => {
   return (
     <Container>
       <section className="mx-auto max-w-xl py-8">
-        <PageHeader title={title} />
+        <PageHeader back={{ to: "/customer/addresses", label: "My addresses" }} title={title} />
         <div className="mt-6">{children}</div>
       </section>
     </Container>
