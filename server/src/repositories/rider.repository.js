@@ -81,7 +81,7 @@ export const findOnlineRiderProfiles = () => {
 export const findOnlineRidersWithAccounts = () => {
   return RiderProfile.findAll({
     where: { isOnline: true },
-    include: [{ model: User, as: "user", attributes: ["id", "fullName", "phone"] }],
+    include: [{ model: User, as: "user", attributes: ["id", "fullName", "phone", "avatarUrl"] }],
   });
 };
 

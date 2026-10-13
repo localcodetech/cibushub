@@ -73,7 +73,7 @@ const LiveRiders = ({ data, isPending, error, onRetry }) => {
           <ListRow
             key={rider.id}
             to={"/admin/riders/" + rider.id}
-            leading={<Avatar name={rider.fullName} />}
+            leading={<Avatar name={rider.fullName} src={rider.photoUrl} />}
             title={rider.fullName}
             meta={
               VEHICLE_NAMES[rider.vehicleType] +

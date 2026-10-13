@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import { LogOut } from "lucide-react";
+import Avatar from "@/components/common/Avatar";
 import { ROLE_NAMES } from "@/data/userLabels";
 
 // The menu that drops down under the navbar on phones.
@@ -14,9 +15,12 @@ const MobileMenu = ({ links, user, isOpen, onClose, onLogout }) => {
   return (
     <nav aria-label="Mobile" className="border-t border-border bg-background md:hidden">
       {user && (
-        <div className="border-b border-border px-4 py-3 text-foreground">
-          <p className="font-bold">{user.fullName}</p>
-          <p className="text-[13px] text-muted-foreground">{ROLE_NAMES[user.role]}</p>
+        <div className="flex items-center gap-3 border-b border-border px-4 py-3 text-foreground">
+          <Avatar name={user.fullName} src={user.avatarUrl} />
+          <div className="min-w-0">
+            <p className="font-bold break-words">{user.fullName}</p>
+            <p className="text-[13px] text-muted-foreground">{ROLE_NAMES[user.role]}</p>
+          </div>
         </div>
       )}
       <ul className="flex flex-col px-4 py-2">

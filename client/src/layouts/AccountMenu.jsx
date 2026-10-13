@@ -20,7 +20,11 @@ const AccountMenu = ({ user, onLogout }) => {
         aria-label={"Account menu for " + user.fullName}
         className="flex min-h-11 items-center gap-2 rounded-md px-1 font-bold focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none dark:focus-visible:ring-ring"
       >
-        <Avatar name={user.fullName} className="size-8 bg-white/15 text-[13px] text-inherit" />
+        <Avatar
+          name={user.fullName}
+          src={user.avatarUrl}
+          className="size-8 bg-white/15 text-[13px] text-inherit"
+        />
         {firstName}
         <ChevronDown size={16} aria-hidden="true" />
       </DropdownMenu.Trigger>

@@ -150,7 +150,7 @@ const UserList = ({ data, isPending, error, onRetry }) => {
           <ListRow
             key={user.id}
             to={"/admin/users/" + user.id}
-            leading={<Avatar name={user.fullName} />}
+            leading={<Avatar name={user.fullName} src={user.avatarUrl} />}
             title={user.fullName}
             badge={<StatusBadge label={statusInfo.label} tone={statusInfo.tone} />}
             meta={

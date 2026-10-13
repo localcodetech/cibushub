@@ -144,7 +144,7 @@ const RiderList = ({ data, isPending, error, onRetry, isQueue }) => {
           <ListRow
             key={rider.id}
             to={"/admin/riders/" + rider.id}
-            leading={<Avatar name={rider.rider.fullName} />}
+            leading={<Avatar name={rider.rider.fullName} src={rider.rider.photoUrl} />}
             title={rider.rider.fullName}
             badge={<StatusBadge label={statusInfo.label} tone={statusInfo.tone} />}
             meta={

@@ -124,6 +124,7 @@ export const listLiveRiders = async () => {
       id: profile.id,
       fullName: profile.user.fullName,
       phone: profile.user.phone,
+      photoUrl: profile.user.avatarUrl,
       vehicleType: profile.vehicleType,
       location: location
         ? {
