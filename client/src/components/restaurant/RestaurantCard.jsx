@@ -7,7 +7,7 @@ import RatingBadge from "@/components/review/RatingBadge";
 import Card from "@/components/common/Card";
 import CoverPlaceholder from "./CoverPlaceholder";
 import StatusBadge from "@/components/common/StatusBadge";
-import SymbolBadge from "@/components/common/SymbolBadge";
+import TopRatedBadge from "@/components/common/TopRatedBadge";
 import { isTopRatedRestaurant } from "@/utils/topRated";
 
 // One restaurant in the listing. The whole card is a link to its menu [AC-DISC-01].
@@ -55,11 +55,7 @@ const RestaurantCard = ({ restaurant }) => {
             reviewCount={restaurant.reviewCount}
           />
           {isTopRatedRestaurant(restaurant) && (
-            <SymbolBadge
-              symbol="adinkrahene"
-              label="Top rated"
-              explain="Adinkrahene, the chief of Adinkra symbols, marks greatness: 4.5 stars or more"
-            />
+            <TopRatedBadge label="Top rated" explain="Customers rate it 4.5 stars or more" />
           )}
           <span className="inline-flex items-center gap-1">
             <Clock size={14} aria-hidden="true" />

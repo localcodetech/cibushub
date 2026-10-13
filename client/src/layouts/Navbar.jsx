@@ -114,6 +114,8 @@ const Navbar = () => {
         onClose={closeMenu}
         onLogout={handleLogout}
       />
+      {/* The kente band under the header */}
+      <div aria-hidden="true" className="kente-band h-1.5" />
     </header>
   );
 };

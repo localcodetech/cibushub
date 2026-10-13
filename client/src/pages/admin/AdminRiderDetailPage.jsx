@@ -1,5 +1,5 @@
 import { useState } from "react";
-import SymbolBadge from "@/components/common/SymbolBadge";
+import TopRatedBadge from "@/components/common/TopRatedBadge";
 import { isTopRatedRider } from "@/utils/topRated";
 import { Link, useParams } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -100,10 +100,9 @@ const AdminRiderDetailPage = () => {
               <span className="inline-flex flex-wrap items-center gap-2">
                 {profile.averageRating} stars from {profile.ratingCount} rated deliveries
                 {isTopRatedRider(profile) && (
-                  <SymbolBadge
-                    symbol="dwennimmen"
+                  <TopRatedBadge
                     label="Top-rated rider"
-                    explain="Dwennimmen, the ram's horns, stands for humility and strength: 4.5 stars or more from customers"
+                    explain="Customers rate their deliveries 4.5 stars or more"
                   />
                 )}
               </span>

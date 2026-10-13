@@ -81,7 +81,9 @@ const RegisterPage = () => {
           the right (like Facebook's sign-up page) */}
       <section className="mx-auto grid max-w-md items-start gap-12 py-10 lg:max-w-6xl lg:grid-cols-[1fr_minmax(0,600px)] lg:py-8">
         <AuthWelcome />
-        <div className="lg:rounded-xl lg:border lg:border-border lg:bg-card lg:p-6 lg:shadow-sm">
+        <div className="lg:overflow-hidden lg:rounded-xl lg:border lg:border-border lg:bg-card lg:p-6 lg:shadow-sm">
+          {/* Kente across the top of the card, like our emails */}
+          <div aria-hidden="true" className="kente-band -mx-6 -mt-6 mb-6 hidden h-1.5 lg:block" />
           <PageHeader title="Create an account" />
           <Text muted className="mt-2 lg:hidden">
             Join CibusHub in Kumasi. Choose how you'll use it.

@@ -1,6 +1,6 @@
 # CibusHub Design Guide
 
-**Covers:** colour palette, contrast rules, typography, Adinkra symbols, shadcn/ui theming, Motion (animation) and the shared components every screen is built from.
+**Covers:** colour palette, contrast rules, typography, kente, shadcn/ui theming, Motion (animation) and the shared components every screen is built from.
 **Applies from:** Step 6 (Frontend Foundation) onward.
 **Related criteria:** AC-UX-01 to AC-UX-12, AC-PERF-05, AC-IMG-05.
 
@@ -15,7 +15,7 @@
 | Name | Hex | Role |
 |---|---|---|
 | Forest Green | `#123C2A` | **Leads the brand.** Primary buttons, header, active tabs, links, focus rings |
-| Ashanti Gold | `#C89B3C` | **Highlight only.** Rating stars, badges, delivery code panel, Adinkrahene badge |
+| Ashanti Gold | `#C89B3C` | **Highlight only.** Rating stars, badges, delivery code panel, top-rated badge, kente band |
 | Cocoa | `#2B2118` | All body text and headings |
 | Warm Cream | `#F7F0DF` | Surfaces: cards, sections, bottom sheets |
 | Terracotta | `#B9573E` | **Optional, rare.** At most one promotional element. Never a primary colour |
@@ -81,39 +81,40 @@ Normal text needs **4.5:1**; large text (24px+, or 18.5px+ bold) and interface p
 
 ---
 
-## 4. Adinkra Symbols
+## 4. Kente
 
-Each symbol has **one job** that matches its meaning. They are never decoration.
+**Decision (13 Oct 2026):** the owner removed the Adinkra symbols (Sankofa, Adinkrahene,
+Dwennimmen) and chose **kente** as CibusHub's Ghanaian accent. Kente is woven cloth, made to be
+a pattern, so a kente stripe as decoration is natural; Adinkra symbols carry proverbs and
+sacred meanings, which made them hard to use without a risk of misuse.
 
-| Symbol | Meaning | Where it appears | Notes |
-|---|---|---|---|
-| **Sankofa** | Learning from the past ("go back and get it") | Order history and the **Reorder** button | The strongest fit. Explain it once on the order history page: "Sankofa: go back and get it" |
-| **Adinkrahene** | Leadership, greatness, authority | **Top-rated restaurant badge** (e.g. rating 4.5+) | Gold fill with Cocoa symbol, or gold symbol on green |
-| **Dwennimmen** | Humility and strength (ram's horns) | **Rider recognition**: rider profiles, "Rider of the week" | Honours riders' work |
-| **Nyame Dua** | Divine protection, sacredness | **Payment confirmed** screen only, if at all | Sacred symbol; use with restraint |
-| **Gye Nyame** | Supremacy of God | **About page / brand story only** | Deeply religious; not used in functional UI (no buttons, badges, menus or food screens) |
+### The kente band
 
-### What CibusHub uses (13 Oct 2026)
+A thin stripe (6px) in our own colours: Ashanti Gold, Forest Green, Terracotta and Cocoa, in a
+woven rhythm. It is the same stripe as the top of every CibusHub email.
 
-| Symbol | Where it is | Artwork |
-|---|---|---|
-| **Sankofa** (bird form) | My orders (explained once in the page's subtitle) and the **Reorder** button on an order | "Sankofa bird symbol.svg" by LunaEclipse, Wikimedia Commons, public domain |
-| **Adinkrahene** | **Top rated** badge on restaurant cards and the restaurant page (4.5 stars or more from at least 3 reviews), explained once on the restaurant page | "Adinkrahene.svg" by Pablo Busatto, Wikimedia Commons, public domain |
-| **Dwennimmen** | **Top-rated rider** badge on the rider's home and the admin's rider page (4.5 stars or more from at least 5 rated deliveries), explained on the rider's home | "Dwennimmen.svg" by Pablo Busatto, Wikimedia Commons, public domain |
-| **Nyame Dua** | Not used: no accurate, licensed drawing was found, and the guide allows leaving it out | |
-| **Gye Nyame** | Not used: there is no About page | |
+| Where | |
+|---|---|
+| Under the header | every page |
+| Above the footer | every page |
+| Across the top of the Log in and Sign up cards | laptops, where they are cards |
+| Across the top of each email card | all emails |
 
-Code: `client/src/data/adinkra.js` (the drawings), `client/src/components/common/AdinkraSymbol.jsx` (one colour, icon size, screen-reader label) and `SymbolBadge.jsx` (the gold badge). The rules are in `client/src/utils/topRated.js`.
-
-Still to do (rule 5): show the three symbols to a few customers, owners and riders, and note how they feel about them.
+Code: `.kente-band` in `client/src/index.css` (built from the email stripe in
+`server/src/services/notifications/templates/layout.js`; change both together).
 
 ### Rules
 
-1. **Accurate artwork only.** Use SVGs from a source whose licence allows your use, or redraw carefully against several references. Proportions matter.
-2. **One colour, icon size.** Forest Green, or Ashanti Gold on green. Never multicoloured.
-3. **Never as patterns, wallpaper, loading spinners, bullets or background textures.** That is a cliché and undermines their meaning.
-4. **Explain each symbol once** where it first appears, in plain words, with an accessible label for screen readers (e.g. "Sankofa symbol").
-5. **Check with real users.** Ask a few intended users, or someone knowledgeable about Adinkra, how the symbols feel in context. Record this as design research in your report.
+1. **A band, never a background.** Thin stripes only; never behind text, never filling cards.
+2. **Few places.** The ones above. More would make it wallpaper and lose its weight.
+3. **Fixed colours** in light and dark: they are cloth colours, not theme colours.
+4. **Decorative only:** hidden from screen readers (`aria-hidden`).
+
+### Top-rated badges
+
+The gold **Top rated** (restaurants: 4.5 stars or more from at least 3 reviews) and
+**Top-rated rider** (4.5 stars or more from at least 5 rated deliveries) badges use the Lucide
+medal icon (`TopRatedBadge`). The rules are in `client/src/utils/topRated.js`.
 
 ---
 
@@ -173,7 +174,7 @@ Do not use one radius for everything:
 | Alert Dialog | Every destructive action: cancel, reject, delete, suspend | AC-UX-07 |
 | Tabs | Menu categories, restaurant order board | AC-DISC-10, AC-RORD-06 |
 | Radio Group, Checkbox | Option groups (choose 1 / choose up to 3) | AC-MENU-06 |
-| Badge | Open now, top-rated (Adinkrahene), sold out | AC-DISC-04 |
+| Badge | Open now, top-rated, sold out | AC-DISC-04 |
 | Skeleton | Loading states on every data screen | AC-UX-02 |
 | Sonner (toasts) | Short confirmations: "Added to cart", "Order placed" | AC-UX-04 |
 | Avatar | Riders and users | AC-DEL-04 |
@@ -235,7 +236,7 @@ jumps instead of gliding.
 
 - Sections fading or sliding up as the page scrolls
 - Looping or decorative animation (bouncing icons, pulsing backgrounds, floating shapes)
-- Animated Adinkra symbols, or Adinkra symbols as backgrounds or patterns
+- Kente as a background or filling (it is a thin band only, section 4)
 
 ### Rules
 
@@ -306,12 +307,10 @@ Checked on 13 Oct 2026.
 - [x] Focus rings are Forest Green and visible on every interactive element
 - [x] All colour pairs used in the UI checked in a contrast checker: 18 pairs in light and 18 in dark, all pass (lowest: terracotta button text 4.67:1; muted text on cards 5.10:1)
 - [x] Gold never used as text on cream or under white text (gold appears as fills: badges, stars)
-- [x] Lucide is the only icon library (plus the three Adinkra drawings, which are not icons)
+- [x] Lucide is the only icon library
 - [x] Motion installed from the `motion` package, with reduced motion respected globally (`MotionConfig reducedMotion="user"`)
 - [x] No scroll-reveal or looping animations (the lively touches in section 6 are allowed, and all of them respect reduced motion)
-- [x] Adinkra symbol artwork sourced accurately with a suitable licence (public domain, see section 4)
-- [x] Each Adinkra symbol used only in its assigned place, with an accessible label
-- [x] Gye Nyame appears only in the brand story, if at all (not used: there is no About page)
+- [x] Kente used only as a thin band in its few places (section 4), hidden from screen readers
 - [x] Screens checked on a 360px-wide viewport (AC-UX-01), including the owner setup, menu builder and profile screens added after Step 13b
 ---
 
