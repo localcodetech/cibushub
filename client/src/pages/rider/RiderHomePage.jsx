@@ -1,5 +1,5 @@
 import { useState } from "react";
-import SymbolBadge from "@/components/common/SymbolBadge";
+import TopRatedBadge from "@/components/common/TopRatedBadge";
 import { isTopRatedRider } from "@/utils/topRated";
 import { Link, useOutletContext } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -140,18 +140,15 @@ const RiderHomePage = () => {
           title={<>Hello, {user.fullName.split(" ")[0]}</>}
           badge={
             status && isTopRatedRider(status) ? (
-              <SymbolBadge
-                symbol="dwennimmen"
+              <TopRatedBadge
                 label="Top-rated rider"
-                explain="Dwennimmen, the ram's horns, stands for humility and strength: 4.5 stars or more from customers"
+                explain="Customers rate their deliveries 4.5 stars or more"
               />
             ) : null
           }
           subtitle={
             status && isTopRatedRider(status)
-              ? "Dwennimmen, the ram's horns, honours humility and strength: customers rate your deliveries " +
-                status.averageRating +
-                " stars."
+              ? "Well done: customers rate your deliveries " + status.averageRating + " stars."
               : null
           }
         />

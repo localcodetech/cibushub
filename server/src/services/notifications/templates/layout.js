@@ -17,8 +17,8 @@ const TEXT = COCOA;
 const MUTED = "#6e6458";
 const LINE = "#e6ddcb";
 
-// A thin kente-inspired stripe across the top of the card: woven-cloth rhythm in our own
-// colours. (Adinkra symbols are NOT used as decoration: each has one meaningful job.)
+// A thin kente stripe across the top of the card: woven-cloth rhythm in our own colours.
+// The app uses the same stripe (.kente-band in client/src/index.css).
 const KENTE = [
   [GOLD, 40],
   [GREEN, 18],

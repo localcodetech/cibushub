@@ -67,7 +67,9 @@ const LoginPage = () => {
           the right, like the Sign up page */}
       <section className="mx-auto grid max-w-md items-start gap-12 py-10 lg:max-w-6xl lg:grid-cols-[1fr_minmax(0,480px)] lg:py-12">
         <AuthWelcome />
-        <div className="lg:rounded-xl lg:border lg:border-border lg:bg-card lg:p-6 lg:shadow-sm">
+        <div className="lg:overflow-hidden lg:rounded-xl lg:border lg:border-border lg:bg-card lg:p-6 lg:shadow-sm">
+          {/* Kente across the top of the card, like our emails */}
+          <div aria-hidden="true" className="kente-band -mx-6 -mt-6 mb-6 hidden h-1.5 lg:block" />
           <PageHeader title="Welcome back" />
           <Text muted className="mt-2">
             Log in to order from kitchens across Kumasi.

@@ -7,7 +7,9 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border bg-card text-sm text-muted-foreground print:hidden">
+    <footer className="bg-card text-sm text-muted-foreground print:hidden">
+      {/* The kente band above the footer */}
+      <div aria-hidden="true" className="kente-band h-1.5" />
       <Container>
         <div className="flex flex-col gap-2 py-6 sm:flex-row sm:items-center sm:justify-between">
           <Text size="small" muted>

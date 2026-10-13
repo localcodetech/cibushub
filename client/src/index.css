@@ -194,7 +194,7 @@
 
 /* ─────────────────────────────────────────────
    Lively surfaces (13 Oct 2026, docs/frontendDesign.md section 6)
-   Soft colour light, never patterns: Adinkra symbols are never used as backgrounds.
+   Soft colour light behind the content; the one pattern is the kente band below.
    ───────────────────────────────────────────── */
 
 /* The page: a faint green glow top left, warm gold top right, green again at the bottom.
@@ -240,6 +240,34 @@ body {
       transparent 70%
     ),
     linear-gradient(135deg, #17221b 0%, #0f1712 60%, #1a2a20 100%);
+}
+
+/* Kente: a thin woven-cloth band in our own colours, the same stripe as the top of our
+   emails. Used in a few places only (under the header, above the footer, the top of the
+   Log in and Sign up cards), so it stays special. Purely decorative: hidden from screen readers. */
+.kente-band {
+  background-image: linear-gradient(
+    90deg,
+    #c89b3c 0px 40px,
+    #123c2a 40px 58px,
+    #c89b3c 58px 68px,
+    #b9573e 68px 82px,
+    #2b2118 82px 90px,
+    #c89b3c 90px 130px,
+    #123c2a 130px 158px,
+    #c89b3c 158px 168px,
+    #2b2118 168px 176px,
+    #b9573e 176px 190px,
+    #c89b3c 190px 230px,
+    #123c2a 230px 248px,
+    #c89b3c 248px 258px,
+    #2b2118 258px 266px,
+    #b9573e 266px 280px,
+    #c89b3c 280px 320px,
+    #123c2a 320px 348px
+  );
+  background-size: 348px 100%;
+  background-repeat: repeat-x;
 }
 
 /* Printing and "Save as PDF" (the receipt page) [AC-PAY-17] */
