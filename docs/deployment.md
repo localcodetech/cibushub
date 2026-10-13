@@ -25,7 +25,21 @@ Internet ──► Caddy (web container, ports 80/443, HTTPS)
 
 Ubuntu 24.04, at least 2 vCPU, **4 GB RAM** (two sites and MySQL) and 40 GB of disk.
 
-Log in as root once, then:
+**The quick way:** [deploy/setup-vps.sh](../deploy/setup-vps.sh) does everything in this section in one go.
+
+```bash
+# On the laptop: forget the old server's fingerprint (after a reinstall), then put your key on root
+ssh-keygen -R <VPS IP>
+ssh-copy-id root@<VPS IP>
+
+# On the VPS, as root
+curl -fsSL https://raw.githubusercontent.com/localcodetech/cibushub/main/deploy/setup-vps.sh -o setup-vps.sh
+bash setup-vps.sh
+```
+
+Then go on with section 3; the code is already downloaded. After the first deploy, `./deploy/first-seed.sh` creates the super admins and the demo data (section 4).
+
+**By hand, step by step:** log in as root once, then:
 
 ```bash
 # A normal user with sudo, and your SSH key copied to it
