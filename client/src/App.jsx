@@ -68,6 +68,7 @@ const AdminRiderDetailPage = lazy(() => import("@/pages/admin/AdminRiderDetailPa
 const NotificationsPage = lazy(() => import("@/pages/NotificationsPage"));
 const NotificationSettingsPage = lazy(() => import("@/pages/NotificationSettingsPage"));
 const ProfilePage = lazy(() => import("@/pages/ProfilePage"));
+const PhotoCreditsPage = lazy(() => import("@/pages/public/PhotoCreditsPage"));
 
 // The map of the app: which page shows for which address.
 // Every page inside "children" is drawn inside RootLayout (navbar + footer).
@@ -86,6 +87,7 @@ const router = createBrowserRouter([
           { index: true, element: <HomePage /> },
           { path: "privacy", element: <PrivacyPage /> },
           { path: "terms", element: <TermsPage /> },
+          { path: "photo-credits", element: <PhotoCreditsPage /> },
           { path: "restaurants", element: <RestaurantsPage /> },
           { path: "restaurants/:restaurantId", element: <RestaurantDetailPage /> },
           { path: "cart", element: <CartPage /> },

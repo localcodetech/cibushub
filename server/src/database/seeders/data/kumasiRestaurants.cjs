@@ -1,6 +1,7 @@
 "use strict";
 
 // Fictional demo data for Kumasi. Names, menus and people are made up. Prices are in pesewas.
+// cover / photo: a file in data/photos (without .webp), credited in data/photos/credits.json
 
 // Every demo account uses this password (development only)
 const DEMO_PASSWORD = "Demo2026";
@@ -89,6 +90,7 @@ const restaurants = [
   {
     ownerKey: "akua",
     name: "Maame Akua's Chop Bar",
+    cover: "cover-chop-bar",
     legalName: "Maame Akua Foods Enterprise",
     description: "Traditional Asante cooking: fufu, light soup and banku, served hot every day.",
     phone: "+233240000101",
@@ -107,21 +109,45 @@ const restaurants = [
         items: [
           {
             name: "Fufu with Light Soup and Goat",
+            photo: "fufu-light-soup",
             description: "Pounded cassava and plantain in spicy tomato light soup.",
             pricePesewas: 6500,
             tags: ["spicy"],
           },
           {
             name: "Fufu with Groundnut Soup and Chicken",
+            photo: "fufu-groundnut-soup",
             description: "Rich peanut soup with tender chicken.",
             pricePesewas: 6000,
             tags: ["contains_nuts"],
           },
           {
             name: "Banku with Okro Stew",
+            photo: "banku-okro",
             description: "Fermented corn dough with okro and fish stew.",
             pricePesewas: 4500,
             tags: [],
+          },
+          {
+            name: "Fufu with Palm Nut Soup",
+            photo: "abenkwan",
+            description: "Abenkwan with smoked fish and crab, pounded fresh.",
+            pricePesewas: 6000,
+            tags: [],
+          },
+          {
+            name: "Omo Tuo with Groundnut Soup",
+            photo: "omo-tuo",
+            description: "Soft rice balls in rich peanut soup with chicken.",
+            pricePesewas: 5000,
+            tags: ["contains_nuts"],
+          },
+          {
+            name: "Ampesi with Kontomire Stew",
+            photo: "ampesi-kontomire",
+            description: "Boiled yam and plantain with cocoyam-leaf stew and egg.",
+            pricePesewas: 4000,
+            tags: ["vegetarian"],
           },
         ],
       },
@@ -130,12 +156,14 @@ const restaurants = [
         items: [
           {
             name: "Sobolo",
+            photo: "sobolo",
             description: "Chilled hibiscus drink.",
             pricePesewas: 1000,
             tags: ["vegan"],
           },
           {
             name: "Asaana",
+            photo: "asaana",
             description: "Caramelised corn drink.",
             pricePesewas: 1000,
             tags: ["vegan"],
@@ -147,6 +175,7 @@ const restaurants = [
   {
     ownerKey: "akua",
     name: "Bantama Waakye Joint",
+    cover: "cover-waakye",
     legalName: "Maame Akua Foods Enterprise",
     description: "Morning waakye with all the sides. Come early, it finishes fast!",
     phone: "+233240000102",
@@ -165,6 +194,7 @@ const restaurants = [
         items: [
           {
             name: "Waakye Special",
+            photo: "waakye-special",
             description: "Rice and beans with spaghetti, gari, egg and shito.",
             pricePesewas: 3500,
             tags: ["spicy"],
@@ -173,10 +203,30 @@ const restaurants = [
           },
           {
             name: "Waakye with Wele and Fish",
+            photo: "waakye-wele-fish",
             description: "Today's batch is finished.",
             pricePesewas: 4000,
             tags: ["spicy"],
             isAvailable: false,
+          },
+        ],
+      },
+      {
+        category: "Breakfast",
+        items: [
+          {
+            name: "Hausa Koko with Koose",
+            photo: "hausa-koko",
+            description: "Spiced millet porridge with bean fritters.",
+            pricePesewas: 1500,
+            tags: ["vegan", "spicy"],
+          },
+          {
+            name: "Bofrot (5 pieces)",
+            photo: "bofrot",
+            description: "Sweet Ghanaian doughnuts, fried this morning.",
+            pricePesewas: 1000,
+            tags: ["vegetarian"],
           },
         ],
       },
@@ -185,6 +235,7 @@ const restaurants = [
   {
     ownerKey: "akua",
     name: "Garden City Grills",
+    cover: "cover-grills",
     legalName: "Garden City Grills Limited",
     description: "Late-night grilled tilapia, chicken and kebabs.",
     phone: "+233240000103",
@@ -205,6 +256,7 @@ const restaurants = [
         items: [
           {
             name: "Grilled Tilapia with Banku",
+            photo: "tilapia-banku",
             description: "Whole tilapia, pepper sauce and banku.",
             pricePesewas: 8500,
             tags: ["spicy"],
@@ -222,9 +274,43 @@ const restaurants = [
           },
           {
             name: "Chicken Kebab (3 sticks)",
+            photo: "chicken-kebab",
             description: "Spiced chicken skewers with onions.",
             pricePesewas: 3000,
             tags: ["spicy", "halal"],
+          },
+          {
+            name: "Beef Suya",
+            photo: "suya",
+            description: "Thin-sliced beef with suya spice, onions and tomato.",
+            pricePesewas: 4000,
+            tags: ["spicy", "contains_nuts"],
+          },
+          {
+            name: "Grilled Chicken with Fries",
+            photo: "grilled-chicken-fries",
+            description: "Quarter chicken, peri-peri glaze and crispy fries.",
+            pricePesewas: 6500,
+            tags: ["spicy"],
+          },
+          {
+            name: "Kelewele",
+            photo: "kelewele",
+            description: "Ginger-spiced fried ripe plantain.",
+            pricePesewas: 1500,
+            tags: ["vegan", "spicy"],
+          },
+        ],
+      },
+      {
+        category: "Drinks",
+        items: [
+          {
+            name: "Fresh Coconut",
+            photo: "coconut",
+            description: "Cold coconut, opened for you.",
+            pricePesewas: 1200,
+            tags: ["vegan"],
           },
         ],
       },
@@ -233,6 +319,7 @@ const restaurants = [
   {
     ownerKey: "akua",
     name: "Campus Bites",
+    cover: "cover-burgers",
     legalName: "Campus Bites Ventures",
     description: "Burgers, fries and shakes for hungry students near KNUST.",
     phone: "+233240000104",
@@ -251,6 +338,7 @@ const restaurants = [
         items: [
           {
             name: "Classic Beef Burger",
+            photo: "beef-burger",
             description: "Beef patty, lettuce, tomato and house sauce.",
             pricePesewas: 5500,
             tags: [],
@@ -268,9 +356,17 @@ const restaurants = [
           },
           {
             name: "Veggie Burger",
+            photo: "veggie-burger",
             description: "Bean and vegetable patty.",
             pricePesewas: 4500,
             tags: ["vegetarian"],
+          },
+          {
+            name: "Chicken Shawarma",
+            photo: "shawarma",
+            description: "Grilled chicken, cabbage and garlic sauce in pitta.",
+            pricePesewas: 4500,
+            tags: ["halal"],
           },
         ],
       },
@@ -279,9 +375,22 @@ const restaurants = [
         items: [
           {
             name: "Fries",
+            photo: "fries",
             description: "Crispy potato fries.",
             pricePesewas: 1500,
             tags: ["vegan"],
+          },
+        ],
+      },
+      {
+        category: "Shakes",
+        items: [
+          {
+            name: "Chocolate Milkshake",
+            photo: "milkshake",
+            description: "Thick and cold, made with real ice cream.",
+            pricePesewas: 3000,
+            tags: ["vegetarian"],
           },
         ],
       },
@@ -290,6 +399,7 @@ const restaurants = [
   {
     ownerKey: "akua",
     name: "Golden Pot Kitchen",
+    cover: "cover-jollof",
     legalName: "Golden Pot Catering Services",
     description: "Party-style jollof, fried rice and red red.",
     phone: "+233240000105",
@@ -308,6 +418,7 @@ const restaurants = [
         items: [
           {
             name: "Jollof with Protein",
+            photo: "jollof",
             description: "Smoky party jollof with your choice of protein.",
             pricePesewas: 4500,
             tags: ["spicy"],
@@ -315,10 +426,25 @@ const restaurants = [
           },
           {
             name: "Fried Rice with Protein",
+            photo: "fried-rice",
             description: "Vegetable fried rice with your choice of protein.",
             pricePesewas: 4500,
             tags: [],
             optionGroups: [proteinChoice, ghanaianExtras],
+          },
+          {
+            name: "Jollof Spaghetti",
+            photo: "jollof-spaghetti",
+            description: "Spaghetti cooked in spicy jollof sauce.",
+            pricePesewas: 4000,
+            tags: ["spicy"],
+          },
+          {
+            name: "Gari Foto with Egg",
+            photo: "gari-foto",
+            description: "Gari soaked in tomato stew with scrambled egg.",
+            pricePesewas: 2500,
+            tags: ["vegetarian"],
           },
         ],
       },
@@ -327,8 +453,21 @@ const restaurants = [
         items: [
           {
             name: "Red Red with Plantain",
+            photo: "red-red",
             description: "Bean stew in palm oil with fried ripe plantain.",
             pricePesewas: 3000,
+            tags: ["vegan"],
+          },
+        ],
+      },
+      {
+        category: "Drinks",
+        items: [
+          {
+            name: "Pineapple Juice",
+            photo: "pineapple-juice",
+            description: "Freshly pressed, no sugar added.",
+            pricePesewas: 1500,
             tags: ["vegan"],
           },
         ],
@@ -338,6 +477,7 @@ const restaurants = [
   {
     ownerKey: "kwabena",
     name: "Nhyiaeso Pizza Co.",
+    cover: "cover-pizza",
     legalName: "Owusu Pizza Company Limited",
     description: "Wood-fired pizzas. Temporarily closed for repairs.",
     phone: "+233240000201",
@@ -358,15 +498,43 @@ const restaurants = [
         items: [
           {
             name: "Margherita",
+            photo: "margherita",
             description: "Tomato, mozzarella and basil.",
             pricePesewas: 9000,
             tags: ["vegetarian"],
           },
           {
             name: "Suya Pizza",
+            photo: "suya-pizza",
             description: "Spicy suya beef with onions and peppers.",
             pricePesewas: 11000,
             tags: ["spicy", "contains_nuts"],
+          },
+          {
+            name: "Pepperoni",
+            photo: "pepperoni",
+            description: "Pepperoni and mozzarella on tomato sauce.",
+            pricePesewas: 10000,
+            tags: [],
+          },
+          {
+            name: "BBQ Chicken",
+            photo: "bbq-chicken-pizza",
+            description: "Smoky barbecue chicken, onions and peppers.",
+            pricePesewas: 10500,
+            tags: [],
+          },
+        ],
+      },
+      {
+        category: "Sides",
+        items: [
+          {
+            name: "Garlic Bread",
+            photo: "garlic-bread",
+            description: "Toasted with garlic butter and herbs.",
+            pricePesewas: 2500,
+            tags: ["vegetarian"],
           },
         ],
       },
@@ -375,6 +543,7 @@ const restaurants = [
   {
     ownerKey: "kwabena",
     name: "Suame Rice Bowl",
+    cover: "cover-rice",
     legalName: "Owusu Rice Bowl Enterprise",
     description: "Suspended: hidden from customers.",
     phone: "+233240000202",
@@ -388,13 +557,22 @@ const restaurants = [
     menu: [
       {
         category: "Rice",
-        items: [{ name: "Plain Rice and Stew", description: "", pricePesewas: 2500, tags: [] }],
+        items: [
+          {
+            name: "Plain Rice and Stew",
+            photo: "rice-stew",
+            description: "",
+            pricePesewas: 2500,
+            tags: [],
+          },
+        ],
       },
     ],
   },
   {
     ownerKey: "yaa",
     name: "Santasi Kenkey House",
+    cover: "cover-kenkey",
     legalName: "Yaa Boateng Kenkey Enterprise",
     description: "Waiting for admin approval: hidden from customers.",
     phone: "+233240000301",
@@ -410,6 +588,7 @@ const restaurants = [
   {
     ownerKey: "yaa",
     name: "Kejetia Kelewele Corner",
+    cover: "cover-kelewele",
     legalName: "Yaa Boateng Snacks",
     description: "Rejected: shows the owner why.",
     phone: "+233240000302",
