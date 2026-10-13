@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import Card from "@/components/common/Card";
 import Alert from "@/components/common/Alert";
 import Text from "@/components/typography/Text";
-import { cn } from "@/lib/utils";
+import Switch from "@/components/common/Switch";
 import { resubmitRestaurantRequest, setAcceptingOrdersRequest } from "@/api/ownerRestaurants";
 
 // The top of a restaurant's settings: where it stands, and the one thing to do about it.
@@ -47,26 +47,12 @@ const RestaurantStatusCard = ({ restaurant, missingDocuments, onChanged }) => {
                 : "Customers see you as closed until you switch this back on."}
             </Text>
           </div>
-          {/* role="switch" + aria-checked: screen readers say "on" / "off" */}
-          <button
-            type="button"
-            role="switch"
-            aria-checked={isOpen}
-            aria-label="Taking orders"
+          <Switch
+            checked={isOpen}
+            onChange={(open) => send(() => setAcceptingOrdersRequest(restaurant.id, open))}
+            label="Taking orders"
             disabled={isWorking}
-            onClick={() => send(() => setAcceptingOrdersRequest(restaurant.id, !isOpen))}
-            className={cn(
-              "relative h-9 w-16 shrink-0 rounded-full transition-colors disabled:opacity-60",
-              isOpen ? "bg-success" : "bg-muted-foreground/40",
-            )}
-          >
-            <span
-              className={cn(
-                "absolute top-1 left-1 size-7 rounded-full bg-white shadow transition-transform",
-                isOpen && "translate-x-7",
-              )}
-            />
-          </button>
+          />
         </div>
         {errorLine}
       </Card>

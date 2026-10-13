@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useParams, useSearchParams } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { UtensilsCrossed } from "lucide-react";
 import Container from "@/layouts/Container";
 import PageHeader from "@/components/common/PageHeader";
 import Skeleton from "@/components/common/Skeleton";
 import ErrorState from "@/components/common/ErrorState";
 import Alert from "@/components/common/Alert";
 import Tabs from "@/components/common/Tabs";
+import { List, ListIcon, ListRow } from "@/components/common/List";
 import StatusBadge from "@/components/common/StatusBadge";
 import Text from "@/components/typography/Text";
 import RestaurantForm from "@/components/owner/setup/RestaurantForm";
@@ -126,6 +128,15 @@ const RestaurantSettingsPage = () => {
 
         {!isSuspended && (
           <>
+            <List className="mt-4">
+              <ListRow
+                to={"/owner/restaurants/" + restaurant.id + "/menu"}
+                leading={<ListIcon icon={UtensilsCrossed} />}
+                title="Menu"
+                meta="Categories, dishes, prices, choices and sold-out switches"
+              />
+            </List>
+
             <Tabs
               label="Settings"
               value={tab}
