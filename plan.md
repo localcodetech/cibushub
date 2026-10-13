@@ -80,6 +80,7 @@ Each step contains:
 | 12 | **Notifications** | AC-NOTIF-01 to 09, AC-PAY-15, AC-MON-04 | ✅ DONE |
 | 13 | **Reviews, Admin, Super Admin and Analytics** | AC-REV-01 to 08, AC-ADM-01 to 09, AC-SADM-01 to 04, AC-ANL-01 to 06, AC-JOB-02, 05 | ✅ DONE |
 | 13b | **Visual Design Pass** | AC-UX-01, 08, 09, 10, 12 | 🟢 IN PROGRESS |
+| 13c | **Catch-up: Scheduled Orders, Promo Codes, Cash on Delivery** | AC-CHK-11, AC-CHK-12, AC-PAY-13 | 🔵 NEXT |
 | 14 | **Hardening and Quality** | AC-TEST-01 to 05, 07, AC-SEC-06, 11, 13, AC-PERF-01, 02, 05, 07, AC-UX-08, 10, 11, AC-API-03, 04 … | ⚪ PLANNED |
 | 15 | **Production, Monitoring and Delivery** | AC-OPS-03 to 06, AC-TEST-06, AC-SEC-10, AC-DB-06, AC-MON-01, 03, 06 … | ⚪ PLANNED |
 
@@ -854,12 +855,69 @@ These decisions apply to every step. Changing one later is expensive, so treat t
 
 - [x] Every screen reviewed against the audit list, at phone and desktop width, light and dark (final pass 2026-10-12: 42 screens × 2 widths × 2 themes = 168 screenshots, no page errors, nothing wider than the screen; all 23 audit items done, see docs/design-audit.md)
 - [x] No page uses its own one-off card or list style (no hand-made card, list, badge, filter, header or alert left; see docs/frontendDesign.md section 7)
-- [ ] Before/after screenshots for each key screen
+- [x] Before/after screenshots for each key screen (16 side-by-side pairs: 12 phone, 4 desktop, kept outside the repo in ~/Documents/cibushub-screenshots/step-13b/)
 
 ### Send for review
 
 - Before/after screenshots
 - The updated design guide
+
+---
+
+## Step 13c — Catch-up: Scheduled Orders, Promo Codes, Cash on Delivery
+
+**Status:** 🔵 NEXT
+
+> **Goal.** The three [COULD] checkout features planned for Step 8 and skipped, built now on top of
+> the finished order engine.
+>
+> **Prerequisite.** Step 13b passed review.
+>
+> **Policies** (plan-review C16, and the user's decisions of 2026-10-13):
+> - **Scheduled orders:** today and tomorrow, 15-minute slots inside the restaurant's opening
+>   hours, at least 45 minutes ahead. Paid up front; the order keeps its scheduled time. The
+>   restaurant alert and the 5-minute timeout start at (scheduled time − preparation time). The
+>   owner board gets a "Scheduled" tab.
+> - **Promo codes:** created by admins only, CibusHub-wide. CibusHub pays the discount, so
+>   restaurant earnings and rider pay stay the same. Rules: percentage or fixed amount, minimum
+>   spend, start and expiry, uses per customer and in total. Checked on the server inside the
+>   order transaction; limits held by unique constraints; every invalid code gets a clear reason.
+> - **Cash on delivery:** off by default; a super admin switches it on in Platform settings.
+>   Only for customers with a verified phone and at least one completed paid order, up to a
+>   capped total (a platform setting). The order goes straight to PAID with payment status UNPAID
+>   and method CASH; the rider confirms the cash at the door, which marks it paid. Analytics
+>   count cash orders correctly (AC-ANL-05).
+
+### Acceptance criteria covered
+
+| Criteria | What it means in this step |
+|---|---|
+| `AC-CHK-11` | Schedule an order for a later slot within opening hours |
+| `AC-CHK-12` | Promo codes applied server-side by their rules; invalid codes explain why |
+| `AC-PAY-13` | Cash on delivery skips PENDING_PAYMENT; the rider confirms cash collected |
+
+### Build
+
+1. Promo codes: tables (`promo_codes`, `promo_redemptions`), admin screens, checkout field, discount
+   in the quote and the order, audit lines.
+2. Scheduled orders: a slot picker at checkout, the stored time, delayed restaurant alert and
+   timeout, the board's "Scheduled" tab, the customer's order page.
+3. Cash on delivery: the platform settings (switch and cap), eligibility, checkout choice, the
+   rider's "Cash collected" step, analytics and CSV exports.
+4. ADR for all three, error codes, permission matrix, OpenAPI.
+
+### Done when
+
+- [ ] A promo code can't be used beyond its limits, even by two orders at the same moment (test)
+- [ ] A scheduled order reaches the restaurant at the right time, not at payment (test)
+- [ ] A cash order reaches the restaurant without payment and is marked paid only when the rider
+      confirms the cash (test)
+- [ ] Each flow checked end to end in the browser
+
+### Send for review
+
+- The ADR and the three flows
+- Screenshots of checkout (promo, schedule, cash), the owner's Scheduled tab and the rider's cash step
 
 ---
 
