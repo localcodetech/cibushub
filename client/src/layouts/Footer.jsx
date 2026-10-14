@@ -16,12 +16,18 @@ const Footer = () => {
             © {year} CibusHub · Kumasi, Ghana
           </Text>
 
-          <nav aria-label="Legal" className="flex gap-4">
+          <nav aria-label="Legal" className="flex flex-wrap gap-x-4">
             <Link to="/privacy" className="flex min-h-11 items-center font-bold hover:underline">
               Privacy Policy
             </Link>
             <Link to="/terms" className="flex min-h-11 items-center font-bold hover:underline">
               Terms of Service
+            </Link>
+            <Link
+              to="/data-deletion"
+              className="flex min-h-11 items-center font-bold hover:underline"
+            >
+              Delete your data
             </Link>
             {/* The demo's food photos are credited here (the real site has none of them) */}
             {!isRealSite && (

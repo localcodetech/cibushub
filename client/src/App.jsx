@@ -4,6 +4,7 @@ import RootLayout from "@/layouts/RootLayout";
 import HomePage from "@/pages/public/HomePage";
 import PrivacyPage from "@/pages/public/PrivacyPage";
 import TermsPage from "@/pages/public/TermsPage";
+import DataDeletionPage from "@/pages/public/DataDeletionPage";
 import RestaurantsPage from "@/pages/public/RestaurantsPage";
 import RestaurantDetailPage from "@/pages/public/RestaurantDetailPage";
 import CartPage from "@/pages/public/CartPage";
@@ -87,6 +88,7 @@ const router = createBrowserRouter([
           { index: true, element: <HomePage /> },
           { path: "privacy", element: <PrivacyPage /> },
           { path: "terms", element: <TermsPage /> },
+          { path: "data-deletion", element: <DataDeletionPage /> },
           { path: "photo-credits", element: <PhotoCreditsPage /> },
           { path: "restaurants", element: <RestaurantsPage /> },
           { path: "restaurants/:restaurantId", element: <RestaurantDetailPage /> },

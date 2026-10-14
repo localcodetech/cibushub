@@ -2,6 +2,8 @@
 
 How CibusHub removes a person's data when they delete their account ([AC-CUST-11], Data Protection Act, 2012 (Act 843)). The code lives in `server/src/services/profile/deleteAccount.service.js` and `server/src/repositories/accountErasure.repository.js`.
 
+The public page explaining this to users is `/data-deletion` (`client/src/data/legal/dataDeletionSections.js`). Its address goes in the Google and Apple consoles as the data deletion URL; keep its wording in step with this file.
+
 ## Who can delete, and how
 
 | Who | How |
