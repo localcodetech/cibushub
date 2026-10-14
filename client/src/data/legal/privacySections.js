@@ -64,7 +64,7 @@ export const privacySections = [
   {
     title: "Your rights",
     paragraphs: [
-      `Under the Data Protection Act, 2012 (Act 843) you can ask to see the personal data we hold about you, correct it, or delete your account. You can change your details and delete your account yourself under My profile, or email ${CONTACT_EMAIL}. If you are unhappy with our answer, you can complain to the Data Protection Commission of Ghana.`,
+      `Under the Data Protection Act, 2012 (Act 843) you can ask to see the personal data we hold about you, correct it, or delete your account. You can change your details and delete your account yourself under My profile, or email ${CONTACT_EMAIL}. The Delete your data page explains how, and what is kept. If you are unhappy with our answer, you can complain to the Data Protection Commission of Ghana.`,
     ],
   },
   {

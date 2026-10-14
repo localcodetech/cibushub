@@ -1,5 +1,6 @@
 // Dates are stored in UTC and always shown in Ghana time (Africa/Accra).
 // "2026-10-09T19:05:00.000Z" -> "9 Oct 2026, 19:05"
+
 export const formatDateTime = (isoText) => {
   return new Intl.DateTimeFormat("en-GB", {
     timeZone: "Africa/Accra",
@@ -12,6 +13,7 @@ export const formatDateTime = (isoText) => {
 };
 
 // Just the time in Ghana: "2026-10-09T19:05:00.000Z" -> "19:05"
+
 export const formatTime = (isoText) => {
   return new Intl.DateTimeFormat("en-GB", {
     timeZone: "Africa/Accra",
@@ -46,7 +48,7 @@ export const formatRange = (fromIso, toIso) => {
   const year = new Intl.DateTimeFormat("en-GB", { timeZone: "Africa/Accra", year: "numeric" });
   return (
     dayMonth.format(new Date(fromIso)) +
-    " – " +
+    " - " +
     dayMonth.format(lastDay) +
     " " +
     year.format(lastDay)
