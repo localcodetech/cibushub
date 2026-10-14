@@ -13,7 +13,7 @@ export const privacySections = [
     title: "What we collect",
     bullets: [
       "Account details: your name, phone number, email address and password. We store only a scrambled (hashed) form of your password, never the password itself.",
-      "If you continue with Google or Apple: your name, your email address (Apple may give us a private relay address instead) and an ID for your Google or Apple account. We never receive your Google or Apple password.",
+      "If you continue with Google, Apple or Facebook: your name, your email address (Apple may give us a private relay address instead), your profile picture (Google and Facebook only) and an ID for that account. We never receive your Google, Apple or Facebook password.",
       "Delivery addresses, including the map pin you place.",
       "Your orders: what you ordered, from where, when, and how much you paid.",
       "Payments: handled by Paystack. We never see or store your card number or Mobile Money PIN; we keep only the payment reference and status.",
@@ -36,7 +36,7 @@ export const privacySections = [
     bullets: [
       "Restaurants see what you ordered and any notes you added. They do not see your phone number or full address.",
       "Riders see the delivery address, and your phone number only while they are delivering your order.",
-      "Service providers who help us run CibusHub: Paystack (payments), Nalo Solutions (SMS), our email provider, Cloudinary (images and documents), Google Maps (maps and distances), and Google and Apple when you choose to sign in with them. They may use your data only to provide their service to us.",
+      "Service providers who help us run CibusHub: Paystack (payments), Nalo Solutions (SMS), our email provider, Cloudinary (images and documents), Google Maps (maps and distances), and Google, Apple and Facebook (Meta) when you choose to sign in with them. They may use your data only to provide their service to us.",
       "Authorities, when the law requires it.",
     ],
     paragraphs: ["We never sell your personal data."],

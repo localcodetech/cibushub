@@ -31,9 +31,12 @@ export const envSchema = zod.object({
   PAYSTACK_SECRET_KEY: zod.string().startsWith("sk_", "PAYSTACK_SECRET_KEY must start with sk_"),
   PAYSTACK_BASE_URL: zod.url().default("https://api.paystack.co"),
 
-  // Sign in with Google / Apple. Without these, that button's sign-in is switched off
+  // Sign in with Google / Apple / Facebook. Without these, that button's sign-in is switched off
   GOOGLE_CLIENT_ID: zod.string().optional(),
   APPLE_SERVICE_ID: zod.string().optional(),
+  // Facebook also needs the app secret: the server asks Facebook whether a token is ours
+  FACEBOOK_APP_ID: zod.string().optional(),
+  FACEBOOK_APP_SECRET: zod.string().optional(),
 
   // SMS through Nalo Solutions. Without a key, messages are only printed (development)
   NALO_API_KEY: zod.string().optional(),

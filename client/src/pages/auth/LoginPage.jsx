@@ -65,7 +65,7 @@ const LoginPage = () => {
     <Container>
       {/* Phones: just the form. Laptops: what CibusHub is on the left, the form in a card on
           the right, like the Sign up page */}
-      <section className="mx-auto grid max-w-md items-start gap-12 py-10 lg:max-w-6xl lg:grid-cols-[1fr_minmax(0,480px)] lg:py-12">
+      <section className="mx-auto grid max-w-md items-start gap-12 py-10 lg:max-w-6xl lg:grid-cols-[1fr_minmax(0,520px)] lg:py-12">
         <AuthWelcome />
         <div className="lg:overflow-hidden lg:rounded-xl lg:border lg:border-border lg:bg-card lg:p-6 lg:shadow-sm">
           {/* Kente across the top of the card, like our emails */}
@@ -127,7 +127,7 @@ const LoginPage = () => {
             </Button>
           </form>
 
-          {/* "Continue with Google / Apple" (only shows once their IDs are set) */}
+          {/* "Continue with Google / Apple / Facebook" (only shows once their IDs are set) */}
           <SocialSignInButtons />
 
           <Text className="mt-4 text-center">

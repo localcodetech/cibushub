@@ -70,7 +70,7 @@ const VerifyPhonePage = () => {
     return <Navigate to={homePathFor(user.role)} replace />;
   }
 
-  // Logged in but no phone yet (Google / Apple sign-up): add it first
+  // Logged in but no phone yet (Google / Apple / Facebook sign-up): add it first
   if (user && !user.phone && !justRegistered) {
     return <Navigate to="/add-phone" replace />;
   }

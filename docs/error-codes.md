@@ -63,7 +63,7 @@ Add a row here in the same commit that introduces a new code.
 | `TOTAL_CHANGED` | (inside `CHECKOUT_BLOCKED`) | A fee setting changed between the checkout page and Place order | plan-review C14 |
 | `TERMS_NOT_ACCEPTED` | 400 | Google / Apple sign-in would create a new account, but the Terms were not accepted (sign up first) | AC-AUTH-01 |
 | `INVALID_SOCIAL_TOKEN` | 401 | The Google / Apple ID token failed the signature, issuer, audience or expiry check | AC-AUTH-11 |
-| `SOCIAL_EMAIL_UNVERIFIED` | 400 | Google / Apple did not confirm the email, so it can't be linked or used for a new account | AC-AUTH-02 |
+| `SOCIAL_EMAIL_UNVERIFIED` | 400 | Google / Apple / Facebook gave no confirmed email (e.g. a Facebook account opened with a phone), so it can't be linked or used for a new account | AC-AUTH-02 |
 | `SOCIAL_LOGIN_UNAVAILABLE` | 503 | That provider's client ID is not configured on the server | — |
 | `PHONE_TAKEN` | 409 | Adding a phone that another account already uses | AC-AUTH-02 |
 | `PHONE_ALREADY_VERIFIED` | 409 | Adding a phone when the account's phone is already verified (use profile change instead) | AC-CUST-02 |

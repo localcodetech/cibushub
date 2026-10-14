@@ -1,6 +1,6 @@
-# Google and Apple sign-in: setup
+# Google, Apple and Facebook sign-in: setup
 
-How to switch on "Continue with Google" and "Continue with Apple". The code is already in place. A button stays hidden, and the server answers `503 SOCIAL_LOGIN_UNAVAILABLE`, until its ID is set.
+How to switch on "Continue with Google", "Continue with Apple" and "Continue with Facebook". The code is already in place. A button stays hidden, and the server answers `503 SOCIAL_LOGIN_UNAVAILABLE`, until its ID is set.
 
 Addresses used below:
 
@@ -12,7 +12,7 @@ Addresses used below:
 | Laptop through a tunnel (testing) | `https://dev.cibushubgh.com` |
 | Laptop (normal development) | `http://localhost:5173` |
 
-Apple does not accept `localhost` or `http`, so you test Apple through the tunnel. Google works on `localhost` too.
+Apple does not accept `localhost` or `http`, so you test Apple through the tunnel. Google and Facebook work on `localhost` too (Facebook only while its app is in Development mode).
 
 ---
 
@@ -75,6 +75,28 @@ Apple may give us a **private relay** email (`...@privaterelay.appleid.com`). To
 
 ---
 
+## 2b. Facebook
+
+Unlike Google and Apple, Facebook gives the browser a plain **access token** with no signature to check. The server asks Facebook whether the token is real and made for our app (`debug_token`), which needs the **App secret**. The code is in `server/src/utils/auth/socialTokens.js` (`verifyFacebookToken`) and `client/src/lib/facebookSignIn.js`.
+
+1. [developers.facebook.com](https://developers.facebook.com) → My Apps → Create app → **Authenticate and request data from users with Facebook Login**.
+2. **App settings → Basic:**
+   - Copy the **App ID** and the **App secret** (Show).
+   - Display name `CibusHub`, contact email, app icon (`client/public/app-icon-1024.png`), category Food & drink.
+   - **+ Add platform → Website**, Site URL `https://cibushubgh.com/`.
+   - App domains: `cibushubgh.com`, `demo.cibushubgh.com` (localhost is not accepted, and not needed).
+   - Privacy policy URL `https://cibushubgh.com/privacy`, Terms `https://cibushubgh.com/terms`, **Data deletion instructions URL** `https://cibushubgh.com/data-deletion` (required before going Live).
+3. **Facebook Login → Settings:** Allowed domains for the JavaScript SDK: `https://cibushubgh.com`, `https://demo.cibushubgh.com`.
+4. Permissions: only `public_profile` and `email`, which need no App Review.
+5. Settings:
+   - `server/.env` (and `server/.env.production` on the VPS): `FACEBOOK_APP_ID=…`, `FACEBOOK_APP_SECRET=…` (**secret**, never in the client)
+   - `client/.env` (and `.env.production` on the VPS, for the build): `VITE_FACEBOOK_APP_ID=…`
+6. Switch the app from **Development** to **Live** (top of the dashboard). Until then only you and the testers added under App roles can sign in.
+
+A Facebook account opened with a phone number has no email. Such a person is told to sign up with their phone instead (`SOCIAL_EMAIL_UNVERIFIED`). The Graph API version (`v23.0`) is named in both `socialTokens.js` and `facebookSignIn.js`; move both up together every year or two.
+
+---
+
 ## 3. The https tunnel for testing (`dev.cibushubgh.com`)
 
 The same tunnel serves the Paystack test still owed from Step 9.
@@ -128,5 +150,8 @@ docker compose up -d --no-deps --force-recreate server client
 | `APPLE_SERVICE_ID` | `server/.env` | yes (same value as below) |
 | `VITE_APPLE_SERVICE_ID` | `client/.env` | yes |
 | `VITE_APPLE_REDIRECT_URI` | `client/.env` | yes |
+| `FACEBOOK_APP_ID` | `server/.env` | yes (same value as below) |
+| `FACEBOOK_APP_SECRET` | `server/.env` | **no, secret** |
+| `VITE_FACEBOOK_APP_ID` | `client/.env` | yes |
 
-No secrets are needed. The server only checks the tokens' signatures against Google's and Apple's public keys.
+Google and Apple need no secrets: the server checks the tokens' signatures against their public keys. Facebook needs its App secret on the server, to ask Facebook whether a token was made for our app.

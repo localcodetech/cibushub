@@ -39,7 +39,7 @@ const RegisterPage = () => {
     },
   });
 
-  // For the Google / Apple buttons: the chosen role, and whether the Terms box is ticked.
+  // For the Google / Apple / Facebook buttons: the chosen role, and whether the Terms box is ticked.
   // Not ticked? The buttons ask in a pop-up instead of stopping here.
   const getSignupDetails = () => {
     return { role: getValues("role"), acceptTerms: getValues("acceptTerms") === true };
@@ -79,12 +79,23 @@ const RegisterPage = () => {
     <Container>
       {/* Phones: just the form. Laptops: what CibusHub is on the left, the form in a card on
           the right (like Facebook's sign-up page) */}
-      <section className="mx-auto grid max-w-md items-start gap-12 py-10 lg:max-w-6xl lg:grid-cols-[1fr_minmax(0,600px)] lg:py-8">
+      <section className="mx-auto grid max-w-md items-start gap-12 py-10 lg:max-w-6xl lg:grid-cols-[1fr_minmax(0,600px)] lg:py-4">
         <AuthWelcome />
         <div className="lg:overflow-hidden lg:rounded-xl lg:border lg:border-border lg:bg-card lg:p-6 lg:shadow-sm">
           {/* Kente across the top of the card, like our emails */}
           <div aria-hidden="true" className="kente-band -mx-6 -mt-6 mb-6 hidden h-1.5 lg:block" />
-          <PageHeader title="Create an account" />
+          {/* Laptops: "Log in" sits beside the title, so the whole card fits the screen */}
+          <PageHeader
+            title="Create an account"
+            actions={
+              <Text className="hidden pt-2 text-[15px] lg:block">
+                Have an account?{" "}
+                <Link to="/login" className="font-bold text-primary">
+                  Log in
+                </Link>
+              </Text>
+            }
+          />
           <Text muted className="mt-2 lg:hidden">
             Join CibusHub in Kumasi. Choose how you'll use it.
           </Text>
@@ -92,7 +103,7 @@ const RegisterPage = () => {
           <form
             onSubmit={handleSubmit(onSubmit)}
             noValidate
-            className="mt-6 flex flex-col gap-4 lg:mt-4"
+            className="mt-6 flex flex-col gap-4 lg:mt-4 lg:gap-3.5"
           >
             {/* Flip cards: one radio button each, so only one role can be chosen */}
             <RoleChoiceCards registerField={register("role")} />
@@ -192,10 +203,10 @@ const RegisterPage = () => {
             </Button>
           </form>
 
-          {/* Sign up with Google / Apple instead: uses the role and Terms box above */}
+          {/* Sign up with Google / Apple / Facebook instead: uses the role and Terms box above */}
           <SocialSignInButtons getSignupDetails={getSignupDetails} />
 
-          <Text className="mt-4 text-center">
+          <Text className="mt-4 text-center lg:hidden">
             Already have an account?{" "}
             <Link to="/login" className="font-bold text-primary">
               Log in

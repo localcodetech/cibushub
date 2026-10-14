@@ -1,14 +1,14 @@
 import { CONTACT_EMAIL } from "./legalInfo";
 
-// The Data Deletion page, one item per section. Google and Apple (and app stores) ask for a
-// public page like this. It matches what the app really does: docs/account-deletion.md
+// The Data Deletion page, one item per section. Meta requires a public page like this before
+// Facebook Login can go live. It matches what the app really does: docs/account-deletion.md
 export const dataDeletionSections = [
   {
     title: "Delete your account in the app",
     bullets: [
       "Log in and open My profile.",
       "Scroll to Delete my account.",
-      "Enter your password. If you signed up with Google or Apple and have no password, leave it empty.",
+      "Enter your password. If you signed up with Google, Apple or Facebook and have no password, leave it empty.",
       "Type DELETE and confirm.",
     ],
     paragraphs: [
@@ -36,7 +36,7 @@ export const dataDeletionSections = [
     bullets: [
       "Your name, phone number, email address, password and profile photo.",
       "Your saved delivery addresses.",
-      "The link to your Google or Apple account.",
+      "The link to your Google, Apple or Facebook account.",
       "Your login sessions and your in-app notifications.",
       "Riders: your Ghana Card and other documents, your bike plate, and your location history.",
       "From your past orders: your phone number, landmarks, GhanaPost GPS code and notes. The drop-off point is blurred to about 1 km.",
@@ -45,15 +45,15 @@ export const dataDeletionSections = [
   {
     title: "What we keep, and why",
     bullets: [
-      "Orders, payments and refunds, because tax and accounting law requires it. They no longer name you: they show \"Deleted user\".",
-      "Your reviews, shown as \"Deleted user\", because restaurants' ratings depend on them.",
+      'Orders, payments and refunds, because tax and accounting law requires it. They no longer name you: they show "Deleted user".',
+      'Your reviews, shown as "Deleted user", because restaurants\' ratings depend on them.',
       "Paystack keeps its own record of card and Mobile Money payments, under its own privacy policy.",
     ],
   },
   {
-    title: "Google and Apple",
+    title: "Google, Apple and Facebook",
     paragraphs: [
-      "Deleting your CibusHub account removes our link to your Google or Apple account. You can also remove CibusHub from your Google Account (Security, then Third-party apps) or your Apple ID (Sign in with Apple). That does not delete your CibusHub account by itself, so delete it here too.",
+      "Deleting your CibusHub account removes our link to your Google, Apple or Facebook account. You can also remove CibusHub from your Google Account (Security, then Third-party apps), your Apple ID (Sign in with Apple) or Facebook (Settings, then Apps and websites). That does not delete your CibusHub account by itself, so delete it here too.",
     ],
   },
   {

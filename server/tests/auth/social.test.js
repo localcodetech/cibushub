@@ -7,7 +7,7 @@ import { TERMS_VERSION } from "../../src/utils/legal.js";
 import { lastCodeSentTo, sentSms } from "../helpers/fakeSms.js";
 import { TEST_PASSWORD, cookieValue, createTestUser } from "../helpers/users.js";
 
-// Fake Google / Apple: each test says which person the token belongs to.
+// Fake Google / Apple / Facebook: each test says which person the token belongs to.
 // The real checks (signature, issuer, audience) live in utils/auth/socialTokens.js.
 const fakeIdentity = vi.hoisted(() => ({ current: null, fails: false }));
 
@@ -18,7 +18,7 @@ vi.mock("../../src/utils/auth/socialTokens.js", () => {
     }
     return fakeIdentity.current;
   };
-  return { verifyGoogleToken: check, verifyAppleToken: check };
+  return { verifyGoogleToken: check, verifyAppleToken: check, verifyFacebookToken: check };
 });
 
 const googlePerson = {
@@ -34,9 +34,11 @@ const socialSignIn = (body) =>
     .send({ provider: "GOOGLE", idToken: "fake-token", ...body });
 
 beforeAll(() => {
-  // Switch both providers on for these tests
+  // Switch every provider on for these tests
   env.GOOGLE_CLIENT_ID = "test-google-client";
   env.APPLE_SERVICE_ID = "test-apple-service";
+  env.FACEBOOK_APP_ID = "test-facebook-app";
+  env.FACEBOOK_APP_SECRET = "test-facebook-secret";
 });
 
 beforeEach(() => {
@@ -158,6 +160,42 @@ describe("POST /api/v1/auth/social", () => {
 
     expect(response.status).toBe(503);
     expect(response.body.error.code).toBe("SOCIAL_LOGIN_UNAVAILABLE");
+  });
+
+  it("creates a customer from Facebook and links the Facebook account", async () => {
+    fakeIdentity.current = {
+      providerUserId: "facebook-456",
+      email: "kofi@example.com",
+      emailVerified: true,
+      fullName: "Kofi Mensah",
+      pictureUrl: null,
+    };
+
+    const response = await socialSignIn({ provider: "FACEBOOK", acceptTerms: true });
+
+    expect(response.status).toBe(201);
+    expect(response.body.data.fullName).toBe("Kofi Mensah");
+    const link = await OAuthAccount.findOne();
+    expect(link.provider).toBe("FACEBOOK");
+    expect(link.providerUserId).toBe("facebook-456");
+  });
+
+  it("asks a Facebook account with no email to sign up with a phone", async () => {
+    // Facebook accounts opened with a phone number share no email
+    fakeIdentity.current = {
+      providerUserId: "facebook-789",
+      email: null,
+      emailVerified: false,
+      fullName: "Ama Darko",
+      pictureUrl: null,
+    };
+
+    const response = await socialSignIn({ provider: "FACEBOOK", acceptTerms: true });
+
+    expect(response.status).toBe(400);
+    expect(response.body.error.code).toBe("SOCIAL_EMAIL_UNVERIFIED");
+    expect(response.body.error.message).toContain("Facebook");
+    expect(await User.count()).toBe(0);
   });
 });
 

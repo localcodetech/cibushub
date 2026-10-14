@@ -3,8 +3,8 @@ import { fullNameField } from "../fields.js";
 
 export const socialSignInSchema = z
   .object({
-    provider: z.enum(["GOOGLE", "APPLE"]),
-    // The signed token Google / Apple gave the browser
+    provider: z.enum(["GOOGLE", "APPLE", "FACEBOOK"]),
+    // The token Google / Apple / Facebook gave the browser (Facebook's is an access token)
     idToken: z.string().min(1, "Missing sign-in token").max(4096),
     // Apple gives the name to the browser only on the first sign-in
     fullName: fullNameField.optional(),

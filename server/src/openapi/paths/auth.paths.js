@@ -131,9 +131,9 @@ export const authPaths = {
   "/api/v1/auth/social": {
     post: {
       tags,
-      summary: "Sign in or sign up with Google or Apple",
+      summary: "Sign in or sign up with Google, Apple or Facebook",
       description:
-        "Send the ID token the Google / Apple button gave the browser. A linked account logs in; an account with the same verified email is linked; otherwise a new account is created (only with acceptTerms: true), with no phone yet. Sets the same HttpOnly cookies as /login.",
+        "Send the token the Google / Apple / Facebook button gave the browser (for Facebook, its access token, which the server checks with Facebook). A linked account logs in; an account with the same verified email is linked; otherwise a new account is created (only with acceptTerms: true), with no phone yet. Sets the same HttpOnly cookies as /login.",
       requestBody: jsonBody(socialSignInSchema, {
         provider: "GOOGLE",
         idToken: "eyJhbGciOiJSUzI1NiIsImtpZCI6...",

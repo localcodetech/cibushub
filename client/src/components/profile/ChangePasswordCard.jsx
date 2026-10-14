@@ -98,7 +98,7 @@ const ChangePasswordCard = () => {
           <Button type="submit" disabled={isSubmitting} className="h-12 font-bold sm:px-8">
             {isSubmitting ? "Saving…" : "Change password"}
           </Button>
-          {/* Google / Apple accounts have no password yet: this is how they set one */}
+          {/* Google / Apple / Facebook accounts have no password yet: this is how they set one */}
           <Link
             to="/forgot-password"
             className="inline-flex min-h-11 items-center font-bold text-primary underline-offset-4 hover:underline"

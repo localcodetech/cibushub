@@ -1,7 +1,11 @@
 import sequelize from "../../../config/database.js";
 import env from "../../../config/env/env.js";
 import AppError from "../../../utils/AppError.js";
-import { verifyAppleToken, verifyGoogleToken } from "../../../utils/auth/socialTokens.js";
+import {
+  verifyAppleToken,
+  verifyFacebookToken,
+  verifyGoogleToken,
+} from "../../../utils/auth/socialTokens.js";
 import { TERMS_VERSION } from "../../../utils/legal.js";
 import {
   createUser,
@@ -19,9 +23,15 @@ import { createSession } from "../createSession.service.js";
 const PROVIDERS = {
   GOOGLE: { verify: verifyGoogleToken, isConfigured: () => Boolean(env.GOOGLE_CLIENT_ID) },
   APPLE: { verify: verifyAppleToken, isConfigured: () => Boolean(env.APPLE_SERVICE_ID) },
+  FACEBOOK: {
+    verify: verifyFacebookToken,
+    isConfigured: () => Boolean(env.FACEBOOK_APP_ID && env.FACEBOOK_APP_SECRET),
+  },
 };
 
-// Asks Google / Apple's signature "who is this?". Any problem = 401.
+const PROVIDER_NAMES = { GOOGLE: "Google", APPLE: "Apple", FACEBOOK: "Facebook" };
+
+// Asks Google / Apple / Facebook "who is this?". Any problem = 401.
 const checkToken = async (provider, idToken) => {
   const settings = PROVIDERS[provider];
 
@@ -36,7 +46,7 @@ const checkToken = async (provider, idToken) => {
   }
 };
 
-// A brand-new CibusHub user from a Google / Apple account. No phone and no password yet:
+// A brand-new CibusHub user from a Google / Apple / Facebook account. No phone and no password yet:
 // they add their phone next and verify it by SMS, like everyone else.
 const createSocialUser = async (provider, identity, details) => {
   // The Terms checkbox is on the sign-up page, so new accounts must start there
@@ -48,7 +58,7 @@ const createSocialUser = async (provider, identity, details) => {
     );
   }
 
-  // Name: from Google, or from the browser (Apple sends it once), or the start of the email
+  // Name: from Google or Facebook, or from the browser (Apple sends it once), or the start of the email
   let fullName = identity.fullName || details.fullName;
   if (!fullName) {
     fullName = identity.email.split("@")[0];
@@ -58,7 +68,7 @@ const createSocialUser = async (provider, identity, details) => {
   const status = role === "CUSTOMER" ? "PENDING_VERIFICATION" : "PENDING_APPROVAL";
 
   try {
-    // Both rows or neither: never a user without its Google / Apple link
+    // Both rows or neither: never a user without its Google / Apple / Facebook link
     return await sequelize.transaction(async (transaction) => {
       const user = await createUser(
         {
@@ -68,7 +78,7 @@ const createSocialUser = async (provider, identity, details) => {
           passwordHash: null,
           role,
           status,
-          // Google / Apple already checked this email address
+          // Google / Apple / Facebook already checked this email address
           emailVerifiedAt: new Date(),
           termsAcceptedAt: new Date(),
           termsVersion: TERMS_VERSION,
@@ -97,7 +107,7 @@ const createSocialUser = async (provider, identity, details) => {
   }
 };
 
-// Their Google picture becomes their CibusHub photo, and is refreshed at every Google sign-in,
+// Their Google or Facebook picture becomes their CibusHub photo, refreshed at every such sign-in,
 // unless they uploaded their own photo (that one has a Cloudinary ID and always wins)
 const pictureChange = (user, identity) => {
   if (!identity.pictureUrl || user.avatarPublicId || user.avatarUrl === identity.pictureUrl) {
@@ -106,7 +116,7 @@ const pictureChange = (user, identity) => {
   return { avatarUrl: identity.pictureUrl };
 };
 
-// Sign in (or sign up) with Google or Apple.
+// Sign in (or sign up) with Google, Apple or Facebook.
 // details = { provider, idToken, fullName?, role?, acceptTerms? }
 export const socialSignIn = async (details, device) => {
   const identity = await checkToken(details.provider, details.idToken);
@@ -122,10 +132,11 @@ export const socialSignIn = async (details, device) => {
 
   // From here we need an email the provider has confirmed
   if (!user && (!identity.email || !identity.emailVerified)) {
+    // (A Facebook account opened with a phone number has no email at all)
     throw new AppError(
       400,
       "SOCIAL_EMAIL_UNVERIFIED",
-      "Your Google or Apple email isn't verified. Sign up with your phone instead",
+      `Your ${PROVIDER_NAMES[details.provider]} account has no verified email. Sign up with your phone instead`,
     );
   }
 

@@ -24,7 +24,7 @@ const RequireRole = ({ allowedRoles, allowPending = false, children }) => {
     );
   }
 
-  // Signed in with Google / Apple and no phone yet: add it first
+  // Signed in with Google / Apple / Facebook and no phone yet: add it first
   if (!user.phone) {
     return <Navigate to="/add-phone" replace />;
   }

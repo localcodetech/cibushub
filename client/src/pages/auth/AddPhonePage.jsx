@@ -17,7 +17,7 @@ const addPhoneSchema = z.object({
   phone: z.string().trim().refine(isGhanaPhone, "Enter a valid Ghana mobile number"),
 });
 
-// After a first Google / Apple sign-in (no phone yet), or to fix a mistyped number
+// After a first Google / Apple / Facebook sign-in (no phone yet), or to fix a mistyped number
 // before verifying. Then the SMS code screen proves the phone is theirs.
 const AddPhonePage = () => {
   const navigate = useNavigate();
