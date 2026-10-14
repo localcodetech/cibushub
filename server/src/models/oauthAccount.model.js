@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
 
-// A Google or Apple account linked to a CibusHub user
+// A Google, Apple or Facebook account linked to a CibusHub user
 const OAuthAccount = sequelize.define(
   "OAuthAccount",
   {
@@ -15,7 +15,7 @@ const OAuthAccount = sequelize.define(
       allowNull: false,
     },
     provider: {
-      type: DataTypes.ENUM("GOOGLE", "APPLE"),
+      type: DataTypes.ENUM("GOOGLE", "APPLE", "FACEBOOK"),
       allowNull: false,
     },
     providerUserId: {

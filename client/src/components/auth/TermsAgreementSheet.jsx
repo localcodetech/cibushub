@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router";
 import Sheet from "@/components/common/Sheet";
 
-// Shown when someone new continues with Google / Apple without having agreed to the Terms
-// [AC-AUTH-01]. Agreeing finishes the sign-up with the same Google / Apple sign-in.
+// Shown when someone new continues with Google / Apple / Facebook without having agreed to the Terms
+// [AC-AUTH-01]. Agreeing finishes the sign-up with the same Google / Apple / Facebook sign-in.
 //
 // providerName:   "Google" or "Apple", for the wording
 // isNewCustomer:  true on the login page, where the new account is a customer account

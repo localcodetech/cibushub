@@ -84,7 +84,7 @@ const DeleteAccountCard = () => {
             <FormField
               id="delete-password"
               label="Your password"
-              hint="Signed up with Google or Apple and never set a password? Leave this empty."
+              hint="Signed up with Google, Apple or Facebook and never set a password? Leave this empty."
               type="password"
               autoComplete="current-password"
               value={password}

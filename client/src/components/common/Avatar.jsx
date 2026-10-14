@@ -1,10 +1,12 @@
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 // A person's initials in a circle (riders, users, admins). Decorative: the name is always
 // written next to it, so screen readers skip it.
 //   <Avatar name="Kofi Adjei" />   -> "KA"
 //   size: md (40px, list rows) | lg (56px, detail pages) | xl (96px, the profile page)
-//   src:  their photo: one they uploaded, else their Google picture (initials otherwise)
+//   src:  their photo: one they uploaded, else their Google or Facebook picture (initials
+//         otherwise, and also when the photo won't load: Facebook's photo links expire)
 
 // "Kofi Adjei" -> "KA", "Yaa Asantewaa Boateng" -> "YB", "Esi" -> "E"
 const initialsOf = (name = "") => {
@@ -18,13 +20,17 @@ const initialsOf = (name = "") => {
 const SIZES = { md: "size-10 text-[15px]", lg: "size-14 text-lg", xl: "size-24 text-3xl" };
 
 const Avatar = ({ name, src, size = "md", className }) => {
-  if (src) {
+  // The address of a photo that failed to load, so a new photo is still tried
+  const [brokenSrc, setBrokenSrc] = useState(null);
+
+  if (src && src !== brokenSrc) {
     return (
       <img
         src={src}
         alt=""
         // Google profile pictures can refuse to load when told which site asked
         referrerPolicy="no-referrer"
+        onError={() => setBrokenSrc(src)}
         className={cn("shrink-0 rounded-full object-cover", SIZES[size], className)}
       />
     );
