@@ -42,9 +42,10 @@ const Tabs = ({ label, value, onChange, options, fill = false, className }) => {
               aria-pressed={isChosen}
               onClick={() => onChange(option.value)}
               className={cn(
-                "flex min-h-10 shrink-0 items-center justify-center gap-2 rounded-md px-3 font-bold whitespace-nowrap",
+                "flex min-h-10 shrink-0 items-center justify-center gap-2 rounded-md font-bold whitespace-nowrap",
                 "transition-colors duration-100 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
-                fill && "flex-1",
+                // Stretched options grow anyway, so they need less padding (fits 4 on a phone)
+                fill ? "flex-1 px-2" : "px-3",
                 // relative: the sliding highlight sits behind the words
                 "relative",
                 isChosen ? "text-primary-foreground" : "text-foreground hover:bg-primary/[0.06]",

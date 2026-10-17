@@ -252,6 +252,22 @@ Everything since the last backup (up to a day) is lost, so restore only when the
   - Code: `server/src/config/sentry.js`, `client/src/lib/errorReporting.js`.
   - In Sentry, **Alerts → Create alert → "Issues"**: email on every new issue (the default rule).
 
+## 9. Cloudflare proxy (CDN and DDoS shield)
+
+Cloudflare's proxy (the **orange cloud** on a DNS record) puts Cloudflare in front of the VPS: the app's files come from a nearby Cloudflare server, floods hit Cloudflare instead of the VPS, and the VPS's address is hidden.
+
+**The real visitor IP.** Behind the proxy, every request arrives *from Cloudflare*. `client/Caddyfile` trusts Cloudflare's addresses (`trusted_proxies`) and reads the visitor from `CF-Connecting-IP`, but only on requests that really come from Cloudflare. It then passes that one IP to the API (`header_up X-Forwarded-For {client_ip}`), so `TRUST_PROXY=1` stays the same, **orange or grey**. Without this, every guest would share one rate limit. When Cloudflare changes its address list (rare, see cloudflare.com/ips), update the `trusted_proxies` line.
+
+**Switching it on** (after the Caddyfile is deployed):
+1. Cloudflare → SSL/TLS → **Full (strict)**. Any other mode causes redirect loops or an unencrypted hop.
+2. SSL/TLS → Edge Certificates → **Always Use HTTPS: off**. Caddy already redirects to https, and Let's Encrypt renewals need plain http on port 80.
+3. DNS → turn the cloud **orange** on `cibushubgh.com`, `www`, `api` and `demo`.
+4. Test: log in, place a demo order, watch live tracking, make a Paystack test payment. In `compose logs api`, the request IPs should be real visitors', not `172.x` / `104.x` Cloudflare addresses.
+
+**Undo:** turn the clouds grey. Nothing on the VPS needs to change.
+
+**Optional, later:** allow ports 80 and 443 only from Cloudflare's addresses (`ufw`), so nobody can go around the shield. Certificates still renew, because Let's Encrypt's checks come through Cloudflare.
+
 ## Still to do (Step 15)
 
 - **CI:** GitHub Actions running lint, tests and build on every pull request (AC-OPS-03, AC-TEST-06)

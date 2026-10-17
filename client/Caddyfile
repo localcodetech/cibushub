@@ -9,10 +9,28 @@
 #
 # Both sites serve the same built app from /srv. The app calls /api and /socket.io on its own
 # address, exactly like the Vite proxy in development: no CORS, and the login cookies just work.
-
 {
 	# Let's Encrypt writes here if a certificate is about to expire and can't renew
 	email {$ACME_EMAIL}
+
+	# Who the visitor really is, with Cloudflare's proxy (orange cloud) on or off.
+	# A request that comes FROM Cloudflare carries the visitor's IP in CF-Connecting-IP; any
+	# other request's visitor is simply whoever connected (a header they send is ignored,
+	# so nobody can fake their IP to dodge the rate limits). Caddy hands that one IP to the
+	# API (header_up below), so the API's TRUST_PROXY stays 1 either way.
+	# Cloudflare's addresses: https://www.cloudflare.com/ips (checked 2026-10-17). They rarely
+	# change; if they do, update this list.
+	servers {
+		trusted_proxies static 173.245.48.0/20 103.21.244.0/22 103.22.200.0/22 103.31.4.0/22 141.101.64.0/18 108.162.192.0/18 190.93.240.0/20 188.114.96.0/20 197.234.240.0/22 198.41.128.0/17 162.158.0.0/15 104.16.0.0/13 104.24.0.0/14 172.64.0.0/13 131.0.72.0/22 2400:cb00::/32 2606:4700::/32 2803:f800::/32 2405:b500::/32 2405:8100::/32 2a06:98c0::/29 2c0f:f248::/32
+		client_ip_headers CF-Connecting-IP
+	}
+}
+
+# Forward to an api container, telling it the real visitor's IP (worked out above)
+(to_api) {
+	reverse_proxy {args[0]}:5000 {
+		header_up X-Forwarded-For {client_ip}
+	}
 }
 
 # One site: the built app, with /api and /socket.io forwarded to the given api container
@@ -20,10 +38,10 @@
 	encode zstd gzip
 
 	handle /api/* {
-		reverse_proxy {args[0]}:5000
+		import to_api {args[0]}
 	}
 	handle /socket.io/* {
-		reverse_proxy {args[0]}:5000
+		import to_api {args[0]}
 	}
 
 	# Built files with a fingerprint in their name never change: browsers keep them a year
@@ -67,7 +85,7 @@ www.{$APP_DOMAIN}, app.{$APP_DOMAIN} {
 # The real API's own address (Paystack live and Resend webhooks call it)
 # ─────────────────────────────────────────────
 {$API_DOMAIN} {
-	reverse_proxy api:5000
+	import to_api api
 }
 
 # ─────────────────────────────────────────────
