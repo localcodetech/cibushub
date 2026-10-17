@@ -182,9 +182,62 @@ dc exec mysql sh -c 'mysql -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" cibushub'   # a d
 
 Never run `dc down -v` on the VPS: it deletes the databases.
 
+## 7. Backups (AC-DB-06)
+
+`deploy/backup.sh` saves the real site's database (`cibushub`) as `/var/backups/cibushub/cibushub-<date>.sql.gz` and copies it to Backblaze B2. The VPS keeps 14 days, and a lifecycle rule on the bucket keeps 30. The demo isn't backed up: its seeders rebuild it.
+
+### Set up (once)
+
+1. Backblaze B2: a **private**, encrypted bucket `cibushub-backups`; lifecycle rule "hide after 30 days, delete 1 day later"; an application key for that bucket only (read and write).
+2. On the VPS: `sudo apt install -y rclone`, then `sudo rclone config` → new remote named `offsite`, type `b2`, with the key ID and key. It must be **root's** config (`sudo`), because cron runs the backup as root.
+3. Nightly at 02:30 (Ghana time = UTC): `sudo crontab -e` and add
+   ```
+   30 2 * * * /home/deploy/cibushub/deploy/backup.sh >> /var/log/cibushub-backup.log 2>&1
+   ```
+
+### Check it's running
+
+```bash
+sudo rclone ls offsite:cibushub-backups     # one file per night
+tail -5 /var/log/cibushub-backup.log        # ends with "✓ Backup saved"
+```
+
+### Practice restore (tested 2026-10-17: 2 of 2 users, 28 of 28 tables)
+
+Into a **separate** database, never over the real one. With `compose` defined as in `deploy/deploy.sh`:
+
+```bash
+mkdir -p ~/restore-test
+sudo rclone copy offsite:cibushub-backups/cibushub-<date>.sql.gz ~/restore-test/
+compose exec -T mysql sh -c 'MYSQL_PWD="$MYSQL_ROOT_PASSWORD" mysql -uroot -e "CREATE DATABASE cibushub_restore_test"'
+sudo zcat ~/restore-test/cibushub-<date>.sql.gz | compose exec -T mysql sh -c 'MYSQL_PWD="$MYSQL_ROOT_PASSWORD" mysql -uroot cibushub_restore_test'
+# compare row counts with cibushub, then:
+compose exec -T mysql sh -c 'MYSQL_PWD="$MYSQL_ROOT_PASSWORD" mysql -uroot -e "DROP DATABASE cibushub_restore_test"'
+rm -rf ~/restore-test
+```
+
+Repeat it every few months, and after any change to `backup.sh`.
+
+### In a real emergency (the real database is lost or damaged)
+
+Everything since the last backup (up to a day) is lost, so restore only when the data really is gone.
+
+1. **Stop the app**, so nobody writes to a half-restored database:
+   `compose stop web api worker`
+2. **Keep a copy of the damaged database first** (it may hold the newest orders):
+   `sudo ./deploy/backup.sh` (saved under today's date; rename it, e.g. `-damaged`, before step 4 overwrites today's name)
+3. **Get the newest good backup.** `sudo rclone ls offsite:cibushub-backups`, then `sudo rclone copy` it to `~/restore`. If the whole VPS is gone: set up a new one (sections 1 to 4, without the first seed), install and configure rclone with the same key, then continue here.
+4. **Empty the real database and load the backup:**
+   ```bash
+   compose exec -T mysql sh -c 'MYSQL_PWD="$MYSQL_ROOT_PASSWORD" mysql -uroot -e "DROP DATABASE cibushub; CREATE DATABASE cibushub CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci; GRANT ALL ON cibushub.* TO \"$MYSQL_USER\"@\"%\";"'
+   sudo zcat ~/restore/cibushub-<date>.sql.gz | compose exec -T mysql sh -c 'MYSQL_PWD="$MYSQL_ROOT_PASSWORD" mysql -uroot cibushub'
+   ```
+5. **Bring the schema up to date** (the backup may be older than the code): `compose run --rm migrate`
+6. **Start the app:** `compose up -d`, then check `https://cibushubgh.com/api/health` and log in.
+7. **Payments made after the backup** exist in Paystack but not in the database. Check the Paystack dashboard for that period and settle them by hand.
+
 ## Still to do (Step 15)
 
-- **Backups:** a daily database dump copied off the server, plus one tested restore (AC-DB-06)
 - **Monitoring:** Sentry for errors, and UptimeRobot on both `/api/health` addresses (AC-MON-01, 03)
 - **CI:** GitHub Actions running lint, tests and build on every pull request (AC-OPS-03, AC-TEST-06)
 - **Demo extras:** photos, the "Demo" banner, quick role logins and a nightly reset

@@ -4,7 +4,7 @@ import { socialSignInRequest } from "@/api/auth";
 import TermsAgreementSheet from "@/components/auth/TermsAgreementSheet";
 import { loadScript } from "@/lib/loadScript";
 import { GOOGLE_SCRIPT } from "@/lib/googleSignIn";
-import { facebookLogin, loadFacebook } from "@/lib/facebookSignIn";
+import { facebookLogin, isFacebookReady, loadFacebook } from "@/lib/facebookSignIn";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/store/authStore";
 import { afterLoginPath } from "@/utils/roleHome";
@@ -160,19 +160,32 @@ const SocialSignInButtons = ({ getSignupDetails }) => {
 
   // Facebook opens a pop-up and gives back an access token, which our server checks with
   // Facebook. Facebook gives no name here: the server reads it from Facebook itself.
-  const handleFacebookClick = async () => {
+  // Nothing is awaited before the pop-up opens: browsers (Safari, Firefox) silently block a
+  // pop-up that doesn't open straight from the click.
+  const handleFacebookClick = () => {
     setErrorMessage("");
-    try {
-      await loadFacebook();
-      const accessToken = await facebookLogin();
-      await finishSignIn("FACEBOOK", accessToken);
-    } catch (error) {
-      // Closing the pop-up is not an error worth showing
-      if (error && error.cancelled) {
-        return;
-      }
-      setErrorMessage("Facebook sign-in didn't work. Please try again.");
+
+    // Facebook's code isn't here yet (slow line), or it was blocked (often by an ad blocker)
+    if (!isFacebookReady()) {
+      loadFacebook()
+        .then(() => setErrorMessage("Facebook is ready. Tap the button again."))
+        .catch(() =>
+          setErrorMessage(
+            "Facebook sign-in couldn't load. Check your connection, or turn off your ad blocker for this site.",
+          ),
+        );
+      return;
     }
+
+    facebookLogin()
+      .then((accessToken) => finishSignIn("FACEBOOK", accessToken))
+      .catch((error) => {
+        // Closing the pop-up is not an error worth showing
+        if (error && error.cancelled) {
+          return;
+        }
+        setErrorMessage("Facebook sign-in didn't work. Please try again.");
+      });
   };
 
   // No ID set yet: draw nothing
