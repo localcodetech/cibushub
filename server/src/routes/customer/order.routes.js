@@ -24,7 +24,11 @@ import {
   getReview,
   updateReview,
 } from "../../controllers/review/myReview.controller.js";
-import { createRateLimiter } from "../../middlewares/rateLimit/createRateLimiter.js";
+import { byUser, createRateLimiter } from "../../middlewares/rateLimit/createRateLimiter.js";
+import {
+  placeOrderLimiter,
+  startPaymentLimiter,
+} from "../../middlewares/rateLimit/checkoutLimiters.js";
 
 const router = Router();
 
@@ -33,7 +37,7 @@ const paymentStatusLimiter = createRateLimiter({
   name: "payment-status",
   windowSeconds: 60,
   limit: 30,
-  keyBy: (req) => `user:${req.user.id}`,
+  keyBy: byUser,
 });
 
 // The tracking map reloads every minute (for the ETA); the rider's moves come by socket.
@@ -42,7 +46,7 @@ const trackingLimiter = createRateLimiter({
   name: "order-tracking",
   windowSeconds: 60,
   limit: 10,
-  keyBy: (req) => `user:${req.user.id}`,
+  keyBy: byUser,
 });
 
 // ─────────────────────────────────────────────
@@ -50,6 +54,7 @@ const trackingLimiter = createRateLimiter({
 // ─────────────────────────────────────────────
 router.post(
   "/",
+  placeOrderLimiter,
   validate(idempotencyHeaderSchema, "headers"),
   validate(checkoutQuoteSchema),
   createOrder,
@@ -83,7 +88,7 @@ router.post("/:orderId/confirm-received", confirmReceived);
 // ─────────────────────────────────────────────
 // Pay for my order with Paystack (card or mobile money); call again to retry after a failure
 // ─────────────────────────────────────────────
-router.post("/:orderId/payments", payForOrder);
+router.post("/:orderId/payments", startPaymentLimiter, payForOrder);
 
 // ─────────────────────────────────────────────
 // Has my payment gone through? The server asks Paystack itself (the page never decides)

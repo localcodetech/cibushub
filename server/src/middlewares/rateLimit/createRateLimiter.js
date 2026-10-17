@@ -5,6 +5,11 @@ import AppError from "../../utils/AppError.js";
 
 const byIp = (req) => ipKeyGenerator(req.ip);
 
+// For routes behind authenticate(): one budget per account, whatever network it's on
+export const byUser = (req) => `user:${req.user.id}`;
+
+// limit: a number, or a function (req) => number when it depends on who's asking
+
 export const createRateLimiter = ({
   name,
   windowSeconds,
