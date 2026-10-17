@@ -2,20 +2,8 @@ import { lazy } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import RootLayout from "@/layouts/RootLayout";
 import HomePage from "@/pages/public/HomePage";
-import PrivacyPage from "@/pages/public/PrivacyPage";
-import TermsPage from "@/pages/public/TermsPage";
-import DataDeletionPage from "@/pages/public/DataDeletionPage";
 import RestaurantsPage from "@/pages/public/RestaurantsPage";
 import RestaurantDetailPage from "@/pages/public/RestaurantDetailPage";
-import CartPage from "@/pages/public/CartPage";
-import LoginPage from "@/pages/auth/LoginPage";
-import RegisterPage from "@/pages/auth/RegisterPage";
-import VerifyPhonePage from "@/pages/auth/VerifyPhonePage";
-import VerifyEmailPage from "@/pages/auth/VerifyEmailPage";
-import AddPhonePage from "@/pages/auth/AddPhonePage";
-import PendingApprovalPage from "@/pages/auth/PendingApprovalPage";
-import ForgotPasswordPage from "@/pages/auth/ForgotPasswordPage";
-import ResetPasswordPage from "@/pages/auth/ResetPasswordPage";
 import NotFoundPage from "@/pages/NotFoundPage";
 import ForbiddenPage from "@/pages/ForbiddenPage";
 import ErrorPage from "@/pages/ErrorPage";
@@ -27,6 +15,22 @@ import { useAuthStore } from "@/store/authStore";
 // Each role's pages load only when someone opens them [AC-PERF-06].
 // A customer's phone never downloads the admin, owner or rider code.
 // lazy(): "fetch this page's code the first time it is needed".
+//
+// Loaded at once (above): only the browsing pages most visitors start on (home, restaurants,
+// a restaurant's menu) and the error pages. Everything with a form waits until it's opened,
+// so a first visit doesn't download the form libraries (zod, react-hook-form).
+const PrivacyPage = lazy(() => import("@/pages/public/PrivacyPage"));
+const TermsPage = lazy(() => import("@/pages/public/TermsPage"));
+const DataDeletionPage = lazy(() => import("@/pages/public/DataDeletionPage"));
+const CartPage = lazy(() => import("@/pages/public/CartPage"));
+const LoginPage = lazy(() => import("@/pages/auth/LoginPage"));
+const RegisterPage = lazy(() => import("@/pages/auth/RegisterPage"));
+const VerifyPhonePage = lazy(() => import("@/pages/auth/VerifyPhonePage"));
+const VerifyEmailPage = lazy(() => import("@/pages/auth/VerifyEmailPage"));
+const AddPhonePage = lazy(() => import("@/pages/auth/AddPhonePage"));
+const PendingApprovalPage = lazy(() => import("@/pages/auth/PendingApprovalPage"));
+const ForgotPasswordPage = lazy(() => import("@/pages/auth/ForgotPasswordPage"));
+const ResetPasswordPage = lazy(() => import("@/pages/auth/ResetPasswordPage"));
 const CustomerHomePage = lazy(() => import("@/pages/customer/CustomerHomePage"));
 const AddressesPage = lazy(() => import("@/pages/customer/AddressesPage"));
 // The map library is big, so it only downloads when this page opens

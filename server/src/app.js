@@ -88,7 +88,12 @@ app.use(helmet());
 app.use(cors({ origin: env.CLIENT_URL, credentials: true }));
 
 // ─────────────────────────────────────────────
-// At most 100 requests per minute from one IP
+// Read cookies sent by the browser (first, so the limit below knows who's logged in)
+// ─────────────────────────────────────────────
+app.use(cookieParser());
+
+// ─────────────────────────────────────────────
+// At most 200 requests a minute per logged-in account, 100 per IP for guests
 // ─────────────────────────────────────────────
 app.use(globalLimiter);
 
@@ -107,11 +112,6 @@ app.use("/api/v1/webhooks", webhookRoutes);
 // Read JSON request bodies (max 100 kb)
 // ─────────────────────────────────────────────
 app.use(express.json({ limit: "100kb" }));
-
-// ─────────────────────────────────────────────
-// Read cookies sent by the browser
-// ─────────────────────────────────────────────
-app.use(cookieParser());
 
 // ─────────────────────────────────────────────
 // Health check
