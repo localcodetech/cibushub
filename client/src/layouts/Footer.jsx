@@ -17,6 +17,9 @@ const Footer = () => {
           </Text>
 
           <nav aria-label="Legal" className="flex flex-wrap gap-x-4">
+            <Link to="/help" className="flex min-h-11 items-center font-bold hover:underline">
+              Help
+            </Link>
             <Link to="/privacy" className="flex min-h-11 items-center font-bold hover:underline">
               Privacy Policy
             </Link>
