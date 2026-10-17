@@ -23,6 +23,9 @@ export const loadFacebook = async () => {
   }
 };
 
+// True once Facebook's code is loaded and started, so a click can open the pop-up at once
+export const isFacebookReady = () => isStarted;
+
 // Opens Facebook's login pop-up and returns the access token for our server to check.
 // Must run straight from a click (and with the code already loaded), or browsers block the
 // pop-up. Rejects with { cancelled: true } when the person closes it.

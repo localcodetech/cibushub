@@ -1,0 +1,82 @@
+# CI: checks every push to main and every pull request [AC-OPS-03, AC-TEST-06].
+# GitHub runs it on its own machines. A red ✗ on a pull request means something below failed,
+# and branch protection on main stops it from being merged until it's fixed.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# A newer push to the same branch cancels the older run that's still going
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ─── The React app: lint, formatting, and a production build ───
+  client:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: client
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: client/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run format:check
+      - run: npm run build
+
+  # ─── The API: lint, formatting, and the full test suite against real MySQL and Redis ───
+  server:
+    runs-on: ubuntu-latest
+    # The steps run inside a Node container, next to MySQL and Redis containers. Like in
+    # compose.yaml, they reach each other by name: "mysql" and "redis" (npm test expects that)
+    container: node:24
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: ci-root-password
+          MYSQL_DATABASE: cibushub_test
+          MYSQL_USER: cibushub
+          MYSQL_PASSWORD: ci-password
+        # Tests wait until MySQL answers
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -pci-root-password --silent"
+          --health-interval=5s --health-timeout=5s --health-retries=20
+      redis:
+        image: redis:8-alpine
+        options: >-
+          --health-cmd="redis-cli ping" --health-interval=5s --health-timeout=5s
+          --health-retries=10
+    # Throwaway settings, only for the tests. No real keys: SMS, email, payments and
+    # uploads are faked in tests/setup.js, so nothing is ever sent from CI
+    env:
+      PORT: 5000
+      CLIENT_URL: http://localhost:5173
+      DB_HOST: mysql
+      MYSQL_USER: cibushub
+      MYSQL_PASSWORD: ci-password
+      REDIS_URL: redis://redis:6379/1
+      OTP_SECRET: ci-otp-secret-at-least-32-characters-long
+      JWT_ACCESS_SECRET: ci-jwt-secret-at-least-32-characters-long
+      CLOUDINARY_CLOUD_NAME: ci
+      CLOUDINARY_API_KEY: ci
+      CLOUDINARY_API_SECRET: ci
+      PAYSTACK_SECRET_KEY: sk_test_ci
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run format:check
+      # npm test sets NODE_ENV=test and the cibushub_test database, runs the migrations, then vitest
+      - run: npm test
