@@ -1,7 +1,9 @@
+import { useEffect } from "react";
 import { useRouteError } from "react-router";
 import { RefreshCw, TriangleAlert } from "lucide-react";
 import Container from "@/layouts/Container";
 import StatusScreen from "@/components/common/StatusScreen";
+import { reportError } from "@/lib/errorReporting";
 
 // Shown instead of a blank screen when a page crashes while drawing [AC-UX-04].
 // React Router catches the crash and draws this page in its place (errorElement in App.jsx).
@@ -18,6 +20,13 @@ const ErrorPage = () => {
   // exists. Loading the page again fetches the new version.
   const isOldVersion =
     error instanceof Error && error.message.includes("dynamically imported module");
+
+  // Tell Sentry about the crash, once per error. An old open tab after an update isn't a bug.
+  useEffect(() => {
+    if (!isOldVersion) {
+      reportError(error);
+    }
+  }, [error, isOldVersion]);
 
   // Load the whole app again from the server, a fresh start
   const handleTryAgain = () => {

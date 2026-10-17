@@ -236,8 +236,23 @@ Everything since the last backup (up to a day) is lost, so restore only when the
 6. **Start the app:** `compose up -d`, then check `https://cibushubgh.com/api/health` and log in.
 7. **Payments made after the backup** exist in Paystack but not in the database. Check the Paystack dashboard for that period and settle them by hand.
 
+## 8. Monitoring (AC-MON-01, 03, 06)
+
+- **UptimeRobot** (uptimerobot.com) checks every 5 minutes and emails and pushes an alert after two failures:
+  - Keyword monitors on `https://cibushubgh.com/api/health` and `https://demo.cibushubgh.com/api/health`, alerting when `"status":"ok"` is missing. The health check answers 503 when MySQL or Redis is down.
+  - An HTTP(s) monitor on `https://cibushubgh.com`.
+  - Tested 2026-10-17 by stopping `demo-api`: the DOWN and UP alerts both arrived.
+- **Sentry** (sentry.io, org `cibushub`) gets crashes:
+  - projects `cibushub-server` (API and worker) and `cibushub-client` (browser);
+  - `SENTRY_DSN` in `server/.env.production`, `VITE_SENTRY_DSN` in `.env.production` (baked into the build);
+  - production only, tagged `production` or `demo`;
+  - the API sends only unexpected errors (not 4xx answers);
+  - the worker sends a job only when its last try fails;
+  - no cookies, request bodies, query strings or personal details are sent, only a user ID.
+  - Code: `server/src/config/sentry.js`, `client/src/lib/errorReporting.js`.
+  - In Sentry, **Alerts → Create alert → "Issues"**: email on every new issue (the default rule).
+
 ## Still to do (Step 15)
 
-- **Monitoring:** Sentry for errors, and UptimeRobot on both `/api/health` addresses (AC-MON-01, 03)
 - **CI:** GitHub Actions running lint, tests and build on every pull request (AC-OPS-03, AC-TEST-06)
 - **Demo extras:** photos, the "Demo" banner, quick role logins and a nightly reset

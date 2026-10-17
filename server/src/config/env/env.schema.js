@@ -66,6 +66,9 @@ export const envSchema = zod.object({
   GEOCODER_URL: zod.url().default("https://nominatim.openstreetmap.org"),
   GEOCODER_CONTACT_EMAIL: zod.email().or(zod.literal("")).optional(),
 
+  // Sentry crash reports (production only). From Sentry → Project settings → Client Keys (DSN)
+  SENTRY_DSN: zod.url().or(zod.literal("")).optional(),
+
   SUPER_ADMIN_NAME: zod.string().min(1).optional(),
   SUPER_ADMIN_EMAIL: zod.email().optional(),
   SUPER_ADMIN_PHONE: zod.string().min(1).optional(),

@@ -7,6 +7,10 @@ import App from "./App.jsx";
 import { useAuthStore } from "@/store/authStore";
 import { queryClient } from "@/lib/queryClient";
 import { startLiveUpdates } from "@/lib/liveUpdates";
+import { startErrorReporting } from "@/lib/errorReporting";
+
+// Crash reports to Sentry (production build only)
+startErrorReporting();
 
 // Ask the server "who is logged in?" once, as the app starts.
 // It runs here, not inside a component, so it can never run twice

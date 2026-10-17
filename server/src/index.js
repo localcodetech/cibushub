@@ -1,9 +1,12 @@
+// Sentry first, so it is running before anything else can crash
+import "./config/sentry.js";
 import app from "./app.js";
 import env from "./config/env/env.js";
 import logger from "./config/logger.js";
 import sequelize from "./config/database.js";
 import redis from "./config/redis.js";
 import { createSocketServer } from "./sockets/socketServer.js";
+import { flushErrors } from "./config/sentry.js";
 
 // ─────────────────────────────────────────────
 // Start the API on the port from .env
@@ -34,6 +37,7 @@ const shutdown = (signal) => {
     await redis.quit();
     logger.info("Redis connection closed");
 
+    await flushErrors();
     process.exit(0);
   });
 

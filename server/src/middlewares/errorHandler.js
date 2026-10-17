@@ -1,5 +1,12 @@
 import AppError from "../utils/AppError.js";
 import env from "../config/env/env.js";
+import { reportError } from "../config/sentry.js";
+
+// What Sentry is told about the request: who (an ID only) and which route
+const sentryDetails = (req) => ({
+  userId: req.user?.id,
+  tags: { method: req.method, route: req.route?.path || req.path },
+});
 
 const errorHandler = (err, req, res, next) => {
   // Part of the answer has already gone (e.g. a CSV download failed halfway): no error
@@ -7,6 +14,7 @@ const errorHandler = (err, req, res, next) => {
   // fails visibly instead of leaving a file that looks complete.
   if (res.headersSent) {
     req.log.error({ err }, "Error after the response started");
+    reportError(err, sentryDetails(req));
     return next(err);
   }
 
@@ -18,8 +26,11 @@ const errorHandler = (err, req, res, next) => {
     error = new AppError(413, "PAYLOAD_TOO_LARGE", "Request body is too large");
   }
 
+  // An unexpected error (a bug, a database down...): logged, and sent to Sentry.
+  // Our own AppErrors (wrong password, not found...) are normal answers, so they're not sent.
   if (!(error instanceof AppError)) {
     req.log.error({ err }, "Unhandled error");
+    reportError(err, sentryDetails(req));
 
     const message = env.NODE_ENV === "production" ? "Something went wrong" : err.message;
     error = new AppError(500, "INTERNAL_ERROR", message);
