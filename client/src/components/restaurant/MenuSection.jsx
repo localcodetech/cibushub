@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "react-router";
 import { Plus, Search, UtensilsCrossed, X } from "lucide-react";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
@@ -20,8 +21,20 @@ const MenuSection = ({ restaurant }) => {
   const addLine = useCartStore((state) => state.addLine);
   const clearCart = useCartStore((state) => state.clearCart);
 
+  // ?dish=<id>: arrived from the dish search, so that dish's sheet opens straight away
+  // (when it can be ordered now; otherwise the page just scrolls to it)
+  const [searchParams, setSearchParams] = useSearchParams();
+  const linkedDishId = searchParams.get("dish");
+  const findLinkedDish = () =>
+    restaurant.menu
+      .flatMap((category) => category.items)
+      .find((item) => String(item.id) === linkedDishId);
+
   // The dish whose sheet is open, or null when no sheet is open
-  const [openItem, setOpenItem] = useState(null);
+  const [openItem, setOpenItem] = useState(() => {
+    const linked = linkedDishId ? findLinkedDish() : null;
+    return linked && restaurant.openStatus.isOpen && isItemAvailable(linked) ? linked : null;
+  });
   // A dish waiting for "Start new cart?": { item, options, quantity }, or null
   const [waitingToAdd, setWaitingToAdd] = useState(null);
 
@@ -68,6 +81,23 @@ const MenuSection = ({ restaurant }) => {
     // categories is rebuilt every render; its ids only change with the restaurant's menu
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [restaurant.menu, words]);
+
+  // Show the linked dish on the page, then forget ?dish= so closing the sheet, Back or a
+  // refresh doesn't open it again
+  useEffect(() => {
+    if (!linkedDishId) {
+      return;
+    }
+    const linked = findLinkedDish();
+    if (linked) {
+      document.getElementById("dish-" + linked.id)?.scrollIntoView({ block: "center" });
+    }
+    const next = new URLSearchParams(searchParams);
+    next.delete("dish");
+    setSearchParams(next, { replace: true });
+    // Runs once per link: searchParams changes when ?dish= is removed
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [linkedDishId]);
 
   // Keep the highlighted link in view inside the sideways-scrolling bar
   useEffect(() => {
@@ -228,8 +258,10 @@ const MenuItemRow = ({ item, canOrder, onAddClick }) => {
 
   return (
     <li
+      id={"dish-" + item.id}
       className={
-        "flex gap-4 border-b border-border py-4" + (isAvailable ? " group" : " opacity-50")
+        "flex scroll-mt-24 gap-4 border-b border-border py-4" +
+        (isAvailable ? " group" : " opacity-50")
       }
     >
       <div className="min-w-0 flex-1">

@@ -3,9 +3,9 @@ import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 
-// Each tile opens the restaurant list searched for that food (the search also looks at
-// dishes, so "tilapia" finds every kitchen that grills it). One word per search: the search
-// matches any of the words, so "egg sandwich" would also find every egg dish.
+// Each tile opens the dish search for that food (/dishes?q=jollof): every kitchen's jollof
+// side by side, to compare and order. One word per search: the search matches any of the
+// words, so "egg sandwich" would also find every egg dish.
 //   photo: a small copy in public/images/cravings, credited on /photo-credits
 const tile = (label, search, photo) => ({ label, search, photo });
 
@@ -96,7 +96,7 @@ const CravingSection = () => {
           {meal.cravings.map((craving) => (
             <li key={craving.label} className="w-32 shrink-0 snap-start md:w-auto">
               <Link
-                to={"/restaurants?q=" + encodeURIComponent(craving.search)}
+                to={"/dishes?q=" + encodeURIComponent(craving.search)}
                 className="group block rounded-xl focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
               >
                 <span className="block aspect-square overflow-hidden rounded-xl bg-muted">

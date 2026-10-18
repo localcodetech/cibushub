@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { SearchX, Store } from "lucide-react";
+import { ArrowRight, SearchX, Store } from "lucide-react";
 import Container from "@/layouts/Container";
-import Text from "@/components/typography/Text";
 import Skeleton from "@/components/common/Skeleton";
 import EmptyState from "@/components/common/EmptyState";
 import ErrorState from "@/components/common/ErrorState";
@@ -11,6 +10,7 @@ import RestaurantCard from "@/components/restaurant/RestaurantCard";
 import RestaurantFilters from "@/components/restaurant/RestaurantFilters";
 import { getRestaurantsRequest } from "@/api/restaurants";
 import PageHeader from "@/components/common/PageHeader";
+import Pagination from "@/components/common/Pagination";
 
 // How long to wait after the last key press before searching [AC-DISC-06]
 const SEARCH_DELAY_MS = 300;
@@ -131,6 +131,16 @@ const RestaurantsPage = () => {
           />
         </div>
 
+        {/* Searching for a food: the dish search shows each kitchen's version side by side */}
+        {filters.q.length >= 2 && (
+          <Link
+            to={"/dishes?q=" + encodeURIComponent(filters.q)}
+            className="mt-3 inline-flex min-h-11 items-center gap-1 font-bold text-primary"
+          >
+            Compare every "{filters.q}" dish <ArrowRight size={18} aria-hidden="true" />
+          </Link>
+        )}
+
         {/* Fades the old list a little while the new one loads */}
         <div className={isFetching && !isPending ? "mt-6 opacity-60" : "mt-6"}>
           <RestaurantList
@@ -220,40 +230,6 @@ const ListSkeleton = () => {
         </div>
       ))}
     </div>
-  );
-};
-
-// "Previous  Page 2 of 5  Next". Hidden when everything fits on one page.
-const Pagination = ({ meta, onChangePage }) => {
-  if (meta.totalPages <= 1) {
-    return null;
-  }
-
-  const isFirstPage = meta.page <= 1;
-  const isLastPage = meta.page >= meta.totalPages;
-
-  return (
-    <nav aria-label="Pages" className="mt-8 flex items-center justify-between gap-4">
-      <button
-        type="button"
-        disabled={isFirstPage}
-        onClick={() => onChangePage(meta.page - 1)}
-        className="min-h-11 rounded-md border border-border px-4 font-bold disabled:opacity-40"
-      >
-        Previous
-      </button>
-      <Text size="small" muted>
-        Page {meta.page} of {meta.totalPages}
-      </Text>
-      <button
-        type="button"
-        disabled={isLastPage}
-        onClick={() => onChangePage(meta.page + 1)}
-        className="min-h-11 rounded-md border border-border px-4 font-bold disabled:opacity-40"
-      >
-        Next
-      </button>
-    </nav>
   );
 };
 

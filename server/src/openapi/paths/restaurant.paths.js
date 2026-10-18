@@ -1,4 +1,5 @@
 import { publicListRestaurantsSchema } from "../../validators/restaurant/publicListRestaurants.validator.js";
+import { publicListDishesSchema } from "../../validators/restaurant/publicListDishes.validator.js";
 import { listReviewsSchema } from "../../validators/review/review.validator.js";
 import {
   errorResponse,
@@ -74,6 +75,43 @@ const tags = ["Restaurants"];
 const notFound = errorResponse("Not found or not approved", "NOT_FOUND", "Restaurant not found");
 
 export const restaurantPaths = {
+  "/api/v1/dishes": {
+    get: {
+      tags,
+      summary: "Dish search: the same dish from every kitchen that cooks it",
+      description:
+        "No login needed. Dishes whose name or description match q, from approved restaurants only. Order: dishes that can be ordered now (kitchen open, not sold out) first, then dishes NAMED after the words, then nearest (with latitude and longitude) or cheapest. The website opens /restaurants/:id?dish=:dishId from each result.",
+      parameters: queryParameters(publicListDishesSchema),
+      responses: {
+        200: listResponse(
+          "One page of dishes",
+          {
+            id: "7f8e9d0c-1b2a-4c3d-9e4f-5a6b7c8d9e0f",
+            name: "Waakye Special",
+            description: "Waakye with wele, egg, gari and shito",
+            pricePesewas: 4500,
+            imageUrl: null,
+            tags: ["spicy"],
+            isAvailable: true,
+            stockRemaining: null,
+            restaurant: {
+              id: exampleCard.id,
+              name: exampleCard.name,
+              area: exampleCard.area,
+              prepTimeMinutes: exampleCard.prepTimeMinutes,
+              openStatus: exampleCard.openStatus,
+              averageRating: 4.5,
+              reviewCount: 12,
+              distanceKm: 1.4,
+              deliversToYou: true,
+            },
+          },
+          { page: 1, pageSize: 20, totalItems: 1, totalPages: 1 },
+        ),
+        400: errorResponse("No words, or bad filters", "VALIDATION_ERROR", "Invalid request data"),
+      },
+    },
+  },
   "/api/v1/restaurants": {
     get: {
       tags,

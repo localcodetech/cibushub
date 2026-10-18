@@ -23,6 +23,7 @@ const PrivacyPage = lazy(() => import("@/pages/public/PrivacyPage"));
 const TermsPage = lazy(() => import("@/pages/public/TermsPage"));
 const DataDeletionPage = lazy(() => import("@/pages/public/DataDeletionPage"));
 const HelpPage = lazy(() => import("@/pages/public/HelpPage"));
+const DishesPage = lazy(() => import("@/pages/public/DishesPage"));
 const CartPage = lazy(() => import("@/pages/public/CartPage"));
 const LoginPage = lazy(() => import("@/pages/auth/LoginPage"));
 const RegisterPage = lazy(() => import("@/pages/auth/RegisterPage"));
@@ -97,6 +98,7 @@ const router = createBrowserRouter([
           { path: "help", element: <HelpPage /> },
           { path: "photo-credits", element: <PhotoCreditsPage /> },
           { path: "restaurants", element: <RestaurantsPage /> },
+          { path: "dishes", element: <DishesPage /> },
           { path: "restaurants/:restaurantId", element: <RestaurantDetailPage /> },
           { path: "cart", element: <CartPage /> },
           { path: "login", element: <LoginPage /> },

@@ -134,3 +134,34 @@ export const findMatchingDishes = (restaurantIds, search) => {
     attributes: ["id", "restaurantId", "name", "pricePesewas", "isAvailable"],
   });
 };
+
+// Dish search: every dish matching the words, from approved restaurants only, with its
+// restaurant (and opening hours, for "open now"). Deleted dishes are left out by paranoid.
+export const findPublicDishes = (search) => {
+  const terms = sequelize.escape(toFullTextQuery(search));
+
+  return MenuItem.findAll({
+    where: sequelize.literal(
+      `MATCH(\`MenuItem\`.\`name\`, \`MenuItem\`.\`description\`) AGAINST(${terms} IN BOOLEAN MODE)`,
+    ),
+    attributes: [
+      "id",
+      "name",
+      "description",
+      "pricePesewas",
+      "imageUrl",
+      "tags",
+      "isAvailable",
+      "stockRemaining",
+    ],
+    include: [
+      {
+        model: Restaurant,
+        as: "restaurant",
+        required: true,
+        where: { status: "APPROVED" },
+        include: [{ model: OpeningHours, as: "openingHours" }],
+      },
+    ],
+  });
+};
