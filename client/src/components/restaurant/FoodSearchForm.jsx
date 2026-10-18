@@ -5,15 +5,17 @@ import { cn } from "@/lib/utils";
 
 // "Waakye, jollof, fufu…" + Find food: opens the restaurant list with those words
 // (/restaurants?q=...), or the whole list when empty. Used on the home pages.
-//   onDark: the gold button and ring for a dark green background (the home page hero)
-const FoodSearchForm = ({ onDark = false, className }) => {
+//   onDark:       the gold button and ring for a dark green background (the home page hero)
+//   to:           the page to open, e.g. "/dishes" for the dish search
+//   initialValue: text already in the box (the dish search shows what was searched)
+const FoodSearchForm = ({ onDark = false, to = "/restaurants", initialValue = "", className }) => {
   const navigate = useNavigate();
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(initialValue);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const words = search.trim();
-    navigate(words ? "/restaurants?q=" + encodeURIComponent(words) : "/restaurants");
+    navigate(words ? to + "?q=" + encodeURIComponent(words) : to);
   };
 
   return (

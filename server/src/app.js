@@ -11,6 +11,7 @@ import errorHandler from "./middlewares/errorHandler.js";
 import healthRoutes from "./routes/health.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import publicRestaurantRoutes from "./routes/restaurant.routes.js";
+import dishRoutes from "./routes/dish.routes.js";
 import ownerRestaurantRoutes from "./routes/owner/restaurant.routes.js";
 import ownerReviewRoutes from "./routes/owner/review.routes.js";
 import ownerOrderRoutes from "./routes/owner/order.routes.js";
@@ -127,6 +128,11 @@ app.use("/api/v1/auth", authRoutes);
 // Public: browse, search and view restaurants (guests too)
 // ─────────────────────────────────────────────
 app.use("/api/v1/restaurants", publicRestaurantRoutes);
+
+// ─────────────────────────────────────────────
+// Public: dish search across restaurants, e.g. every jollof in Kumasi (guests too)
+// ─────────────────────────────────────────────
+app.use("/api/v1/dishes", dishRoutes);
 
 // ─────────────────────────────────────────────
 // Cart check (guests too): the server is the source of truth for prices

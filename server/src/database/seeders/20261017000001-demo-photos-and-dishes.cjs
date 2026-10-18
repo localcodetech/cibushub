@@ -1,6 +1,7 @@
 "use strict";
 
 const fs = require("node:fs");
+const { Op } = require("sequelize");
 const path = require("node:path");
 const { default: env } = require("../../config/env/env.js");
 const { uploadNamedImage } = require("../../services/upload/cloudinary.service.js");
@@ -23,8 +24,10 @@ const PHOTO_FOLDER = path.join(__dirname, "data", "photos");
 // Brings the demo restaurants up to date with data/kumasiRestaurants.cjs:
 //   - adds any demo owner who isn't there yet (only once the demo has been seeded at all)
 //   - adds any restaurant that isn't there yet, with its opening hours
-//   - adds any dish that isn't there yet (a dish an owner deleted stays deleted)
-//   - gives every restaurant its cover photo and every dish its photo, if it has none
+//   - adds any dish that isn't there yet (a dish an owner deleted stays deleted), and removes
+//     a demo dish the data no longer lists for that restaurant
+//   - gives every restaurant its cover photo and every dish its own photo (no two dishes share
+//     one; a photo the owner uploaded is kept)
 // Safe to run again and again: nothing is added or uploaded twice. The photos are real food
 // photos from Wikimedia Commons, credited in data/photos/credits.json and on /photo-credits.
 module.exports = {
@@ -92,6 +95,7 @@ module.exports = {
     let addedRestaurants = 0;
     let addedDishes = 0;
     let addedPhotos = 0;
+    let removedDishes = 0;
 
     for (const restaurantData of restaurants) {
       let restaurant = await Restaurant.findOne({
@@ -168,7 +172,15 @@ module.exports = {
             addedDishes += 1;
           }
 
-          if (itemData.photo && !item.imageUrl && !item.deletedAt) {
+          // A dish with no photo gets its own. A dish still showing another demo photo (from
+          // before every dish had its own, data/uniquePhotos.cjs) gets its own too. A photo the
+          // owner uploaded (not under cibushub/demo/) is never replaced.
+          const ownPhotoId = `cibushub/demo/${itemData.photo}`;
+          const hasOtherDemoPhoto =
+            item.imagePublicId &&
+            item.imagePublicId.startsWith("cibushub/demo/") &&
+            item.imagePublicId !== ownPhotoId;
+          if (itemData.photo && (!item.imageUrl || hasOtherDemoPhoto) && !item.deletedAt) {
             const image = await photo(itemData.photo);
             if (image) {
               await item.update({ imageUrl: image.url, imagePublicId: image.publicId });
@@ -177,10 +189,31 @@ module.exports = {
           }
         }
       }
+
+      // A demo dish this restaurant no longer sells (its photo was needed elsewhere, see
+      // data/uniquePhotos.cjs) leaves the menu. Only dishes this seeder made (a demo photo)
+      // are removed, never one an owner added. force: deleted for good (not soft-deleted), so
+      // the dish comes back once a photo is added; a soft-deleted dish means "the owner
+      // deleted it" and is never brought back. Past orders keep their own copy of the name
+      // and price (order_items.menu_item_id is SET NULL).
+      const names = restaurantData.menu.flatMap((category) =>
+        category.items.map((item) => item.name),
+      );
+      const leftovers = await MenuItem.findAll({
+        where: {
+          restaurantId: restaurant.id,
+          name: { [Op.notIn]: names.length > 0 ? names : [""] },
+          imagePublicId: { [Op.startsWith]: "cibushub/demo/" },
+        },
+      });
+      for (const leftover of leftovers) {
+        await leftover.destroy({ force: true });
+        removedDishes += 1;
+      }
     }
 
     console.log(
-      `Demo menus: ${addedRestaurants} restaurants, ${addedDishes} dishes and ${addedPhotos} photos added.`,
+      `Demo menus: ${addedRestaurants} restaurants, ${addedDishes} dishes and ${addedPhotos} photos added, ${removedDishes} dishes removed.`,
     );
     if (skipped.length > 0) {
       console.log(`${skipped.length} photos still to upload: run this seeder again to add them.`);

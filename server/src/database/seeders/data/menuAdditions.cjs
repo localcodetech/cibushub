@@ -13,6 +13,19 @@ const dish = (name, photo, description, pricePesewas, tags = []) => ({
   tags,
 });
 
+// The meat for fufu with bush meat: the customer picks one; the dearer meats cost a bit more
+const bushMeatChoice = {
+  name: "Bush meat",
+  minSelect: 1,
+  maxSelect: 1,
+  options: [
+    { name: "Grasscutter (Akrantie)", extraPricePesewas: 0 },
+    { name: "Giant pouched rat (Kusie)", extraPricePesewas: 0 },
+    { name: "Black duiker (Otwe)", extraPricePesewas: 1500 },
+    { name: "Palm civet (Kankane)", extraPricePesewas: 1000 },
+  ],
+};
+
 // ─────────────────────────────────────────────
 // Dishes, written once and used by several restaurants
 // ─────────────────────────────────────────────
@@ -30,6 +43,16 @@ const D = {
     "Green kontomire and garden egg soup with smoked fish.",
     6000,
   ),
+  fufuBushMeat: {
+    ...dish(
+      "Fufu with Light Soup and Bush Meat",
+      "fufu-bush-meat",
+      "Pounded fufu in spicy light soup with smoked bush meat. Choose your meat.",
+      8000,
+      ["spicy"],
+    ),
+    optionGroups: [bushMeatChoice],
+  },
   fufuLightChicken: dish(
     "Fufu with Light Soup and Chicken",
     "light-soup-chicken",
@@ -231,9 +254,13 @@ const D = {
     1000,
     ["vegetarian"],
   ),
-  dodo: dish("Fried Plantain (Dodo)", "dodo", "Sweet ripe plantain, fried golden.", 1500, [
-    "vegan",
-  ]),
+  friedPlantain: dish(
+    "Fried Plantain",
+    "fried-plantain",
+    "Sweet ripe plantain, fried golden.",
+    1500,
+    ["vegan"],
+  ),
   wings: dish(
     "Spicy Chicken Wings (6)",
     "spicy-chicken-wings",
@@ -363,6 +390,7 @@ const cat = (category, items) => ({ category, items });
 const additions = {
   "Maame Akua's Chop Bar": [
     cat("Soups and Fufu", [
+      D.fufuBushMeat,
       D.fufuPalmnut,
       D.fufuAbunu,
       D.fufuLightChicken,
@@ -379,7 +407,7 @@ const additions = {
   ],
   "Garden City Grills": [
     cat("Grills", [D.chichinga, D.bankuFriedFish]),
-    cat("Sides", [D.friedYam, D.plantainChips, D.dodo]),
+    cat("Sides", [D.friedYam, D.plantainChips, D.friedPlantain]),
     cat("Drinks", [...juices, ...softDrinks, DRINK.sobolo]),
   ],
   "Campus Bites": [
@@ -390,7 +418,7 @@ const additions = {
   ],
   "Golden Pot Kitchen": [
     cat("Rice Dishes", [D.jollofGoat, D.jollofFish, D.friedRiceChicken, D.riceBeef, D.riceStew]),
-    cat("Sides", [D.dodo, D.kelewele]),
+    cat("Sides", [D.friedPlantain, D.kelewele]),
     cat("Drinks", [DRINK.sobolo, DRINK.mango, ...softDrinks]),
   ],
   "Nhyiaeso Pizza Co.": [
@@ -423,7 +451,7 @@ const additions = {
   ],
   "Oforikrom Gob3 Joint": [
     cat("Gob3", [D.plantainAvocado, D.akyeke]),
-    cat("Sides", [D.agbeliKaklo, D.dodo, D.plantainChips]),
+    cat("Sides", [D.agbeliKaklo, D.friedPlantain, D.plantainChips]),
     cat("Drinks", [...localDrinks, DRINK.water]),
   ],
   "Ahinsan Seafood Grill": [
@@ -433,6 +461,7 @@ const additions = {
   ],
   "Manhyia Royal Kitchen": [
     cat("Traditional", [
+      D.fufuBushMeat,
       D.oto,
       D.fufuPalmnut,
       D.fufuAbunu,
@@ -459,7 +488,7 @@ const additions = {
   ],
   "Airport Roundabout Wraps": [
     cat("Wraps", [D.friedChicken]),
-    cat("Sides", [D.wings, D.plantainChips, D.dodo]),
+    cat("Sides", [D.wings, D.plantainChips, D.friedPlantain]),
     cat("Drinks", [...softDrinks, DRINK.milkshake, DRINK.sobolo]),
   ],
   "Bomso Banku & Tilapia": [
@@ -469,7 +498,7 @@ const additions = {
   ],
   "Kwadaso Rice & Stew Corner": [
     cat("Rice", [D.jollofGoat, D.jollofFish, D.friedRiceChicken, D.waakye, D.gariFoto]),
-    cat("Sides", [D.dodo, D.kelewele]),
+    cat("Sides", [D.friedPlantain, D.kelewele]),
     cat("Drinks", [DRINK.sobolo, DRINK.asaana, ...softDrinks]),
   ],
 };

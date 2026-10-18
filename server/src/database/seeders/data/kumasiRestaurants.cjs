@@ -2,6 +2,7 @@
 
 const { withAdditions } = require("./menuAdditions.cjs");
 const { withMoreDishes } = require("./menuMoreDishes.cjs");
+const { withUniquePhotos } = require("./uniquePhotos.cjs");
 
 // Fictional demo data for Kumasi. Names, menus and people are made up. Prices are in pesewas.
 // cover / photo: a file in data/photos (without .webp), credited in data/photos/credits.json
@@ -872,8 +873,8 @@ const restaurants = [
         category: "Sides and Drinks",
         items: [
           {
-            name: "Fried Plantain (Dodo)",
-            photo: "dodo",
+            name: "Fried Plantain",
+            photo: "fried-plantain",
             description: "Sweet ripe plantain, fried golden.",
             pricePesewas: 1500,
             tags: ["vegan"],
@@ -1459,9 +1460,10 @@ const restaurants = [
 ];
 
 // Fuller menus with more Ghanaian dishes and a drinks section (data/menuAdditions.cjs), then
-// about 20 foods in every restaurant (data/menuMoreDishes.cjs)
+// about 20 foods in every restaurant (data/menuMoreDishes.cjs), each dish with a photo of its
+// own (data/uniquePhotos.cjs)
 module.exports = {
   DEMO_PASSWORD,
   users,
-  restaurants: withMoreDishes(withAdditions(restaurants)),
+  restaurants: withUniquePhotos(withMoreDishes(withAdditions(restaurants))),
 };

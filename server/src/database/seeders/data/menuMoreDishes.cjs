@@ -22,7 +22,7 @@ const moreDishes = {
         "Red Red with Plantain",
       ],
     ],
-    ["Sides", ["Kelewele", "Fried Plantain (Dodo)"]],
+    ["Sides", ["Kelewele", "Fried Plantain"]],
   ],
   "Bantama Waakye Joint": [
     [
@@ -36,7 +36,7 @@ const moreDishes = {
       ],
     ],
     ["Breakfast", ["Sugar Doughnut", "Egg Sandwich", "Oats Porridge", "Agbeli Kaklo (4 pieces)"]],
-    ["Sides", ["Fried Plantain (Dodo)", "Kelewele", "Fried Yam with Pepper"]],
+    ["Sides", ["Fried Plantain", "Kelewele", "Fried Yam with Pepper"]],
   ],
   "Garden City Grills": [
     [
@@ -109,7 +109,7 @@ const moreDishes = {
       "Rice",
       ["Jollof with Fried Fish and Plantain", "Waakye with Wele and Fish", "Gari Foto with Egg"],
     ],
-    ["Sides", ["Fried Plantain (Dodo)", "Plantain Chips", "Kosai (6 pieces)", "Bofrot (5 pieces)"]],
+    ["Sides", ["Fried Plantain", "Plantain Chips", "Kosai (6 pieces)", "Bofrot (5 pieces)"]],
   ],
   "Tafo Northern Flavours": [
     ["Tuo Zaafi", ["Omo Tuo with Groundnut Soup", "Banku with Okro Stew"]],
@@ -120,7 +120,7 @@ const moreDishes = {
         "Chicken Kebab (3 sticks)",
         "Fried Yam with Pepper",
         "Kelewele",
-        "Fried Plantain (Dodo)",
+        "Fried Plantain",
       ],
     ],
     ["Morning Bowls", ["Rice Water", "Red Red with Plantain", "Waakye with Wele and Fish"]],
@@ -166,7 +166,7 @@ const moreDishes = {
       [
         "Fries",
         "Kelewele",
-        "Fried Plantain (Dodo)",
+        "Fried Plantain",
         "Chicken Caesar Salad",
         "Grilled Sausages with Fries",
       ],
@@ -201,7 +201,7 @@ const moreDishes = {
         "Banku with Okro Stew",
       ],
     ],
-    ["Sides", ["Fries", "Fried Yam with Pepper", "Kelewele", "Fried Plantain (Dodo)"]],
+    ["Sides", ["Fries", "Fried Yam with Pepper", "Kelewele", "Fried Plantain"]],
   ],
   "Manhyia Royal Kitchen": [
     [
@@ -216,7 +216,7 @@ const moreDishes = {
         "Jollof with Goat Meat",
       ],
     ],
-    ["Sides", ["Kelewele", "Fried Plantain (Dodo)"]],
+    ["Sides", ["Kelewele", "Fried Plantain"]],
   ],
   "Danyame Continental Grill": [
     [
@@ -265,10 +265,7 @@ const moreDishes = {
         "Maasa (5 pieces)",
       ],
     ],
-    [
-      "Light Bites",
-      ["Egg Sandwich", "Garlic Bread", "Fried Plantain (Dodo)", "Fries", "Loaded Fries"],
-    ],
+    ["Light Bites", ["Egg Sandwich", "Garlic Bread", "Fried Plantain", "Fries", "Loaded Fries"]],
   ],
   "Airport Roundabout Wraps": [
     [
@@ -310,7 +307,7 @@ const moreDishes = {
     [
       "Sides",
       [
-        "Fried Plantain (Dodo)",
+        "Fried Plantain",
         "Agbeli Kaklo (4 pieces)",
         "Plantain Chips",
         "Fried Calamari",
