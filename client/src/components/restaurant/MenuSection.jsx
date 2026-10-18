@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Plus, UtensilsCrossed } from "lucide-react";
+import { Plus, Search, UtensilsCrossed, X } from "lucide-react";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
 import EmptyState from "@/components/common/EmptyState";
@@ -11,7 +11,8 @@ import { isItemAvailable } from "@/utils/menu";
 import StatusBadge from "@/components/common/StatusBadge";
 import DishImage from "./DishImage";
 
-// The whole menu: category links at the top, then each category with its dishes [AC-DISC-10].
+// The whole menu: a dish search, category links at the top, then each category with its
+// dishes [AC-DISC-10]. Wider screens show the dishes in two columns.
 // Tapping "Add" opens the dish sheet; adding from a second restaurant asks first [AC-CART-01, 02].
 // restaurant: the data from GET /restaurants/:id (menu is [{ id, name, items: [...] }, ...])
 const MenuSection = ({ restaurant }) => {
@@ -24,8 +25,22 @@ const MenuSection = ({ restaurant }) => {
   // A dish waiting for "Start new cart?": { item, options, quantity }, or null
   const [waitingToAdd, setWaitingToAdd] = useState(null);
 
-  // Hide categories the owner made but hasn't put any dishes in yet
-  const categories = restaurant.menu.filter((category) => category.items.length > 0);
+  // What the customer typed in "Search this menu"
+  const [search, setSearch] = useState("");
+  const words = search.trim().toLowerCase();
+
+  // A dish matches when its name or description has the typed words (any case)
+  const matches = (item) =>
+    !words ||
+    item.name.toLowerCase().includes(words) ||
+    (item.description || "").toLowerCase().includes(words);
+
+  // Each category keeps only the matching dishes; empty ones are hidden (that also hides
+  // categories the owner made but hasn't put any dishes in yet)
+  const categories = restaurant.menu
+    .map((category) => ({ ...category, items: category.items.filter(matches) }))
+    .filter((category) => category.items.length > 0);
+  const hasDishes = restaurant.menu.some((category) => category.items.length > 0);
   // A closed restaurant shows its menu, but nothing can be added
   const canOrder = restaurant.openStatus.isOpen;
 
@@ -52,7 +67,7 @@ const MenuSection = ({ restaurant }) => {
     return () => observer.disconnect();
     // categories is rebuilt every render; its ids only change with the restaurant's menu
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [restaurant.menu]);
+  }, [restaurant.menu, words]);
 
   // Keep the highlighted link in view inside the sideways-scrolling bar
   useEffect(() => {
@@ -80,7 +95,7 @@ const MenuSection = ({ restaurant }) => {
     setWaitingToAdd(null);
   };
 
-  if (categories.length === 0) {
+  if (!hasDishes) {
     return (
       <EmptyState
         icon={UtensilsCrossed}
@@ -92,11 +107,57 @@ const MenuSection = ({ restaurant }) => {
 
   return (
     <section>
+      {/* Search this menu: the list below shrinks to the matching dishes as you type */}
+      <div role="search" className="relative">
+        <label htmlFor="menu-search" className="sr-only">
+          Search this menu
+        </label>
+        <Search
+          size={20}
+          aria-hidden="true"
+          className="absolute top-1/2 left-3.5 -translate-y-1/2 text-muted-foreground"
+        />
+        <input
+          id="menu-search"
+          type="search"
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
+          placeholder="Search this menu, e.g. fish, jollof"
+          className="h-12 w-full rounded-lg border border-input bg-white pr-12 pl-11 text-base text-foreground placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none dark:bg-card [&::-webkit-search-cancel-button]:hidden"
+        />
+        {search && (
+          <button
+            type="button"
+            onClick={() => setSearch("")}
+            aria-label="Clear search"
+            className="absolute top-1/2 right-1 flex size-10 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground hover:text-foreground"
+          >
+            <X size={18} aria-hidden="true" />
+          </button>
+        )}
+      </div>
+
+      {categories.length === 0 && (
+        <div className="py-10 text-center">
+          <Text className="font-bold">No dishes match "{search.trim()}"</Text>
+          <button
+            type="button"
+            onClick={() => setSearch("")}
+            className="mt-2 min-h-11 font-bold text-primary"
+          >
+            Show the whole menu
+          </button>
+        </div>
+      )}
+
       {/* Category links stick to the top while scrolling; tapping one jumps to it */}
       <nav
         ref={linksRef}
         aria-label="Menu categories"
-        className="sticky top-0 z-10 -mx-4 flex gap-2 overflow-x-auto border-b border-border bg-background px-4 py-3"
+        className={
+          "sticky top-0 z-10 -mx-4 mt-3 flex gap-2 overflow-x-auto border-b border-border bg-background px-4 py-3" +
+          (categories.length === 0 ? " hidden" : "")
+        }
       >
         {categories.map((category) => {
           const isCurrent = String(category.id) === String(currentId);
@@ -123,8 +184,9 @@ const MenuSection = ({ restaurant }) => {
         // scroll-mt leaves room for the sticky links, so the heading isn't hidden under them
         <div key={category.id} id={"category-" + category.id} className="scroll-mt-20 pt-6">
           <Heading level={2}>{category.name}</Heading>
-          {/* A menu is a list, not a pile of cards: rows with lines between them */}
-          <ul className="mt-2 divide-y divide-border">
+          {/* A menu is a list, not a pile of cards: rows with lines under them.
+              Two columns from tablet width, so a long menu needs half the scrolling. */}
+          <ul className="mt-2 md:grid md:grid-cols-2 md:gap-x-6">
             {category.items.map((item) => (
               <MenuItemRow
                 key={item.id}
@@ -165,7 +227,11 @@ const MenuItemRow = ({ item, canOrder, onAddClick }) => {
   const isAvailable = isItemAvailable(item);
 
   return (
-    <li className={isAvailable ? "group flex gap-4 py-4" : "flex gap-4 py-4 opacity-50"}>
+    <li
+      className={
+        "flex gap-4 border-b border-border py-4" + (isAvailable ? " group" : " opacity-50")
+      }
+    >
       <div className="min-w-0 flex-1">
         <Heading level={4}>{item.name}</Heading>
         {item.description && (

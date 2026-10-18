@@ -3,7 +3,7 @@ import PageHeader from "@/components/common/PageHeader";
 import { List, ListRow } from "@/components/common/List";
 import photoCredits from "@/data/photoCredits.json";
 
-// /photo-credits: who took the food photos on the demo [licences: CC BY, CC BY-SA, CC0].
+// /photo-credits: who took the food photos (the home page and the demo's dishes) [licences: CC BY, CC BY-SA, CC0].
 // They come from Wikimedia Commons; CC BY and CC BY-SA ask us to name the photographer and
 // the licence and to say the photo was changed (resized). The list comes from
 // server/src/database/seeders/data/photos/credits.json (copied to data/photoCredits.json).
@@ -18,7 +18,7 @@ const PhotoCreditsPage = () => {
       <section className="mx-auto max-w-2xl py-8">
         <PageHeader
           title="Photo credits"
-          subtitle="The food photos on the demo come from Wikimedia Commons. Thank you to the photographers. Each photo was resized for the web."
+          subtitle="The food photos on CibusHub come from Wikimedia Commons. Thank you to the photographers. Each photo was resized for the web."
         />
         <List className="mt-6">
           {credits.map((credit) => (
