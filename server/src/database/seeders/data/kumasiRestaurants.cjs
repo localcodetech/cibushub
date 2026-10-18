@@ -873,8 +873,8 @@ const restaurants = [
         category: "Sides and Drinks",
         items: [
           {
-            name: "Fried Plantain (Dodo)",
-            photo: "dodo",
+            name: "Fried Plantain",
+            photo: "fried-plantain",
             description: "Sweet ripe plantain, fried golden.",
             pricePesewas: 1500,
             tags: ["vegan"],

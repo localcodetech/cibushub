@@ -7,7 +7,9 @@ import photoCredits from "@/data/photoCredits.json";
 // They come from Wikimedia Commons; CC BY and CC BY-SA ask us to name the photographer and
 // the licence and to say the photo was changed (resized). The list comes from
 // server/src/database/seeders/data/photos/credits.json (copied to data/photoCredits.json).
-const credits = Object.values(photoCredits).sort((a, b) => a.title.localeCompare(b.title));
+// [name, credit] pairs, A to Z. Photos given to us with permission have no web page (source
+// is empty): their row simply isn't a link.
+const credits = Object.entries(photoCredits).sort(([, a], [, b]) => a.title.localeCompare(b.title));
 
 // "Waakye in Ghana.jpg" -> "Waakye in Ghana"
 const photoName = (title) => title.replace(/\.(jpe?g|png|webp)$/i, "").replace(/_/g, " ");
@@ -18,13 +20,13 @@ const PhotoCreditsPage = () => {
       <section className="mx-auto max-w-2xl py-8">
         <PageHeader
           title="Photo credits"
-          subtitle="The food photos on CibusHub come from Wikimedia Commons. Thank you to the photographers. Each photo was resized for the web."
+          subtitle="Most food photos on CibusHub come from Wikimedia Commons; the rest were given to us with permission. Thank you to the photographers. Each photo was resized for the web."
         />
         <List className="mt-6">
-          {credits.map((credit) => (
+          {credits.map(([name, credit]) => (
             <ListRow
-              key={credit.source}
-              href={credit.source}
+              key={name}
+              href={credit.source || undefined}
               title={photoName(credit.title)}
               meta={"By " + credit.author + " · " + credit.license}
             />

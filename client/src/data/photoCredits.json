@@ -531,7 +531,7 @@
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
     "source": "https://commons.wikimedia.org/wiki/File:Yo_ke_Gari_in_leaves.jpg"
   },
-  "dodo": {
+  "fried-plantain": {
     "title": "Fried ripe plantain and beans stew.jpg",
     "author": "Maame1Yaa",
     "license": "CC BY-SA 4.0",
@@ -1378,42 +1378,42 @@
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
     "source": "https://commons.wikimedia.org/wiki/File:ALLOCO.jpg"
   },
-  "dodo-2": {
+  "fried-plantain-2": {
     "title": "Fryingplantains10-28-06b.jpg",
     "author": "Dozenist",
     "license": "CC BY-SA 3.0",
     "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
     "source": "https://commons.wikimedia.org/wiki/File:Fryingplantains10-28-06b.jpg"
   },
-  "dodo-3": {
+  "fried-plantain-3": {
     "title": "Churros y platanos fritos.jpg",
     "author": "Koffermejia",
     "license": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
     "source": "https://commons.wikimedia.org/wiki/File:Churros_y_platanos_fritos.jpg"
   },
-  "dodo-4": {
+  "fried-plantain-4": {
     "title": "Fried Plantains.jpg",
     "author": "Moralesnesimi",
     "license": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
     "source": "https://commons.wikimedia.org/wiki/File:Fried_Plantains.jpg"
   },
-  "dodo-5": {
+  "fried-plantain-5": {
     "title": "Dodo fried.jpg",
     "author": "Setor33",
     "license": "CC0",
     "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
     "source": "https://commons.wikimedia.org/wiki/File:Dodo_fried.jpg"
   },
-  "dodo-6": {
+  "fried-plantain-6": {
     "title": "Fried ripe plantain Ja.jpg",
     "author": "Xaymacan",
     "license": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
     "source": "https://commons.wikimedia.org/wiki/File:Fried_ripe_plantain_Ja.jpg"
   },
-  "dodo-7": {
+  "fried-plantain-7": {
     "title": "Platano frito.JPG",
     "author": "Dtarazona",
     "license": "CC BY-SA 4.0",
@@ -3288,5 +3288,369 @@
     "license": "CC BY-SA 2.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
     "source": "https://commons.wikimedia.org/wiki/File:Coco_(3256570273).jpg"
+  },
+  "agbeli-kaklo-5": {
+    "title": "Agbeli kaklo",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "agbeli-kaklo-6": {
+    "title": "Agbeli kaklo",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "asaana-2": {
+    "title": "Asaana",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "asaana-3": {
+    "title": "Asaana",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "bottled-water-14": {
+    "title": "Bottled water",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "brukina-2": {
+    "title": "Brukina",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "fried-plantain-8": {
+    "title": "Fried plantain",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "fried-plantain-9": {
+    "title": "Fried plantain",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "red-red-3": {
+    "title": "Red red with plantain",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "red-red-4": {
+    "title": "Red red with plantain",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "red-red-5": {
+    "title": "Red red with plantain",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "gari-foto-2": {
+    "title": "Gari foto",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "gari-foto-3": {
+    "title": "Gari foto",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "gari-foto-4": {
+    "title": "Gari foto",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "gobe-plantain-2": {
+    "title": "Gob3",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "kelewele-8": {
+    "title": "Kelewele",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "kelewele-9": {
+    "title": "Kelewele",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "kelewele-10": {
+    "title": "Kelewele",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "lamugin-3": {
+    "title": "Lamugin",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "maasa-2": {
+    "title": "Maasa",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "oats-porridge-3": {
+    "title": "Oats porridge",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "omo-tuo-3": {
+    "title": "Omo tuo with groundnut soup",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "rice-water-3": {
+    "title": "Rice water",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "sobolo-12": {
+    "title": "Sobolo",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "tea-and-bread-3": {
+    "title": "Tea and bread",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "cover-waakye-3": {
+    "title": "Waakye with egg and gari",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "cover-waakye-4": {
+    "title": "Waakye with egg and gari",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "cover-waakye-5": {
+    "title": "Waakye with egg and gari",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "yoghurt-parfait-2": {
+    "title": "Yoghurt parfait",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "fried-yam-chicken-2": {
+    "title": "Fried yam with chicken",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "orange-juice-4": {
+    "title": "Orange juice",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "fufu-bush-meat": {
+    "title": "Fufu with bush meat",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "fufu-bush-meat-2": {
+    "title": "Fufu with bush meat",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "kelewele-11": {
+    "title": "Kelewele",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "kelewele-12": {
+    "title": "Kelewele",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "kelewele-13": {
+    "title": "Kelewele",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "kelewele-14": {
+    "title": "Kelewele",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "kelewele-15": {
+    "title": "Kelewele",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "orange-juice-5": {
+    "title": "Orange juice",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "orange-juice-6": {
+    "title": "Orange juice",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "plantain-chips-9": {
+    "title": "Plantain chips",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "plantain-chips-10": {
+    "title": "Plantain chips",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "plantain-chips-11": {
+    "title": "Plantain chips",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "plantain-chips-12": {
+    "title": "Plantain chips",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "red-red-6": {
+    "title": "Red red with plantain",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "red-red-7": {
+    "title": "Red red with plantain",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "red-red-8": {
+    "title": "Red red with plantain",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "red-red-9": {
+    "title": "Red red with plantain",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "omo-tuo-4": {
+    "title": "Omo tuo with groundnut soup",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "omo-tuo-5": {
+    "title": "Omo tuo with groundnut soup",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "omo-tuo-6": {
+    "title": "Omo tuo with groundnut soup",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
+  },
+  "sobolo-13": {
+    "title": "Sobolo",
+    "author": "A friend of CibusHub",
+    "license": "Used with permission",
+    "licenseUrl": "",
+    "source": ""
   }
 }
