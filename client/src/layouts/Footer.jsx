@@ -1,7 +1,6 @@
 import { Link } from "react-router";
 import Container from "./Container";
 import Text from "@/components/typography/Text";
-import { isRealSite } from "@/utils/site";
 
 const Footer = () => {
   const year = new Date().getFullYear();
@@ -32,15 +31,13 @@ const Footer = () => {
             >
               Delete your data
             </Link>
-            {/* The demo's food photos are credited here (the real site has none of them) */}
-            {!isRealSite && (
-              <Link
-                to="/photo-credits"
-                className="flex min-h-11 items-center font-bold hover:underline"
-              >
-                Photo credits
-              </Link>
-            )}
+            {/* The food photos (the home page's, and the demo's dishes) are credited here */}
+            <Link
+              to="/photo-credits"
+              className="flex min-h-11 items-center font-bold hover:underline"
+            >
+              Photo credits
+            </Link>
           </nav>
         </div>
       </Container>
