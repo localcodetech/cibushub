@@ -143,9 +143,13 @@ erDiagram
     restaurant_documents {
         uuid id PK
         uuid restaurant_id FK "restaurants.id, ON DELETE CASCADE"
-        enum document_type "BUSINESS_REGISTRATION, FDA_CERTIFICATE, GHANA_CARD, OPERATING_LICENCE; unique per restaurant"
+        enum document_type "BUSINESS_REGISTRATION, FDA_CERTIFICATE, GHANA_CARD, OPERATING_LICENCE, TAX_CERTIFICATE; unique per restaurant"
         varchar public_id "private Cloudinary asset"
         varchar format "pdf, jpg, png, webp"
+        enum verification_status "PENDING, VERIFIED, REJECTED; a new upload goes back to PENDING"
+        varchar rejection_reason "nullable, shown to the owner"
+        uuid reviewed_by FK "users.id, nullable, ON DELETE SET NULL"
+        datetime reviewed_at "nullable"
         datetime created_at
         datetime updated_at
     }
@@ -479,6 +483,7 @@ erDiagram
 | `restaurants.owner_id` | `users.id` | an owner has many restaurants | RESTRICT |
 | `restaurant_opening_hours.restaurant_id` | `restaurants.id` | one row per weekday | CASCADE |
 | `restaurant_documents.restaurant_id` | `restaurants.id` | one document per type | CASCADE |
+| `restaurant_documents.reviewed_by` | `users.id` | the admin who checked the file | SET NULL |
 | `rider_profiles.user_id` | `users.id` | one rider profile per rider account | CASCADE |
 | `rider_documents.rider_profile_id` | `rider_profiles.id` | one document per type | CASCADE |
 | `rider_locations.rider_profile_id` | `rider_profiles.id` | location history, at most every 30 s | CASCADE |

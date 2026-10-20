@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Plus, UtensilsCrossed } from "lucide-react";
+import { EyeOff, Plus, UtensilsCrossed } from "lucide-react";
 import Container from "@/layouts/Container";
 import PageHeader from "@/components/common/PageHeader";
 import Skeleton from "@/components/common/Skeleton";
@@ -14,17 +14,14 @@ import CategorySheet from "@/components/owner/menu/CategorySheet";
 import MenuItemSheet from "@/components/owner/menu/MenuItemSheet";
 import { getMyRestaurantRequest } from "@/api/ownerRestaurants";
 import { getOwnerMenuRequest, updateCategoryRequest } from "@/api/ownerMenu";
-import { useAuthStore } from "@/store/authStore";
 
 // /owner/restaurants/:restaurantId/menu: build the menu [AC-MENU-01 to AC-MENU-10].
 // Categories in the order customers see them, each with its dishes. Dishes and categories are
 // added and edited in sheets; sold-out switches work at once, with no Save button.
-// The menu opens once the owner's account is approved (the server's rule, requireActive).
+// Owners can build it while they wait for approval; customers see it only after approval.
 const MenuBuilderPage = () => {
   const { restaurantId } = useParams();
   const queryClient = useQueryClient();
-  const user = useAuthStore((state) => state.user);
-  const isApproved = user && user.status === "ACTIVE";
   // Which sheet is open: { kind: "category", category } or { kind: "item", item, categoryId }
   const [sheet, setSheet] = useState(null);
   const [moveError, setMoveError] = useState("");
@@ -37,7 +34,6 @@ const MenuBuilderPage = () => {
   const menuQuery = useQuery({
     queryKey: ["owner-menu", restaurantId],
     queryFn: () => getOwnerMenuRequest(restaurantId),
-    enabled: isApproved,
   });
 
   const reloadMenu = () =>
@@ -97,14 +93,14 @@ const MenuBuilderPage = () => {
         />
 
         <div className="mt-6 space-y-4">
-          {!isApproved && (
-            <EmptyState
-              icon={UtensilsCrossed}
-              title="Your menu opens after approval"
-              message="Once our team approves your restaurant, you can add your categories and dishes here."
-            />
+          {/* Before approval the owner can build the menu, but customers can't see it yet */}
+          {restaurant && restaurant.status !== "APPROVED" && (
+            <Alert tone="success" icon={EyeOff}>
+              Customers will see your menu once our team has checked your documents and approved
+              your restaurant.
+            </Alert>
           )}
-          {isApproved && menuQuery.isPending && (
+          {menuQuery.isPending && (
             <>
               <Skeleton className="h-48 w-full" />
               <Skeleton className="h-48 w-full" />

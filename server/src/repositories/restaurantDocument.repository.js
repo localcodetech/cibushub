@@ -15,6 +15,6 @@ export const createDocument = (data) => {
   return RestaurantDocument.create(data);
 };
 
-export const updateDocument = (document, changes) => {
-  return document.update(changes);
+export const updateDocument = (document, changes, transaction) => {
+  return document.update(changes, { transaction });
 };

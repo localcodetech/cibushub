@@ -25,6 +25,9 @@ const Footer = () => {
             <Link to="/terms" className="flex min-h-11 items-center font-bold hover:underline">
               Terms of Service
             </Link>
+            <Link to="/cookies" className="flex min-h-11 items-center font-bold hover:underline">
+              Cookies
+            </Link>
             <Link
               to="/data-deletion"
               className="flex min-h-11 items-center font-bold hover:underline"

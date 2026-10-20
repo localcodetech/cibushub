@@ -1,4 +1,4 @@
-import { OpeningHours, Restaurant } from "../../src/models/index.js";
+import { OpeningHours, Restaurant, RestaurantDocument } from "../../src/models/index.js";
 import { createTestUser } from "./users.js";
 
 // Sunday closed, Monday to Saturday 08:00-22:00
@@ -45,4 +45,18 @@ export const createTestRestaurant = async (owner, overrides = {}) => {
   await OpeningHours.bulkCreate(fullWeek.map((day) => ({ ...day, restaurantId: restaurant.id })));
 
   return restaurant;
+};
+
+// The two documents a restaurant needs before approval, already checked by an admin
+// (or another status, e.g. "PENDING", to test the approval lock)
+export const addRequiredDocuments = (restaurant, verificationStatus = "VERIFIED") => {
+  return RestaurantDocument.bulkCreate(
+    ["BUSINESS_REGISTRATION", "TAX_CERTIFICATE"].map((documentType) => ({
+      restaurantId: restaurant.id,
+      documentType,
+      publicId: `restaurants/${restaurant.id}/documents/${documentType}`,
+      format: "pdf",
+      verificationStatus,
+    })),
+  );
 };

@@ -1,3 +1,4 @@
+import { DOCUMENT_TYPES } from "../../models/restaurant/restaurantDocument.model.js";
 import { createRestaurantSchema } from "../../validators/restaurant/createRestaurant.validator.js";
 import { updateRestaurantSchema } from "../../validators/restaurant/updateRestaurant.validator.js";
 import { updateOpeningHoursSchema } from "../../validators/restaurant/updateOpeningHours.validator.js";
@@ -32,8 +33,10 @@ const exampleRestaurant = {
 
 const exampleDocument = {
   id: "3b4c5d6e-7f8a-4b9c-8d0e-1f2a3b4c5d6f",
-  documentType: "FDA_CERTIFICATE",
+  documentType: "TAX_CERTIFICATE",
   format: "pdf",
+  verificationStatus: "PENDING",
+  rejectionReason: null,
   updatedAt: "2026-10-07T10:00:00.000Z",
 };
 
@@ -245,7 +248,8 @@ export const ownerRestaurantPaths = {
     put: {
       tags,
       summary: "Upload or replace a verification document",
-      description: "JPEG, PNG, WebP or PDF, at most 5 MB. Stored privately.",
+      description:
+        "JPEG, PNG, WebP or PDF, at most 5 MB. Stored privately. A new file goes back to PENDING until an admin checks it. BUSINESS_REGISTRATION and TAX_CERTIFICATE are required before approval.",
       security: loggedIn,
       parameters: [
         restaurantId,
@@ -255,7 +259,7 @@ export const ownerRestaurantPaths = {
           required: true,
           schema: {
             type: "string",
-            enum: ["BUSINESS_REGISTRATION", "FDA_CERTIFICATE", "GHANA_CARD", "OPERATING_LICENCE"],
+            enum: DOCUMENT_TYPES,
           },
         },
       ],

@@ -2,6 +2,7 @@ import { replaceRestaurantImage } from "../../services/restaurant/restaurantImag
 import {
   listDocumentsForAdmin,
   listMyRestaurantDocuments,
+  reviewRestaurantDocument,
   saveRestaurantDocument,
 } from "../../services/restaurant/restaurantDocuments.service.js";
 import { sendSuccess } from "../../utils/response.js";
@@ -49,4 +50,15 @@ export const listDocumentsAsAdmin = async (req, res) => {
   const documents = await listDocumentsForAdmin(req.params.restaurantId);
 
   return sendSuccess(res, documents);
+};
+
+export const reviewDocumentAsAdmin = async (req, res) => {
+  const document = await reviewRestaurantDocument(
+    req.params.restaurantId,
+    req.validated.params.documentType,
+    req.validated.body,
+    { id: req.user.id, ipAddress: req.ip },
+  );
+
+  return sendSuccess(res, document);
 };

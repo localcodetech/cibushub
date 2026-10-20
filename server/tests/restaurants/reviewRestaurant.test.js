@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import request from "supertest";
 import app from "../../src/app.js";
-import { User } from "../../src/models/index.js";
+import { RestaurantDocument, User } from "../../src/models/index.js";
 import { signAccessToken } from "../../src/utils/auth/tokens.js";
 import { createTestUser } from "../helpers/users.js";
-import { createOwner, createTestRestaurant } from "../helpers/restaurants.js";
+import { addRequiredDocuments, createOwner, createTestRestaurant } from "../helpers/restaurants.js";
 import { sentSms } from "../helpers/fakeSms.js";
 import { sentEmails } from "../helpers/fakeEmail.js";
 
@@ -32,6 +32,7 @@ const reviewUrl = (restaurant, action) => `/api/v1/admin/restaurants/${restauran
 describe("POST /api/v1/admin/restaurants/:restaurantId/approve", () => {
   it("approves a pending restaurant and texts and emails the owner [AC-REST-02, AC-NOTIF-01]", async () => {
     const restaurant = await createTestRestaurant(owner);
+    await addRequiredDocuments(restaurant);
 
     const response = await postAs(admin, reviewUrl(restaurant, "approve"));
 
@@ -47,11 +48,41 @@ describe("POST /api/v1/admin/restaurants/:restaurantId/approve", () => {
 
   it("activates the owner's account on their first approval [AC-AUTH-05]", async () => {
     const restaurant = await createTestRestaurant(owner);
+    await addRequiredDocuments(restaurant);
 
     await postAs(admin, reviewUrl(restaurant, "approve"));
 
     const ownerAfter = await User.findByPk(owner.id);
     expect(ownerAfter.status).toBe("ACTIVE");
+  });
+
+  it("refuses to approve before the business registration and tax certificate are uploaded [AC-REST-01]", async () => {
+    const restaurant = await createTestRestaurant(owner);
+
+    const response = await postAs(admin, reviewUrl(restaurant, "approve"));
+
+    expect(response.status).toBe(409);
+    expect(response.body.error.code).toBe("DOCUMENTS_NOT_VERIFIED");
+    expect(response.body.error.details.map((detail) => detail.field)).toEqual([
+      "BUSINESS_REGISTRATION",
+      "TAX_CERTIFICATE",
+    ]);
+  });
+
+  it("refuses to approve while a required document is not verified [AC-REST-01]", async () => {
+    const restaurant = await createTestRestaurant(owner);
+    await addRequiredDocuments(restaurant);
+    await RestaurantDocument.update(
+      { verificationStatus: "REJECTED", rejectionReason: "The page is cut off" },
+      { where: { restaurantId: restaurant.id, documentType: "TAX_CERTIFICATE" } },
+    );
+
+    const response = await postAs(admin, reviewUrl(restaurant, "approve"));
+
+    expect(response.status).toBe(409);
+    expect(response.body.error.details).toEqual([
+      { field: "TAX_CERTIFICATE", message: "Not verified yet" },
+    ]);
   });
 
   it("reinstates a suspended restaurant", async () => {
@@ -152,6 +183,7 @@ describe("Who can review restaurants [AC-RBAC-02]", () => {
       phone: "+233209998888",
     });
     const restaurant = await createTestRestaurant(owner);
+    await addRequiredDocuments(restaurant);
 
     const response = await postAs(superAdmin, reviewUrl(restaurant, "approve"));
 

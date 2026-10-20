@@ -22,6 +22,7 @@ import { useAuthStore } from "@/store/authStore";
 const PrivacyPage = lazy(() => import("@/pages/public/PrivacyPage"));
 const TermsPage = lazy(() => import("@/pages/public/TermsPage"));
 const DataDeletionPage = lazy(() => import("@/pages/public/DataDeletionPage"));
+const CookiesPage = lazy(() => import("@/pages/public/CookiesPage"));
 const HelpPage = lazy(() => import("@/pages/public/HelpPage"));
 const DishesPage = lazy(() => import("@/pages/public/DishesPage"));
 const CartPage = lazy(() => import("@/pages/public/CartPage"));
@@ -95,6 +96,7 @@ const router = createBrowserRouter([
           { path: "privacy", element: <PrivacyPage /> },
           { path: "terms", element: <TermsPage /> },
           { path: "data-deletion", element: <DataDeletionPage /> },
+          { path: "cookies", element: <CookiesPage /> },
           { path: "help", element: <HelpPage /> },
           { path: "photo-credits", element: <PhotoCreditsPage /> },
           { path: "restaurants", element: <RestaurantsPage /> },

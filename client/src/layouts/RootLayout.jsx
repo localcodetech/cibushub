@@ -5,6 +5,7 @@ import PageLoader from "@/components/common/PageLoader";
 import ConnectionIndicator from "@/components/common/ConnectionIndicator";
 import Navbar from "./Navbar";
 import DemoBanner from "@/components/common/DemoBanner";
+import CookieNotice from "@/components/common/CookieNotice";
 import Footer from "./Footer";
 
 // The frame around every public page: navbar on top, footer at the bottom.
@@ -15,6 +16,7 @@ const RootLayout = () => {
   return (
     <div className="flex min-h-svh flex-col">
       <DemoBanner />
+      <CookieNotice />
       <Navbar />
       <main className="flex-1">
         {/* While a lazy page's code downloads, show the spinner in its place */}

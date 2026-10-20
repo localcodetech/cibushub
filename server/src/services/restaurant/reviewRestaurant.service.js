@@ -8,6 +8,7 @@ import {
   notifyRestaurantRejected,
   notifyRestaurantSuspended,
 } from "../notifications/restaurantReviewed.service.js";
+import { findUnverifiedRequiredDocuments } from "./restaurantDocuments.service.js";
 
 // For each new status: the statuses a restaurant is allowed to come from
 const ALLOWED_PREVIOUS_STATUSES = {
@@ -53,6 +54,21 @@ const recordReview = ({ restaurant, previousStatus, admin, reason, transaction }
 
 export const approveRestaurant = async (restaurantId, admin) => {
   const restaurant = await loadRestaurantForReview(restaurantId, "APPROVED");
+
+  // A new restaurant goes live only after its business registration and tax certificate
+  // are checked. Reinstating a suspended one skips this: it was checked when first approved.
+  if (restaurant.status === "PENDING_APPROVAL") {
+    const unverified = await findUnverifiedRequiredDocuments(restaurantId);
+
+    if (unverified.length > 0) {
+      throw new AppError(
+        409,
+        "DOCUMENTS_NOT_VERIFIED",
+        "Verify the business registration and tax certificate before approving",
+        unverified.map((documentType) => ({ field: documentType, message: "Not verified yet" })),
+      );
+    }
+  }
   const owner = await findUserById(restaurant.ownerId);
   const previousStatus = restaurant.status;
 

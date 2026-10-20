@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { FileText, Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import Container from "@/layouts/Container";
 import Heading from "@/components/typography/Heading";
 import Text from "@/components/typography/Text";
@@ -11,6 +11,7 @@ import ErrorState from "@/components/common/ErrorState";
 import { Button } from "@/components/ui/button";
 import StatusBadge from "@/components/common/StatusBadge";
 import ConfirmActionSheet from "@/components/admin/ConfirmActionSheet";
+import RestaurantDocumentsReview from "@/components/admin/RestaurantDocumentsReview";
 import OrderStatusBadge from "@/components/order/OrderStatusBadge";
 import RatingBadge from "@/components/review/RatingBadge";
 import {
@@ -20,10 +21,14 @@ import {
   rejectRestaurantRequest,
   suspendRestaurantRequest,
 } from "@/api/admin";
-import { DOCUMENT_NAMES, RESTAURANT_STATUSES } from "@/data/restaurantStatuses";
+import {
+  DOCUMENT_NAMES,
+  RESTAURANT_STATUSES,
+  unverifiedRequiredDocuments,
+} from "@/data/restaurantStatuses";
 import { formatMoney } from "@/utils/money";
 import { formatDateTime } from "@/utils/date";
-import { List, ListIcon, ListRow } from "@/components/common/List";
+import { List, ListRow } from "@/components/common/List";
 import PageHeader from "@/components/common/PageHeader";
 
 // /admin/restaurants/:restaurantId: check one restaurant, then approve, reject, suspend
@@ -42,6 +47,13 @@ const AdminRestaurantDetailPage = () => {
   } = useQuery({
     queryKey: ["admin-restaurant", restaurantId],
     queryFn: () => getAdminRestaurantRequest(restaurantId),
+  });
+  // The documents decide whether Approve is allowed. Their links work for 5 minutes, so they
+  // are refreshed when the admin comes back to the page.
+  const documentsQuery = useQuery({
+    queryKey: ["admin-restaurant-documents", restaurantId],
+    queryFn: () => getAdminRestaurantDocumentsRequest(restaurantId),
+    staleTime: 60 * 1000,
   });
 
   if (isPending) {
@@ -74,7 +86,14 @@ const AdminRestaurantDetailPage = () => {
     queryClient.invalidateQueries({ queryKey: ["admin-dashboard"] });
   };
 
+  const reloadDocuments = () =>
+    queryClient.invalidateQueries({ queryKey: ["admin-restaurant-documents", restaurantId] });
+
   const statusInfo = RESTAURANT_STATUSES[restaurant.status];
+  // A new restaurant needs its required documents verified before it can go live
+  const unverified = documentsQuery.data ? unverifiedRequiredDocuments(documentsQuery.data) : [];
+  const canApprove =
+    restaurant.status !== "PENDING_APPROVAL" || (documentsQuery.data && unverified.length === 0);
 
   return (
     <Container>
@@ -101,7 +120,12 @@ const AdminRestaurantDetailPage = () => {
           </Card>
         )}
 
-        <Actions status={restaurant.status} onChoose={setOpenAction} />
+        <Actions
+          status={restaurant.status}
+          canApprove={canApprove}
+          unverified={unverified}
+          onChoose={setOpenAction}
+        />
 
         <div className="mt-8 grid gap-6 md:grid-cols-2">
           <Card className="space-y-2 text-[15px]">
@@ -143,7 +167,11 @@ const AdminRestaurantDetailPage = () => {
           </Card>
         </div>
 
-        <Documents restaurantId={restaurant.id} />
+        <RestaurantDocumentsReview
+          restaurantId={restaurant.id}
+          documentsQuery={documentsQuery}
+          onReviewed={reloadDocuments}
+        />
         <Performance performance={restaurant.performance} />
       </section>
 
@@ -196,20 +224,33 @@ const AdminRestaurantDetailPage = () => {
 };
 
 // The buttons that make sense for the current status
-const Actions = ({ status, onChoose }) => {
+// canApprove: false while required documents are missing or not verified (listed in unverified)
+const Actions = ({ status, canApprove, unverified, onChoose }) => {
   if (status === "PENDING_APPROVAL") {
     return (
-      <div className="mt-6 flex gap-3">
-        <Button onClick={() => onChoose("approve")} className="h-12 flex-1 font-bold sm:flex-none">
-          Approve
-        </Button>
-        <Button
-          variant="outline"
-          onClick={() => onChoose("reject")}
-          className="h-12 flex-1 font-bold text-destructive sm:flex-none"
-        >
-          Reject
-        </Button>
+      <div className="mt-6">
+        <div className="flex gap-3">
+          <Button
+            onClick={() => onChoose("approve")}
+            disabled={!canApprove}
+            className="h-12 flex-1 font-bold sm:flex-none"
+          >
+            Approve
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => onChoose("reject")}
+            className="h-12 flex-1 font-bold text-destructive sm:flex-none"
+          >
+            Reject
+          </Button>
+        </div>
+        {unverified.length > 0 && (
+          <Text muted className="mt-2 text-[15px]">
+            Verify first:{" "}
+            {unverified.map((documentType) => DOCUMENT_NAMES[documentType]).join(" and ")}.
+          </Text>
+        )}
       </div>
     );
   }
@@ -236,50 +277,6 @@ const Actions = ({ status, onChoose }) => {
     );
   }
   return null;
-};
-
-// The verification documents. Their links work for 5 minutes, so they are fetched on their
-// own and refreshed when the admin comes back to the page.
-const Documents = ({ restaurantId }) => {
-  const { data, isPending, error } = useQuery({
-    queryKey: ["admin-restaurant-documents", restaurantId],
-    queryFn: () => getAdminRestaurantDocumentsRequest(restaurantId),
-    staleTime: 60 * 1000,
-  });
-
-  return (
-    <section className="mt-8">
-      <Heading level={2}>Documents</Heading>
-      {isPending && <Skeleton className="mt-3 h-20 w-full" />}
-      {error && (
-        <Text muted className="mt-3">
-          Documents couldn't load: {error.message}
-        </Text>
-      )}
-      {data && data.length === 0 && (
-        <Text muted className="mt-3">
-          No documents uploaded.
-        </Text>
-      )}
-      {data && data.length > 0 && (
-        <List className="mt-3">
-          {data.map((document) => (
-            <ListRow
-              key={document.documentType}
-              href={document.url}
-              leading={<ListIcon icon={FileText} />}
-              title={DOCUMENT_NAMES[document.documentType] || document.documentType}
-              trailing={
-                <span className="text-[13px] font-normal text-muted-foreground uppercase">
-                  {document.format}
-                </span>
-              }
-            />
-          ))}
-        </List>
-      )}
-    </section>
-  );
 };
 
 // How it has been doing over the last 30 days

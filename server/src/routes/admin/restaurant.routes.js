@@ -14,7 +14,14 @@ import {
   reject,
   suspend,
 } from "../../controllers/restaurant/reviewRestaurant.controller.js";
-import { listDocumentsAsAdmin } from "../../controllers/restaurant/restaurantUploads.controller.js";
+import {
+  documentTypeParamsSchema,
+  reviewDocumentSchema,
+} from "../../validators/restaurant/document.validator.js";
+import {
+  listDocumentsAsAdmin,
+  reviewDocumentAsAdmin,
+} from "../../controllers/restaurant/restaurantUploads.controller.js";
 
 const router = Router();
 
@@ -34,7 +41,17 @@ router.get("/:restaurantId", getAnyRestaurant);
 router.get("/:restaurantId/documents", listDocumentsAsAdmin);
 
 // ─────────────────────────────────────────────
-// Approve a pending restaurant, or reinstate a suspended one
+// Mark one document VERIFIED or REJECTED (rejection needs a reason)
+// ─────────────────────────────────────────────
+router.patch(
+  "/:restaurantId/documents/:documentType",
+  validate(documentTypeParamsSchema, "params"),
+  validate(reviewDocumentSchema),
+  reviewDocumentAsAdmin,
+);
+
+// ─────────────────────────────────────────────
+// Approve a pending restaurant (required documents VERIFIED), or reinstate a suspended one
 // ─────────────────────────────────────────────
 router.post("/:restaurantId/approve", approve);
 
