@@ -11,7 +11,9 @@ const MAX_BYTES = 5 * 1024 * 1024; // the server's limit [AC-IMG-01]
 //   isDone={true} onUpload={(file) => uploadRiderDocumentRequest("GHANA_CARD", file)} />
 //
 // onUpload(file): sends it; should throw (our API errors) if the server refuses it
-const FileUploadRow = ({ title, hint, accept, isDone, disabled, onUpload }) => {
+// badge: optional, shown beside the title (e.g. "Verified")
+// note: optional message under the row (e.g. why our team rejected the file)
+const FileUploadRow = ({ title, hint, accept, isDone, disabled, badge, note, onUpload }) => {
   // The real <input type="file"> is hidden; our button "clicks" it
   const inputRef = useRef(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -51,9 +53,13 @@ const FileUploadRow = ({ title, hint, accept, isDone, disabled, onUpload }) => {
     <div className="flex flex-col gap-2 border-b border-border py-4 last:border-b-0">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <Text className="flex items-center gap-2 font-bold">
-            {isDone && <CircleCheck size={18} className="text-success" aria-label="Uploaded" />}
+          <Text className="flex flex-wrap items-center gap-2 font-bold">
+            {/* A badge says more than the tick (e.g. "Rejected"), so it replaces it */}
+            {isDone && !badge && (
+              <CircleCheck size={18} className="text-success" aria-label="Uploaded" />
+            )}
             {title}
+            {badge}
           </Text>
           {hint && (
             <Text muted className="text-[13px]">
@@ -82,6 +88,7 @@ const FileUploadRow = ({ title, hint, accept, isDone, disabled, onUpload }) => {
         </button>
       </div>
 
+      {note && <p className="text-[15px]">{note}</p>}
       {errorMessage && (
         <p role="alert" className="text-[15px] text-destructive">
           {errorMessage}

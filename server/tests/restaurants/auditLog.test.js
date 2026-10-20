@@ -4,7 +4,7 @@ import app from "../../src/app.js";
 import { AuditLog } from "../../src/models/index.js";
 import { signAccessToken } from "../../src/utils/auth/tokens.js";
 import { createTestUser } from "../helpers/users.js";
-import { createOwner, createTestRestaurant } from "../helpers/restaurants.js";
+import { addRequiredDocuments, createOwner, createTestRestaurant } from "../helpers/restaurants.js";
 
 let admin;
 let owner;
@@ -30,6 +30,7 @@ const reviewUrl = (restaurant, action) => `/api/v1/admin/restaurants/${restauran
 describe("Audit log for restaurant reviews [AC-ADM-07]", () => {
   it("records who approved, the status change and the IP", async () => {
     const restaurant = await createTestRestaurant(owner);
+    await addRequiredDocuments(restaurant);
 
     await postAs(admin, reviewUrl(restaurant, "approve"));
 
@@ -77,6 +78,7 @@ describe("Audit log for restaurant reviews [AC-ADM-07]", () => {
 
   it("can never be edited or deleted", async () => {
     const restaurant = await createTestRestaurant(owner);
+    await addRequiredDocuments(restaurant);
     await postAs(admin, reviewUrl(restaurant, "approve"));
     const row = await AuditLog.findOne();
 

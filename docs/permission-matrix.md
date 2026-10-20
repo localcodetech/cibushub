@@ -62,7 +62,8 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | `GET /owner/analytics` | — | — | 🔒 | — | — | — | authenticate, authorize, requireActive, validate; only my restaurant (others 404, checked before the cache) |
 | `GET /admin/restaurants`, `GET /admin/restaurants/:id` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate (query) |
 | `GET /admin/restaurants/:id/documents` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize |
-| `POST /admin/restaurants/:id/approve` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize; audit logged |
+| `PATCH /admin/restaurants/:id/documents/:documentType` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate (params, body); audit logged |
+| `POST /admin/restaurants/:id/approve` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize; business registration + tax certificate must be VERIFIED first; audit logged |
 | `POST /admin/restaurants/:id/reject`, `/suspend` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate; audit logged |
 | `GET /admin/dashboard` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize; counts only, no personal data |
 | `GET /admin/analytics` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize; sums and counts, restaurant names only |

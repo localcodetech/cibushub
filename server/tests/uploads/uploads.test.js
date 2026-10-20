@@ -178,6 +178,25 @@ describe("Verification documents [AC-IMG-03]", () => {
     expect(deleteFromCloudinary).toHaveBeenCalledWith(first.publicId, "authenticated");
   });
 
+  it("sends a replaced document back to PENDING for a new check [AC-REST-01]", async () => {
+    await putFile(owner, documentUrl("TAX_CERTIFICATE"), "file", pdfFile, "tin.pdf");
+    await RestaurantDocument.update(
+      { verificationStatus: "REJECTED", rejectionReason: "The page is cut off" },
+      { where: { restaurantId: restaurant.id } },
+    );
+
+    const response = await putFile(
+      owner,
+      documentUrl("TAX_CERTIFICATE"),
+      "file",
+      pdfFile,
+      "tin.pdf",
+    );
+
+    expect(response.body.data.verificationStatus).toBe("PENDING");
+    expect(response.body.data.rejectionReason).toBeNull();
+  });
+
   it("rejects an unknown document type", async () => {
     const response = await putFile(owner, documentUrl("PASSPORT"), "file", pdfFile, "p.pdf");
 

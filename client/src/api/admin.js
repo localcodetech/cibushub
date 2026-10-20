@@ -53,6 +53,15 @@ export const getAdminRestaurantDocumentsRequest = async (restaurantId) => {
   return result.data;
 };
 
+// Mark one document VERIFIED, or REJECTED with a reason the owner will read
+export const reviewRestaurantDocumentRequest = async (restaurantId, documentType, verdict) => {
+  const result = await api.patch(
+    "/admin/restaurants/" + restaurantId + "/documents/" + documentType,
+    verdict,
+  );
+  return result.data;
+};
+
 // Approve a pending restaurant, or reactivate a suspended one
 export const approveRestaurantRequest = async (restaurantId) => {
   const result = await api.post("/admin/restaurants/" + restaurantId + "/approve");

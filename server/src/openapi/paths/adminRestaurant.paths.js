@@ -3,6 +3,8 @@ import {
   rejectRestaurantSchema,
   suspendRestaurantSchema,
 } from "../../validators/restaurant/reviewRestaurant.validator.js";
+import { reviewDocumentSchema } from "../../validators/restaurant/document.validator.js";
+import { DOCUMENT_TYPES } from "../../models/restaurant/restaurantDocument.model.js";
 import {
   errorResponse,
   jsonBody,
@@ -96,8 +98,10 @@ export const adminRestaurantPaths = {
         200: successResponse("The documents", [
           {
             id: "3b4c5d6e-7f8a-4b9c-8d0e-1f2a3b4c5d6f",
-            documentType: "FDA_CERTIFICATE",
+            documentType: "TAX_CERTIFICATE",
             format: "pdf",
+            verificationStatus: "PENDING",
+            rejectionReason: null,
             updatedAt: "2026-10-07T10:00:00.000Z",
             url: "https://api.cloudinary.com/v1_1/demo/image/download?public_id=...&expires_at=...",
           },
@@ -108,12 +112,49 @@ export const adminRestaurantPaths = {
     },
   },
 
+  "/api/v1/admin/restaurants/{restaurantId}/documents/{documentType}": {
+    patch: {
+      tags,
+      summary: "Mark one document VERIFIED or REJECTED",
+      description:
+        "A rejection needs a reason (at least 10 characters); the owner sees it and uploads a new file, which goes back to PENDING. Written to the audit log.",
+      security: loggedIn,
+      parameters: [
+        restaurantId,
+        {
+          name: "documentType",
+          in: "path",
+          required: true,
+          schema: { type: "string", enum: DOCUMENT_TYPES },
+        },
+      ],
+      requestBody: jsonBody(reviewDocumentSchema, {
+        status: "REJECTED",
+        reason: "The tax certificate is cut off at the bottom. Please upload the full page.",
+      }),
+      responses: {
+        200: successResponse("Saved", {
+          id: "3b4c5d6e-7f8a-4b9c-8d0e-1f2a3b4c5d6f",
+          documentType: "TAX_CERTIFICATE",
+          format: "pdf",
+          verificationStatus: "REJECTED",
+          rejectionReason:
+            "The tax certificate is cut off at the bottom. Please upload the full page.",
+          updatedAt: "2026-10-07T10:00:00.000Z",
+        }),
+        400: validationError,
+        403: notAdmin,
+        404: errorResponse("Not uploaded", "NOT_FOUND", "This document has not been uploaded"),
+      },
+    },
+  },
+
   "/api/v1/admin/restaurants/{restaurantId}/approve": {
     post: {
       tags,
       summary: "Approve a pending restaurant, or reinstate a suspended one",
       description:
-        "The owner gets an SMS, and their account becomes ACTIVE on their first approval. Written to the audit log.",
+        "A pending restaurant needs its BUSINESS_REGISTRATION and TAX_CERTIFICATE marked VERIFIED first, or the answer is 409 DOCUMENTS_NOT_VERIFIED (details list the missing ones). The owner gets an SMS, and their account becomes ACTIVE on their first approval. Written to the audit log.",
       security: loggedIn,
       parameters: [restaurantId],
       responses: {
