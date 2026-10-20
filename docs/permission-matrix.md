@@ -57,7 +57,7 @@ Protected routes run these middlewares in order ([AC-RBAC-03](../CibusHub_Accept
 | `PUT /owner/restaurants/:id/logo`, `/cover` | — | — | 🔒⏳ | — | — | — | authenticate, authorize, requireVerifiedPhone, upload |
 | `GET /owner/restaurants/:id/documents` | — | — | 🔒⏳ | — | — | — | authenticate, authorize, requireVerifiedPhone |
 | `PUT /owner/restaurants/:id/documents/:type` | — | — | 🔒⏳ | — | — | — | authenticate, authorize, requireVerifiedPhone, validate (params), upload |
-| `/owner/restaurants/:id/menu/**` (all menu endpoints) | — | — | 🔒 | — | — | — | authenticate, authorize, requireActive, validate (photo: upload) |
+| `/owner/restaurants/:id/menu/**` (all menu endpoints) | — | — | 🔒 | — | — | — | authenticate, authorize, requireVerifiedPhone, validate (photo: upload) |
 | `GET /owner/reviews`, `POST /owner/reviews/:id/reply` | — | — | 🔒 | — | — | — | authenticate, authorize, requireActive, validate; only my restaurants' reviews (others 404); one reply each |
 | `GET /owner/analytics` | — | — | 🔒 | — | — | — | authenticate, authorize, requireActive, validate; only my restaurant (others 404, checked before the cache) |
 | `GET /admin/restaurants`, `GET /admin/restaurants/:id` | — | — | — | — | ✅ | ✅ | authenticate, requireActive, authorize, validate (query) |
@@ -125,7 +125,7 @@ Notes:
 - `/me` and `change-password` work for unverified and pending accounts on purpose, so the app can show "verify your phone" or "waiting for approval" and the user can still secure their account.
 - Every feature added from Step 5 onward uses `authenticate, requireActive, authorize(...)` and gets a row here.
 - Rider application routes work the same way: a rider `PENDING_APPROVAL` fills in and submits their application; going online needs approval.
-- Owner onboarding routes use `requireVerifiedPhone` instead of `requireActive`, so an owner still `PENDING_APPROVAL` can submit, edit and upload documents. Running the business (menu, accepting orders) needs `requireActive`.
+- Owner onboarding routes use `requireVerifiedPhone` instead of `requireActive`, so an owner still `PENDING_APPROVAL` can submit, edit, upload documents and build the menu. Customers only see the restaurant and its menu once it is `APPROVED`. Running the business (accepting orders) needs `requireActive`.
 - Another owner's restaurant, item or document returns `404 NOT_FOUND`, never `403`, so IDs cannot be probed ([AC-RBAC-04](../CibusHub_Acceptance_Criteria.md)).
 
 ## Planned (from the acceptance criteria, filled in as each step is built)

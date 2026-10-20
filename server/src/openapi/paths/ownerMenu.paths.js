@@ -80,7 +80,8 @@ export const ownerMenuPaths = {
     get: {
       tags,
       summary: "My full menu, including sold-out items",
-      description: "Every menu endpoint needs an approved (ACTIVE) owner account.",
+      description:
+        "Every menu endpoint needs a verified phone. Owners still waiting for approval may build their menu; customers see it once the restaurant is APPROVED.",
       security: loggedIn,
       parameters: [restaurantId],
       responses: {

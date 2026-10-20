@@ -270,15 +270,26 @@ describe("Menu access [AC-RBAC-04, AC-AUTH-05]", () => {
     expect(response.status).toBe(404);
   });
 
-  it("blocks owners still waiting for approval", async () => {
+  it("lets owners waiting for approval build their menu", async () => {
     await owner.update({ status: "PENDING_APPROVAL" });
+    await restaurant.update({ status: "PENDING_APPROVAL" });
+
+    const response = await sendAs(owner, "post", menuUrl(restaurant, "/categories"), {
+      name: "Rice Dishes",
+    });
+
+    expect(response.status).toBe(201);
+  });
+
+  it("blocks owners whose phone is not verified", async () => {
+    await owner.update({ status: "PENDING_VERIFICATION", phoneVerifiedAt: null });
 
     const response = await sendAs(owner, "post", menuUrl(restaurant, "/categories"), {
       name: "Rice Dishes",
     });
 
     expect(response.status).toBe(403);
-    expect(response.body.error.code).toBe("ACCOUNT_PENDING_APPROVAL");
+    expect(response.body.error.code).toBe("ACCOUNT_NOT_VERIFIED");
   });
 
   it("refuses menu changes on a suspended restaurant", async () => {

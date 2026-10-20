@@ -1,5 +1,5 @@
 import { Router } from "express";
-import requireActive from "../../middlewares/requireActive.js";
+import requireVerifiedPhone from "../../middlewares/requireVerifiedPhone.js";
 import validate from "../../middlewares/validate.js";
 import uploadOneFile from "../../middlewares/upload.js";
 import {
@@ -31,9 +31,10 @@ import {
 const router = Router({ mergeParams: true });
 
 // ─────────────────────────────────────────────
-// Menu management is an operational feature: approved (ACTIVE) owners only
+// Owners may build their menu while they wait for approval; customers only see it
+// once the restaurant is APPROVED (the public routes check that)
 // ─────────────────────────────────────────────
-router.use(requireActive);
+router.use(requireVerifiedPhone);
 
 // ─────────────────────────────────────────────
 // The full menu, including sold-out items
