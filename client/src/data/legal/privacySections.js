@@ -52,7 +52,7 @@ export const privacySections = [
   {
     title: "Cookies and storage on your device",
     paragraphs: [
-      "We use two cookies to keep you logged in. They cannot be read by other websites or by scripts on the page. We also save your light or dark theme choice on your device. We do not use advertising or tracking cookies.",
+      "We use two cookies to keep you logged in. They cannot be read by other websites or by scripts on the page. We also save your cart and your light or dark theme choice on your device. We do not use advertising or tracking cookies. Our Cookies page (/cookies) explains each one.",
     ],
   },
   {
